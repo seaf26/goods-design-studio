@@ -846,7 +846,7 @@ function Process() {
               <div className="absolute left-0 top-2 hidden h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full bg-[var(--background)] ring-hairline md:flex">
                 <span className="text-[10px] font-medium tabular-nums">{s.n}</span>
               </div>
-          <div className="col-span-12 md:col-span-4">
+          <div className="col-span-12 md:col-span-5">
                 <div className="text-[12px] tabular-nums text-primary md:hidden">{s.n}</div>
                 <h3 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">{s.t}</h3>
               </div>
@@ -973,7 +973,7 @@ function Footer() {
     <footer id="contact" className="bg-[var(--background)]">
       <div className="mx-auto max-w-7xl px-6 py-20">
         <div className="grid grid-cols-12 gap-10">
-          <div className="col-span-12 md:col-span-5">
+          <div className="col-span-12 md:col-span-4">
             <div className="font-display text-[clamp(3rem,9vw,8rem)] font-bold leading-none tracking-[-0.06em]">Goods.</div>
             <p className="mt-6 max-w-md text-[14px] text-[var(--muted-foreground)]">The operating system for modern enterprises. Designed and engineered for the operators who build them.</p>
           </div>
