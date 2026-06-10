@@ -983,7 +983,7 @@ function Footer() {
             { t: "Resources", l: ["Documentation", "Customers", "Changelog", "Status"] },
             { t: "Connect", l: ["Twitter", "LinkedIn", "GitHub", "Dribbble"] },
           ].map(c => (
-            <div key={c.t} className="col-span-6 md:col-span-1.75 md:col-span-2">
+            <div key={c.t} className="col-span-6 md:col-span-2">
               <div className="text-[11px] uppercase tracking-[0.2em] text-[var(--muted-foreground)]">{c.t}</div>
               <ul className="mt-5 space-y-3">
                 {c.l.map(i => (
