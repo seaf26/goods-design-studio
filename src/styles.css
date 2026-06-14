@@ -52,8 +52,8 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0 0 0);
 
-  /* #FF6B00 */
-  --primary: oklch(0.682 0.196 41);
+  /* #7C5CBF */
+  --primary: oklch(0.554 0.150 296.1);
   --primary-foreground: oklch(1 0 0);
 
   --secondary: oklch(0 0 0);
