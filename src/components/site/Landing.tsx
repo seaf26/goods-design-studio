@@ -6,6 +6,7 @@ import {
   TrendingUp, Activity, Package, CreditCard, BarChart3, Building2,
   Layers, Zap, Shield, Globe2, Check, Quote
 } from "lucide-react";
+import LiquidEther from "./LiquidEther";
 
 /* ------------------------------------------------------------------ */
 /* Primitives                                                          */
@@ -361,7 +362,23 @@ function Hero() {
   return (
     <section className="relative overflow-hidden pt-36 pb-24 md:pt-44 md:pb-32">
       <div aria-hidden className="absolute inset-0 -z-10 grid-bg opacity-60 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
-      <motion.div style={{ y, opacity }} className="mx-auto max-w-7xl px-6">
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)]">
+        <LiquidEther
+          colors={["#7C5CBF", "#B497CF", "#FF9FFC"]}
+          mouseForce={20}
+          cursorSize={100}
+          isViscous={false}
+          resolution={0.5}
+          autoDemo
+          autoSpeed={0.5}
+          autoIntensity={2.2}
+          takeoverDuration={0.25}
+          autoResumeDelay={3000}
+          autoRampDuration={0.6}
+          style={{ width: "100%", height: "100%", opacity: 0.55 }}
+        />
+      </div>
+      <motion.div style={{ y, opacity }} className="relative mx-auto max-w-7xl px-6">
         <Reveal delay={0.05}>
           <div className="mx-auto mb-7 flex w-fit items-center gap-2 rounded-full bg-white/60 px-3 py-1.5 ring-hairline backdrop-blur">
             <span className="h-1.5 w-1.5 rounded-full bg-primary" />
