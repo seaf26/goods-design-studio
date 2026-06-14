@@ -70,7 +70,7 @@
 
   --border: oklch(0.918 0 0);
   --input: oklch(0.918 0 0);
-  --ring: oklch(0.682 0.196 41);
+  --ring: oklch(0.554 0.150 296.1);
 }
 
 .dark {
@@ -83,7 +83,7 @@
   --card-foreground: oklch(1 0 0);
   --popover: oklch(0.1 0 0);
   --popover-foreground: oklch(1 0 0);
-  --primary: oklch(0.682 0.196 41);
+  --primary: oklch(0.554 0.150 296.1);
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(1 0 0);
   --secondary-foreground: oklch(0 0 0);
@@ -93,7 +93,7 @@
   --accent-foreground: oklch(1 0 0);
   --border: oklch(0.25 0 0);
   --input: oklch(0.25 0 0);
-  --ring: oklch(0.682 0.196 41);
+  --ring: oklch(0.554 0.150 296.1);
 }
 
 @layer base {
@@ -130,7 +130,7 @@
 @utility shadow-float {
   box-shadow:
     0 20px 60px -20px rgba(0,0,0,0.18),
-    0 8px 24px -12px rgba(255,107,0,0.10);
+    0 8px 24px -12px rgba(124,92,191,0.10);
 }
 
 @utility ring-hairline {

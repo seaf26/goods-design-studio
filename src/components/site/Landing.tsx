@@ -172,7 +172,7 @@ function HeroDashboard() {
       className="relative mx-auto w-full max-w-6xl"
     >
       {/* Glow */}
-      <div aria-hidden className="pointer-events-none absolute -inset-x-12 -bottom-12 -top-8 -z-10 bg-[radial-gradient(60%_60%_at_50%_50%,rgba(255,107,0,0.18),transparent_70%)] blur-2xl" />
+      <div aria-hidden className="pointer-events-none absolute -inset-x-12 -bottom-12 -top-8 -z-10 bg-[radial-gradient(60%_60%_at_50%_50%,rgba(124,92,191,0.18),transparent_70%)] blur-2xl" />
 
       {/* Dashboard frame */}
       <motion.div
@@ -238,8 +238,8 @@ function HeroDashboard() {
               <svg viewBox="0 0 400 140" className="h-32 w-full">
                 <defs>
                   <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="#FF6B00" stopOpacity="0.25" />
-                    <stop offset="100%" stopColor="#FF6B00" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#7C5CBF" stopOpacity="0.25" />
+                    <stop offset="100%" stopColor="#7C5CBF" stopOpacity="0" />
                   </linearGradient>
                 </defs>
                 <path d="M0,100 C40,80 70,90 100,70 C140,45 180,85 220,60 C260,35 300,55 340,30 L400,18 L400,140 L0,140 Z" fill="url(#g1)" />
@@ -248,10 +248,10 @@ function HeroDashboard() {
                   animate={{ pathLength: 1 }}
                   transition={{ duration: 2.2, delay: 1, ease }}
                   d="M0,100 C40,80 70,90 100,70 C140,45 180,85 220,60 C260,35 300,55 340,30 L400,18"
-                  fill="none" stroke="#FF6B00" strokeWidth="2"
+                  fill="none" stroke="#7C5CBF" strokeWidth="2"
                 />
                 {[100, 70, 60, 30, 18].map((y, i) => (
-                  <circle key={i} cx={i * 100} cy={y} r="2.5" fill="#FF6B00" />
+                  <circle key={i} cx={i * 100} cy={y} r="2.5" fill="#7C5CBF" />
                 ))}
               </svg>
             </div>
@@ -600,8 +600,8 @@ function PlatformContent({ k }: { k: string }) {
         <svg viewBox="0 0 500 180" className="h-44 w-full">
           <defs>
             <linearGradient id="pg" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stopColor="#FF6B00" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#FF6B00" stopOpacity="0" />
+              <stop offset="0%" stopColor="#7C5CBF" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#7C5CBF" stopOpacity="0" />
             </linearGradient>
           </defs>
           {Array.from({ length: 4 }).map((_, i) => (
@@ -617,7 +617,7 @@ function PlatformContent({ k }: { k: string }) {
             key={k + "line"}
             initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.8, ease }}
             d="M0,130 C50,120 90,90 140,100 C190,110 220,60 270,75 C320,90 360,40 410,55 C450,65 480,30 500,40"
-            fill="none" stroke="#FF6B00" strokeWidth="2"
+            fill="none" stroke="#7C5CBF" strokeWidth="2"
           />
         </svg>
         <div className="mt-4 grid grid-cols-3 gap-3 text-[11px]">
@@ -712,11 +712,11 @@ function Why() {
 /* ------------------------------------------------------------------ */
 
 const projects = [
-  { t: "Retail ERP", c: "Northwind Group", tag: "Multi-store", color: "#FF6B00" },
+  { t: "Retail ERP", c: "Northwind Group", tag: "Multi-store", color: "#7C5CBF" },
   { t: "Manufacturing ERP", c: "Aurora Industries", tag: "Production", color: "#1a1a1a" },
-  { t: "Warehouse Management", c: "Halcyon Logistics", tag: "Fulfillment", color: "#FF6B00" },
+  { t: "Warehouse Management", c: "Halcyon Logistics", tag: "Fulfillment", color: "#7C5CBF" },
   { t: "Distribution System", c: "Vertex Wholesale", tag: "Supply chain", color: "#1a1a1a" },
-  { t: "Accounting Platform", c: "Monolith Holdings", tag: "Multi-entity", color: "#FF6B00" },
+  { t: "Accounting Platform", c: "Monolith Holdings", tag: "Multi-entity", color: "#7C5CBF" },
 ];
 
 function Projects() {
@@ -926,13 +926,13 @@ function CTA() {
         aria-hidden
         animate={{ rotate: 360 }}
         transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
-        className="absolute -left-40 top-1/2 -z-0 h-[600px] w-[600px] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,107,0,0.25),transparent_60%)] blur-3xl"
+        className="absolute -left-40 top-1/2 -z-0 h-[600px] w-[600px] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(124,92,191,0.25),transparent_60%)] blur-3xl"
       />
       <motion.div
         aria-hidden
         animate={{ rotate: -360 }}
         transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
-        className="absolute -right-40 top-0 -z-0 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(255,107,0,0.15),transparent_60%)] blur-3xl"
+        className="absolute -right-40 top-0 -z-0 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(124,92,191,0.15),transparent_60%)] blur-3xl"
       />
       <div className="relative mx-auto max-w-6xl px-6 py-32 text-center md:py-48">
         <Eyebrow light>Start the conversation</Eyebrow>
