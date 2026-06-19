@@ -1,0 +1,323 @@
+<style>
+  .logo-board {
+    color: #0a0a0d;
+  }
+
+  .logo-board .intro {
+    max-width: 860px;
+    margin-bottom: 28px;
+  }
+
+  .logo-board .intro h2 {
+    margin-bottom: 10px;
+    letter-spacing: -0.05em;
+  }
+
+  .logo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .logo-option {
+    border: 1px solid rgba(10, 10, 13, 0.12);
+    border-radius: 26px;
+    background: #fff;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  }
+
+  .logo-option:hover {
+    transform: translateY(-3px);
+    border-color: rgba(115, 136, 223, 0.5);
+    box-shadow: 0 24px 70px -38px rgba(51, 61, 167, 0.55);
+  }
+
+  .logo-option.selected {
+    outline: 3px solid rgba(115, 136, 223, 0.35);
+    border-color: #7388df;
+  }
+
+  .logo-preview {
+    min-height: 260px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .dark-preview {
+    background:
+      radial-gradient(38rem circle at 50% 105%, rgba(174, 186, 255, 0.72), transparent 56%),
+      radial-gradient(18rem circle at 86% 78%, rgba(51, 61, 167, 0.36), transparent 58%),
+      #03040a;
+    color: white;
+  }
+
+  .light-preview {
+    background:
+      linear-gradient(180deg, #fff, #f5f5f5);
+    color: #050506;
+  }
+
+  .soft-preview {
+    background:
+      radial-gradient(22rem circle at 18% 10%, rgba(115, 136, 223, 0.26), transparent 58%),
+      #f8f8f7;
+    color: #050506;
+  }
+
+  .brand-lockup {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 750;
+    letter-spacing: -0.035em;
+    font-size: 22px;
+  }
+
+  .brand-lockup span {
+    opacity: 0.58;
+    font-weight: 450;
+  }
+
+  .mark {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    flex: none;
+  }
+
+  .mark-data {
+    background: #f8f8f8;
+    color: #050506;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.36);
+  }
+
+  .mark-data::before,
+  .mark-data::after {
+    content: "";
+    position: absolute;
+    background: #050506;
+  }
+
+  .mark-data::before {
+    width: 21px;
+    height: 5px;
+    border-radius: 999px;
+    transform: rotate(90deg) translateY(5px);
+  }
+
+  .mark-data::after {
+    width: 26px;
+    height: 5px;
+    border-radius: 999px;
+    transform: rotate(-28deg) translate(2px, 2px);
+  }
+
+  .mark-flow {
+    background: #050506;
+    overflow: hidden;
+  }
+
+  .mark-flow::before {
+    content: "";
+    width: 34px;
+    height: 22px;
+    border: 5px solid #aebaff;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+    border-radius: 20px;
+    transform: rotate(28deg);
+  }
+
+  .mark-flow::after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 99px;
+    background: #7388df;
+    right: 13px;
+    top: 13px;
+    box-shadow: -16px 20px 0 rgba(255,255,255,0.9);
+  }
+
+  .mark-bold {
+    background: linear-gradient(135deg, #7388df, #333da7);
+    color: white;
+    font-weight: 900;
+    font-size: 26px;
+    letter-spacing: -0.09em;
+  }
+
+  .micro-ui {
+    margin-top: 44px;
+    display: grid;
+    gap: 10px;
+  }
+
+  .line {
+    height: 10px;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.16;
+  }
+
+  .line.short { width: 44%; }
+  .line.mid { width: 70%; }
+  .line.long { width: 92%; }
+
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 20px;
+  }
+
+  .chip-row span {
+    border-radius: 999px;
+    border: 1px solid currentColor;
+    padding: 6px 10px;
+    font-size: 11px;
+    opacity: 0.54;
+  }
+
+  .logo-body {
+    padding: 22px 24px 24px;
+  }
+
+  .logo-body h3 {
+    margin-bottom: 8px;
+    letter-spacing: -0.035em;
+  }
+
+  .logo-body p {
+    margin: 0;
+    color: #666;
+    line-height: 1.55;
+  }
+
+  .tone-list {
+    margin-top: 14px;
+    display: grid;
+    gap: 8px;
+    color: #111;
+    font-size: 13px;
+  }
+
+  .tone-list div {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 99px;
+    background: #7388df;
+    flex: none;
+  }
+
+  @media (max-width: 980px) {
+    .logo-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="logo-board">
+  <div class="intro">
+    <h2>TRAFFODATA logo directions</h2>
+    <p class="subtitle">Three example routes before we generate the final Canva candidates. Click the one that feels closest, or tell me what to mix.</p>
+  </div>
+
+  <div class="logo-grid">
+    <div class="logo-option card" data-choice="enterprise-data" onclick="toggleSelect(this)">
+      <div class="logo-preview light-preview">
+        <div class="brand-lockup">
+          <div class="mark mark-data"></div>
+          TRAFFO<span>DATA</span>
+        </div>
+        <div class="micro-ui">
+          <div class="line long"></div>
+          <div class="line mid"></div>
+          <div class="line short"></div>
+        </div>
+        <div class="chip-row">
+          <span>precise</span>
+          <span>premium</span>
+          <span>enterprise</span>
+        </div>
+      </div>
+      <div class="logo-body">
+        <h3>A. Enterprise Data Platform</h3>
+        <p>A restrained monogram built from bars and a diagonal data path. It feels stable, credible, and boardroom-ready.</p>
+        <div class="tone-list">
+          <div><i class="dot"></i>Best for serious SaaS and ERP positioning</div>
+          <div><i class="dot"></i>Works very well on white pages</div>
+          <div><i class="dot"></i>Less expressive and less motion-led</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="logo-option card" data-choice="traffic-intelligence" onclick="toggleSelect(this)">
+      <div class="logo-preview dark-preview">
+        <div class="brand-lockup">
+          <div class="mark mark-flow"></div>
+          TRAFFO<span>DATA</span>
+        </div>
+        <div class="micro-ui">
+          <div class="line mid"></div>
+          <div class="line long"></div>
+          <div class="line short"></div>
+        </div>
+        <div class="chip-row">
+          <span>flow</span>
+          <span>routing</span>
+          <span>operations</span>
+        </div>
+      </div>
+      <div class="logo-body">
+        <h3>B. Logistics / Traffic Intelligence</h3>
+        <p>A compact flow mark that suggests route movement, signal paths, and live operational data without becoming a generic network icon.</p>
+        <div class="tone-list">
+          <div><i class="dot"></i>Best match to the TRAFFODATA name</div>
+          <div><i class="dot"></i>Feels alive next to the purple hero effect</div>
+          <div><i class="dot"></i>Needs careful simplification for tiny favicon use</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="logo-option card" data-choice="bold-saas" onclick="toggleSelect(this)">
+      <div class="logo-preview soft-preview">
+        <div class="brand-lockup">
+          <div class="mark mark-bold">T</div>
+          TRAFFO<span>DATA</span>
+        </div>
+        <div class="micro-ui">
+          <div class="line short"></div>
+          <div class="line long"></div>
+          <div class="line mid"></div>
+        </div>
+        <div class="chip-row">
+          <span>memorable</span>
+          <span>confident</span>
+          <span>startup</span>
+        </div>
+      </div>
+      <div class="logo-body">
+        <h3>C. Bold SaaS Brand</h3>
+        <p>A punchier app-icon-first identity with a strong T. More memorable in product UI, ads, and social avatars.</p>
+        <div class="tone-list">
+          <div><i class="dot"></i>Most distinctive as an app icon</div>
+          <div><i class="dot"></i>Fast to read and easy to remember</div>
+          <div><i class="dot"></i>Less specific to data, traffic, or operations</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

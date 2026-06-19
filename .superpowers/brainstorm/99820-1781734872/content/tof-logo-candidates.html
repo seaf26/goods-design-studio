@@ -1,0 +1,126 @@
+<style>
+  .candidate-page { color: #08080a; }
+  .candidate-page h2 { letter-spacing: -0.055em; margin-bottom: 8px; }
+  .candidate-page .lead {
+    max-width: 840px;
+    color: #666;
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+  .candidate-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .candidate-card {
+    border: 1px solid rgba(8, 8, 10, 0.12);
+    border-radius: 24px;
+    background: #fff;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  }
+  .candidate-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(115, 136, 223, 0.55);
+    box-shadow: 0 26px 76px -42px rgba(51, 61, 167, 0.55);
+  }
+  .candidate-card.selected {
+    outline: 3px solid rgba(115, 136, 223, 0.35);
+    border-color: #7388df;
+  }
+  .thumb-wrap {
+    aspect-ratio: 1;
+    background:
+      radial-gradient(20rem circle at 50% 100%, rgba(174, 186, 255, 0.22), transparent 58%),
+      #f7f7f6;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+  }
+  .thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 16px;
+    background: white;
+  }
+  .candidate-body { padding: 18px; }
+  .candidate-body h3 { margin: 0 0 8px; letter-spacing: -0.035em; }
+  .candidate-body p {
+    margin: 0 0 14px;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .candidate-body a {
+    color: #333da7;
+    font-weight: 650;
+    text-decoration: none;
+  }
+  .direction-note {
+    margin-top: 28px;
+    border: 1px solid rgba(115, 136, 223, 0.24);
+    border-radius: 22px;
+    padding: 22px;
+    background: linear-gradient(135deg, rgba(115, 136, 223, 0.1), rgba(255,255,255,0.7));
+    color: #202024;
+  }
+  @media (max-width: 1180px) { .candidate-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 720px) { .candidate-grid { grid-template-columns: 1fr; } }
+</style>
+
+<div class="candidate-page">
+  <h2>TRAFFODATA TOF logo candidates</h2>
+  <p class="lead">Corrected pass: the mark should read <strong>TOF</strong>, not TFO. The <strong>O</strong> sits in the middle as a traffic/data loop that connects the T and F.</p>
+
+  <div class="candidate-grid">
+    <div class="candidate-card" data-choice="tof-candidate-1" onclick="toggleSelect(this)">
+      <div class="thumb-wrap">
+        <img src="https://design.canva.ai/LlAj2944sV1P4Ad" alt="TRAFFODATA TOF logo candidate 1">
+      </div>
+      <div class="candidate-body">
+        <h3>Candidate 1</h3>
+        <p>Check if the TOF read is clear and premium at small size.</p>
+        <a href="https://www.canva.com/d/sUJ7vOCiVslurnV" target="_blank" rel="noreferrer">Open in Canva</a>
+      </div>
+    </div>
+
+    <div class="candidate-card" data-choice="tof-candidate-2" onclick="toggleSelect(this)">
+      <div class="thumb-wrap">
+        <img src="https://design.canva.ai/xlyQi0i83WRsIgC" alt="TRAFFODATA TOF logo candidate 2">
+      </div>
+      <div class="candidate-body">
+        <h3>Candidate 2</h3>
+        <p>Look for the strongest central O route-loop concept.</p>
+        <a href="https://www.canva.com/d/QVnnAlo36TPlsmr" target="_blank" rel="noreferrer">Open in Canva</a>
+      </div>
+    </div>
+
+    <div class="candidate-card" data-choice="tof-candidate-3" onclick="toggleSelect(this)">
+      <div class="thumb-wrap">
+        <img src="https://design.canva.ai/5yF8g0BDtAtDrJA" alt="TRAFFODATA TOF logo candidate 3">
+      </div>
+      <div class="candidate-body">
+        <h3>Candidate 3</h3>
+        <p>Judge the balance between data-platform seriousness and motion.</p>
+        <a href="https://www.canva.com/d/DaMpdS3iVDloq4R" target="_blank" rel="noreferrer">Open in Canva</a>
+      </div>
+    </div>
+
+    <div class="candidate-card" data-choice="tof-candidate-4" onclick="toggleSelect(this)">
+      <div class="thumb-wrap">
+        <img src="https://design.canva.ai/A3onTGpVyiDIcnn" alt="TRAFFODATA TOF logo candidate 4">
+      </div>
+      <div class="candidate-body">
+        <h3>Candidate 4</h3>
+        <p>Check if it feels most usable as the navbar/app icon mark.</p>
+        <a href="https://www.canva.com/d/3rhEQg0O1z61Gsp" target="_blank" rel="noreferrer">Open in Canva</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="direction-note">
+    Selection criteria: it should read TOF first, then reveal the O as a route/data loop. If Canva still fights the letter order, we can sketch this mark directly in SVG for exact control.
+  </div>
+</div>

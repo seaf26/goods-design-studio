@@ -1,0 +1,141 @@
+<style>
+  .candidate-page { color: #08080a; }
+  .candidate-page h2 { letter-spacing: -0.055em; margin-bottom: 8px; }
+  .candidate-page .lead {
+    max-width: 880px;
+    color: #666;
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+  .base-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    border: 1px solid rgba(115, 136, 223, 0.24);
+    border-radius: 999px;
+    padding: 10px 14px;
+    color: #333da7;
+    background: rgba(115, 136, 223, 0.08);
+    text-decoration: none;
+    font-weight: 650;
+  }
+  .candidate-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .candidate-card {
+    border: 1px solid rgba(8, 8, 10, 0.12);
+    border-radius: 24px;
+    background: #fff;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  }
+  .candidate-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(115, 136, 223, 0.55);
+    box-shadow: 0 26px 76px -42px rgba(51, 61, 167, 0.55);
+  }
+  .candidate-card.selected {
+    outline: 3px solid rgba(115, 136, 223, 0.35);
+    border-color: #7388df;
+  }
+  .thumb-wrap {
+    aspect-ratio: 1;
+    background:
+      radial-gradient(20rem circle at 50% 100%, rgba(174, 186, 255, 0.22), transparent 58%),
+      #f7f7f6;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+  }
+  .thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 16px;
+    background: white;
+  }
+  .candidate-body { padding: 18px; }
+  .candidate-body h3 { margin: 0 0 8px; letter-spacing: -0.035em; }
+  .candidate-body p {
+    margin: 0 0 14px;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .candidate-body a {
+    color: #333da7;
+    font-weight: 650;
+    text-decoration: none;
+  }
+  .direction-note {
+    margin-top: 28px;
+    border: 1px solid rgba(115, 136, 223, 0.24);
+    border-radius: 22px;
+    padding: 22px;
+    background: linear-gradient(135deg, rgba(115, 136, 223, 0.1), rgba(255,255,255,0.7));
+    color: #202024;
+  }
+  @media (max-width: 1180px) { .candidate-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 720px) { .candidate-grid { grid-template-columns: 1fr; } }
+</style>
+
+<div class="candidate-page">
+  <h2>TRAFFODATA circle/O + TF variations</h2>
+  <p class="lead">Based on the candidate 1 direction you liked. This pass makes the composition more explicit: the circle is the <strong>O</strong>, and the <strong>T/F</strong> sit inside or integrate through it so the mark can read as T O F.</p>
+
+  <a class="base-link" href="https://www.canva.com/d/diaDaB4Sxq9BYzi" target="_blank" rel="noreferrer">Editable base design from liked candidate 1</a>
+
+  <div class="candidate-grid">
+    <div class="candidate-card" data-choice="circle-tof-1" onclick="toggleSelect(this)">
+      <div class="thumb-wrap">
+        <img src="https://design.canva.ai/aIbeINLZG5Gqw2h" alt="TRAFFODATA circle TOF variation 1">
+      </div>
+      <div class="candidate-body">
+        <h3>Variation 1</h3>
+        <p>Best if the circle/O feels clean and the TF stays readable.</p>
+        <a href="https://www.canva.com/d/qAtw6GnUA3HVaeW" target="_blank" rel="noreferrer">Open in Canva</a>
+      </div>
+    </div>
+
+    <div class="candidate-card" data-choice="circle-tof-2" onclick="toggleSelect(this)">
+      <div class="thumb-wrap">
+        <img src="https://design.canva.ai/nlL_o0nExuokOxj" alt="TRAFFODATA circle TOF variation 2">
+      </div>
+      <div class="candidate-body">
+        <h3>Variation 2</h3>
+        <p>Check if this has the strongest compact favicon/app-icon read.</p>
+        <a href="https://www.canva.com/d/OKXrsz4IxLNuaPP" target="_blank" rel="noreferrer">Open in Canva</a>
+      </div>
+    </div>
+
+    <div class="candidate-card" data-choice="circle-tof-3" onclick="toggleSelect(this)">
+      <div class="thumb-wrap">
+        <img src="https://design.canva.ai/2OO26D2z0-iOdPk" alt="TRAFFODATA circle TOF variation 3">
+      </div>
+      <div class="candidate-body">
+        <h3>Variation 3</h3>
+        <p>Judge if this keeps the premium candidate-1 direction best.</p>
+        <a href="https://www.canva.com/d/-zdh2UwrySmyaJl" target="_blank" rel="noreferrer">Open in Canva</a>
+      </div>
+    </div>
+
+    <div class="candidate-card" data-choice="circle-tof-4" onclick="toggleSelect(this)">
+      <div class="thumb-wrap">
+        <img src="https://design.canva.ai/KbGfIcvGt63_Y3N" alt="TRAFFODATA circle TOF variation 4">
+      </div>
+      <div class="candidate-body">
+        <h3>Variation 4</h3>
+        <p>Useful if the wordmark direction is stronger than the mark.</p>
+        <a href="https://www.canva.com/d/MbWR2TkFOnZFM6u" target="_blank" rel="noreferrer">Open in Canva</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="direction-note">
+    The target is simple: <strong>T + circle/O + F</strong>. If Canva gets close but not exact, I can hand-draw the final mark from this concept so the geometry is controlled.
+  </div>
+</div>

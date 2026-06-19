@@ -1,0 +1,59 @@
+<svg width="1800" height="720" viewBox="0 0 1800 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .navy { fill: #071a3f; }
+      .blue { fill: #7388df; }
+      .deep { fill: #333da7; }
+      .slate { fill: #6d7480; }
+      .word { font-family: Inter, Arial, sans-serif; font-size: 74px; font-weight: 520; letter-spacing: -1.6px; }
+      .tag { font-family: Inter, Arial, sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 8px; }
+      .label { font-family: Inter, Arial, sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 4px; fill: #9aa0aa; }
+    </style>
+  </defs>
+
+  <rect width="1800" height="720" fill="#fbfbfa"/>
+  <text x="90" y="88" class="label">TRAFFODATA / TOF WORDMARK EXPLORATION</text>
+  <rect x="90" y="118" width="1620" height="1" fill="#e3e4e7"/>
+
+  <!-- Concept 1: outlined TOF -->
+  <g transform="translate(90 188)">
+    <g transform="translate(0 0)">
+      <path d="M15 12C15 5.373 20.373 0 27 0H128C134.627 0 140 5.373 140 12V27C140 33.627 134.627 39 128 39H93V186C93 192.627 87.627 198 81 198H58C51.373 198 46 192.627 46 186V39H27C20.373 39 15 33.627 15 27V12Z" class="navy"/>
+      <path d="M76 70H130C136.627 70 142 75.373 142 82V96C142 102.627 136.627 108 130 108H96V139H126C132.627 139 138 144.373 138 151V165C138 171.627 132.627 177 126 177H76V70Z" class="navy"/>
+      <path d="M82 139C82 103.101 111.101 74 147 74C182.899 74 212 103.101 212 139C212 174.899 182.899 204 147 204C111.101 204 82 174.899 82 139ZM119 139C119 154.464 131.536 167 147 167C162.464 167 175 154.464 175 139C175 123.536 162.464 111 147 111C131.536 111 119 123.536 119 139Z" class="navy"/>
+      <path d="M176 103C189.5 112.2 198 125.6 201 142" stroke="#7388df" stroke-width="10" stroke-linecap="round"/>
+    </g>
+    <text x="260" y="106" class="word navy">TRAFFO<tspan class="slate" font-weight="420">DATA</tspan></text>
+    <text x="264" y="151" class="tag blue">OPERATIONS DATA</text>
+  </g>
+
+  <!-- Concept 2: contained circle O -->
+  <g transform="translate(945 188)">
+    <circle cx="102" cy="101" r="92" class="navy"/>
+    <path d="M45 45H132C138.627 45 144 50.373 144 57V70C144 76.627 138.627 82 132 82H108V154C108 160.627 102.627 166 96 166H76C69.373 166 64 160.627 64 154V82H45C38.373 82 33 76.627 33 70V57C33 50.373 38.373 45 45 45Z" fill="#ffffff"/>
+    <path d="M96 93H153C159.627 93 165 98.373 165 105V117C165 123.627 159.627 129 153 129H124V155H146C152.627 155 158 160.373 158 167V177H96V93Z" fill="#ffffff"/>
+    <path d="M126 79C147.5 86.5 163 107 163 131C163 160.271 139.271 184 110 184C102.1 184 94.6 182.3 87.9 179.2" stroke="#7388df" stroke-width="12" stroke-linecap="round"/>
+    <text x="242" y="106" class="word navy">TRAFFO<tspan class="slate" font-weight="420">DATA</tspan></text>
+    <text x="246" y="151" class="tag blue">OPERATIONS DATA</text>
+  </g>
+
+  <!-- Concept 3: two-tone integrated -->
+  <g transform="translate(90 450)">
+    <path d="M28 0H147C153.627 0 159 5.373 159 12V26C159 32.627 153.627 38 147 38H103V196H66V38H28C21.373 38 16 32.627 16 26V12C16 5.373 21.373 0 28 0Z" class="blue"/>
+    <path d="M82 62H142C148.627 62 154 67.373 154 74V88C154 94.627 148.627 100 142 100H119V126H143C149.627 126 155 131.373 155 138V152C155 158.627 149.627 164 143 164H82V62Z" class="navy"/>
+    <path d="M80 132C80 94.445 110.445 64 148 64C185.555 64 216 94.445 216 132C216 169.555 185.555 200 148 200C110.445 200 80 169.555 80 132ZM119 132C119 148.016 131.984 161 148 161C164.016 161 177 148.016 177 132C177 115.984 164.016 103 148 103C131.984 103 119 115.984 119 132Z" fill="#7a808b"/>
+    <text x="260" y="106" class="word navy">TRAFFO<tspan class="slate" font-weight="420">DATA</tspan></text>
+    <text x="264" y="151" class="tag blue">OPERATIONS DATA</text>
+  </g>
+
+  <!-- Concept 4: compact split-stroke -->
+  <g transform="translate(945 450)">
+    <path d="M20 9C20 4.029 24.029 0 29 0H140C144.971 0 149 4.029 149 9V29C149 33.971 144.971 38 140 38H101V184C101 190.627 95.627 196 89 196H68C61.373 196 56 190.627 56 184V38H29C24.029 38 20 33.971 20 29V9Z" class="navy"/>
+    <path d="M93 66H150C156.627 66 162 71.373 162 78V91C162 97.627 156.627 103 150 103H124V129H144C150.627 129 156 134.373 156 141V156H93V66Z" class="navy"/>
+    <path d="M83 134C83 99.758 110.758 72 145 72C179.242 72 207 99.758 207 134C207 168.242 179.242 196 145 196C128.576 196 113.644 189.61 102.534 179.184" stroke="#071a3f" stroke-width="31" stroke-linecap="round"/>
+    <path d="M170 88C185.4 98.5 195 115.8 195 134" stroke="#7388df" stroke-width="10" stroke-linecap="round"/>
+    <rect x="76" y="191" width="22" height="22" rx="4" class="deep"/>
+    <text x="260" y="106" class="word navy">TRAFFO<tspan class="slate" font-weight="420">DATA</tspan></text>
+    <text x="264" y="151" class="tag blue">OPERATIONS DATA</text>
+  </g>
+</svg>

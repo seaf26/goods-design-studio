@@ -1,10 +1,13 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type PointerEvent, type ReactNode } from "react";
 import { motion, useScroll, useTransform, useMotionValue, useSpring, useInView, AnimatePresence } from "motion/react";
+import LiquidEther from "./LiquidEther";
+import { workItems } from "./workData";
 import {
   ArrowRight, ArrowUpRight, Boxes, Warehouse, ScanBarcode, Calculator,
   Users, Briefcase, Truck, Settings2, Sparkles, ChevronRight, Plus,
   TrendingUp, Activity, Package, CreditCard, BarChart3, Building2,
-  Layers, Zap, Shield, Globe2, Check, Quote
+  Layers, Zap, Shield, Globe2, Check, Quote, Menu, X, Gem, Cpu, MessageCircle, Send, Handshake,
+  PhoneCall, type LucideIcon
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
@@ -60,6 +63,185 @@ export function Eyebrow({ children, light = false }: { children: ReactNode; ligh
   );
 }
 
+const sectionScrollSelector = "[data-scroll-stop]";
+let activeSectionScroll = 0;
+
+function getScrollOffset() {
+  const scrollPaddingTop = getComputedStyle(document.documentElement).scrollPaddingTop;
+  const parsed = Number.parseFloat(scrollPaddingTop);
+  return Number.isFinite(parsed) ? parsed : 92;
+}
+
+function getSectionScrollTop(section: HTMLElement) {
+  return section.getBoundingClientRect().top + window.scrollY - getScrollOffset();
+}
+
+function getSectionBounds(section: HTMLElement) {
+  const top = section.getBoundingClientRect().top + window.scrollY;
+  return {
+    top,
+    bottom: top + section.offsetHeight,
+  };
+}
+
+function getScrollStops() {
+  return Array.from(document.querySelectorAll<HTMLElement>(sectionScrollSelector));
+}
+
+function canScrollWithinSection(section: HTMLElement, direction: 1 | -1) {
+  const { top, bottom } = getSectionBounds(section);
+  const settleThreshold = Math.max(80, window.innerHeight * 0.12);
+  const viewportTop = window.scrollY + getScrollOffset();
+  const viewportBottom = window.scrollY + window.innerHeight;
+
+  return direction > 0
+    ? bottom - viewportBottom > settleThreshold
+    : viewportTop - top > settleThreshold;
+}
+
+function easeOutQuart(progress: number) {
+  return 1 - Math.pow(1 - progress, 4);
+}
+
+function getScrollDuration(distance: number) {
+  return Math.min(1350, Math.max(760, distance * 0.42));
+}
+
+function animateWindowScrollTo(targetTop: number) {
+  const startTop = window.scrollY;
+  const distance = targetTop - startTop;
+
+  window.cancelAnimationFrame(activeSectionScroll);
+
+  if (Math.abs(distance) < 2) {
+    window.scrollTo(0, targetTop);
+    return getScrollDuration(0);
+  }
+
+  const duration = getScrollDuration(Math.abs(distance));
+  const startedAt = performance.now();
+
+  const tick = (now: number) => {
+    const progress = Math.min(1, (now - startedAt) / duration);
+    window.scrollTo(0, startTop + distance * easeOutQuart(progress));
+
+    if (progress < 1) {
+      activeSectionScroll = window.requestAnimationFrame(tick);
+    }
+  };
+
+  activeSectionScroll = window.requestAnimationFrame(tick);
+  return duration;
+}
+
+function scrollToSection(section: HTMLElement, behavior: ScrollBehavior = "smooth") {
+  const top = Math.max(0, getSectionScrollTop(section));
+
+  if (behavior === "auto") {
+    window.cancelAnimationFrame(activeSectionScroll);
+    window.scrollTo({ top, behavior });
+    return 0;
+  }
+
+  return animateWindowScrollTo(top);
+}
+
+function handleSectionLinkClick(event: MouseEvent<HTMLAnchorElement>, href: string) {
+  if (!href.startsWith("#") || href === "#") return;
+
+  const target = document.getElementById(href.slice(1));
+  if (!target) return;
+
+  event.preventDefault();
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  scrollToSection(target, prefersReducedMotion ? "auto" : "smooth");
+  window.history.pushState(null, "", href);
+}
+
+function useSectionScroller() {
+  const lockUntil = useRef(0);
+
+  useEffect(() => {
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileQuery = window.matchMedia("(max-width: 767px)");
+
+    const canGuideScroll = () => !reducedMotionQuery.matches && !mobileQuery.matches;
+
+    const findCurrentIndex = (sections: HTMLElement[]) => {
+      const viewportAnchor = window.scrollY + getScrollOffset();
+      const containingSection = sections.findIndex((section) => {
+        const { top, bottom } = getSectionBounds(section);
+        return viewportAnchor >= top && viewportAnchor < bottom;
+      });
+
+      if (containingSection >= 0) return containingSection;
+
+      return sections.reduce((closest, section, index) => {
+        const sectionTop = getSectionScrollTop(section);
+        const closestTop = getSectionScrollTop(sections[closest]);
+
+        return Math.abs(sectionTop - window.scrollY) < Math.abs(closestTop - window.scrollY)
+          ? index
+          : closest;
+      }, 0);
+    };
+
+    const moveToSection = (direction: 1 | -1) => {
+      if (!canGuideScroll()) return false;
+
+      const sections = getScrollStops();
+      if (sections.length === 0) return false;
+
+      const current = findCurrentIndex(sections);
+      const section = sections[current];
+      if (canScrollWithinSection(section, direction)) return false;
+
+      const next = Math.min(sections.length - 1, Math.max(0, current + direction));
+      if (next === current) return false;
+
+      const duration = scrollToSection(sections[next]);
+      lockUntil.current = Date.now() + duration + 120;
+      return true;
+    };
+
+    const onWheel = (event: WheelEvent) => {
+      if (!canGuideScroll()) return;
+      if (Date.now() < lockUntil.current) {
+        event.preventDefault();
+        return;
+      }
+      if (Math.abs(event.deltaY) < 16 || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+
+      const direction = event.deltaY > 0 ? 1 : -1;
+      if (moveToSection(direction)) event.preventDefault();
+    };
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      const activeTag = document.activeElement?.tagName.toLowerCase();
+      if (activeTag === "input" || activeTag === "textarea" || activeTag === "select") return;
+
+      const downKeys = ["ArrowDown", "PageDown"];
+      const upKeys = ["ArrowUp", "PageUp"];
+      const direction =
+        downKeys.includes(event.key) || (event.key === " " && !event.shiftKey)
+          ? 1
+          : upKeys.includes(event.key) || (event.key === " " && event.shiftKey)
+            ? -1
+            : 0;
+
+      if (direction && moveToSection(direction as 1 | -1)) event.preventDefault();
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
+}
+
 function MagneticButton({ children, href = "#", variant = "primary", className = "" }: { children: ReactNode; href?: string; variant?: "primary" | "ghost" | "dark"; className?: string }) {
   const ref = useRef<HTMLAnchorElement>(null);
   const x = useMotionValue(0); const y = useMotionValue(0);
@@ -76,6 +258,7 @@ function MagneticButton({ children, href = "#", variant = "primary", className =
       ref={ref}
       href={href}
       style={{ x: sx, y: sy }}
+      onClick={(event) => handleSectionLinkClick(event, href)}
       onMouseMove={(e) => {
         const r = ref.current!.getBoundingClientRect();
         x.set((e.clientX - r.left - r.width / 2) * 0.25);
@@ -114,38 +297,152 @@ function Counter({ to, suffix = "", duration = 2 }: { to: number; suffix?: strin
 /* Navigation                                                          */
 /* ------------------------------------------------------------------ */
 
-function Nav() {
+const NAV_ITEMS = [
+  { label: "Work", href: "/work" },
+  { label: "Products", href: "/#platform" },
+  { label: "Pricing", href: "/#cta" },
+  { label: "Blog", href: "#blog" },
+];
+
+function GoodsNavLogo({ inverted = false }: { inverted?: boolean }) {
+  return (
+    <a href="/" className="flex items-center gap-2" aria-label="Goods home">
+      <span className={`grid h-8 w-8 place-items-center rounded-lg text-[13px] font-bold tracking-tight ${
+        inverted ? "bg-white text-[#03040a]" : "bg-[var(--ink)] text-white"
+      }`}>
+        G
+      </span>
+      <span className={`text-[15px] font-semibold tracking-normal ${inverted ? "text-white" : "text-[var(--ink)]"}`}>
+        Goods <span className={`font-normal ${inverted ? "text-white/62" : "text-[var(--muted-foreground)]"}`}>Software</span>
+      </span>
+    </a>
+  );
+}
+
+export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const lightSurface = surface === "light";
+  const elevated = scrolled || lightSurface;
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href === "#blog") {
+      event.preventDefault();
+      setOpen(false);
+      return;
+    }
+
+    if (href.startsWith("#")) {
+      handleSectionLinkClick(event, href);
+    }
+
+    setOpen(false);
+  };
+
   return (
     <motion.header
       initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.9, ease, delay: 0.1 }}
-      className="fixed inset-x-0 top-0 z-50 px-4 pt-4"
+      className={`fixed inset-x-0 top-0 z-50 transition-[padding] duration-200 ${scrolled ? "py-3" : "py-5"}`}
     >
-      <div className={`mx-auto flex max-w-7xl items-center justify-between rounded-full px-5 py-2.5 transition-all duration-500 ${scrolled ? "bg-white/75 backdrop-blur-xl ring-hairline shadow-elevated" : "bg-transparent"}`}>
-        <a href="#" className="flex items-center gap-2">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-[var(--ink)] text-white text-[13px] font-bold tracking-tight">G</span>
-          <span className="font-display text-[17px] font-semibold tracking-tight">Goods</span>
-        </a>
-        <nav className="hidden items-center gap-8 md:flex">
-          {["Platform", "Services", "Projects", "Process", "Contact"].map(l => (
-            <a key={l} href={`#${l.toLowerCase()}`} className="text-[13px] text-[var(--muted-foreground)] transition-colors hover:text-[var(--ink)]">{l}</a>
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+        <div className={`flex items-center rounded-full px-2 py-2 backdrop-blur transition-[background,border-color,box-shadow] duration-200 ${
+          elevated
+            ? "border border-[var(--hairline)] bg-white/85 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.14)]"
+            : "border border-white/10 bg-white/[0.03] shadow-none"
+        }`}>
+          <div className="px-2">
+            <GoodsNavLogo inverted={!elevated} />
+          </div>
+        </div>
+
+        <nav
+          aria-label="Primary"
+          className={`hidden items-center rounded-full px-2 py-2 backdrop-blur transition-[background,border-color,box-shadow] duration-200 lg:flex ${
+            elevated
+              ? "border border-[var(--hairline)] bg-white/85 shadow-[0_8px_30px_-16px_rgba(0,0,0,0.14)]"
+              : "border border-white/10 bg-white/[0.03] shadow-none"
+          }`}
+        >
+          {NAV_ITEMS.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              onClick={(event) => handleNavClick(event, item.href)}
+              className={`relative rounded-full px-4 py-2 text-sm transition-colors duration-200 ${
+                elevated
+                  ? "text-[var(--ink)]/80 hover:bg-[var(--surface)] hover:text-[var(--ink)]"
+                  : "text-white/82 hover:bg-white/10 hover:text-white"
+              }`}
+            >
+              {item.label}
+            </a>
           ))}
         </nav>
-        <div className="flex items-center gap-2">
-          <a href="#contact" className="hidden text-[13px] text-[var(--muted-foreground)] hover:text-[var(--ink)] sm:block">Sign in</a>
-          <a href="#cta" className="inline-flex items-center gap-1.5 rounded-full bg-[var(--ink)] px-4 py-2 text-[13px] font-medium text-white transition-transform hover:scale-[1.02]">
-            Book a demo <ArrowRight className="h-3.5 w-3.5" />
+
+        <div className={`flex items-center gap-2 rounded-full p-2 backdrop-blur transition-[background,border-color,box-shadow] duration-200 ${
+          elevated
+            ? "border border-[var(--hairline)] bg-white/85 shadow-[0_8px_30px_-16px_rgba(0,0,0,0.14)]"
+            : "border border-white/10 bg-white/[0.03] shadow-none"
+        }`}>
+          <a
+            href="#cta"
+            onClick={(event) => handleNavClick(event, "#cta")}
+            className="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-white px-4 py-2 text-sm font-medium text-[#03040a] transition duration-200 hover:bg-primary hover:text-white active:scale-[0.97]"
+          >
+            <span className="sm:hidden">Book</span>
+            <span className="hidden sm:inline">Book a demo</span>
+            <span className="grid h-5 w-5 place-items-center rounded-full bg-white/15">
+              <ArrowUpRight className="h-3 w-3" />
+            </span>
           </a>
+
+          <button
+            type="button"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((value) => !value)}
+            className={`grid h-9 w-9 place-items-center rounded-full border transition duration-200 hover:border-primary hover:text-primary active:scale-[0.97] lg:hidden ${
+              elevated ? "border-[var(--hairline)] text-[var(--ink)]" : "border-white/12 text-white"
+            }`}
+          >
+            {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
         </div>
       </div>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -8, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+            transition={{ duration: 0.22, ease }}
+            className="mx-auto mt-3 max-w-7xl px-4 sm:px-6 lg:hidden"
+          >
+            <div className="rounded-2xl border border-[var(--hairline)] bg-white p-2 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.18)]">
+              {NAV_ITEMS.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={(event) => handleNavClick(event, item.href)}
+                  className="block rounded-xl px-4 py-3 text-[15px] text-[var(--ink)] transition-colors hover:bg-[var(--surface)] hover:text-primary"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }
@@ -172,7 +469,7 @@ function HeroDashboard() {
       className="relative mx-auto w-full max-w-6xl"
     >
       {/* Glow */}
-      <div aria-hidden className="pointer-events-none absolute -inset-x-12 -bottom-12 -top-8 -z-10 bg-[radial-gradient(60%_60%_at_50%_50%,rgba(255,107,0,0.18),transparent_70%)] blur-2xl" />
+      <div aria-hidden className="pointer-events-none absolute -inset-x-12 -bottom-12 -top-8 -z-10 bg-[radial-gradient(60%_60%_at_50%_50%,rgba(124,58,237,0.18),transparent_70%)] blur-2xl" />
 
       {/* Dashboard frame */}
       <motion.div
@@ -238,8 +535,8 @@ function HeroDashboard() {
               <svg viewBox="0 0 400 140" className="h-32 w-full">
                 <defs>
                   <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="#FF6B00" stopOpacity="0.25" />
-                    <stop offset="100%" stopColor="#FF6B00" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#7388DF" stopOpacity="0.25" />
+                    <stop offset="100%" stopColor="#7388DF" stopOpacity="0" />
                   </linearGradient>
                 </defs>
                 <path d="M0,100 C40,80 70,90 100,70 C140,45 180,85 220,60 C260,35 300,55 340,30 L400,18 L400,140 L0,140 Z" fill="url(#g1)" />
@@ -248,10 +545,10 @@ function HeroDashboard() {
                   animate={{ pathLength: 1 }}
                   transition={{ duration: 2.2, delay: 1, ease }}
                   d="M0,100 C40,80 70,90 100,70 C140,45 180,85 220,60 C260,35 300,55 340,30 L400,18"
-                  fill="none" stroke="#FF6B00" strokeWidth="2"
+                  fill="none" stroke="#7388DF" strokeWidth="2"
                 />
                 {[100, 70, 60, 30, 18].map((y, i) => (
-                  <circle key={i} cx={i * 100} cy={y} r="2.5" fill="#FF6B00" />
+                  <circle key={i} cx={i * 100} cy={y} r="2.5" fill="#7388DF" />
                 ))}
               </svg>
             </div>
@@ -353,52 +650,137 @@ function HeroDashboard() {
     </motion.div>
   );
 }
+function HeroLiquidBackground() {
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#f8f9ff]">
+      <div className="absolute inset-0 origin-top scale-125 bg-white" />
+      <div className="absolute left-1/2 top-[-30rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#7e91e8] blur-[132px]" />
+      <div className="absolute left-1/2 top-[-38rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#333da7] blur-[132px]" />
+      <div className="absolute left-1/2 top-[-45rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#0a0d21] blur-[128px]" />
+      <div className="absolute left-1/2 top-[-51rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#030409] blur-[128px]" />
+      <div className="absolute inset-x-[-22%] top-[38%] h-[51%] rounded-[50%] bg-[#a9b5ff]/82 blur-[112px]" />
+      <div className="absolute inset-x-[-12%] bottom-[-8%] h-[30%] bg-[linear-gradient(to_top,rgba(251,252,255,0.68)_0%,rgba(244,246,255,0.44)_28%,rgba(194,203,252,0.26)_58%,rgba(3,4,10,0)_100%)] blur-[18px]" />
+      <div className="absolute inset-x-[-10%] top-[48%] h-[30%] bg-[linear-gradient(to_bottom,transparent,rgba(115,136,223,0.52),rgba(238,241,255,0.1),transparent)] blur-2xl" />
+      <div className="absolute left-[31%] bottom-[-12%] h-[28%] w-[42%] rounded-[50%] bg-[#050612]/45 blur-[88px] mix-blend-multiply" />
+      <LiquidEther
+        className="absolute inset-0 scale-[1.08] opacity-100 mix-blend-multiply blur-[8px] contrast-[1.16] saturate-[1.12]"
+        colors={["#ffffff", "#aebaff", "#7388df", "#333da7", "#030409"]}
+        mouseForce={54}
+        cursorSize={318}
+        hoverForce={0.68}
+        hoverOrbit={0.052}
+        isViscous={false}
+        viscous={30}
+        iterationsViscous={32}
+        iterationsPoisson={32}
+        resolution={0.46}
+        isBounce={false}
+        autoDemo
+        autoSpeed={0.76}
+        autoIntensity={5.4}
+        takeoverDuration={0.25}
+        autoResumeDelay={2200}
+        autoRampDuration={0.5}
+      />
+      <div className="hero-liquid-bottom-drift absolute inset-x-[-24%] bottom-[-17%] h-[38%]" />
+    </div>
+  );
+}
 
 function Hero() {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 600], [0, 80]);
-  const opacity = useTransform(scrollY, [0, 500], [1, 0.4]);
+  const frameRef = useRef<HTMLElement>(null);
+  const y = useTransform(scrollY, [0, 700], [0, 70]);
+  const opacity = useTransform(scrollY, [0, 620], [1, 0.18]);
+
+  const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
+    const frame = frameRef.current;
+    if (!frame) return;
+
+    const rect = frame.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const edgeDistance = Math.min(x, y, rect.width - x, rect.height - y);
+    const glowRange = Math.min(150, Math.max(82, rect.width * 0.09));
+    const edgeOpacity = Math.max(0, Math.min(1, 1 - edgeDistance / glowRange));
+
+    frame.style.setProperty("--hero-x", `${x}px`);
+    frame.style.setProperty("--hero-y", `${y}px`);
+    frame.style.setProperty("--hero-edge-opacity", edgeOpacity.toFixed(3));
+    frame.dataset.glow = edgeOpacity > 0 ? "true" : "false";
+  };
+
+  const handlePointerLeave = () => {
+    const frame = frameRef.current;
+    if (!frame) return;
+
+    frame.style.setProperty("--hero-edge-opacity", "0");
+    frame.dataset.glow = "false";
+  };
+
   return (
-    <section className="relative overflow-hidden pt-36 pb-24 md:pt-44 md:pb-32">
-      <div aria-hidden className="absolute inset-0 -z-10 grid-bg opacity-60 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
-      <motion.div style={{ y, opacity }} className="mx-auto max-w-7xl px-6">
+    <section
+      id="hero"
+      ref={frameRef}
+      data-scroll-stop
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+      className="liquid-hero-frame scroll-stop relative isolate h-[100vh] min-h-[100dvh] overflow-hidden bg-[#03040a] text-white"
+    >
+      <HeroLiquidBackground />
+
+      <motion.div
+        style={{ y, opacity }}
+        className="relative z-[3] mx-auto flex h-full min-h-[100dvh] max-w-7xl -translate-y-8 flex-col items-center justify-center px-5 pb-36 pt-24 text-center sm:px-6 md:-translate-y-5 lg:px-8"
+      >
         <Reveal delay={0.05}>
-          <div className="mx-auto mb-7 flex w-fit items-center gap-2 rounded-full bg-white/60 px-3 py-1.5 ring-hairline backdrop-blur">
+          <div className="mx-auto mb-7 flex w-fit items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-white ring-1 ring-white/14 backdrop-blur">
             <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-            <span className="text-[11px] uppercase tracking-[0.18em] text-[var(--muted-foreground)]">Goods · Enterprise OS · v6</span>
+            <span className="text-[11px] uppercase tracking-[0.18em] text-white/62">Goods Enterprise OS</span>
           </div>
         </Reveal>
 
         <SplitText
           text="Build the operating system"
-          className="text-center font-display text-[clamp(2.6rem,8.5vw,7.5rem)] font-bold leading-[0.95] tracking-[-0.05em]"
+          className="text-center font-display text-[clamp(2.55rem,6.8vw,6.2rem)] font-bold leading-[0.96] tracking-[-0.045em] text-white [text-shadow:0_1px_26px_rgba(3,4,10,0.28)]"
         />
         <SplitText
           text="for your business."
           delay={0.25}
-          className="text-center font-display text-[clamp(2.6rem,8.5vw,7.5rem)] font-bold leading-[0.95] tracking-[-0.05em] text-[var(--muted-foreground)]"
+          className="text-center font-display text-[clamp(2.55rem,6.8vw,6.2rem)] font-bold leading-[0.96] tracking-[-0.045em] text-white/76 [text-shadow:0_1px_26px_rgba(3,4,10,0.22)]"
         />
 
         <Reveal delay={0.7}>
-          <p className="mx-auto mt-8 max-w-2xl text-center text-[15px] leading-relaxed text-[var(--muted-foreground)] md:text-base">
-            Goods engineers premium ERP, inventory, warehouse, POS, accounting, CRM and HR platforms — built to scale with the world's most ambitious operators.
+          <p className="mx-auto mt-7 max-w-2xl text-center text-[15px] leading-relaxed text-white/78 [text-shadow:0_1px_18px_rgba(3,4,10,0.2)] md:text-base">
+            Goods engineers premium ERP, inventory, warehouse, POS, accounting, CRM and HR platforms, built to scale with the world's most ambitious operators.
           </p>
         </Reveal>
 
         <Reveal delay={0.85}>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-            <MagneticButton variant="primary" href="#cta">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:mt-10">
+            <MagneticButton variant="dark" href="#cta" className="bg-[#333da7] shadow-[0_16px_44px_rgba(3,4,10,0.24)] hover:bg-[#2d3594]">
               Book a demo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </MagneticButton>
-            <MagneticButton variant="ghost" href="#platform">
+            <MagneticButton variant="ghost" href="#platform" className="bg-[#0c0e21]/28 text-white ring-1 ring-white/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-md hover:bg-[#0c0e21]/36 hover:text-white">
               Explore platform
             </MagneticButton>
           </div>
         </Reveal>
+
       </motion.div>
 
-      <div className="mx-auto mt-20 max-w-7xl px-6">
-        <HeroDashboard />
+      <div className="absolute inset-x-0 bottom-28 z-[3] mx-auto hidden max-w-4xl items-end justify-between px-6 text-[#4b5066] md:flex lg:px-8">
+        <p className="max-w-[30rem] text-[15px] leading-relaxed">
+          AI-assisted delivery for inventory, warehouse, POS, accounting and CRM workflows.
+        </p>
+        <a
+          href="#about"
+          onClick={(event) => handleSectionLinkClick(event, "#about")}
+          aria-label="Continue to about section"
+          className="grid h-14 w-14 place-items-center rounded-full text-[#4b5066] transition-[transform,color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:text-primary active:scale-[0.97]"
+        >
+          <ArrowRight className="h-11 w-11 rotate-90" strokeWidth={1.4} />
+        </a>
       </div>
     </section>
   );
@@ -411,7 +793,7 @@ function Hero() {
 function Trust() {
   const logos = ["Northwind", "Aurora", "Lumen", "Halcyon", "Vertex", "Kintsugi", "Monolith", "Atlas Co.", "Orbital", "Substrate"];
   return (
-    <section className="hairline-t hairline-b bg-[var(--surface)]">
+    <section id="trust" data-scroll-stop className="scroll-stop hairline-t hairline-b bg-[var(--surface)]">
       <div className="mx-auto max-w-7xl px-6 py-10">
         <div className="mb-8 grid grid-cols-1 items-center gap-6 md:grid-cols-4">
           <div className="text-[11px] uppercase tracking-[0.22em] text-[var(--muted-foreground)]">Trusted by operators<br />in 38 countries</div>
@@ -450,7 +832,7 @@ function Trust() {
 
 function About() {
   return (
-    <section id="about" className="relative py-28 md:py-40">
+    <section id="about" data-scroll-stop className="scroll-stop relative py-28 md:py-40">
       <div className="mx-auto max-w-7xl px-6">
         <Eyebrow>Who we are</Eyebrow>
         <div className="mt-10 grid grid-cols-12 gap-8">
@@ -461,10 +843,10 @@ function About() {
           </Reveal>
           <Reveal delay={0.15} className="col-span-12 md:col-span-5 md:pt-6">
             <p className="text-[15px] leading-relaxed text-[var(--muted-foreground)]">
-              Goods is a software studio building the connective tissue of modern enterprises. We design and ship ERP, warehouse, accounting and commerce systems that quietly run global operations — refined, reliable, and built to last a decade.
+              Goods is a software studio building the connective tissue of modern enterprises. We design and ship ERP, warehouse, accounting and commerce systems that quietly run global operations: refined, reliable, and built to last a decade.
             </p>
             <p className="mt-4 text-[15px] leading-relaxed text-[var(--muted-foreground)]">
-              Our products power retailers, manufacturers, distributors and service companies — from boutique studios to publicly listed groups.
+              Our products power retailers, manufacturers, distributors and service companies, from boutique studios to publicly listed groups.
             </p>
             <div className="mt-8 flex flex-wrap gap-2">
               {["ERP", "Automation", "Warehouses", "Inventory", "Accounting", "POS", "Logistics"].map(t => (
@@ -486,7 +868,7 @@ function About() {
 
 const services = [
   { i: Layers, t: "ERP Systems", d: "Unified financial, supply and ops backbone tailored to your industry." },
-  { i: Boxes, t: "Inventory Management", d: "Real-time stock, multi-location, batch & serial — accurate to the SKU." },
+  { i: Boxes, t: "Inventory Management", d: "Real-time stock, multi-location, batch & serial, accurate to the SKU." },
   { i: Warehouse, t: "Warehouse Management", d: "Pick, pack, putaway and wave planning for high-velocity fulfillment." },
   { i: ScanBarcode, t: "Point of Sale", d: "Offline-first retail POS with omnichannel inventory sync." },
   { i: Calculator, t: "Accounting Systems", d: "Multi-entity ledgers, tax engines, statutory compliance built in." },
@@ -498,7 +880,7 @@ const services = [
 function Services() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="services" className="bg-[var(--ink)] text-white">
+    <section id="services" data-scroll-stop className="scroll-stop bg-[var(--ink)] text-white">
       <div className="mx-auto max-w-7xl px-6 py-28 md:py-40">
         <div className="mb-16 flex flex-wrap items-end justify-between gap-6">
           <div>
@@ -507,7 +889,7 @@ function Services() {
               Eight disciplines.<br /><span className="text-white/50">One operating system.</span>
             </h2>
           </div>
-          <p className="max-w-md text-[14px] text-white/60">Every module is engineered to stand alone and compose seamlessly — so you adopt only what you need, when you need it.</p>
+          <p className="max-w-md text-[14px] text-white/60">Every module is engineered to stand alone and compose seamlessly, so you adopt only what you need, when you need it.</p>
         </div>
 
         <div className="divide-y divide-white/10 border-y border-white/10">
@@ -600,8 +982,8 @@ function PlatformContent({ k }: { k: string }) {
         <svg viewBox="0 0 500 180" className="h-44 w-full">
           <defs>
             <linearGradient id="pg" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stopColor="#FF6B00" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#FF6B00" stopOpacity="0" />
+              <stop offset="0%" stopColor="#7388DF" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#7388DF" stopOpacity="0" />
             </linearGradient>
           </defs>
           {Array.from({ length: 4 }).map((_, i) => (
@@ -617,7 +999,7 @@ function PlatformContent({ k }: { k: string }) {
             key={k + "line"}
             initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.8, ease }}
             d="M0,130 C50,120 90,90 140,100 C190,110 220,60 270,75 C320,90 360,40 410,55 C450,65 480,30 500,40"
-            fill="none" stroke="#FF6B00" strokeWidth="2"
+            fill="none" stroke="#7388DF" strokeWidth="2"
           />
         </svg>
         <div className="mt-4 grid grid-cols-3 gap-3 text-[11px]">
@@ -636,7 +1018,7 @@ function PlatformContent({ k }: { k: string }) {
 function Platform() {
   const [tab, setTab] = useState("inventory");
   return (
-    <section id="platform" className="py-28 md:py-40">
+    <section id="platform" data-scroll-stop className="scroll-stop py-28 md:py-40">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-16 grid grid-cols-12 gap-8">
           <div className="col-span-12 md:col-span-6">
@@ -646,7 +1028,7 @@ function Platform() {
             </h2>
           </div>
           <div className="col-span-12 md:col-span-6 md:pt-6">
-            <p className="text-[15px] leading-relaxed text-[var(--muted-foreground)]">A single source of truth for inventory, finance, sales, people and operations — engineered to feel like one product, not seven.</p>
+            <p className="text-[15px] leading-relaxed text-[var(--muted-foreground)]">A single source of truth for inventory, finance, sales, people and operations, engineered to feel like one product, not seven.</p>
           </div>
         </div>
 
@@ -684,7 +1066,7 @@ function Why() {
     { n: 60, s: "%", l: "Higher team productivity" },
   ];
   return (
-    <section className="bg-[var(--surface)] hairline-t hairline-b">
+    <section id="why" data-scroll-stop className="scroll-stop bg-[var(--surface)] hairline-t hairline-b">
       <div className="mx-auto max-w-7xl px-6 py-28 md:py-36">
         <div className="mb-16 max-w-3xl">
           <Eyebrow>Why Goods ERP</Eyebrow>
@@ -708,20 +1090,206 @@ function Why() {
 }
 
 /* ------------------------------------------------------------------ */
+/* Comparison                                                          */
+/* ------------------------------------------------------------------ */
+
+type ComparisonRow = {
+  icon: LucideIcon;
+  label: string;
+  goods: string;
+  traditional: string;
+  action?: boolean;
+};
+
+const comparisonRows: ComparisonRow[] = [
+  {
+    icon: Gem,
+    label: "Approach",
+    goods: "Design and engineering in sync",
+    traditional: "Disconnected teams",
+  },
+  {
+    icon: Settings2,
+    label: "Process",
+    goods: "Streamlined, transparent and async",
+    traditional: "Endless calls, vague timelines",
+  },
+  {
+    icon: Sparkles,
+    label: "Design Philosophy",
+    goods: "Modern, minimal and purposeful",
+    traditional: "Trend-based and cluttered",
+  },
+  {
+    icon: Cpu,
+    label: "Development Stack",
+    goods: "Built with modern frameworks",
+    traditional: "Outdated stacks",
+  },
+  {
+    icon: MessageCircle,
+    label: "Communication",
+    goods: "Clear updates",
+    traditional: "Multiple middlemen",
+  },
+  {
+    icon: Send,
+    label: "Deliverables",
+    goods: "Production-ready software systems",
+    traditional: "Static mockups",
+  },
+  {
+    icon: Handshake,
+    label: "Support",
+    goods: "Long-term partnership mindset",
+    traditional: "One-and-done projects",
+  },
+  {
+    icon: PhoneCall,
+    label: "Always Free",
+    goods: "Book a free call",
+    traditional: "Book a paid call",
+    action: true,
+  },
+];
+
+function ComparisonMark({ positive = true }: { positive?: boolean }) {
+  return (
+    <span
+      className={`grid h-7 w-7 shrink-0 place-items-center rounded-full md:h-8 md:w-8 ${
+        positive
+          ? "bg-primary text-white shadow-[0_10px_26px_-14px_rgba(124,58,237,0.8)]"
+          : "bg-[var(--surface)] text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]"
+      }`}
+    >
+      {positive ? <Check className="h-4 w-4" strokeWidth={2.4} /> : <X className="h-4 w-4" strokeWidth={2.2} />}
+    </span>
+  );
+}
+
+function ComparisonAction({ variant, children }: { variant: "goods" | "traditional"; children: ReactNode }) {
+  const isGoods = variant === "goods";
+  const className = `inline-flex w-fit items-center gap-3 rounded-xl bg-[var(--ink)] py-2 pl-2 pr-4 text-[14px] font-medium text-white shadow-[0_18px_50px_-28px_rgba(0,0,0,0.8)] transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] md:text-base ${
+    isGoods ? "hover:-translate-y-0.5 active:scale-[0.98]" : "pointer-events-none opacity-55"
+  }`;
+  const iconClass = `grid h-9 w-9 place-items-center rounded-lg ${
+    isGoods ? "bg-primary text-white" : "bg-white/12 text-white/45 ring-1 ring-white/10"
+  }`;
+
+  const content = (
+    <>
+      <span className={iconClass}>
+        <PhoneCall className="h-4 w-4" strokeWidth={2} />
+      </span>
+      <span className="whitespace-nowrap">{children}</span>
+    </>
+  );
+
+  if (!isGoods) {
+    return (
+      <span className={className} aria-disabled="true">
+        {content}
+      </span>
+    );
+  }
+
+  return (
+    <a href="#cta" onClick={(event) => handleSectionLinkClick(event, "#cta")} className={className}>
+      {content}
+    </a>
+  );
+}
+
+function Comparison() {
+  return (
+    <section id="comparison" data-scroll-stop className="scroll-stop bg-[var(--surface)] py-28 md:py-40">
+      <div className="mx-auto max-w-[92rem] px-4 sm:px-6">
+        <Reveal className="max-w-[82rem]">
+          <h2 className="font-display text-[clamp(2.75rem,6.4vw,5.9rem)] font-bold leading-[0.94] tracking-[-0.052em] text-balance">
+            Goods vs traditional service providers
+          </h2>
+        </Reveal>
+
+        <Reveal delay={0.12}>
+          <div data-comparison-table className="mt-14 overflow-hidden rounded-[1.75rem] bg-white ring-1 ring-[var(--hairline)] shadow-[0_34px_120px_-84px_rgba(0,0,0,0.5)] md:mt-16">
+            <div className="hidden grid-cols-[0.84fr_1.38fr_1.38fr] border-b border-[var(--hairline)] bg-white md:grid">
+              <div className="min-h-28 bg-[var(--surface)]/72" />
+              <div className="flex min-h-28 items-center gap-3 border-l border-[var(--hairline)] px-8 xl:px-10">
+                <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--ink)] text-[15px] font-bold text-white">G</span>
+                <span className="font-display text-[1.6rem] font-semibold leading-none tracking-tight">Goods Software</span>
+              </div>
+              <div className="flex min-h-28 items-center border-l border-[var(--hairline)] px-8 font-display text-[1.6rem] font-semibold leading-none tracking-tight text-[var(--muted-foreground)] xl:px-10">
+                Traditional service providers
+              </div>
+            </div>
+
+            <div className="divide-y divide-[var(--hairline)]">
+              {comparisonRows.map((row, index) => {
+                const Icon = row.icon;
+                return (
+                  <Reveal key={row.label} delay={index * 0.04} y={16}>
+                    <div data-comparison-row className="grid gap-0 md:grid-cols-[0.84fr_1.38fr_1.38fr]">
+                      <div className="flex items-center gap-4 bg-[var(--surface)]/72 px-5 py-5 md:min-h-[7.35rem] md:px-8 xl:px-10">
+                        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white text-[var(--ink)] ring-1 ring-[var(--hairline)] md:h-11 md:w-11">
+                          <Icon className="h-5 w-5" strokeWidth={1.8} />
+                        </span>
+                        <span className="font-display text-xl font-semibold tracking-tight md:text-[1.45rem]">{row.label}</span>
+                      </div>
+
+                      <div className="flex items-start gap-4 px-5 py-5 md:min-h-[7.35rem] md:items-center md:border-l md:border-[var(--hairline)] md:px-8 xl:px-10">
+                        {row.action ? (
+                          <ComparisonAction variant="goods">Book a free call</ComparisonAction>
+                        ) : (
+                          <>
+                            <ComparisonMark />
+                            <div>
+                              <div className="mb-1 text-[11px] font-medium text-primary md:hidden">Goods Software</div>
+                              <p className="text-[16px] font-semibold leading-snug tracking-[-0.01em] text-[var(--ink)] md:text-[1.18rem]">{row.goods}</p>
+                            </div>
+                          </>
+                        )}
+                      </div>
+
+                      <div className="flex items-start gap-4 border-t border-[var(--hairline)] px-5 py-5 md:min-h-[7.35rem] md:items-center md:border-l md:border-t-0 md:px-8 xl:px-10">
+                        {row.action ? (
+                          <ComparisonAction variant="traditional">Book a paid call</ComparisonAction>
+                        ) : (
+                          <>
+                            <ComparisonMark positive={false} />
+                            <div>
+                              <div className="mb-1 text-[11px] font-medium text-[var(--muted-foreground)] md:hidden">Traditional providers</div>
+                              <p className="text-[16px] font-semibold leading-snug tracking-[-0.01em] text-[var(--muted-foreground)] md:text-[1.18rem]">{row.traditional}</p>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </Reveal>
+                );
+              })}
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /* Projects (horizontal scroll)                                        */
 /* ------------------------------------------------------------------ */
 
-const projects = [
-  { t: "Retail ERP", c: "Northwind Group", tag: "Multi-store", color: "#FF6B00" },
-  { t: "Manufacturing ERP", c: "Aurora Industries", tag: "Production", color: "#1a1a1a" },
-  { t: "Warehouse Management", c: "Halcyon Logistics", tag: "Fulfillment", color: "#FF6B00" },
-  { t: "Distribution System", c: "Vertex Wholesale", tag: "Supply chain", color: "#1a1a1a" },
-  { t: "Accounting Platform", c: "Monolith Holdings", tag: "Multi-entity", color: "#FF6B00" },
-];
+const projects = workItems.map((item, index) => ({
+  t: item.title,
+  c: item.client === item.title ? item.type : item.client,
+  tag: item.type,
+  slug: item.slug,
+  color: index % 2 === 0 ? "#7388DF" : "#1a1a1a",
+}));
 
 function Projects() {
   return (
-    <section id="projects" className="py-28 md:py-36">
+    <section id="projects" data-scroll-stop className="scroll-stop py-28 md:py-36">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
           <div>
@@ -730,7 +1298,7 @@ function Projects() {
               Featured projects.
             </h2>
           </div>
-          <a href="#" className="group inline-flex items-center gap-1.5 text-[13px] font-medium">
+          <a href="/work" className="group inline-flex items-center gap-1.5 text-[13px] font-medium">
             View all case studies <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </a>
         </div>
@@ -739,7 +1307,7 @@ function Projects() {
         <div className="flex gap-6 px-6 md:px-[max(1.5rem,calc((100vw-80rem)/2))]">
           {projects.map((p, i) => (
             <Reveal key={p.t} delay={i * 0.06} className="snap-start">
-              <a href="#" className="group block w-[88vw] max-w-[520px] shrink-0">
+              <a href={`/work/${p.slug}`} className="group block w-[88vw] max-w-[520px] shrink-0">
                 <div className="relative aspect-[4/5] overflow-hidden rounded-2xl ring-hairline">
                   <div className="absolute inset-0 transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]" style={{ background: `linear-gradient(135deg, ${p.color} 0%, #000 100%)` }} />
                   {/* Mock UI inside card */}
@@ -766,7 +1334,7 @@ function Projects() {
                 <div className="mt-4 flex items-center justify-between">
                   <div>
                     <div className="font-display text-lg font-semibold tracking-tight">{p.t}</div>
-                    <div className="text-[12px] text-[var(--muted-foreground)]">{p.c} · {p.tag}</div>
+                    <div className="text-[12px] text-[var(--muted-foreground)]">{p.c} - {p.tag}</div>
                   </div>
                   <ArrowUpRight className="h-5 w-5 text-[var(--muted-foreground)] transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--ink)]" />
                 </div>
@@ -788,7 +1356,7 @@ const tech = ["Laravel","PHP","Node.js","React","Next.js","Flutter","MySQL","Pos
 
 function Tech() {
   return (
-    <section className="bg-[var(--ink)] text-white">
+    <section id="tech" data-scroll-stop className="scroll-stop bg-[var(--ink)] text-white">
       <div className="mx-auto max-w-7xl px-6 py-28 md:py-36">
         <div className="mb-14 max-w-3xl">
           <Eyebrow light>Engineering stack</Eyebrow>
@@ -818,10 +1386,10 @@ function Tech() {
 
 const steps = [
   { n: "01", t: "Discovery", d: "We embed with your team to map operations, constraints and the unsolved problems worth solving." },
-  { n: "02", t: "Strategy", d: "We define modules, data model and the rollout path — sequenced for fast, measurable wins." },
-  { n: "03", t: "Design", d: "Interfaces designed around how your people actually work — calm, fast, and easy to learn." },
+  { n: "02", t: "Strategy", d: "We define modules, data model and the rollout path, sequenced for fast, measurable wins." },
+  { n: "03", t: "Design", d: "Interfaces designed around how your people actually work: calm, fast, and easy to learn." },
   { n: "04", t: "Development", d: "Engineered in agile cycles with weekly demos and full transparency on quality and progress." },
-  { n: "05", t: "Deployment", d: "Migration, training and a long-term partnership — we stay with you as the business evolves." },
+  { n: "05", t: "Deployment", d: "Migration, training and a long-term partnership. We stay with you as the business evolves." },
 ];
 
 function Process() {
@@ -829,7 +1397,7 @@ function Process() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 70%", "end 30%"] });
   const h = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
   return (
-    <section id="process" className="py-28 md:py-40">
+    <section id="process" data-scroll-stop className="scroll-stop py-28 md:py-40">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-16 max-w-3xl">
           <Eyebrow>How we work</Eyebrow>
@@ -879,7 +1447,7 @@ function Testimonials() {
     return () => clearInterval(id);
   }, []);
   return (
-    <section className="bg-[var(--surface)] hairline-t hairline-b">
+    <section id="testimonials" data-scroll-stop className="scroll-stop bg-[var(--surface)] hairline-t hairline-b">
       <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
         <Eyebrow>Operators speak</Eyebrow>
         <div className="relative mt-10 min-h-[280px] md:min-h-[260px]">
@@ -921,32 +1489,32 @@ function Testimonials() {
 
 function CTA() {
   return (
-    <section id="cta" className="relative overflow-hidden bg-[var(--ink)] text-white">
+    <section id="cta" data-scroll-stop className="scroll-stop relative overflow-hidden bg-[var(--surface)] text-[var(--ink)] hairline-t">
       <motion.div
         aria-hidden
         animate={{ rotate: 360 }}
         transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
-        className="absolute -left-40 top-1/2 -z-0 h-[600px] w-[600px] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,107,0,0.25),transparent_60%)] blur-3xl"
+        className="absolute -left-40 top-1/2 -z-0 h-[600px] w-[600px] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(124,58,237,0.18),transparent_60%)] blur-3xl"
       />
       <motion.div
         aria-hidden
         animate={{ rotate: -360 }}
         transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
-        className="absolute -right-40 top-0 -z-0 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(255,107,0,0.15),transparent_60%)] blur-3xl"
+        className="absolute -right-40 top-0 -z-0 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(115,136,223,0.14),transparent_60%)] blur-3xl"
       />
       <div className="relative mx-auto max-w-6xl px-6 py-32 text-center md:py-48">
-        <Eyebrow light>Start the conversation</Eyebrow>
+        <Eyebrow>Start the conversation</Eyebrow>
         <h2 className="mt-6 font-display text-[clamp(2.8rem,9vw,8rem)] font-bold leading-[0.92] tracking-[-0.05em]">
-          Ready to transform<br /><span className="text-white/50">your business?</span>
+          Ready to transform<br /><span className="text-[var(--muted-foreground)]">your business?</span>
         </h2>
-        <p className="mx-auto mt-8 max-w-xl text-[15px] text-white/60">A 30-minute call with our team. We'll show you the platform, mapped to your operations.</p>
+        <p className="mx-auto mt-8 max-w-xl text-[15px] text-[var(--muted-foreground)]">A 30-minute call with our team. We'll show you the platform, mapped to your operations.</p>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           <MagneticButton variant="dark" href="#">
             Book a demo <ArrowRight className="h-4 w-4" />
           </MagneticButton>
-          <a href="#" className="text-[13px] text-white/60 underline-offset-4 hover:text-white hover:underline">or email hello@goods.app</a>
+          <a href="mailto:hello@goods.design" className="text-[13px] text-[var(--muted-foreground)] underline-offset-4 hover:text-[var(--ink)] hover:underline">or email hello@goods.design</a>
         </div>
-        <div className="mt-16 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[12px] text-white/40">
+        <div className="mt-16 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[12px] text-[var(--muted-foreground)]">
           {[
             [Shield, "SOC 2 · Type II"],
             [Globe2, "Deployed in 38 countries"],
@@ -968,40 +1536,136 @@ function CTA() {
 /* Footer                                                              */
 /* ------------------------------------------------------------------ */
 
-function Footer() {
+const footerColumns = [
+  {
+    title: "Pages",
+    items: [
+      { label: "Work", href: "/work" },
+      { label: "Products", href: "/#platform" },
+      { label: "Pricing", href: "/#cta" },
+      { label: "Blog", href: "#" },
+    ],
+  },
+  {
+    title: "Products",
+    items: [
+      { label: "ERP Systems", href: "#services" },
+      { label: "Inventory", href: "#platform" },
+      { label: "Warehouse", href: "#platform" },
+      { label: "POS", href: "#platform" },
+      { label: "Accounting", href: "#platform" },
+    ],
+  },
+  {
+    title: "Company",
+    items: [
+      { label: "Selected work", href: "#projects" },
+      { label: "How we work", href: "#process" },
+      { label: "Security", href: "#" },
+      { label: "Status", href: "#" },
+    ],
+  },
+  {
+    title: "Start",
+    items: [
+      { label: "Book a demo", href: "#cta" },
+      { label: "Email us", href: "mailto:hello@goods.design" },
+      { label: "Dubai operations", href: "#contact" },
+    ],
+  },
+];
+
+function GoodsLogo() {
   return (
-    <footer id="contact" className="bg-[var(--background)]">
-      <div className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid grid-cols-12 gap-10">
-          <div className="col-span-12 md:col-span-4">
-            <div className="font-display text-[clamp(3rem,9vw,8rem)] font-bold leading-none tracking-[-0.06em]">Goods.</div>
-            <p className="mt-6 max-w-md text-[14px] text-[var(--muted-foreground)]">The operating system for modern enterprises. Designed and engineered for the operators who build them.</p>
+    <a href="/" className="flex items-center gap-2" aria-label="Goods home">
+      <span className="grid h-8 w-8 place-items-center rounded-lg bg-white text-[var(--ink)] text-[13px] font-bold tracking-tight">
+        G
+      </span>
+      <span className="text-[15px] font-semibold">
+        Goods <span className="font-normal text-white/55">Software</span>
+      </span>
+    </a>
+  );
+}
+
+function handleFooterLinkClick(event: MouseEvent<HTMLAnchorElement>, href: string) {
+  if (href === "#") {
+    event.preventDefault();
+    return;
+  }
+
+  handleSectionLinkClick(event, href);
+}
+
+export function Footer() {
+  return (
+    <footer id="contact" data-scroll-stop className="scroll-stop relative overflow-hidden bg-[var(--ink)] text-white">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,color-mix(in_oklch,var(--primary)_30%,transparent),transparent_42%),radial-gradient(ellipse_at_50%_58%,color-mix(in_oklch,var(--primary)_12%,transparent),transparent_48%)]" />
+      <div className="pointer-events-none absolute left-1/2 top-[-12rem] h-[28rem] w-[72rem] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,color-mix(in_oklch,var(--primary)_26%,transparent),color-mix(in_oklch,var(--primary)_9%,transparent)_38%,transparent_70%)] blur-3xl" />
+      <div className="pointer-events-none absolute inset-x-0 top-[18rem] z-0 overflow-hidden px-5 sm:top-[16rem] sm:px-6">
+        <div className="mx-auto max-w-7xl">
+          <div
+            className="select-none whitespace-nowrap font-display text-[clamp(4rem,18vw,13rem)] font-semibold leading-none tracking-[-0.06em] text-white/[0.1]"
+            style={{
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.22) 24%, rgba(0,0,0,0.82) 58%, black 100%)",
+              maskImage:
+                "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.22) 24%, rgba(0,0,0,0.82) 58%, black 100%)",
+            }}
+          >
+            Goods Software
           </div>
-          {[
-            { t: "Company", l: ["About", "Careers", "Press", "Contact"] },
-            { t: "Products", l: ["ERP", "Inventory", "Warehouse", "POS", "Accounting"] },
-            { t: "Resources", l: ["Documentation", "Customers", "Changelog", "Status"] },
-            { t: "Connect", l: ["Twitter", "LinkedIn", "GitHub", "Dribbble"] },
-          ].map(c => (
-            <div key={c.t} className="col-span-6 md:col-span-2">
-              <div className="text-[11px] uppercase tracking-[0.2em] text-[var(--muted-foreground)]">{c.t}</div>
-              <ul className="mt-5 space-y-3">
-                {c.l.map(i => (
-                  <li key={i}><a href="#" className="group inline-flex items-center gap-1 text-[14px] text-[var(--ink)] transition">
-                    <span className="relative">{i}<span className="absolute -bottom-0.5 left-0 h-px w-0 bg-primary transition-all group-hover:w-full" /></span>
-                  </a></li>
-                ))}
-              </ul>
-            </div>
-          ))}
         </div>
-        <div className="mt-20 flex flex-col items-start justify-between gap-4 hairline-t pt-8 text-[12px] text-[var(--muted-foreground)] md:flex-row md:items-center">
-          <div>© 2026 Goods Technologies, Inc. All rights reserved.</div>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-[var(--ink)]">Privacy</a>
-            <a href="#" className="hover:text-[var(--ink)]">Terms</a>
-            <a href="#" className="hover:text-[var(--ink)]">Security</a>
-            <a href="#" className="hover:text-[var(--ink)]">Cookies</a>
+      </div>
+
+      <div className="relative z-[1] mx-auto max-w-7xl px-5 pb-16 pt-32 sm:px-6 sm:pb-36 sm:pt-24 lg:pb-44">
+        <div className="grid gap-12 sm:gap-14 lg:grid-cols-[1.2fr_2fr]">
+          <Reveal className="max-w-[22rem]">
+            <GoodsLogo />
+            <p className="mt-6 text-[15px] leading-relaxed text-white/62 sm:mt-8 sm:text-sm">
+              Premium ERP, inventory, warehouse, POS, accounting, CRM and HR software for operators building serious businesses.
+            </p>
+            <p className="mt-7 text-sm text-white/45 sm:mt-8">
+              © {new Date().getFullYear()} Goods Technologies. All rights reserved.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.12}>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-9 sm:grid-cols-4 sm:gap-x-8">
+              {footerColumns.map((col) => (
+                <div key={col.title}>
+                  <div className="text-sm font-semibold text-white/82">{col.title}</div>
+                  <ul className="mt-5 space-y-3.5 sm:mt-6 sm:space-y-4">
+                    {col.items.map((item) => (
+                      <li key={item.label}>
+                        <a
+                          href={item.href}
+                          onClick={item.href.startsWith("#") ? (event) => handleFooterLinkClick(event, item.href) : undefined}
+                          className="text-[15px] text-white/60 transition-colors hover:text-primary sm:text-sm"
+                        >
+                          {item.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+
+        <div className="relative z-[2] mt-6 flex flex-col gap-4 border-t border-white/10 pt-6 text-sm text-white/50 sm:mt-20 sm:flex-row sm:items-center sm:justify-between sm:pt-7 sm:text-xs">
+          <a href="mailto:hello@goods.design" className="w-fit transition-colors hover:text-primary">
+            hello@goods.design
+          </a>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            <a href="/#hero" className="transition-colors hover:text-primary">
+              Back to top
+            </a>
+            <a href="#cta" onClick={(event) => handleSectionLinkClick(event, "#cta")} className="transition-colors hover:text-primary">
+              Book a demo
+            </a>
           </div>
         </div>
       </div>
@@ -1014,6 +1678,8 @@ function Footer() {
 /* ------------------------------------------------------------------ */
 
 export function GoodsLanding() {
+  useSectionScroller();
+
   return (
     <div className="bg-[var(--background)] text-[var(--ink)]">
       <Nav />
@@ -1024,6 +1690,7 @@ export function GoodsLanding() {
         <Services />
         <Platform />
         <Why />
+        <Comparison />
         <Projects />
         <Tech />
         <Process />
