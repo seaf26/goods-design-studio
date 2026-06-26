@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ArrowRight, Boxes, ImageIcon } from "lucide-react";
 
 import { Footer, Nav, Reveal } from "./Landing";
-import { workItems, type WorkItem } from "./workData";
+import { workItems, type WorkCategory, type WorkItem } from "./workData";
 
 const tileSpans = {
   wide: "lg:col-span-7",
@@ -25,6 +25,15 @@ const processNotes = [
   },
 ];
 
+type WorkFilter = "all" | WorkCategory;
+
+const workFilters: { value: WorkFilter; label: string }[] = [
+  { value: "all", label: "All" },
+  { value: "website", label: "Website" },
+  { value: "mobile-app", label: "Mobile Apps" },
+  { value: "figma-design", label: "Figma Designs" },
+];
+
 function RetailVisual({ item }: { item: WorkItem }) {
   const Icon = item.icon;
 
@@ -34,7 +43,7 @@ function RetailVisual({ item }: { item: WorkItem }) {
       <div className="absolute -bottom-10 left-[19%] h-[66%] w-[56%] rotate-[-3deg] rounded-[1.1rem] bg-black p-3 shadow-[0_28px_80px_-32px_rgba(0,0,0,0.7)]">
         <div className="h-full rounded-[0.8rem] bg-white p-4">
           <div className="flex items-center justify-between text-[10px] font-medium text-black/45">
-            <span>GOODS / RETAIL</span>
+            <span>TRAFFODATA / RETAIL</span>
             <span>LIVE</span>
           </div>
           <div className="mt-8 grid grid-cols-[1.1fr_0.9fr] gap-4">
@@ -100,7 +109,10 @@ function WarehouseVisual({ item }: { item: WorkItem }) {
         <div className="mt-3 h-28 rounded-xl bg-[var(--surface)] p-4">
           <div className="grid h-full grid-cols-5 gap-2">
             {Array.from({ length: 10 }).map((_, index) => (
-              <div key={index} className={`rounded-md ${index % 3 === 0 ? "bg-primary/35" : "bg-black/10"}`} />
+              <div
+                key={index}
+                className={`rounded-md ${index % 3 === 0 ? "bg-primary/35" : "bg-black/10"}`}
+              />
             ))}
           </div>
         </div>
@@ -121,7 +133,9 @@ function FinanceVisual({ item }: { item: WorkItem }) {
       <div className="absolute inset-x-12 top-20 h-[62%] rounded-[1.25rem] bg-white/70 p-5 shadow-[0_24px_80px_-34px_rgba(0,0,0,0.65)] backdrop-blur-md ring-1 ring-white/70">
         <div className="flex items-center justify-between">
           <span className="text-[10px] font-medium text-black/45">CLOSE BOARD</span>
-          <span className="rounded-full bg-primary px-2 py-1 text-[10px] font-semibold text-white">3 days</span>
+          <span className="rounded-full bg-primary px-2 py-1 text-[10px] font-semibold text-white">
+            3 days
+          </span>
         </div>
         <div className="mt-7 grid grid-cols-[1fr_0.7fr] gap-4">
           <div>
@@ -160,7 +174,11 @@ function DistributionVisual({ item }: { item: WorkItem }) {
           <div className="relative mt-12 flex h-32 items-center">
             <div className="h-2 flex-1 rounded-full bg-primary" />
             {[0, 1, 2].map((dot) => (
-              <span key={dot} className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-primary ring-8 ring-primary/15" style={{ left: `${22 + dot * 26}%` }} />
+              <span
+                key={dot}
+                className="absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-primary ring-8 ring-primary/15"
+                style={{ left: `${22 + dot * 26}%` }}
+              />
             ))}
           </div>
         </div>
@@ -186,7 +204,9 @@ function PortfolioVisual({ item }: { item: WorkItem }) {
 
   return (
     <>
-      <div className={`absolute inset-0 ${item.tone === "dark" || item.tone === "dim" ? "bg-black" : "bg-[var(--surface)]"}`} />
+      <div
+        className={`absolute inset-0 ${item.tone === "dark" || item.tone === "dim" ? "bg-black" : "bg-[var(--surface)]"}`}
+      />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_24%,rgba(115,136,223,0.26),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.12),transparent_42%)]" />
       <div className="absolute inset-x-6 top-16 overflow-hidden rounded-[1.35rem] bg-white shadow-[0_28px_90px_-44px_rgba(0,0,0,0.65)] ring-1 ring-black/10 md:inset-x-10 md:top-20">
         <div className="flex h-10 items-center gap-2 border-b border-black/8 bg-white px-4">
@@ -197,7 +217,12 @@ function PortfolioVisual({ item }: { item: WorkItem }) {
         </div>
         <div className="relative aspect-[16/10] bg-[var(--surface)]">
           {image ? (
-            <img src={image} alt={`${item.title} preview`} className="h-full w-full object-cover" loading="lazy" />
+            <img
+              src={image}
+              alt={`${item.title} preview`}
+              className="h-full w-full object-cover"
+              loading="lazy"
+            />
           ) : (
             <div className="grid h-full place-items-center text-[var(--muted-foreground)]">
               <ImageIcon className="h-10 w-10" />
@@ -212,8 +237,12 @@ function PortfolioVisual({ item }: { item: WorkItem }) {
             <Icon className="h-5 w-5" />
           </span>
           <div className="min-w-0">
-            <div className="truncate font-display text-xl font-semibold tracking-[-0.04em] text-black">{item.type}</div>
-            <div className="mt-1 truncate text-[11px] font-medium text-black/45">{item.stack.slice(0, 3).join(" / ")}</div>
+            <div className="truncate font-display text-xl font-semibold tracking-[-0.04em] text-black">
+              {item.type}
+            </div>
+            <div className="mt-1 truncate text-[11px] font-medium text-black/45">
+              {item.stack.slice(0, 3).join(" / ")}
+            </div>
           </div>
         </div>
       </div>
@@ -245,7 +274,7 @@ function ProjectTile({ item, index }: { item: WorkItem; index: number }) {
         onPointerLeave={() => setIsActive(false)}
         onFocus={() => setIsActive(true)}
         onBlur={() => setIsActive(false)}
-        className={`project-card group relative block min-h-[30rem] overflow-hidden rounded-[1.5rem] ring-1 transition-[transform,box-shadow] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary active:scale-[0.99] motion-reduce:transition-none md:min-h-[36rem] ${
+        className={`project-card group relative block min-h-[28rem] overflow-hidden rounded-[1.25rem] ring-1 transition-[transform,box-shadow] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary active:scale-[0.99] motion-reduce:transition-none md:min-h-[32rem] ${
           isDark
             ? "bg-black text-white ring-white/10 shadow-[0_24px_90px_-50px_rgba(0,0,0,0.75)]"
             : "bg-[var(--surface)] text-[var(--ink)] ring-[var(--hairline)] shadow-[0_24px_90px_-58px_rgba(0,0,0,0.55)]"
@@ -269,22 +298,34 @@ function ProjectTile({ item, index }: { item: WorkItem; index: number }) {
         >
           <div className="max-w-xl">
             <div className="text-[13px] font-medium text-white/58">{eyebrow}</div>
-            <h2 className="mt-3 font-display text-[clamp(2.1rem,4.1vw,4.4rem)] font-bold leading-[0.9] tracking-[-0.052em] text-balance">{item.title}</h2>
-            <p className="mt-4 max-w-lg text-[14px] leading-[1.55] text-white/74 md:text-[15px]">{item.summary}</p>
+            <h2 className="mt-3 font-display text-[clamp(2.1rem,4.1vw,4.4rem)] font-bold leading-[0.9] tracking-[-0.052em] text-balance">
+              {item.title}
+            </h2>
+            <p className="mt-4 max-w-lg text-[14px] leading-[1.55] text-white/74 md:text-[15px]">
+              {item.summary}
+            </p>
           </div>
 
           <div className="flex flex-col gap-4 border-t border-white/14 pt-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="inline-flex items-center gap-2 text-[14px] font-medium text-white">
-              View project <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-1" />
+              View project{" "}
+              <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-1" />
             </div>
             <div className="flex max-w-lg flex-wrap gap-2 sm:justify-end">
-              <span className="rounded-full bg-white/12 px-3 py-1 text-[11px] font-medium text-white/76 ring-1 ring-white/12 backdrop-blur-sm">{item.scope}</span>
-              <span className="rounded-full bg-white/12 px-3 py-1 text-[11px] font-medium text-white/76 ring-1 ring-white/12 backdrop-blur-sm">{item.outcome}</span>
+              <span className="rounded-full bg-white/12 px-3 py-1 text-[11px] font-medium text-white/76 ring-1 ring-white/12 backdrop-blur-sm">
+                {item.scope}
+              </span>
+              <span className="rounded-full bg-white/12 px-3 py-1 text-[11px] font-medium text-white/76 ring-1 ring-white/12 backdrop-blur-sm">
+                {item.outcome}
+              </span>
             </div>
           </div>
         </div>
 
-        <div data-project-rest-icon className={`absolute left-5 top-5 z-20 hidden h-12 w-12 place-items-center rounded-2xl transition-opacity duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] md:grid ${isDark ? "bg-white/10 text-primary ring-1 ring-white/15" : "bg-white/90 text-black shadow-[0_14px_34px_-24px_rgba(0,0,0,0.6)] ring-1 ring-black/5"}`}>
+        <div
+          data-project-rest-icon
+          className={`absolute left-5 top-5 z-20 hidden h-12 w-12 place-items-center rounded-2xl transition-opacity duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] md:grid ${isDark ? "bg-white/10 text-primary ring-1 ring-white/15" : "bg-white/90 text-black shadow-[0_14px_34px_-24px_rgba(0,0,0,0.6)] ring-1 ring-black/5"}`}
+        >
           <Icon className="h-5 w-5" />
         </div>
       </a>
@@ -293,6 +334,10 @@ function ProjectTile({ item, index }: { item: WorkItem; index: number }) {
 }
 
 export function WorkPage() {
+  const [activeFilter, setActiveFilter] = useState<WorkFilter>("all");
+  const visibleWorkItems =
+    activeFilter === "all" ? workItems : workItems.filter((item) => item.category === activeFilter);
+
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--ink)]">
       <Nav surface="light" />
@@ -308,8 +353,30 @@ export function WorkPage() {
                   Operational software, productized.
                 </h1>
                 <p className="mt-6 max-w-xl text-[15px] leading-[1.65] text-[var(--muted-foreground)] md:text-[17px]">
-              A selected archive of backend platforms, mobile products, dashboards, commerce systems, and web experiences.
+                  A selected archive of backend platforms, mobile products, dashboards, commerce
+                  systems, and web experiences.
                 </p>
+                <div className="mt-8 flex flex-wrap gap-2" aria-label="Work filters">
+                  {workFilters.map((filter) => {
+                    const isActive = activeFilter === filter.value;
+
+                    return (
+                      <button
+                        key={filter.value}
+                        type="button"
+                        aria-pressed={isActive}
+                        onClick={() => setActiveFilter(filter.value)}
+                        className={`rounded-full px-4 py-2 text-[12px] font-semibold transition-[background-color,color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary active:scale-[0.97] ${
+                          isActive
+                            ? "bg-[var(--ink)] text-white shadow-[0_14px_40px_-28px_rgba(0,0,0,0.8)]"
+                            : "bg-[var(--surface)] text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)] hover:text-[var(--ink)]"
+                        }`}
+                      >
+                        {filter.label}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </Reveal>
           </div>
@@ -325,9 +392,9 @@ export function WorkPage() {
         </section>
 
         <section className="relative overflow-hidden pt-6 pb-24 md:pt-8 md:pb-36">
-          <div className="relative mx-auto grid max-w-[92rem] grid-cols-1 gap-5 px-5 sm:px-6 lg:grid-cols-12 lg:gap-6">
-            {workItems.map((item, index) => (
-              <ProjectTile key={item.title} item={item} index={index} />
+          <div className="relative mx-auto grid max-w-[92rem] grid-cols-1 gap-5 px-5 sm:px-6 lg:grid-cols-12 lg:gap-6 lg:[grid-auto-flow:row_dense]">
+            {visibleWorkItems.map((item, index) => (
+              <ProjectTile key={item.slug} item={item} index={index} />
             ))}
           </div>
         </section>
@@ -340,16 +407,24 @@ export function WorkPage() {
                   Built around operating pressure.
                 </h2>
                 <p className="mt-5 max-w-md text-[15px] leading-[1.65] text-[var(--muted-foreground)]">
-                  The work starts where the business is already moving: counters, docks, approvals, exceptions, and month-end.
+                  The work starts where the business is already moving: counters, docks, approvals,
+                  exceptions, and month-end.
                 </p>
               </div>
             </Reveal>
             <Reveal delay={0.12}>
               <div className="grid gap-3 sm:grid-cols-3">
                 {processNotes.map((note) => (
-                  <div key={note.title} className="rounded-2xl bg-white p-6 ring-1 ring-[var(--hairline)]">
-                    <div className="font-display text-2xl font-semibold tracking-tight">{note.title}</div>
-                    <p className="mt-7 text-[14px] leading-[1.6] text-[var(--muted-foreground)]">{note.text}</p>
+                  <div
+                    key={note.title}
+                    className="rounded-2xl bg-white p-6 ring-1 ring-[var(--hairline)]"
+                  >
+                    <div className="font-display text-2xl font-semibold tracking-tight">
+                      {note.title}
+                    </div>
+                    <p className="mt-7 text-[14px] leading-[1.6] text-[var(--muted-foreground)]">
+                      {note.text}
+                    </p>
                   </div>
                 ))}
               </div>

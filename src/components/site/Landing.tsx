@@ -1,7 +1,5 @@
-import { useEffect, useRef, useState, type MouseEvent, type PointerEvent, type ReactNode } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useSpring, useInView, AnimatePresence } from "motion/react";
-import LiquidEther from "./LiquidEther";
-import { workItems } from "./workData";
+import { lazy, Suspense, useEffect, useRef, useState, type MouseEvent, type PointerEvent, type ReactNode } from "react";
+import { AnimatePresence, motion, useScroll, useTransform, useMotionValue, useSpring, useInView, useReducedMotion } from "motion/react";
 import {
   ArrowRight, ArrowUpRight, Boxes, Warehouse, ScanBarcode, Calculator,
   Users, Briefcase, Truck, Settings2, Sparkles, ChevronRight, Plus,
@@ -9,12 +7,14 @@ import {
   Layers, Zap, Shield, Globe2, Check, Quote, Menu, X, Gem, Cpu, MessageCircle, Send, Handshake,
   PhoneCall, type LucideIcon
 } from "lucide-react";
+import { getHeroLiquidSettings, resolveHeroQuality, type HeroQuality } from "./heroPerformance";
 
 /* ------------------------------------------------------------------ */
 /* Primitives                                                          */
 /* ------------------------------------------------------------------ */
 
 const ease = [0.22, 1, 0.36, 1] as const;
+const LiquidEther = lazy(() => import("./LiquidEther"));
 
 export function Reveal({ children, delay = 0, y = 24, className = "" }: { children: ReactNode; delay?: number; y?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -32,19 +32,18 @@ export function Reveal({ children, delay = 0, y = 24, className = "" }: { childr
   );
 }
 
-export function SplitText({ text, className = "", delay = 0 }: { text: string; className?: string; delay?: number }) {
-  const ref = useRef<HTMLHeadingElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-15% 0px" });
+export function SplitText({ text, className = "", delay = 0, textBlur = false }: { text: string; className?: string; delay?: number; textBlur?: boolean }) {
+  const shouldReduceMotion = useReducedMotion();
   const words = text.split(" ");
   return (
-    <h1 ref={ref} className={className} aria-label={text}>
+    <h1 className={className} aria-label={text}>
       {words.map((w, i) => (
         <span key={i} className="inline-block overflow-hidden align-top mr-[0.25em]">
           <motion.span
             className="inline-block"
-            initial={{ y: "110%" }}
-            animate={inView ? { y: "0%" } : {}}
-            transition={{ duration: 1, delay: delay + i * 0.06, ease }}
+            initial={shouldReduceMotion ? false : textBlur ? { y: "116%", opacity: 0, filter: "blur(8px)" } : { y: "116%", opacity: 0 }}
+            animate={shouldReduceMotion ? { opacity: 1 } : textBlur ? { y: "0%", opacity: 1, filter: "blur(0px)" } : { y: "0%", opacity: 1 }}
+            transition={{ duration: 1.05, delay: delay + i * 0.065, ease }}
           >
             {w}
           </motion.span>
@@ -64,7 +63,7 @@ export function Eyebrow({ children, light = false }: { children: ReactNode; ligh
 }
 
 const sectionScrollSelector = "[data-scroll-stop]";
-let activeSectionScroll = 0;
+let activeSectionScroll: number | undefined;
 
 function getScrollOffset() {
   const scrollPaddingTop = getComputedStyle(document.documentElement).scrollPaddingTop;
@@ -111,7 +110,7 @@ function animateWindowScrollTo(targetTop: number) {
   const startTop = window.scrollY;
   const distance = targetTop - startTop;
 
-  window.cancelAnimationFrame(activeSectionScroll);
+  if (activeSectionScroll) window.cancelAnimationFrame(activeSectionScroll);
 
   if (Math.abs(distance) < 2) {
     window.scrollTo(0, targetTop);
@@ -136,14 +135,9 @@ function animateWindowScrollTo(targetTop: number) {
 
 function scrollToSection(section: HTMLElement, behavior: ScrollBehavior = "smooth") {
   const top = Math.max(0, getSectionScrollTop(section));
-
-  if (behavior === "auto") {
-    window.cancelAnimationFrame(activeSectionScroll);
-    window.scrollTo({ top, behavior });
-    return 0;
-  }
-
-  return animateWindowScrollTo(top);
+  if (activeSectionScroll) window.cancelAnimationFrame(activeSectionScroll);
+  window.scrollTo({ top, behavior });
+  return 0;
 }
 
 function handleSectionLinkClick(event: MouseEvent<HTMLAnchorElement>, href: string) {
@@ -159,13 +153,36 @@ function handleSectionLinkClick(event: MouseEvent<HTMLAnchorElement>, href: stri
 }
 
 function useSectionScroller() {
-  const lockUntil = useRef(0);
+  const currentIndexRef = useRef(0);
 
   useEffect(() => {
+    let scrollTween: { kill: () => void } | undefined;
+    let isMounted = true;
+    let animating = false;
+    let lockedUntil = 0;
+    let oppositeMomentumGuardUntil = 0;
+    let lastTransitionDirection: 1 | -1 | 0 = 0;
+    let gsapInstance: typeof import("gsap").gsap | undefined;
+    let gsapPromise: Promise<typeof import("gsap").gsap> | undefined;
+
     const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const mobileQuery = window.matchMedia("(max-width: 767px)");
 
     const canGuideScroll = () => !reducedMotionQuery.matches && !mobileQuery.matches;
+
+    const loadGsap = async () => {
+      if (gsapInstance) return gsapInstance;
+      if (!gsapPromise) {
+        gsapPromise = import("gsap").then(({ gsap }) => {
+          if (isMounted) {
+            gsapInstance = gsap;
+            currentIndexRef.current = findCurrentIndex(getScrollStops());
+          }
+          return gsap;
+        });
+      }
+      return gsapPromise;
+    };
 
     const findCurrentIndex = (sections: HTMLElement[]) => {
       const viewportAnchor = window.scrollY + getScrollOffset();
@@ -186,37 +203,122 @@ function useSectionScroller() {
       }, 0);
     };
 
-    const moveToSection = (direction: 1 | -1) => {
+    const animateSectionIn = (section: HTMLElement, direction: 1 | -1, gsap: typeof import("gsap").gsap) => {
+      const headline = section.querySelector("h1, h2");
+      const revealTargets = Array.from(section.querySelectorAll("[data-gsap-section-item], p, article, figure, .project-card"))
+        .filter((element) => {
+          const rect = element.getBoundingClientRect();
+          return rect.width > 0 && rect.height > 0;
+        })
+        .slice(0, 8);
+
+      gsap.fromTo(
+        section,
+        {
+          y: 42 * direction,
+          opacity: 0.96,
+          willChange: "transform, opacity",
+        },
+        {
+          duration: 1.05,
+          y: 0,
+          opacity: 1,
+          ease: "power2.out",
+          overwrite: "auto",
+          clearProps: "transform,opacity,willChange",
+        },
+      );
+
+      if (headline) {
+        gsap.fromTo(
+          headline,
+          { yPercent: 14 * direction, opacity: 0.62 },
+          { yPercent: 0, opacity: 1, duration: 0.9, ease: "power2.out", overwrite: "auto", clearProps: "transform,opacity" },
+        );
+      }
+
+      if (revealTargets.length > 0) {
+        gsap.fromTo(
+          revealTargets,
+          { y: 28 * direction, opacity: 0.7 },
+          { y: 0, opacity: 1, duration: 0.85, ease: "power2.out", stagger: 0.035, overwrite: "auto" },
+        );
+      }
+    };
+
+    const moveToSection = (
+      direction: 1 | -1,
+      gsap: typeof import("gsap").gsap,
+    ) => {
       if (!canGuideScroll()) return false;
+      if (lastTransitionDirection !== 0 && direction === -lastTransitionDirection && Date.now() < oppositeMomentumGuardUntil) {
+        return true;
+      }
+      if (animating || Date.now() < lockedUntil) return true;
 
       const sections = getScrollStops();
       if (sections.length === 0) return false;
 
-      const current = findCurrentIndex(sections);
+      const current = Math.min(sections.length - 1, Math.max(0, currentIndexRef.current));
       const section = sections[current];
       if (canScrollWithinSection(section, direction)) return false;
 
       const next = Math.min(sections.length - 1, Math.max(0, current + direction));
       if (next === current) return false;
 
-      const duration = scrollToSection(sections[next]);
-      lockUntil.current = Date.now() + duration + 120;
+      const nextSection = sections[next];
+      const targetTop = Math.max(0, getSectionScrollTop(nextSection));
+      const scrollState = { y: window.scrollY };
+      animating = true;
+      currentIndexRef.current = next;
+      scrollTween?.kill();
+      scrollTween = gsap.to(scrollState, {
+        y: targetTop,
+        duration: 1.12,
+        ease: "power2.inOut",
+        overwrite: "auto",
+        onStart: () => animateSectionIn(nextSection, direction, gsap),
+        onUpdate: () => {
+          window.scrollTo(0, scrollState.y);
+        },
+        onComplete: () => {
+          window.scrollTo(0, targetTop);
+          animating = false;
+          lockedUntil = Date.now() + 260;
+          lastTransitionDirection = direction;
+          oppositeMomentumGuardUntil = Date.now() + 900;
+        },
+      });
+
       return true;
+    };
+
+    const syncCurrentIndex = () => {
+      if (!canGuideScroll()) return;
+      if (animating) return;
+
+      const sections = getScrollStops();
+      if (sections.length === 0) return;
+
+      currentIndexRef.current = findCurrentIndex(sections);
     };
 
     const onWheel = (event: WheelEvent) => {
       if (!canGuideScroll()) return;
-      if (Date.now() < lockUntil.current) {
-        event.preventDefault();
-        return;
-      }
       if (Math.abs(event.deltaY) < 16 || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
 
+      if (!gsapInstance) {
+        void loadGsap();
+        return;
+      }
+
       const direction = event.deltaY > 0 ? 1 : -1;
-      if (moveToSection(direction)) event.preventDefault();
+      if (moveToSection(direction, gsapInstance)) {
+        event.preventDefault();
+      }
     };
 
-    const onKeyDown = (event: KeyboardEvent) => {
+    const onKeyDown = async (event: KeyboardEvent) => {
       const activeTag = document.activeElement?.tagName.toLowerCase();
       if (activeTag === "input" || activeTag === "textarea" || activeTag === "select") return;
 
@@ -229,14 +331,30 @@ function useSectionScroller() {
             ? -1
             : 0;
 
-      if (direction && moveToSection(direction as 1 | -1)) event.preventDefault();
+      if (!direction || !canGuideScroll()) return;
+
+      if (gsapInstance) {
+        if (moveToSection(direction as 1 | -1, gsapInstance)) event.preventDefault();
+        return;
+      }
+
+      event.preventDefault();
+      moveToSection(direction as 1 | -1, await loadGsap());
     };
 
     window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("scroll", syncCurrentIndex, { passive: true });
     window.addEventListener("keydown", onKeyDown);
+    const preloadTimer = window.setTimeout(() => {
+      if (canGuideScroll()) void loadGsap();
+    }, 600);
 
     return () => {
+      isMounted = false;
+      scrollTween?.kill();
+      window.clearTimeout(preloadTimer);
       window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("scroll", syncCurrentIndex);
       window.removeEventListener("keydown", onKeyDown);
     };
   }, []);
@@ -250,7 +368,7 @@ function MagneticButton({ children, href = "#", variant = "primary", className =
   const base = "group relative inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium transition-colors will-change-transform";
   const styles = {
     primary: "bg-[var(--ink)] text-white hover:bg-[var(--ink)]/90",
-    dark: "bg-primary text-white hover:bg-primary/90",
+    dark: "bg-[#333da7] text-white hover:bg-[#2d3594]",
     ghost: "ring-hairline text-[var(--ink)] hover:bg-[var(--surface)]",
   }[variant];
   return (
@@ -304,16 +422,39 @@ const NAV_ITEMS = [
   { label: "Blog", href: "#blog" },
 ];
 
+const BRAND_NAME = "TRAFFODATA";
+const BRAND_EMAIL = "hello@traffodata.com";
+const BRAND_LOGO_SRC = "/brand/traffodata-logo-96.png";
+
+function BrandMark({ size = "sm", framed = true }: { size?: "sm" | "md"; framed?: boolean }) {
+  const boxSize = size === "md" ? "h-11 w-11 rounded-xl" : "h-8 w-8 rounded-lg";
+  const imageSize = size === "md" ? "h-9 w-9" : "h-6 w-6";
+
+  return (
+    <span
+      className={`grid shrink-0 place-items-center ${boxSize} ${
+        framed ? "bg-white text-[var(--ink)] ring-1 ring-black/8 shadow-[0_8px_24px_-18px_rgba(0,0,0,0.55)]" : ""
+      }`}
+    >
+      <img
+        src={BRAND_LOGO_SRC}
+        alt=""
+        aria-hidden="true"
+        width="96"
+        height="96"
+        decoding="async"
+        className={`${imageSize} object-contain`}
+      />
+    </span>
+  );
+}
+
 function GoodsNavLogo({ inverted = false }: { inverted?: boolean }) {
   return (
-    <a href="/" className="flex items-center gap-2" aria-label="Goods home">
-      <span className={`grid h-8 w-8 place-items-center rounded-lg text-[13px] font-bold tracking-tight ${
-        inverted ? "bg-white text-[#03040a]" : "bg-[var(--ink)] text-white"
-      }`}>
-        G
-      </span>
-      <span className={`text-[15px] font-semibold tracking-normal ${inverted ? "text-white" : "text-[var(--ink)]"}`}>
-        Goods <span className={`font-normal ${inverted ? "text-white/62" : "text-[var(--muted-foreground)]"}`}>Software</span>
+    <a href="/" className="flex items-center gap-2" aria-label={`${BRAND_NAME} home`}>
+      <BrandMark />
+      <span className={`text-[15px] font-semibold tracking-[-0.01em] ${inverted ? "text-white" : "text-[var(--ink)]"}`}>
+        {BRAND_NAME} <span className={`font-normal ${inverted ? "text-white/62" : "text-[var(--muted-foreground)]"}`}>Software</span>
       </span>
     </a>
   );
@@ -410,7 +551,7 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             onClick={() => setOpen((value) => !value)}
-            className={`grid h-9 w-9 place-items-center rounded-full border transition duration-200 hover:border-primary hover:text-primary active:scale-[0.97] lg:hidden ${
+            className={`grid h-11 w-11 place-items-center rounded-full border transition duration-200 hover:border-primary hover:text-primary active:scale-[0.97] lg:hidden ${
               elevated ? "border-[var(--hairline)] text-[var(--ink)]" : "border-white/12 text-white"
             }`}
           >
@@ -650,70 +791,156 @@ function HeroDashboard() {
     </motion.div>
   );
 }
-function HeroLiquidBackground() {
+function supportsWebGL() {
+  try {
+    const canvas = document.createElement("canvas");
+    return Boolean(canvas.getContext("webgl2") || canvas.getContext("webgl"));
+  } catch {
+    return false;
+  }
+}
+
+function useHeroQuality() {
+  const [quality, setQuality] = useState<HeroQuality>("off");
+
+  useEffect(() => {
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const coarsePointerQuery = window.matchMedia("(pointer: coarse)");
+    const saveData = () => Boolean((navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData);
+
+    const updateQuality = () => {
+      setQuality(
+        resolveHeroQuality({
+          prefersReducedMotion: motionQuery.matches,
+          saveData: saveData(),
+          coarsePointer: coarsePointerQuery.matches,
+          width: window.innerWidth,
+          height: window.innerHeight,
+          dpr: window.devicePixelRatio || 1,
+          hardwareConcurrency: navigator.hardwareConcurrency,
+          deviceMemory: (navigator as Navigator & { deviceMemory?: number }).deviceMemory,
+          webglSupported: supportsWebGL(),
+        }),
+      );
+    };
+
+    updateQuality();
+    window.addEventListener("resize", updateQuality, { passive: true });
+    motionQuery.addEventListener("change", updateQuality);
+    coarsePointerQuery.addEventListener("change", updateQuality);
+
+    return () => {
+      window.removeEventListener("resize", updateQuality);
+      motionQuery.removeEventListener("change", updateQuality);
+      coarsePointerQuery.removeEventListener("change", updateQuality);
+    };
+  }, []);
+
+  return quality;
+}
+
+function HeroLiquidBackground({ settings }: { settings: ReturnType<typeof getHeroLiquidSettings> }) {
+  const liquidClassName = settings.textBlur
+    ? "absolute inset-0 scale-[1.08] opacity-100 mix-blend-multiply blur-[6px] contrast-[1.14] saturate-[1.1]"
+    : "absolute inset-0 scale-[1.06] opacity-90 mix-blend-multiply blur-[3px] contrast-[1.08] saturate-[1.06]";
+
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#f8f9ff]">
       <div className="absolute inset-0 origin-top scale-125 bg-white" />
-      <div className="absolute left-1/2 top-[-30rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#7e91e8] blur-[132px]" />
-      <div className="absolute left-1/2 top-[-38rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#333da7] blur-[132px]" />
-      <div className="absolute left-1/2 top-[-45rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#0a0d21] blur-[128px]" />
-      <div className="absolute left-1/2 top-[-51rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#030409] blur-[128px]" />
-      <div className="absolute inset-x-[-22%] top-[38%] h-[51%] rounded-[50%] bg-[#a9b5ff]/82 blur-[112px]" />
+      <div className="absolute left-1/2 top-[-30rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#7e91e8] blur-[96px]" />
+      <div className="absolute left-1/2 top-[-38rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#333da7] blur-[96px]" />
+      <div className="absolute left-1/2 top-[-45rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#0a0d21] blur-[88px]" />
+      <div className="absolute left-1/2 top-[-51rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#030409] blur-[88px]" />
+      <div className="absolute inset-x-[-22%] top-[38%] h-[51%] rounded-[50%] bg-[#a9b5ff]/82 blur-[72px]" />
       <div className="absolute inset-x-[-12%] bottom-[-8%] h-[30%] bg-[linear-gradient(to_top,rgba(251,252,255,0.68)_0%,rgba(244,246,255,0.44)_28%,rgba(194,203,252,0.26)_58%,rgba(3,4,10,0)_100%)] blur-[18px]" />
       <div className="absolute inset-x-[-10%] top-[48%] h-[30%] bg-[linear-gradient(to_bottom,transparent,rgba(115,136,223,0.52),rgba(238,241,255,0.1),transparent)] blur-2xl" />
-      <div className="absolute left-[31%] bottom-[-12%] h-[28%] w-[42%] rounded-[50%] bg-[#050612]/45 blur-[88px] mix-blend-multiply" />
-      <LiquidEther
-        className="absolute inset-0 scale-[1.08] opacity-100 mix-blend-multiply blur-[8px] contrast-[1.16] saturate-[1.12]"
-        colors={["#ffffff", "#aebaff", "#7388df", "#333da7", "#030409"]}
-        mouseForce={54}
-        cursorSize={318}
-        hoverForce={0.68}
-        hoverOrbit={0.052}
-        isViscous={false}
-        viscous={30}
-        iterationsViscous={32}
-        iterationsPoisson={32}
-        resolution={0.46}
-        isBounce={false}
-        autoDemo
-        autoSpeed={0.76}
-        autoIntensity={5.4}
-        takeoverDuration={0.25}
-        autoResumeDelay={2200}
-        autoRampDuration={0.5}
-      />
+      <div className="absolute left-[31%] bottom-[-12%] h-[28%] w-[42%] rounded-[50%] bg-[#050612]/45 blur-[48px] mix-blend-multiply" />
+      {settings.enabled && (
+        <Suspense fallback={null}>
+        <LiquidEther
+          className={liquidClassName}
+          colors={["#ffffff", "#aebaff", "#7388df", "#333da7", "#030409"]}
+          mouseForce={settings.mouseForce}
+          cursorSize={settings.cursorSize}
+          hoverForce={settings.hoverForce}
+          hoverOrbit={settings.hoverOrbit}
+          isViscous={false}
+          viscous={30}
+          iterationsViscous={settings.iterationsViscous}
+          iterationsPoisson={settings.iterationsPoisson}
+          resolution={settings.resolution}
+          isBounce={false}
+          autoDemo
+          autoSpeed={settings.autoSpeed}
+          autoIntensity={settings.autoIntensity}
+          takeoverDuration={0.25}
+          autoResumeDelay={2200}
+          autoRampDuration={0.5}
+          maxPixelRatio={settings.maxPixelRatio}
+          maxFps={settings.maxFps}
+          interactiveMaxFps={settings.interactiveMaxFps}
+          textureType="half"
+        />
+        </Suspense>
+      )}
       <div className="hero-liquid-bottom-drift absolute inset-x-[-24%] bottom-[-17%] h-[38%]" />
     </div>
   );
 }
 
 function Hero() {
+  const quality = useHeroQuality();
+  const settings = getHeroLiquidSettings(quality);
   const { scrollY } = useScroll();
   const frameRef = useRef<HTMLElement>(null);
+  const glowRafRef = useRef(0);
+  const glowPointRef = useRef<{ clientX: number; clientY: number } | null>(null);
   const y = useTransform(scrollY, [0, 700], [0, 70]);
   const opacity = useTransform(scrollY, [0, 620], [1, 0.18]);
 
+  useEffect(() => {
+    return () => {
+      if (glowRafRef.current) window.cancelAnimationFrame(glowRafRef.current);
+    };
+  }, []);
+
   const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
+    if (!settings.edgeGlow) return;
     const frame = frameRef.current;
     if (!frame) return;
 
-    const rect = frame.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    const edgeDistance = Math.min(x, y, rect.width - x, rect.height - y);
-    const glowRange = Math.min(150, Math.max(82, rect.width * 0.09));
-    const edgeOpacity = Math.max(0, Math.min(1, 1 - edgeDistance / glowRange));
+    glowPointRef.current = { clientX: event.clientX, clientY: event.clientY };
+    if (glowRafRef.current) return;
 
-    frame.style.setProperty("--hero-x", `${x}px`);
-    frame.style.setProperty("--hero-y", `${y}px`);
-    frame.style.setProperty("--hero-edge-opacity", edgeOpacity.toFixed(3));
-    frame.dataset.glow = edgeOpacity > 0 ? "true" : "false";
+    glowRafRef.current = window.requestAnimationFrame(() => {
+      glowRafRef.current = 0;
+      const point = glowPointRef.current;
+      const activeFrame = frameRef.current;
+      if (!point || !activeFrame) return;
+
+      const rect = activeFrame.getBoundingClientRect();
+      const x = point.clientX - rect.left;
+      const y = point.clientY - rect.top;
+      const edgeDistance = Math.min(x, y, rect.width - x, rect.height - y);
+      const glowRange = Math.min(130, Math.max(82, rect.width * 0.08));
+      const edgeOpacity = Math.max(0, Math.min(0.78, 1 - edgeDistance / glowRange));
+
+      activeFrame.style.setProperty("--hero-x", `${x}px`);
+      activeFrame.style.setProperty("--hero-y", `${y}px`);
+      activeFrame.style.setProperty("--hero-edge-opacity", edgeOpacity.toFixed(3));
+      activeFrame.dataset.glow = edgeOpacity > 0 ? "true" : "false";
+    });
   };
 
   const handlePointerLeave = () => {
     const frame = frameRef.current;
     if (!frame) return;
 
+    if (glowRafRef.current) {
+      window.cancelAnimationFrame(glowRafRef.current);
+      glowRafRef.current = 0;
+    }
+    glowPointRef.current = null;
     frame.style.setProperty("--hero-edge-opacity", "0");
     frame.dataset.glow = "false";
   };
@@ -723,11 +950,12 @@ function Hero() {
       id="hero"
       ref={frameRef}
       data-scroll-stop
+      data-hero-quality={quality}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       className="liquid-hero-frame scroll-stop relative isolate h-[100vh] min-h-[100dvh] overflow-hidden bg-[#03040a] text-white"
     >
-      <HeroLiquidBackground />
+      <HeroLiquidBackground settings={settings} />
 
       <motion.div
         style={{ y, opacity }}
@@ -736,23 +964,25 @@ function Hero() {
         <Reveal delay={0.05}>
           <div className="mx-auto mb-7 flex w-fit items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-white ring-1 ring-white/14 backdrop-blur">
             <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-            <span className="text-[11px] uppercase tracking-[0.18em] text-white/62">Goods Enterprise OS</span>
+            <span className="text-[11px] uppercase tracking-[0.18em] text-white/62">TRAFFODATA Enterprise OS</span>
           </div>
         </Reveal>
 
         <SplitText
           text="Build the operating system"
+          textBlur={settings.textBlur}
           className="text-center font-display text-[clamp(2.55rem,6.8vw,6.2rem)] font-bold leading-[0.96] tracking-[-0.045em] text-white [text-shadow:0_1px_26px_rgba(3,4,10,0.28)]"
         />
         <SplitText
           text="for your business."
           delay={0.25}
+          textBlur={settings.textBlur}
           className="text-center font-display text-[clamp(2.55rem,6.8vw,6.2rem)] font-bold leading-[0.96] tracking-[-0.045em] text-white/76 [text-shadow:0_1px_26px_rgba(3,4,10,0.22)]"
         />
 
         <Reveal delay={0.7}>
           <p className="mx-auto mt-7 max-w-2xl text-center text-[15px] leading-relaxed text-white/78 [text-shadow:0_1px_18px_rgba(3,4,10,0.2)] md:text-base">
-            Goods engineers premium ERP, inventory, warehouse, POS, accounting, CRM and HR platforms, built to scale with the world's most ambitious operators.
+            TRAFFODATA engineers premium ERP, inventory, warehouse, POS, accounting, CRM and HR platforms, built to scale with the world's most ambitious operators.
           </p>
         </Reveal>
 
@@ -793,7 +1023,7 @@ function Hero() {
 function Trust() {
   const logos = ["Northwind", "Aurora", "Lumen", "Halcyon", "Vertex", "Kintsugi", "Monolith", "Atlas Co.", "Orbital", "Substrate"];
   return (
-    <section id="trust" data-scroll-stop className="scroll-stop hairline-t hairline-b bg-[var(--surface)]">
+    <section id="trust" className="hairline-t hairline-b bg-[var(--surface)]">
       <div className="mx-auto max-w-7xl px-6 py-10">
         <div className="mb-8 grid grid-cols-1 items-center gap-6 md:grid-cols-4">
           <div className="text-[11px] uppercase tracking-[0.22em] text-[var(--muted-foreground)]">Trusted by operators<br />in 38 countries</div>
@@ -817,7 +1047,7 @@ function Trust() {
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[var(--surface)] to-transparent" />
           <div className="flex w-max gap-12 animate-marquee">
             {[...logos, ...logos].map((l, i) => (
-              <span key={i} className="font-display text-2xl font-semibold tracking-tight text-[var(--muted-foreground)]/70 hover:text-[var(--ink)] transition">{l}</span>
+              <span key={i} className="font-display text-2xl font-semibold tracking-tight text-[var(--muted-foreground)] hover:text-[var(--ink)] transition">{l}</span>
             ))}
           </div>
         </div>
@@ -843,7 +1073,7 @@ function About() {
           </Reveal>
           <Reveal delay={0.15} className="col-span-12 md:col-span-5 md:pt-6">
             <p className="text-[15px] leading-relaxed text-[var(--muted-foreground)]">
-              Goods is a software studio building the connective tissue of modern enterprises. We design and ship ERP, warehouse, accounting and commerce systems that quietly run global operations: refined, reliable, and built to last a decade.
+              TRAFFODATA is a software studio building the connective tissue of modern enterprises. We design and ship ERP, warehouse, accounting and commerce systems that quietly run global operations: refined, reliable, and built to last a decade.
             </p>
             <p className="mt-4 text-[15px] leading-relaxed text-[var(--muted-foreground)]">
               Our products power retailers, manufacturers, distributors and service companies, from boutique studios to publicly listed groups.
@@ -901,7 +1131,7 @@ function Services() {
                 onClick={() => setOpen(isOpen ? null : i)}
                 className="group flex w-full items-center gap-6 py-6 text-left transition hover:px-2"
               >
-                <span className="w-12 text-[12px] tabular-nums text-white/40">0{i + 1}</span>
+                <span className="w-12 text-[12px] tabular-nums text-white/65">0{i + 1}</span>
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white/5 ring-1 ring-white/10 transition group-hover:bg-primary group-hover:ring-primary">
                   <s.i className="h-4 w-4" />
                 </span>
@@ -1022,7 +1252,7 @@ function Platform() {
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-16 grid grid-cols-12 gap-8">
           <div className="col-span-12 md:col-span-6">
-            <Eyebrow>Goods ERP · Platform</Eyebrow>
+            <Eyebrow>TRAFFODATA ERP · Platform</Eyebrow>
             <h2 className="mt-4 font-display text-[clamp(2.2rem,5.5vw,5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
               One platform.<br /><span className="text-[var(--muted-foreground)]">Every workflow.</span>
             </h2>
@@ -1039,7 +1269,7 @@ function Platform() {
                 <button
                   key={t.k}
                   onClick={() => setTab(t.k)}
-                  className={`relative inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12px] transition ${tab === t.k ? "text-white" : "text-[var(--muted-foreground)] hover:text-[var(--ink)]"}`}
+                  className={`relative inline-flex min-h-11 items-center gap-2 rounded-full px-4 py-2 text-[12px] transition ${tab === t.k ? "text-white" : "text-[var(--muted-foreground)] hover:text-[var(--ink)]"}`}
                 >
                   {tab === t.k && <motion.span layoutId="ptab" transition={{ duration: 0.5, ease }} className="absolute inset-0 -z-0 rounded-full bg-[var(--ink)]" />}
                   <span className="relative z-10 flex items-center gap-2"><t.icon className="h-3.5 w-3.5" /> {t.l}</span>
@@ -1069,7 +1299,7 @@ function Why() {
     <section id="why" data-scroll-stop className="scroll-stop bg-[var(--surface)] hairline-t hairline-b">
       <div className="mx-auto max-w-7xl px-6 py-28 md:py-36">
         <div className="mb-16 max-w-3xl">
-          <Eyebrow>Why Goods ERP</Eyebrow>
+          <Eyebrow>Why TRAFFODATA ERP</Eyebrow>
           <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
             The compounding<br /><span className="text-primary">return of clarity.</span>
           </h2>
@@ -1158,7 +1388,7 @@ function ComparisonMark({ positive = true }: { positive?: boolean }) {
     <span
       className={`grid h-7 w-7 shrink-0 place-items-center rounded-full md:h-8 md:w-8 ${
         positive
-          ? "bg-primary text-white shadow-[0_10px_26px_-14px_rgba(124,58,237,0.8)]"
+          ? "bg-[#333da7] text-white shadow-[0_10px_26px_-14px_rgba(51,61,167,0.8)]"
           : "bg-[var(--surface)] text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]"
       }`}
     >
@@ -1173,7 +1403,7 @@ function ComparisonAction({ variant, children }: { variant: "goods" | "tradition
     isGoods ? "hover:-translate-y-0.5 active:scale-[0.98]" : "pointer-events-none opacity-55"
   }`;
   const iconClass = `grid h-9 w-9 place-items-center rounded-lg ${
-    isGoods ? "bg-primary text-white" : "bg-white/12 text-white/45 ring-1 ring-white/10"
+    isGoods ? "bg-[#333da7] text-white" : "bg-white/12 text-white/65 ring-1 ring-white/10"
   }`;
 
   const content = (
@@ -1206,7 +1436,7 @@ function Comparison() {
       <div className="mx-auto max-w-[92rem] px-4 sm:px-6">
         <Reveal className="max-w-[82rem]">
           <h2 className="font-display text-[clamp(2.75rem,6.4vw,5.9rem)] font-bold leading-[0.94] tracking-[-0.052em] text-balance">
-            Goods vs traditional service providers
+            TRAFFODATA vs traditional service providers
           </h2>
         </Reveal>
 
@@ -1215,8 +1445,8 @@ function Comparison() {
             <div className="hidden grid-cols-[0.84fr_1.38fr_1.38fr] border-b border-[var(--hairline)] bg-white md:grid">
               <div className="min-h-28 bg-[var(--surface)]/72" />
               <div className="flex min-h-28 items-center gap-3 border-l border-[var(--hairline)] px-8 xl:px-10">
-                <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--ink)] text-[15px] font-bold text-white">G</span>
-                <span className="font-display text-[1.6rem] font-semibold leading-none tracking-tight">Goods Software</span>
+                <BrandMark size="md" />
+                <span className="font-display text-[1.6rem] font-semibold leading-none tracking-tight">TRAFFODATA Software</span>
               </div>
               <div className="flex min-h-28 items-center border-l border-[var(--hairline)] px-8 font-display text-[1.6rem] font-semibold leading-none tracking-tight text-[var(--muted-foreground)] xl:px-10">
                 Traditional service providers
@@ -1243,7 +1473,7 @@ function Comparison() {
                           <>
                             <ComparisonMark />
                             <div>
-                              <div className="mb-1 text-[11px] font-medium text-primary md:hidden">Goods Software</div>
+                              <div className="mb-1 text-[11px] font-medium text-primary md:hidden">TRAFFODATA Software</div>
                               <p className="text-[16px] font-semibold leading-snug tracking-[-0.01em] text-[var(--ink)] md:text-[1.18rem]">{row.goods}</p>
                             </div>
                           </>
@@ -1279,13 +1509,14 @@ function Comparison() {
 /* Projects (horizontal scroll)                                        */
 /* ------------------------------------------------------------------ */
 
-const projects = workItems.map((item, index) => ({
-  t: item.title,
-  c: item.client === item.title ? item.type : item.client,
-  tag: item.type,
-  slug: item.slug,
-  color: index % 2 === 0 ? "#7388DF" : "#1a1a1a",
-}));
+const projects = [
+  { t: "WikiFood Multi-Vendor Commerce Backend", c: "WikiFood", tag: "Mobile product", slug: "wikifood-commerce-delivery-backend", color: "#7388DF" },
+  { t: "Printout Backend", c: "Printout", tag: "Backend platform", slug: "printout-laravel-rest-api", color: "#1a1a1a" },
+  { t: "Taggz AI Event Photography Platform", c: "Taggz", tag: "AI platform", slug: "taggz-ai-event-photography-platform", color: "#7388DF" },
+  { t: "JAWAD Horse Riding Booking Platform", c: "JAWAD", tag: "Mobile product", slug: "jawad-horse-riding-booking-platform", color: "#1a1a1a" },
+  { t: "Elnasser Backend & Logistics Engine", c: "Al Nasser", tag: "Logistics system", slug: "elnasser-backend-dashboard", color: "#7388DF" },
+  { t: "Al Nasser E-Commerce Landing Page", c: "Al Nasser", tag: "Commerce system", slug: "alnasser-ecommerce", color: "#1a1a1a" },
+];
 
 function Projects() {
   return (
@@ -1367,7 +1598,7 @@ function Tech() {
         <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10 sm:grid-cols-3 lg:grid-cols-4">
           {tech.map((t, i) => (
             <Reveal key={t} delay={i * 0.04} className="group relative bg-[var(--ink)] p-8 transition hover:bg-white/[0.04]">
-              <div className="text-[11px] text-white/40">0{(i+1).toString().padStart(2,"0")}</div>
+              <div className="text-[11px] text-white/65">0{(i+1).toString().padStart(2,"0")}</div>
               <div className="mt-3 font-display text-2xl font-semibold tracking-tight transition group-hover:text-primary">{t}</div>
               <div className="absolute right-6 top-6 opacity-0 transition group-hover:opacity-100">
                 <ArrowUpRight className="h-4 w-4 text-primary" />
@@ -1435,7 +1666,7 @@ function Process() {
 /* ------------------------------------------------------------------ */
 
 const quotes = [
-  { q: "Goods quietly replaced four legacy systems. Our finance close went from twelve days to three.", a: "Layla Othman", r: "CFO · Aurora Industries" },
+  { q: "TRAFFODATA quietly replaced four legacy systems. Our finance close went from twelve days to three.", a: "Layla Othman", r: "CFO · Aurora Industries" },
   { q: "It's the most considered enterprise product I've used. Every screen feels designed for the person who actually does the job.", a: "Marcus Reilly", r: "COO · Halcyon Logistics" },
   { q: "We rolled it out across 38 stores in a quarter. The team adopted it without a single training session.", a: "Nadia Park", r: "Head of Retail · Vertex" },
 ];
@@ -1473,9 +1704,19 @@ function Testimonials() {
             </motion.figure>
           </AnimatePresence>
         </div>
-        <div className="mt-10 flex gap-1.5">
+        <div className="mt-10 flex gap-2" role="tablist" aria-label="Testimonials">
           {quotes.map((_, n) => (
-            <button key={n} onClick={() => setI(n)} className={`h-1 rounded-full transition-all ${n === i ? "w-8 bg-[var(--ink)]" : "w-4 bg-[var(--hairline)]"}`} />
+            <button
+              key={n}
+              type="button"
+              onClick={() => setI(n)}
+              aria-label={`Show testimonial ${n + 1}`}
+              aria-selected={n === i}
+              role="tab"
+              className="grid h-11 w-11 place-items-center rounded-full transition-colors hover:bg-black/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >
+              <span className={`h-1 rounded-full transition-all ${n === i ? "w-8 bg-[var(--ink)]" : "w-4 bg-[var(--muted-foreground)]"}`} />
+            </button>
           ))}
         </div>
       </div>
@@ -1512,7 +1753,7 @@ function CTA() {
           <MagneticButton variant="dark" href="#">
             Book a demo <ArrowRight className="h-4 w-4" />
           </MagneticButton>
-          <a href="mailto:hello@goods.design" className="text-[13px] text-[var(--muted-foreground)] underline-offset-4 hover:text-[var(--ink)] hover:underline">or email hello@goods.design</a>
+          <a href={`mailto:${BRAND_EMAIL}`} className="text-[13px] text-[var(--muted-foreground)] underline-offset-4 hover:text-[var(--ink)] hover:underline">or email {BRAND_EMAIL}</a>
         </div>
         <div className="mt-16 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[12px] text-[var(--muted-foreground)]">
           {[
@@ -1569,7 +1810,7 @@ const footerColumns = [
     title: "Start",
     items: [
       { label: "Book a demo", href: "#cta" },
-      { label: "Email us", href: "mailto:hello@goods.design" },
+      { label: "Email us", href: `mailto:${BRAND_EMAIL}` },
       { label: "Dubai operations", href: "#contact" },
     ],
   },
@@ -1577,12 +1818,10 @@ const footerColumns = [
 
 function GoodsLogo() {
   return (
-    <a href="/" className="flex items-center gap-2" aria-label="Goods home">
-      <span className="grid h-8 w-8 place-items-center rounded-lg bg-white text-[var(--ink)] text-[13px] font-bold tracking-tight">
-        G
-      </span>
+    <a href="/" className="flex items-center gap-2" aria-label={`${BRAND_NAME} home`}>
+      <BrandMark />
       <span className="text-[15px] font-semibold">
-        Goods <span className="font-normal text-white/55">Software</span>
+        {BRAND_NAME} <span className="font-normal text-white/55">Software</span>
       </span>
     </a>
   );
@@ -1614,7 +1853,7 @@ export function Footer() {
                 "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.22) 24%, rgba(0,0,0,0.82) 58%, black 100%)",
             }}
           >
-            Goods Software
+            TRAFFODATA
           </div>
         </div>
       </div>
@@ -1627,7 +1866,7 @@ export function Footer() {
               Premium ERP, inventory, warehouse, POS, accounting, CRM and HR software for operators building serious businesses.
             </p>
             <p className="mt-7 text-sm text-white/45 sm:mt-8">
-              © {new Date().getFullYear()} Goods Technologies. All rights reserved.
+              © {new Date().getFullYear()} TRAFFODATA Technologies. All rights reserved.
             </p>
           </Reveal>
 
@@ -1656,8 +1895,8 @@ export function Footer() {
         </div>
 
         <div className="relative z-[2] mt-6 flex flex-col gap-4 border-t border-white/10 pt-6 text-sm text-white/50 sm:mt-20 sm:flex-row sm:items-center sm:justify-between sm:pt-7 sm:text-xs">
-          <a href="mailto:hello@goods.design" className="w-fit transition-colors hover:text-primary">
-            hello@goods.design
+          <a href={`mailto:${BRAND_EMAIL}`} className="w-fit transition-colors hover:text-primary">
+            {BRAND_EMAIL}
           </a>
           <div className="flex flex-wrap gap-x-5 gap-y-2">
             <a href="/#hero" className="transition-colors hover:text-primary">

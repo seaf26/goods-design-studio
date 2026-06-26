@@ -6,7 +6,7 @@ import { getWorkItem } from "@/components/site/workData";
 export const Route = createFileRoute("/work_/$slug")({
   head: ({ params }) => {
     const project = getWorkItem(params.slug);
-    const title = project && project.client !== project.title ? `${project.title} - ${project.client}` : project?.title ?? "Project - Goods Software";
+    const title = project && project.client !== project.title ? `${project.title} - ${project.client}` : project?.title ?? "Project - TRAFFODATA Software";
     const description = project?.summary ?? "Project details for selected operational software work.";
 
     return {

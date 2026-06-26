@@ -1,39 +1,31 @@
-import { ArrowLeft, ArrowRight, Check, ExternalLink, Layers3, LineChart, TimerReset } from "lucide-react";
+import { ArrowLeft, ArrowRight, ExternalLink, Layers3, LineChart, TimerReset } from "lucide-react";
 
 import { Footer, Nav, Reveal } from "./Landing";
+import { ProjectGallery, ProjectHeroBanner } from "./ProjectMedia";
 import { WorkVisual } from "./WorkPage";
 import { getWorkItem, workItems, type WorkItem } from "./workData";
 
 function StatPill({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl bg-white p-5 ring-1 ring-[var(--hairline)]">
+    <div className="flex min-h-32 flex-col justify-between rounded-2xl bg-white p-5 ring-1 ring-[var(--hairline)]">
       <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-[var(--muted-foreground)]">{label}</div>
-      <div className="mt-3 font-display text-[clamp(1.65rem,3vw,2.6rem)] font-bold leading-none tracking-[-0.045em] text-[var(--ink)]">{value}</div>
-    </div>
-  );
-}
-
-function NarrativeBlock({ title, text }: { title: string; text: string }) {
-  return (
-    <div className="border-t border-[var(--hairline)] py-8 md:grid md:grid-cols-[0.34fr_0.66fr] md:gap-10">
-      <h2 className="font-display text-[clamp(1.8rem,3vw,3rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-[var(--ink)]">{title}</h2>
-      <p className="mt-4 max-w-3xl text-[15px] leading-[1.75] text-[var(--muted-foreground)] md:mt-0 md:text-[17px]">{text}</p>
+      <div className="mt-5 line-clamp-2 font-display text-[clamp(1.45rem,2.4vw,2.25rem)] font-bold leading-[0.98] tracking-[-0.04em] text-[var(--ink)]">{value}</div>
     </div>
   );
 }
 
 function DetailSection({ section, index }: { section: { title: string; text: string }; index: number }) {
   return (
-    <Reveal delay={index * 0.04}>
-      <div className="border-t border-[var(--hairline)] py-8 md:grid md:grid-cols-[0.32fr_0.68fr] md:gap-10">
+    <Reveal delay={index * 0.035}>
+      <article className="border-t border-[var(--hairline)] py-7 md:grid md:grid-cols-[0.38fr_0.62fr] md:gap-10 md:py-9">
         <div>
           <div className="font-mono text-[11px] text-[var(--muted-foreground)]">{String(index + 1).padStart(2, "0")}</div>
-          <h2 className="mt-3 font-display text-[clamp(1.75rem,3vw,3rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-[var(--ink)]">
+          <h2 className="mt-3 max-w-md font-display text-[clamp(1.65rem,2.6vw,2.75rem)] font-semibold leading-[1] tracking-[-0.04em] text-[var(--ink)]">
             {section.title}
           </h2>
         </div>
-        <p className="mt-4 max-w-4xl text-[15px] leading-[1.75] text-[var(--muted-foreground)] md:mt-0 md:text-[16px]">{section.text}</p>
-      </div>
+        <p className="mt-4 max-w-4xl text-[15px] leading-[1.72] text-[var(--muted-foreground)] md:mt-1 md:text-[16px]">{section.text}</p>
+      </article>
     </Reveal>
   );
 }
@@ -41,14 +33,14 @@ function DetailSection({ section, index }: { section: { title: string; text: str
 function ModuleCard({ module, index }: { module: string; index: number }) {
   return (
     <Reveal delay={index * 0.035}>
-      <div className="group flex min-h-32 flex-col justify-between rounded-2xl bg-white p-5 ring-1 ring-[var(--hairline)] transition-[transform,box-shadow] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:shadow-[0_22px_70px_-46px_rgba(0,0,0,0.48)] active:scale-[0.99] motion-reduce:transition-none">
+      <div className="group flex min-h-28 flex-col justify-between rounded-2xl bg-white p-5 ring-1 ring-[var(--hairline)] transition-[transform,box-shadow] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.99] motion-reduce:transition-none">
         <div className="flex items-center justify-between gap-3">
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-[var(--surface)] text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]">
             <Layers3 className="h-4 w-4" />
           </span>
           <span className="font-mono text-[11px] text-[var(--muted-foreground)]">{String(index + 1).padStart(2, "0")}</span>
         </div>
-        <div className="mt-8 font-display text-2xl font-semibold leading-[1.02] tracking-[-0.04em] text-[var(--ink)]">{module}</div>
+        <div className="mt-7 font-display text-[clamp(1.25rem,2vw,1.65rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-[var(--ink)]">{module}</div>
       </div>
     </Reveal>
   );
@@ -101,42 +93,44 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
     <div className="min-h-screen bg-[var(--background)] text-[var(--ink)]">
       <Nav surface="light" />
       <main>
-        <section className="relative overflow-hidden pt-28 md:pt-32">
+        <section className="relative overflow-hidden pt-24 md:pt-28">
           <div className="mx-auto max-w-[92rem] px-5 sm:px-6">
             <Reveal>
               <a href="/work" className="inline-flex items-center gap-2 rounded-full bg-[var(--surface)] px-3 py-1.5 text-[12px] font-medium text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)] transition-colors hover:text-[var(--ink)]">
                 <ArrowLeft className="h-3.5 w-3.5" />
                 Work
               </a>
-              <div className="mt-8 grid gap-8 lg:grid-cols-[0.96fr_0.74fr] lg:items-end">
+              <div className="mt-8 grid gap-7 lg:grid-cols-[0.92fr_0.58fr] lg:items-end">
                 <div>
                   <div className="inline-flex items-center gap-2 text-[12px] font-medium text-[var(--muted-foreground)]">
                     <Icon className="h-4 w-4 text-primary" />
                     {eyebrow}
                   </div>
-                  <h1 className="mt-5 max-w-5xl font-display text-[clamp(3.3rem,7.4vw,7.8rem)] font-bold leading-[0.88] tracking-[-0.062em] text-balance">
+                  <h1 className="mt-5 max-w-5xl font-display text-[clamp(2.9rem,6.2vw,5.9rem)] font-bold leading-[0.93] tracking-[-0.04em] text-balance">
                     {project.headline}
                   </h1>
                 </div>
-                <p className="max-w-xl text-[16px] leading-[1.7] text-[var(--muted-foreground)] lg:pb-4 md:text-[18px]">
-                  {project.detailIntro}
-                </p>
+                <div className="lg:pb-2">
+                  <p className="max-w-xl text-[16px] leading-[1.68] text-[var(--muted-foreground)] md:text-[18px]">
+                    {project.detailIntro}
+                  </p>
+                  {project.href ? (
+                    <a
+                      href={project.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-[var(--ink)] px-5 py-3 text-[14px] font-semibold text-white transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]"
+                    >
+                      Open project
+                      <ExternalLink className="h-4 w-4" />
+                    </a>
+                  ) : null}
+                </div>
               </div>
-              {project.href ? (
-                <a
-                  href={project.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-7 inline-flex w-fit items-center gap-2 rounded-full bg-[var(--ink)] px-5 py-3 text-[14px] font-semibold text-white transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]"
-                >
-                  Open project
-                  <ExternalLink className="h-4 w-4" />
-                </a>
-              ) : null}
             </Reveal>
 
             <Reveal delay={0.1}>
-              <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 <StatPill label="System" value={project.title} />
                 <StatPill label="Timeline" value={project.duration} />
                 <StatPill label="Launch" value={project.outcome} />
@@ -146,79 +140,98 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
           </div>
 
           <Reveal delay={0.16}>
-            <div className="mx-auto mt-8 max-w-[92rem] px-5 sm:px-6">
-              <div className="relative min-h-[34rem] overflow-hidden rounded-[1.75rem] bg-[var(--surface)] ring-1 ring-[var(--hairline)] md:min-h-[46rem]">
-                <WorkVisual item={project} />
-                <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/78 via-black/38 to-transparent p-6 text-white md:p-9">
-                  <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-                    <div>
-                      <div className="text-[13px] font-medium text-white/58">{project.type}</div>
-                      <h2 className="mt-2 max-w-3xl font-display text-[clamp(2rem,4.8vw,5.2rem)] font-bold leading-[0.9] tracking-[-0.055em] text-balance">
-                        {project.title}
-                      </h2>
-                    </div>
-                    <div className="flex flex-wrap gap-2 md:justify-end">
-                      {project.stats.map((stat) => (
-                        <span key={stat} className="rounded-full bg-white/12 px-3 py-1.5 text-[12px] font-medium text-white/78 ring-1 ring-white/14 backdrop-blur-sm">
-                          {stat}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="mx-auto mt-7 max-w-[92rem] px-5 sm:px-6">
+              <ProjectHeroBanner item={project} visual={<WorkVisual item={project} />} />
             </div>
           </Reveal>
         </section>
 
-        <section className="py-20 md:py-28">
-          <div className="mx-auto max-w-[82rem] px-5 sm:px-6">
-            {project.detailSections.map((section, index) => (
-              <DetailSection key={`${section.title}-${index}`} section={section} index={index} />
-            ))}
+        <section className="py-16 md:py-24">
+          <div className="mx-auto grid max-w-[92rem] gap-10 px-5 sm:px-6 lg:grid-cols-[0.68fr_0.32fr] lg:items-start">
+            <div>
+              {project.detailSections.map((section, index) => (
+                <DetailSection key={`${section.title}-${index}`} section={section} index={index} />
+              ))}
+            </div>
+            <Reveal delay={0.08}>
+              <aside className="relative h-full overflow-hidden rounded-2xl bg-[var(--surface)] p-5 ring-1 ring-[var(--hairline)] lg:min-h-full lg:self-stretch">
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-[radial-gradient(circle_at_50%_0%,rgba(115,136,223,0.24),transparent_68%)]" />
+                <div className="relative lg:sticky lg:top-28">
+                  <div className="flex items-center gap-3">
+                    <span className="grid h-11 w-11 place-items-center rounded-xl bg-white text-primary ring-1 ring-[var(--hairline)]">
+                      <LineChart className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <div className="text-[12px] font-medium text-[var(--muted-foreground)]">Delivery scope</div>
+                      <div className="mt-1 font-display text-xl font-semibold tracking-[-0.03em]">{project.team}</div>
+                    </div>
+                  </div>
+                  <div className="mt-6 space-y-3">
+                    {project.outcomes.slice(0, 5).map((outcome) => (
+                      <div key={outcome} className="rounded-xl bg-white px-4 py-3 text-[13px] font-medium text-[var(--ink)] ring-1 ring-[var(--hairline)]">
+                        {outcome}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-5 grid grid-cols-2 gap-3">
+                    <div className="rounded-xl bg-white p-4 ring-1 ring-[var(--hairline)]">
+                      <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">Timeline</div>
+                      <div className="mt-3 font-display text-lg font-semibold tracking-[-0.03em]">{project.duration}</div>
+                    </div>
+                    <div className="rounded-xl bg-white p-4 ring-1 ring-[var(--hairline)]">
+                      <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">Launch</div>
+                      <div className="mt-3 line-clamp-2 font-display text-lg font-semibold leading-[1.05] tracking-[-0.03em]">{project.outcome}</div>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+            </Reveal>
           </div>
         </section>
 
-        <section className="bg-[var(--surface)] py-20 md:py-28">
+        <section className="bg-[var(--surface)] py-16 md:py-24">
           <div className="mx-auto max-w-[92rem] px-5 sm:px-6">
-            <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+            <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <Reveal>
-                <div className="lg:sticky lg:top-28">
-                  <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-primary ring-1 ring-[var(--hairline)]">
-                    <LineChart className="h-5 w-5" />
-                  </div>
-                  <h2 className="mt-7 max-w-lg font-display text-[clamp(2.5rem,5vw,5.2rem)] font-bold leading-[0.94] tracking-[-0.055em] text-balance">
-                    Stack and delivery scope.
+                <div>
+                  <h2 className="max-w-2xl font-display text-[clamp(2.2rem,4.4vw,4.5rem)] font-bold leading-[0.96] tracking-[-0.04em] text-balance">
+                    Stack and capabilities.
                   </h2>
-                  <p className="mt-5 max-w-md text-[15px] leading-[1.7] text-[var(--muted-foreground)]">
-                    The original portfolio stack is preserved here so the project detail page keeps its technical context.
+                  <p className="mt-4 max-w-xl text-[15px] leading-[1.65] text-[var(--muted-foreground)]">
+                    The technical footprint stays visible without turning the case study into a sparse list.
                   </p>
                 </div>
               </Reveal>
-              <div className="grid gap-4 sm:grid-cols-2">
-                {project.modules.map((module, index) => (
-                  <ModuleCard key={module} module={module} index={index} />
-                ))}
-              </div>
+              <Reveal delay={0.08}>
+                <div className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-[12px] font-medium text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]">
+                  <Layers3 className="h-4 w-4 text-primary" />
+                  {project.modules.length} capabilities
+                </div>
+              </Reveal>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {project.modules.map((module, index) => (
+                <ModuleCard key={module} module={module} index={index} />
+              ))}
             </div>
           </div>
         </section>
 
-        <section className="py-20 md:py-28">
-          <div className="mx-auto grid max-w-[92rem] gap-6 px-5 sm:px-6 lg:grid-cols-[0.9fr_1.1fr]">
+        <section className="py-16 md:py-24">
+          <div className="mx-auto grid max-w-[92rem] gap-6 px-5 sm:px-6 lg:grid-cols-[0.48fr_0.52fr]">
             <Reveal>
-              <div className="rounded-[1.5rem] bg-black p-6 text-white md:p-8">
+              <div className="h-full rounded-2xl bg-black p-6 text-white md:p-8">
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-primary ring-1 ring-white/14">
                   <TimerReset className="h-5 w-5" />
                 </div>
-                <h2 className="mt-8 max-w-xl font-display text-[clamp(2.35rem,5vw,5rem)] font-bold leading-[0.94] tracking-[-0.055em] text-balance">
-                  Project assets and notes.
+                <h2 className="mt-8 max-w-xl font-display text-[clamp(2rem,4vw,4.1rem)] font-bold leading-[0.96] tracking-[-0.04em] text-balance">
+                  Build notes and proof.
                 </h2>
-                <div className="mt-10 divide-y divide-white/12">
+                <div className="mt-8 divide-y divide-white/12">
                   {project.timeline.map((step) => (
-                    <div key={step.label} className="grid gap-3 py-5 md:grid-cols-[0.28fr_0.72fr]">
-                      <div className="font-display text-2xl font-semibold tracking-[-0.04em] text-white">{step.label}</div>
-                      <p className="text-[14px] leading-[1.7] text-white/62">{step.text}</p>
+                    <div key={step.label} className="grid gap-3 py-5 md:grid-cols-[0.3fr_0.7fr]">
+                      <div className="font-display text-xl font-semibold tracking-[-0.03em] text-white">{step.label}</div>
+                      <p className="text-[14px] leading-[1.68] text-white/66">{step.text}</p>
                     </div>
                   ))}
                 </div>
@@ -226,19 +239,7 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
             </Reveal>
 
             <Reveal delay={0.1}>
-              <div className="grid h-full gap-4">
-                {project.images.map((image, index) => (
-                  <div key={image} className="overflow-hidden rounded-[1.5rem] bg-white ring-1 ring-[var(--hairline)]">
-                    <div className="relative aspect-[16/9] bg-[var(--surface)]">
-                      <img src={image} alt={`${project.title} asset ${index + 1}`} className="h-full w-full object-cover" loading="lazy" />
-                    </div>
-                    <div className="flex items-center justify-between gap-4 p-4">
-                      <span className="text-[13px] font-medium text-[var(--muted-foreground)]">Project image {index + 1}</span>
-                      <Check className="h-4 w-4 text-primary" />
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <ProjectGallery item={project} />
             </Reveal>
           </div>
         </section>
@@ -247,7 +248,7 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
           <div className="mx-auto grid max-w-[92rem] gap-10 px-5 sm:px-6 lg:grid-cols-[0.78fr_1.22fr]">
             <Reveal>
               <div>
-                <h2 className="max-w-lg font-display text-[clamp(2.5rem,5vw,5.5rem)] font-bold leading-[0.9] tracking-[-0.06em] text-balance">
+                <h2 className="max-w-lg font-display text-[clamp(2.25rem,4.8vw,4.9rem)] font-bold leading-[0.94] tracking-[-0.04em] text-balance">
                   More systems under pressure.
                 </h2>
                 <a href="/work" className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[14px] font-semibold text-black transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]">

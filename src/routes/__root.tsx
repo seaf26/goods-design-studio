@@ -61,20 +61,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Goods — The Operating System for Modern Enterprises" },
-      { name: "description", content: "Goods builds premium ERP, inventory, warehouse, POS, accounting, CRM and HR software that transforms how modern businesses operate." },
-      { name: "author", content: "Goods" },
-      { property: "og:title", content: "Goods — The Operating System for Modern Enterprises" },
+      { title: "TRAFFODATA - The Operating System for Modern Enterprises" },
+      { name: "description", content: "TRAFFODATA builds premium ERP, inventory, warehouse, POS, accounting, CRM and HR software that transforms how modern businesses operate." },
+      { name: "author", content: "TRAFFODATA" },
+      { property: "og:title", content: "TRAFFODATA - The Operating System for Modern Enterprises" },
       { property: "og:description", content: "Premium ERP and business automation software for ambitious teams." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap" },
-      { rel: "stylesheet", href: appCss },
-    ],
+    links: [{ rel: "stylesheet", href: appCss }],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -86,6 +81,12 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
+        <style
+          dangerouslySetInnerHTML={{
+            __html:
+              "html,body{background:#030409;color:#fff}body{margin:0}",
+          }}
+        />
         <HeadContent />
       </head>
       <body>

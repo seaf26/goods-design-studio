@@ -4,9 +4,9 @@ import { GoodsLanding } from "@/components/site/Landing";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Goods — The Operating System for Modern Enterprises" },
+      { title: "TRAFFODATA - The Operating System for Modern Enterprises" },
       { name: "description", content: "Premium ERP, inventory, warehouse, POS, accounting, CRM and HR software engineered for operators." },
-      { property: "og:title", content: "Goods — The Operating System for Modern Enterprises" },
+      { property: "og:title", content: "TRAFFODATA - The Operating System for Modern Enterprises" },
       { property: "og:description", content: "Premium ERP, inventory, warehouse, POS, accounting, CRM and HR software engineered for operators." },
     ],
   }),

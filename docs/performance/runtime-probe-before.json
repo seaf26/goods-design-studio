@@ -1,0 +1,128 @@
+{
+  "url": "http://127.0.0.1:4173/",
+  "capturedAt": "2026-06-25T23:28:18.749Z",
+  "phases": {
+    "idleHero": {
+      "durationMs": 15002.700000047684,
+      "quality": "off",
+      "frameCount": 900,
+      "avgFrameMs": 16.66,
+      "p95FrameMs": 17.2,
+      "over50msFrames": 0,
+      "loafCount": 2,
+      "longTaskCount": 0,
+      "maxLoafMs": 574.2,
+      "maxLongTaskMs": 0,
+      "loafs": [
+        {
+          "start": 81,
+          "duration": 369.90000009536743,
+          "renderStart": 408.39999997615814,
+          "styleAndLayoutStart": 408.5
+        },
+        {
+          "start": 455,
+          "duration": 574.1999999284744,
+          "renderStart": 1028.5,
+          "styleAndLayoutStart": 1028.5
+        }
+      ],
+      "longtasks": []
+    },
+    "pointerHero": {
+      "durationMs": 17332.399999976158,
+      "quality": "off",
+      "frameCount": 2080,
+      "avgFrameMs": 16.66,
+      "p95FrameMs": 17.3,
+      "over50msFrames": 0,
+      "loafCount": 2,
+      "longTaskCount": 0,
+      "maxLoafMs": 574.2,
+      "maxLongTaskMs": 0,
+      "loafs": [
+        {
+          "start": 81,
+          "duration": 369.90000009536743,
+          "renderStart": 408.39999997615814,
+          "styleAndLayoutStart": 408.5
+        },
+        {
+          "start": 455,
+          "duration": 574.1999999284744,
+          "renderStart": 1028.5,
+          "styleAndLayoutStart": 1028.5
+        }
+      ],
+      "longtasks": []
+    },
+    "ctaHoverClick": {
+      "durationMs": 2132.899999976158,
+      "quality": "off",
+      "frameCount": 58,
+      "avgFrameMs": 36.48,
+      "p95FrameMs": 17.4,
+      "over50msFrames": 2,
+      "loafCount": 4,
+      "longTaskCount": 0,
+      "maxLoafMs": 774,
+      "maxLongTaskMs": 0,
+      "loafs": [
+        {
+          "start": 81,
+          "duration": 369.90000009536743,
+          "renderStart": 408.39999997615814,
+          "styleAndLayoutStart": 408.5
+        },
+        {
+          "start": 455,
+          "duration": 574.1999999284744,
+          "renderStart": 1028.5,
+          "styleAndLayoutStart": 1028.5
+        },
+        {
+          "start": 37130,
+          "duration": 401.89999997615814,
+          "renderStart": 37530.39999997616,
+          "styleAndLayoutStart": 37530.5
+        },
+        {
+          "start": 37591,
+          "duration": 774,
+          "renderStart": 38364.699999928474,
+          "styleAndLayoutStart": 38364.799999952316
+        }
+      ],
+      "longtasks": []
+    },
+    "scrollFromHero": {
+      "durationMs": 4420.899999976158,
+      "quality": "off",
+      "frameCount": 257,
+      "avgFrameMs": 17.16,
+      "p95FrameMs": 17.1,
+      "over50msFrames": 1,
+      "loafCount": 2,
+      "longTaskCount": 0,
+      "maxLoafMs": 319.8,
+      "maxLongTaskMs": 0,
+      "loafs": [
+        {
+          "start": 106,
+          "duration": 319.8000000715256,
+          "renderStart": 407.5,
+          "styleAndLayoutStart": 407.5
+        },
+        {
+          "start": 3436,
+          "duration": 123.39999997615814,
+          "renderStart": 3559.0999999046326,
+          "styleAndLayoutStart": 3559.1999999284744
+        }
+      ],
+      "longtasks": []
+    }
+  },
+  "scrollY": 3240,
+  "heroQuality": "off"
+}

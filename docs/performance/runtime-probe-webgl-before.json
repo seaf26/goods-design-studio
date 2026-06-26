@@ -1,0 +1,110 @@
+{
+  "url": "http://127.0.0.1:4173/",
+  "capturedAt": "2026-06-25T23:29:34.169Z",
+  "phases": {
+    "idleHero": {
+      "durationMs": 10005.899999976158,
+      "quality": "off",
+      "webgl": false,
+      "frameCount": 600,
+      "avgFrameMs": 16.65,
+      "p95FrameMs": 17.3,
+      "over50msFrames": 0,
+      "loafCount": 2,
+      "longTaskCount": 1,
+      "maxLoafMs": 506.4,
+      "maxLongTaskMs": 69,
+      "loafs": [
+        {
+          "start": 144,
+          "duration": 506.39999997615814,
+          "renderStart": 586,
+          "styleAndLayoutStart": 586.1000000238419
+        },
+        {
+          "start": 658,
+          "duration": 136.90000009536743,
+          "renderStart": 659.7999999523163,
+          "styleAndLayoutStart": 794.5
+        }
+      ],
+      "longtasks": [
+        {
+          "start": 586,
+          "duration": 69,
+          "name": "unknown"
+        }
+      ]
+    },
+    "pointerHero": {
+      "durationMs": 15245.800000071526,
+      "quality": "off",
+      "webgl": false,
+      "frameCount": 914,
+      "avgFrameMs": 16.66,
+      "p95FrameMs": 17.3,
+      "over50msFrames": 0,
+      "loafCount": 2,
+      "longTaskCount": 1,
+      "maxLoafMs": 506.4,
+      "maxLongTaskMs": 69,
+      "loafs": [
+        {
+          "start": 144,
+          "duration": 506.39999997615814,
+          "renderStart": 586,
+          "styleAndLayoutStart": 586.1000000238419
+        },
+        {
+          "start": 658,
+          "duration": 136.90000009536743,
+          "renderStart": 659.7999999523163,
+          "styleAndLayoutStart": 794.5
+        }
+      ],
+      "longtasks": [
+        {
+          "start": 586,
+          "duration": 69,
+          "name": "unknown"
+        }
+      ]
+    },
+    "scrollFromHero": {
+      "durationMs": 4134.800000071526,
+      "quality": "off",
+      "webgl": false,
+      "frameCount": 247,
+      "avgFrameMs": 16.65,
+      "p95FrameMs": 17.1,
+      "over50msFrames": 0,
+      "loafCount": 2,
+      "longTaskCount": 1,
+      "maxLoafMs": 506.4,
+      "maxLongTaskMs": 69,
+      "loafs": [
+        {
+          "start": 144,
+          "duration": 506.39999997615814,
+          "renderStart": 586,
+          "styleAndLayoutStart": 586.1000000238419
+        },
+        {
+          "start": 658,
+          "duration": 136.90000009536743,
+          "renderStart": 659.7999999523163,
+          "styleAndLayoutStart": 794.5
+        }
+      ],
+      "longtasks": [
+        {
+          "start": 586,
+          "duration": 69,
+          "name": "unknown"
+        }
+      ]
+    }
+  },
+  "scrollY": 2880,
+  "heroQuality": "off"
+}

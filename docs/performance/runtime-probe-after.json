@@ -1,0 +1,53 @@
+{
+  "url": "http://127.0.0.1:4173/",
+  "capturedAt": "2026-06-25T23:38:16.857Z",
+  "phases": {
+    "idleHero": {
+      "durationMs": 5001.899999976158,
+      "quality": "off",
+      "scriptChunks": [
+        "index-C4BRYtme.js"
+      ],
+      "frameCount": 301,
+      "avgFrameMs": 16.61,
+      "p95FrameMs": 17.3,
+      "over50msFrames": 0,
+      "loafCount": 1,
+      "longTaskCount": 1,
+      "maxLoafMs": 615.1,
+      "maxLongTaskMs": 77
+    },
+    "pointerHero": {
+      "durationMs": 8667.5,
+      "quality": "off",
+      "scriptChunks": [
+        "index-C4BRYtme.js"
+      ],
+      "frameCount": 1040,
+      "avgFrameMs": 16.66,
+      "p95FrameMs": 17.2,
+      "over50msFrames": 0,
+      "loafCount": 1,
+      "longTaskCount": 1,
+      "maxLoafMs": 615.1,
+      "maxLongTaskMs": 77
+    },
+    "scrollFromHero": {
+      "durationMs": 3187.100000023842,
+      "quality": "off",
+      "scriptChunks": [
+        "index-C4BRYtme.js"
+      ],
+      "frameCount": 534,
+      "avgFrameMs": 17.87,
+      "p95FrameMs": 17.4,
+      "over50msFrames": 3,
+      "loafCount": 2,
+      "longTaskCount": 1,
+      "maxLoafMs": 615.1,
+      "maxLongTaskMs": 77
+    }
+  },
+  "scrollY": 2160,
+  "heroQuality": "off"
+}

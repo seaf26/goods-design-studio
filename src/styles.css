@@ -33,8 +33,8 @@
   --color-ink: var(--ink);
   --color-surface: var(--surface);
   --color-hairline: var(--hairline);
-  --font-display: "SF Pro Display", "Inter", system-ui, -apple-system, sans-serif;
-  --font-sans: "Roboto", "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 }
 
 :root {
@@ -226,6 +226,7 @@
   --hero-x: 50%;
   --hero-y: 50%;
   --hero-edge-opacity: 0;
+  contain: layout paint style;
 }
 
 .liquid-hero-frame::before {
@@ -238,7 +239,7 @@
   opacity: 0;
   background:
     radial-gradient(
-      19rem circle at var(--hero-x) var(--hero-y),
+      14rem circle at var(--hero-x) var(--hero-y),
       rgb(255 255 255 / 0.74),
       rgb(115 136 223 / 0.52) 18%,
       rgb(124 58 237 / 0.28) 40%,
@@ -260,15 +261,26 @@
   opacity: var(--hero-edge-opacity);
 }
 
+.liquid-hero-frame[data-hero-quality="off"]::before {
+  opacity: 0;
+}
+
 .hero-liquid-bottom-drift {
   border-radius: 50%;
   background:
     radial-gradient(ellipse at 50% 42%, rgb(3 4 10 / 0.5), transparent 56%),
     linear-gradient(90deg, transparent 0%, rgb(51 61 167 / 0.22) 34%, rgb(115 136 223 / 0.18) 52%, rgb(3 4 10 / 0.2) 72%, transparent 100%);
-  filter: blur(58px);
+  filter: blur(42px);
   mix-blend-mode: multiply;
   opacity: 0.62;
   transform: translate3d(0, 0, 0) scale(1.05);
+}
+
+.liquid-hero-frame[data-hero-quality="off"] .hero-liquid-bottom-drift {
+  animation: none;
+  filter: blur(28px);
+  opacity: 0.38;
+  transform: translate3d(0, 0, 0) scale(1.02);
 }
 
 @media (prefers-reduced-motion: no-preference) {

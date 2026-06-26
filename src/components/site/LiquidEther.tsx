@@ -23,6 +23,10 @@ export interface LiquidEtherProps {
   takeoverDuration?: number;
   autoResumeDelay?: number;
   autoRampDuration?: number;
+  maxPixelRatio?: number;
+  maxFps?: number;
+  interactiveMaxFps?: number;
+  textureType?: 'auto' | 'half' | 'float';
 }
 
 interface SimOptions {
@@ -53,6 +57,7 @@ interface LiquidEtherWebGL {
   resize: () => void;
   start: () => void;
   pause: () => void;
+  setFrameBudget: (maxFps: number, interactiveMaxFps?: number) => void;
   dispose: () => void;
 }
 
@@ -79,7 +84,11 @@ export default function LiquidEther({
   autoIntensity = 2.2,
   takeoverDuration = 0.25,
   autoResumeDelay = 1000,
-  autoRampDuration = 0.6
+  autoRampDuration = 0.6,
+  maxPixelRatio = 2,
+  maxFps = 60,
+  interactiveMaxFps = 60,
+  textureType = 'auto'
 }: LiquidEtherProps): React.ReactElement {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const webglRef = useRef<LiquidEtherWebGL | null>(null);
@@ -138,9 +147,9 @@ export default function LiquidEther({
       clock: THREE.Clock | null = null;
       init(container: HTMLElement) {
         this.container = container;
-        this.pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        this.pixelRatio = Math.min(window.devicePixelRatio || 1, Math.max(1, maxPixelRatio));
         this.resize();
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        this.renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: 'high-performance' });
         // Always transparent
         this.renderer.autoClear = false;
         this.renderer.setClearColor(new THREE.Color(0x000000), 0);
@@ -892,6 +901,8 @@ export default function LiquidEther({
         this.createShaderPass();
       }
       getFloatType() {
+        if (textureType === 'half') return THREE.HalfFloatType;
+        if (textureType === 'float') return THREE.FloatType;
         const isIOS = /(iPad|iPhone|iPod)/i.test(navigator.userAgent);
         return isIOS ? THREE.HalfFloatType : THREE.FloatType;
       }
@@ -1038,11 +1049,16 @@ export default function LiquidEther({
       autoDriver?: AutoDriver;
       lastUserInteraction = performance.now();
       running = false;
+      maxFps = 60;
+      interactiveMaxFps = 60;
+      lastRenderAt = 0;
+      interactionBoostMs = 850;
       private _loop = this.loop.bind(this);
       private _resize = this.resize.bind(this);
       private _onVisibility?: () => void;
       constructor(props: any) {
         this.props = props;
+        this.setFrameBudget(props.maxFps, props.interactiveMaxFps);
         Common.init(props.$wrapper);
         Mouse.init(props.$wrapper);
         Mouse.autoIntensity = props.autoIntensity;
@@ -1084,14 +1100,31 @@ export default function LiquidEther({
         Common.update();
         this.output.update();
       }
-      loop() {
+      loop(now = performance.now()) {
         if (!this.running) return;
+        const activeFps = now - this.lastUserInteraction < this.interactionBoostMs
+          ? this.interactiveMaxFps
+          : this.maxFps;
+        const minFrameInterval = activeFps >= 60 ? 0 : 1000 / activeFps;
+        if (minFrameInterval > 0 && now - this.lastRenderAt < minFrameInterval) {
+          rafRef.current = requestAnimationFrame(this._loop);
+          return;
+        }
+        this.lastRenderAt = now;
         this.render();
         rafRef.current = requestAnimationFrame(this._loop);
+      }
+      setFrameBudget(nextMaxFps: number, nextInteractiveMaxFps?: number) {
+        this.maxFps = Number.isFinite(nextMaxFps) && nextMaxFps > 0 ? nextMaxFps : 60;
+        const interactiveFps = nextInteractiveMaxFps ?? this.maxFps;
+        this.interactiveMaxFps = Number.isFinite(interactiveFps) && interactiveFps > 0
+          ? Math.max(this.maxFps, interactiveFps)
+          : this.maxFps;
       }
       start() {
         if (this.running) return;
         this.running = true;
+        this.lastRenderAt = 0;
         this._loop();
       }
       pause() {
@@ -1129,7 +1162,9 @@ export default function LiquidEther({
       autoIntensity,
       takeoverDuration,
       autoResumeDelay,
-      autoRampDuration
+      autoRampDuration,
+      maxFps,
+      interactiveMaxFps
     });
     webglRef.current = webgl;
 
@@ -1225,7 +1260,11 @@ export default function LiquidEther({
     autoIntensity,
     takeoverDuration,
     autoResumeDelay,
-    autoRampDuration
+    autoRampDuration,
+    maxPixelRatio,
+    maxFps,
+    interactiveMaxFps,
+    textureType
   ]);
 
   useEffect(() => {
@@ -1258,6 +1297,7 @@ export default function LiquidEther({
         webgl.autoDriver.mouse.takeoverDuration = takeoverDuration;
       }
     }
+    webgl.setFrameBudget(maxFps, interactiveMaxFps);
     if (resolution !== prevRes) sim.resize();
   }, [
     mouseForce,
@@ -1277,7 +1317,9 @@ export default function LiquidEther({
     autoIntensity,
     takeoverDuration,
     autoResumeDelay,
-    autoRampDuration
+    autoRampDuration,
+    maxFps,
+    interactiveMaxFps
   ]);
 
   return (
