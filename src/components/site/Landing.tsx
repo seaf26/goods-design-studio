@@ -721,7 +721,7 @@ function Hero() {
             <MagneticButton variant="dark" href="#cta" className="bg-[#333da7] shadow-[0_16px_44px_rgba(3,4,10,0.24)] hover:bg-[#2d3594]">
               Book a demo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </MagneticButton>
-            <MagneticButton variant="ghost" href="#platform" className="bg-[#0c0e21]/28 text-white ring-1 ring-white/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-md hover:bg-[#0c0e21]/36 hover:text-white">
+            <MagneticButton variant="ghost" href="#platform" className="bg-[#0c0e21]/28 text-white ring-1 ring-white/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-md hover:bg-[#0c0e21]/36 hover:text-[#aebcff]">
               Explore platform
             </MagneticButton>
           </div>
