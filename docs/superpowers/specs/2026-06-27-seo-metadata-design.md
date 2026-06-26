@@ -16,6 +16,7 @@ Improve TRAFFODATA's search and social metadata across the website using `https:
 - Add JSON-LD structured data for the organization, website, and project detail pages.
 - Add static `robots.txt` and `sitemap.xml` files under `public/`.
 - Include all current project URLs in the sitemap.
+- Use the provided TRAFFODATA logo assets for favicon/app icons, organization schema logo, and default social preview branding.
 - Keep generated Figma/Behance public metadata neutral and avoid naming the source designer in public page copy.
 
 ## Out of Scope
@@ -29,6 +30,13 @@ Improve TRAFFODATA's search and social metadata across the website using `https:
 ## Architecture
 
 Create `src/components/site/seo.ts` as the single SEO utility module. It will hold the canonical site URL, default title/description, default social image path, metadata builders, URL helpers, image URL helpers, and JSON-LD object builders.
+
+Use the provided logo source files during implementation:
+
+- `/Users/seafgamel/Desktop/traffodata/ChatGPT_Image_Jun_20__2026__12_02_29_AM-removebg-preview.png` is the wide logo source for default Open Graph/Twitter preview branding.
+- `/Users/seafgamel/Desktop/traffodata/ChatGPT_Image_Jun_20__2026__12_08_00_AM-removebg-preview.png` is the square monogram source for favicon, app icon, and organization schema logo.
+
+Copy optimized derivatives into `public/brand/` instead of referencing Desktop paths from route metadata.
 
 Routes continue to own their own `head()` functions:
 
@@ -52,6 +60,7 @@ Every route should include:
 - `robots` index/follow directive.
 - Open Graph title, description, type, URL, site name, image, and image alt.
 - Twitter card, title, description, and image.
+- Brand logo links for icon/apple-touch-icon where supported by the route head API.
 
 Home page should emphasize:
 
@@ -78,6 +87,8 @@ Add JSON-LD using script tags in the relevant `head()` output:
 - `WebSite` on root/default metadata with site name and URL.
 - `CreativeWork` on project detail pages with title, description, image, URL, creator/publisher as TRAFFODATA, and keywords from project modules/stack.
 
+The `Organization.logo` value should use the square public logo URL, and social preview metadata should use the wide public logo URL when a page does not have a stronger project image.
+
 ## Sitemap
 
 Generate a static `public/sitemap.xml` with:
@@ -101,3 +112,4 @@ Add `public/robots.txt`:
 - Render or fetch `/`, `/work`, and one project route to confirm expected meta tags are present.
 - Confirm `public/sitemap.xml` includes all current project slugs.
 - Confirm generated public metadata does not mention the source designer name.
+- Confirm copied logo assets are present under `public/brand/` and are referenced by metadata using absolute production URLs.
