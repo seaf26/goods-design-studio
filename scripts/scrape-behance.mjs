@@ -213,7 +213,7 @@ async function downloadImage(url, slug, index) {
 function makeSummary(title, tags, meta) {
   const tagList = tags.slice(0, 4).join(", ");
   const published = formatDate(meta.publishedOn);
-  return `${title} is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published ${published}, with focus areas including ${tagList}.`;
+  return `${title} is a Figma UI/UX design case study imported from Behance, published ${published}, with focus areas including ${tagList}.`;
 }
 
 function makeSections(title, tags, imagesCount, meta) {
@@ -230,7 +230,7 @@ function makeSections(title, tags, imagesCount, meta) {
   return [
     {
       title: "Project Overview",
-      text: `${title} is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.`,
+      text: `${title} is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.`,
     },
     {
       title: "Design Focus",

@@ -11,9 +11,9 @@ export const behanceWorkItems = [
     type: "Figma Design",
     category: "figma-design",
     description:
-      "Sync (Gym App) is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published May 18, 2026, with focus areas including Figma, UI Design, UX Design, AI.",
+      "Sync (Gym App) is a Figma UI/UX design case study imported from Behance, published May 18, 2026, with focus areas including Figma, UI Design, UX Design, AI.",
     summary:
-      "Sync (Gym App) is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published May 18, 2026, with focus areas including Figma, UI Design, UX Design, AI.",
+      "Sync (Gym App) is a Figma UI/UX design case study imported from Behance, published May 18, 2026, with focus areas including Figma, UI Design, UX Design, AI.",
     scope: "Figma, UI Design",
     outcome: "Design case study",
     visual: "portfolio",
@@ -25,9 +25,9 @@ export const behanceWorkItems = [
     team: "UI/UX design",
     headline: "Sync (Gym App)",
     detailIntro:
-      "Sync (Gym App) is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published May 18, 2026, with focus areas including Figma, UI Design, UX Design, AI.",
+      "Sync (Gym App) is a Figma UI/UX design case study imported from Behance, published May 18, 2026, with focus areas including Figma, UI Design, UX Design, AI.",
     challenge:
-      "Sync (Gym App) is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+      "Sync (Gym App) is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
     build:
       "The scraped project tags and tools identify the work around Figma, UI Design, UX Design, AI, gym, gym app design, GYM APPLICATION, fitness app. These tags are preserved as capabilities on the detail page so visitors can quickly understand the product type, UI direction, and design craft involved.",
     impact:
@@ -46,7 +46,7 @@ export const behanceWorkItems = [
     timeline: [
       {
         label: "Project Overview",
-        text: "Sync (Gym App) is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "Sync (Gym App) is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         label: "Design Focus",
@@ -83,7 +83,7 @@ export const behanceWorkItems = [
     detailSections: [
       {
         title: "Project Overview",
-        text: "Sync (Gym App) is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "Sync (Gym App) is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         title: "Design Focus",
@@ -110,9 +110,9 @@ export const behanceWorkItems = [
     type: "Figma Design",
     category: "figma-design",
     description:
-      "I Grill is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published December 12, 2025, with focus areas including Figma, UI Design, UX Design, Food.",
+      "I Grill is a Figma UI/UX design case study imported from Behance, published December 12, 2025, with focus areas including Figma, UI Design, UX Design, Food.",
     summary:
-      "I Grill is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published December 12, 2025, with focus areas including Figma, UI Design, UX Design, Food.",
+      "I Grill is a Figma UI/UX design case study imported from Behance, published December 12, 2025, with focus areas including Figma, UI Design, UX Design, Food.",
     scope: "Figma, UI Design",
     outcome: "Design case study",
     visual: "portfolio",
@@ -124,9 +124,9 @@ export const behanceWorkItems = [
     team: "UI/UX design",
     headline: "I Grill",
     detailIntro:
-      "I Grill is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published December 12, 2025, with focus areas including Figma, UI Design, UX Design, Food.",
+      "I Grill is a Figma UI/UX design case study imported from Behance, published December 12, 2025, with focus areas including Figma, UI Design, UX Design, Food.",
     challenge:
-      "I Grill is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+      "I Grill is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
     build:
       "The scraped project tags and tools identify the work around Figma, UI Design, UX Design, Food, grilling, cooking, figma design, UI/UX. These tags are preserved as capabilities on the detail page so visitors can quickly understand the product type, UI direction, and design craft involved.",
     impact:
@@ -145,7 +145,7 @@ export const behanceWorkItems = [
     timeline: [
       {
         label: "Project Overview",
-        text: "I Grill is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "I Grill is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         label: "Design Focus",
@@ -182,7 +182,7 @@ export const behanceWorkItems = [
     detailSections: [
       {
         title: "Project Overview",
-        text: "I Grill is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "I Grill is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         title: "Design Focus",
@@ -209,9 +209,9 @@ export const behanceWorkItems = [
     type: "Figma Design",
     category: "figma-design",
     description:
-      "BAQA App is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published December 10, 2025, with focus areas including Figma, UI Design, UX Design, gifts.",
+      "BAQA App is a Figma UI/UX design case study imported from Behance, published December 10, 2025, with focus areas including Figma, UI Design, UX Design, gifts.",
     summary:
-      "BAQA App is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published December 10, 2025, with focus areas including Figma, UI Design, UX Design, gifts.",
+      "BAQA App is a Figma UI/UX design case study imported from Behance, published December 10, 2025, with focus areas including Figma, UI Design, UX Design, gifts.",
     scope: "Figma, UI Design",
     outcome: "Design case study",
     visual: "portfolio",
@@ -223,13 +223,13 @@ export const behanceWorkItems = [
     team: "UI/UX design",
     headline: "BAQA App",
     detailIntro:
-      "BAQA App is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published December 10, 2025, with focus areas including Figma, UI Design, UX Design, gifts.",
+      "BAQA App is a Figma UI/UX design case study imported from Behance, published December 10, 2025, with focus areas including Figma, UI Design, UX Design, gifts.",
     challenge:
-      "BAQA App is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+      "BAQA App is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
     build:
       "The scraped project tags and tools identify the work around Figma, UI Design, UX Design, gifts, giftsappdesign, mobileappdesign, giftshop, visual identity. These tags are preserved as capabilities on the detail page so visitors can quickly understand the product type, UI direction, and design craft involved.",
     impact:
-      "Source: Behance. Published: December 10, 2025. Last updated: December 10, 2025. Profile stats at scrape time: 22 Behance views and 0 appreciations. Original project URL: https://www.behance.net/gallery/240203303/BAQA-App.",
+      "Source: Behance. Published: December 10, 2025. Last updated: December 10, 2025. Profile stats at scrape time: 23 Behance views and 0 appreciations. Original project URL: https://www.behance.net/gallery/240203303/BAQA-App.",
     modules: [
       "Figma",
       "UI Design",
@@ -244,7 +244,7 @@ export const behanceWorkItems = [
     timeline: [
       {
         label: "Project Overview",
-        text: "BAQA App is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "BAQA App is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         label: "Design Focus",
@@ -281,7 +281,7 @@ export const behanceWorkItems = [
     detailSections: [
       {
         title: "Project Overview",
-        text: "BAQA App is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "BAQA App is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         title: "Design Focus",
@@ -293,7 +293,7 @@ export const behanceWorkItems = [
       },
       {
         title: "Behance Details",
-        text: "Source: Behance. Published: December 10, 2025. Last updated: December 10, 2025. Profile stats at scrape time: 22 Behance views and 0 appreciations. Original project URL: https://www.behance.net/gallery/240203303/BAQA-App.",
+        text: "Source: Behance. Published: December 10, 2025. Last updated: December 10, 2025. Profile stats at scrape time: 23 Behance views and 0 appreciations. Original project URL: https://www.behance.net/gallery/240203303/BAQA-App.",
       },
     ],
     iconName: "Code2",
@@ -308,9 +308,9 @@ export const behanceWorkItems = [
     type: "Figma Design",
     category: "figma-design",
     description:
-      "Max Hub E-Commerce is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published September 27, 2025, with focus areas including Figma, UI Design, UX Design, E commerce Website.",
+      "Max Hub E-Commerce is a Figma UI/UX design case study imported from Behance, published September 27, 2025, with focus areas including Figma, UI Design, UX Design, E commerce Website.",
     summary:
-      "Max Hub E-Commerce is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published September 27, 2025, with focus areas including Figma, UI Design, UX Design, E commerce Website.",
+      "Max Hub E-Commerce is a Figma UI/UX design case study imported from Behance, published September 27, 2025, with focus areas including Figma, UI Design, UX Design, E commerce Website.",
     scope: "Figma, UI Design",
     outcome: "Design case study",
     visual: "portfolio",
@@ -322,9 +322,9 @@ export const behanceWorkItems = [
     team: "UI/UX design",
     headline: "Max Hub E-Commerce",
     detailIntro:
-      "Max Hub E-Commerce is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published September 27, 2025, with focus areas including Figma, UI Design, UX Design, E commerce Website.",
+      "Max Hub E-Commerce is a Figma UI/UX design case study imported from Behance, published September 27, 2025, with focus areas including Figma, UI Design, UX Design, E commerce Website.",
     challenge:
-      "Max Hub E-Commerce is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+      "Max Hub E-Commerce is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
     build:
       "The scraped project tags and tools identify the work around Figma, UI Design, UX Design, E commerce Website, Web Design, user interface, UI/UX, Shopping. These tags are preserved as capabilities on the detail page so visitors can quickly understand the product type, UI direction, and design craft involved.",
     impact:
@@ -343,7 +343,7 @@ export const behanceWorkItems = [
     timeline: [
       {
         label: "Project Overview",
-        text: "Max Hub E-Commerce is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "Max Hub E-Commerce is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         label: "Design Focus",
@@ -380,7 +380,7 @@ export const behanceWorkItems = [
     detailSections: [
       {
         title: "Project Overview",
-        text: "Max Hub E-Commerce is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "Max Hub E-Commerce is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         title: "Design Focus",
@@ -407,9 +407,9 @@ export const behanceWorkItems = [
     type: "Figma Design",
     category: "figma-design",
     description:
-      "Naqlty App is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published August 17, 2025, with focus areas including Figma, UI Design, UX Design, Logistics.",
+      "Naqlty App is a Figma UI/UX design case study imported from Behance, published August 17, 2025, with focus areas including Figma, UI Design, UX Design, Logistics.",
     summary:
-      "Naqlty App is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published August 17, 2025, with focus areas including Figma, UI Design, UX Design, Logistics.",
+      "Naqlty App is a Figma UI/UX design case study imported from Behance, published August 17, 2025, with focus areas including Figma, UI Design, UX Design, Logistics.",
     scope: "Figma, UI Design",
     outcome: "Design case study",
     visual: "portfolio",
@@ -421,13 +421,13 @@ export const behanceWorkItems = [
     team: "UI/UX design",
     headline: "Naqlty App",
     detailIntro:
-      "Naqlty App is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published August 17, 2025, with focus areas including Figma, UI Design, UX Design, Logistics.",
+      "Naqlty App is a Figma UI/UX design case study imported from Behance, published August 17, 2025, with focus areas including Figma, UI Design, UX Design, Logistics.",
     challenge:
-      "Naqlty App is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+      "Naqlty App is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
     build:
       "The scraped project tags and tools identify the work around Figma, UI Design, UX Design, Logistics, shipping, delivery, UI/UX, Interaction Design. These tags are preserved as capabilities on the detail page so visitors can quickly understand the product type, UI direction, and design craft involved.",
     impact:
-      "Source: Behance. Published: August 17, 2025. Last updated: September 27, 2025. Profile stats at scrape time: 96 Behance views and 4 appreciations. Original project URL: https://www.behance.net/gallery/232673137/Naqlty-App.",
+      "Source: Behance. Published: August 17, 2025. Last updated: September 27, 2025. Profile stats at scrape time: 97 Behance views and 4 appreciations. Original project URL: https://www.behance.net/gallery/232673137/Naqlty-App.",
     modules: [
       "Figma",
       "UI Design",
@@ -442,7 +442,7 @@ export const behanceWorkItems = [
     timeline: [
       {
         label: "Project Overview",
-        text: "Naqlty App is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "Naqlty App is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         label: "Design Focus",
@@ -479,7 +479,7 @@ export const behanceWorkItems = [
     detailSections: [
       {
         title: "Project Overview",
-        text: "Naqlty App is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "Naqlty App is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         title: "Design Focus",
@@ -491,7 +491,7 @@ export const behanceWorkItems = [
       },
       {
         title: "Behance Details",
-        text: "Source: Behance. Published: August 17, 2025. Last updated: September 27, 2025. Profile stats at scrape time: 96 Behance views and 4 appreciations. Original project URL: https://www.behance.net/gallery/232673137/Naqlty-App.",
+        text: "Source: Behance. Published: August 17, 2025. Last updated: September 27, 2025. Profile stats at scrape time: 97 Behance views and 4 appreciations. Original project URL: https://www.behance.net/gallery/232673137/Naqlty-App.",
       },
     ],
     iconName: "Code2",
@@ -506,9 +506,9 @@ export const behanceWorkItems = [
     type: "Figma Design",
     category: "figma-design",
     description:
-      "( logistic platform ) نقلتي is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published August 17, 2025, with focus areas including Figma, UI Design, UX Design, Logistics.",
+      "( logistic platform ) نقلتي is a Figma UI/UX design case study imported from Behance, published August 17, 2025, with focus areas including Figma, UI Design, UX Design, Logistics.",
     summary:
-      "( logistic platform ) نقلتي is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published August 17, 2025, with focus areas including Figma, UI Design, UX Design, Logistics.",
+      "( logistic platform ) نقلتي is a Figma UI/UX design case study imported from Behance, published August 17, 2025, with focus areas including Figma, UI Design, UX Design, Logistics.",
     scope: "Figma, UI Design",
     outcome: "Design case study",
     visual: "portfolio",
@@ -520,9 +520,9 @@ export const behanceWorkItems = [
     team: "UI/UX design",
     headline: "( logistic platform ) نقلتي",
     detailIntro:
-      "( logistic platform ) نقلتي is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published August 17, 2025, with focus areas including Figma, UI Design, UX Design, Logistics.",
+      "( logistic platform ) نقلتي is a Figma UI/UX design case study imported from Behance, published August 17, 2025, with focus areas including Figma, UI Design, UX Design, Logistics.",
     challenge:
-      "( logistic platform ) نقلتي is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+      "( logistic platform ) نقلتي is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
     build:
       "The scraped project tags and tools identify the work around Figma, UI Design, UX Design, Logistics, Transport, delivery, ui design, Interaction Design. These tags are preserved as capabilities on the detail page so visitors can quickly understand the product type, UI direction, and design craft involved.",
     impact:
@@ -541,7 +541,7 @@ export const behanceWorkItems = [
     timeline: [
       {
         label: "Project Overview",
-        text: "( logistic platform ) نقلتي is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "( logistic platform ) نقلتي is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         label: "Design Focus",
@@ -578,7 +578,7 @@ export const behanceWorkItems = [
     detailSections: [
       {
         title: "Project Overview",
-        text: "( logistic platform ) نقلتي is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "( logistic platform ) نقلتي is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         title: "Design Focus",
@@ -605,9 +605,9 @@ export const behanceWorkItems = [
     type: "Figma Design",
     category: "figma-design",
     description:
-      "E-coomerce is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published May 11, 2025, with focus areas including Figma, UI Design, UX Design, E COMMERCE.",
+      "E-coomerce is a Figma UI/UX design case study imported from Behance, published May 11, 2025, with focus areas including Figma, UI Design, UX Design, E COMMERCE.",
     summary:
-      "E-coomerce is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published May 11, 2025, with focus areas including Figma, UI Design, UX Design, E COMMERCE.",
+      "E-coomerce is a Figma UI/UX design case study imported from Behance, published May 11, 2025, with focus areas including Figma, UI Design, UX Design, E COMMERCE.",
     scope: "Figma, UI Design",
     outcome: "Design case study",
     visual: "portfolio",
@@ -619,9 +619,9 @@ export const behanceWorkItems = [
     team: "UI/UX design",
     headline: "E-coomerce",
     detailIntro:
-      "E-coomerce is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published May 11, 2025, with focus areas including Figma, UI Design, UX Design, E COMMERCE.",
+      "E-coomerce is a Figma UI/UX design case study imported from Behance, published May 11, 2025, with focus areas including Figma, UI Design, UX Design, E COMMERCE.",
     challenge:
-      "E-coomerce is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+      "E-coomerce is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
     build:
       "The scraped project tags and tools identify the work around Figma, UI Design, UX Design, E COMMERCE, UI/UX, user interface, ui design, landing page. These tags are preserved as capabilities on the detail page so visitors can quickly understand the product type, UI direction, and design craft involved.",
     impact:
@@ -640,7 +640,7 @@ export const behanceWorkItems = [
     timeline: [
       {
         label: "Project Overview",
-        text: "E-coomerce is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "E-coomerce is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         label: "Design Focus",
@@ -677,7 +677,7 @@ export const behanceWorkItems = [
     detailSections: [
       {
         title: "Project Overview",
-        text: "E-coomerce is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "E-coomerce is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         title: "Design Focus",
@@ -704,9 +704,9 @@ export const behanceWorkItems = [
     type: "Figma Design",
     category: "figma-design",
     description:
-      "INOVENT is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published January 10, 2025, with focus areas including Figma, UI Design, UX Design, Web Design.",
+      "INOVENT is a Figma UI/UX design case study imported from Behance, published January 10, 2025, with focus areas including Figma, UI Design, UX Design, Web Design.",
     summary:
-      "INOVENT is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published January 10, 2025, with focus areas including Figma, UI Design, UX Design, Web Design.",
+      "INOVENT is a Figma UI/UX design case study imported from Behance, published January 10, 2025, with focus areas including Figma, UI Design, UX Design, Web Design.",
     scope: "Figma, UI Design",
     outcome: "Design case study",
     visual: "portfolio",
@@ -718,9 +718,9 @@ export const behanceWorkItems = [
     team: "UI/UX design",
     headline: "INOVENT",
     detailIntro:
-      "INOVENT is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published January 10, 2025, with focus areas including Figma, UI Design, UX Design, Web Design.",
+      "INOVENT is a Figma UI/UX design case study imported from Behance, published January 10, 2025, with focus areas including Figma, UI Design, UX Design, Web Design.",
     challenge:
-      "INOVENT is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+      "INOVENT is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
     build:
       "The scraped project tags and tools identify the work around Figma, UI Design, UX Design, Web Design, UI/UX, ui design, user interface, landing page. These tags are preserved as capabilities on the detail page so visitors can quickly understand the product type, UI direction, and design craft involved.",
     impact:
@@ -739,7 +739,7 @@ export const behanceWorkItems = [
     timeline: [
       {
         label: "Project Overview",
-        text: "INOVENT is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "INOVENT is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         label: "Design Focus",
@@ -776,7 +776,7 @@ export const behanceWorkItems = [
     detailSections: [
       {
         title: "Project Overview",
-        text: "INOVENT is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "INOVENT is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         title: "Design Focus",
@@ -803,9 +803,9 @@ export const behanceWorkItems = [
     type: "Figma Design",
     category: "figma-design",
     description:
-      "أولادنا ( E-Commerce ) is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published January 3, 2025, with focus areas including Figma, UI Design, UX Design, E commerce Website.",
+      "أولادنا ( E-Commerce ) is a Figma UI/UX design case study imported from Behance, published January 3, 2025, with focus areas including Figma, UI Design, UX Design, E commerce Website.",
     summary:
-      "أولادنا ( E-Commerce ) is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published January 3, 2025, with focus areas including Figma, UI Design, UX Design, E commerce Website.",
+      "أولادنا ( E-Commerce ) is a Figma UI/UX design case study imported from Behance, published January 3, 2025, with focus areas including Figma, UI Design, UX Design, E commerce Website.",
     scope: "Figma, UI Design",
     outcome: "Design case study",
     visual: "portfolio",
@@ -817,9 +817,9 @@ export const behanceWorkItems = [
     team: "UI/UX design",
     headline: "أولادنا ( E-Commerce )",
     detailIntro:
-      "أولادنا ( E-Commerce ) is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published January 3, 2025, with focus areas including Figma, UI Design, UX Design, E commerce Website.",
+      "أولادنا ( E-Commerce ) is a Figma UI/UX design case study imported from Behance, published January 3, 2025, with focus areas including Figma, UI Design, UX Design, E commerce Website.",
     challenge:
-      "أولادنا ( E-Commerce ) is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+      "أولادنا ( E-Commerce ) is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
     build:
       "The scraped project tags and tools identify the work around Figma, UI Design, UX Design, E commerce Website, UI/UX, landing page, Web Design, ui design. These tags are preserved as capabilities on the detail page so visitors can quickly understand the product type, UI direction, and design craft involved.",
     impact:
@@ -838,7 +838,7 @@ export const behanceWorkItems = [
     timeline: [
       {
         label: "Project Overview",
-        text: "أولادنا ( E-Commerce ) is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "أولادنا ( E-Commerce ) is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         label: "Design Focus",
@@ -875,7 +875,7 @@ export const behanceWorkItems = [
     detailSections: [
       {
         title: "Project Overview",
-        text: "أولادنا ( E-Commerce ) is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "أولادنا ( E-Commerce ) is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         title: "Design Focus",
@@ -902,9 +902,9 @@ export const behanceWorkItems = [
     type: "Figma Design",
     category: "figma-design",
     description:
-      "Test System is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published December 13, 2024, with focus areas including Figma, UI Design, UX Design, test.",
+      "Test System is a Figma UI/UX design case study imported from Behance, published December 13, 2024, with focus areas including Figma, UI Design, UX Design, test.",
     summary:
-      "Test System is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published December 13, 2024, with focus areas including Figma, UI Design, UX Design, test.",
+      "Test System is a Figma UI/UX design case study imported from Behance, published December 13, 2024, with focus areas including Figma, UI Design, UX Design, test.",
     scope: "Figma, UI Design",
     outcome: "Design case study",
     visual: "portfolio",
@@ -916,9 +916,9 @@ export const behanceWorkItems = [
     team: "UI/UX design",
     headline: "Test System",
     detailIntro:
-      "Test System is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published December 13, 2024, with focus areas including Figma, UI Design, UX Design, test.",
+      "Test System is a Figma UI/UX design case study imported from Behance, published December 13, 2024, with focus areas including Figma, UI Design, UX Design, test.",
     challenge:
-      "Test System is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+      "Test System is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
     build:
       "The scraped project tags and tools identify the work around Figma, UI Design, UX Design, test, system design, UI/UX, ui design, tests. These tags are preserved as capabilities on the detail page so visitors can quickly understand the product type, UI direction, and design craft involved.",
     impact:
@@ -937,7 +937,7 @@ export const behanceWorkItems = [
     timeline: [
       {
         label: "Project Overview",
-        text: "Test System is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "Test System is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         label: "Design Focus",
@@ -971,7 +971,7 @@ export const behanceWorkItems = [
     detailSections: [
       {
         title: "Project Overview",
-        text: "Test System is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "Test System is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         title: "Design Focus",
@@ -998,9 +998,9 @@ export const behanceWorkItems = [
     type: "Figma Design",
     category: "figma-design",
     description:
-      "TAWSILA APP is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published October 13, 2024, with focus areas including Figma, UI Design, UX Design, Driver app.",
+      "TAWSILA APP is a Figma UI/UX design case study imported from Behance, published October 13, 2024, with focus areas including Figma, UI Design, UX Design, Driver app.",
     summary:
-      "TAWSILA APP is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published October 13, 2024, with focus areas including Figma, UI Design, UX Design, Driver app.",
+      "TAWSILA APP is a Figma UI/UX design case study imported from Behance, published October 13, 2024, with focus areas including Figma, UI Design, UX Design, Driver app.",
     scope: "Figma, UI Design",
     outcome: "Design case study",
     visual: "portfolio",
@@ -1012,9 +1012,9 @@ export const behanceWorkItems = [
     team: "UI/UX design",
     headline: "TAWSILA APP",
     detailIntro:
-      "TAWSILA APP is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published October 13, 2024, with focus areas including Figma, UI Design, UX Design, Driver app.",
+      "TAWSILA APP is a Figma UI/UX design case study imported from Behance, published October 13, 2024, with focus areas including Figma, UI Design, UX Design, Driver app.",
     challenge:
-      "TAWSILA APP is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+      "TAWSILA APP is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
     build:
       "The scraped project tags and tools identify the work around Figma, UI Design, UX Design, Driver app, car transport service, Vehicle Transportation, carservice, ui design. These tags are preserved as capabilities on the detail page so visitors can quickly understand the product type, UI direction, and design craft involved.",
     impact:
@@ -1033,7 +1033,7 @@ export const behanceWorkItems = [
     timeline: [
       {
         label: "Project Overview",
-        text: "TAWSILA APP is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "TAWSILA APP is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         label: "Design Focus",
@@ -1070,7 +1070,7 @@ export const behanceWorkItems = [
     detailSections: [
       {
         title: "Project Overview",
-        text: "TAWSILA APP is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "TAWSILA APP is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         title: "Design Focus",
@@ -1097,9 +1097,9 @@ export const behanceWorkItems = [
     type: "Figma Design",
     category: "figma-design",
     description:
-      "Financial Dashboard is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published August 27, 2024, with focus areas including Figma, UI Design, UX Design, dashboard.",
+      "Financial Dashboard is a Figma UI/UX design case study imported from Behance, published August 27, 2024, with focus areas including Figma, UI Design, UX Design, dashboard.",
     summary:
-      "Financial Dashboard is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published August 27, 2024, with focus areas including Figma, UI Design, UX Design, dashboard.",
+      "Financial Dashboard is a Figma UI/UX design case study imported from Behance, published August 27, 2024, with focus areas including Figma, UI Design, UX Design, dashboard.",
     scope: "Figma, UI Design",
     outcome: "Design case study",
     visual: "portfolio",
@@ -1111,9 +1111,9 @@ export const behanceWorkItems = [
     team: "UI/UX design",
     headline: "Financial Dashboard",
     detailIntro:
-      "Financial Dashboard is a Figma UI/UX design case study from Rana Salah's Behance portfolio, published August 27, 2024, with focus areas including Figma, UI Design, UX Design, dashboard.",
+      "Financial Dashboard is a Figma UI/UX design case study imported from Behance, published August 27, 2024, with focus areas including Figma, UI Design, UX Design, dashboard.",
     challenge:
-      "Financial Dashboard is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+      "Financial Dashboard is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
     build:
       "The scraped project tags and tools identify the work around Figma, UI Design, UX Design, dashboard, financial, dashboard design, user interface, UI/UX. These tags are preserved as capabilities on the detail page so visitors can quickly understand the product type, UI direction, and design craft involved.",
     impact:
@@ -1132,7 +1132,7 @@ export const behanceWorkItems = [
     timeline: [
       {
         label: "Project Overview",
-        text: "Financial Dashboard is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "Financial Dashboard is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         label: "Design Focus",
@@ -1166,7 +1166,7 @@ export const behanceWorkItems = [
     detailSections: [
       {
         title: "Project Overview",
-        text: "Financial Dashboard is imported from Rana Salah's Behance profile as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
+        text: "Financial Dashboard is imported from Behance as a Figma design case study. The project is categorized under Figma designs so it can be browsed separately from websites and mobile/backend implementation work.",
       },
       {
         title: "Design Focus",
