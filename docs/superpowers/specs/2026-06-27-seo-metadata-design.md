@@ -4,13 +4,13 @@ Date: 2026-06-27
 
 ## Goal
 
-Improve TRAFFODATA's search and social metadata across the website using `https://traffodata.vercel.app` as the canonical production origin. The site should expose clear page titles, descriptions, canonical URLs, Open Graph/Twitter previews, structured data, robots rules, and a sitemap.
+Improve TRAFFODATA's search and social metadata across the website using `https://traffodata.com` as the canonical production origin. The site should expose clear page titles, descriptions, canonical URLs, Open Graph/Twitter previews, structured data, robots rules, and a sitemap.
 
 ## Scope
 
 - Add a central SEO helper for shared metadata values and route-specific helpers.
 - Keep existing route-level `head()` behavior, but replace repeated hand-written metadata with helper output.
-- Use `https://traffodata.vercel.app` as the canonical base URL.
+- Use `https://traffodata.com` as the canonical base URL.
 - Improve metadata for home, work index, and individual project detail pages.
 - Use project thumbnails or first gallery images for project Open Graph/Twitter images.
 - Add JSON-LD structured data for the organization, website, and project detail pages.
@@ -97,14 +97,14 @@ Generate a static `public/sitemap.xml` with:
 - `/work`
 - `/work/<slug>` for all current `workItems`
 
-Use absolute URLs under `https://traffodata.vercel.app`. Use the current date `2026-06-27` for `lastmod`.
+Use absolute URLs under `https://traffodata.com`. Use the current date `2026-06-27` for `lastmod`.
 
 ## Robots
 
 Add `public/robots.txt`:
 
 - Allow all crawlers.
-- Point to `https://traffodata.vercel.app/sitemap.xml`.
+- Point to `https://traffodata.com/sitemap.xml`.
 
 ## Validation
 

@@ -1,23 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { ProjectDetailPage } from "@/components/site/ProjectDetailPage";
+import { projectSeo } from "@/components/site/seo";
 import { getWorkItem } from "@/components/site/workData";
 
 export const Route = createFileRoute("/work_/$slug")({
-  head: ({ params }) => {
-    const project = getWorkItem(params.slug);
-    const title = project && project.client !== project.title ? `${project.title} - ${project.client}` : project?.title ?? "Project - TRAFFODATA Software";
-    const description = project?.summary ?? "Project details for selected operational software work.";
-
-    return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-      ],
-    };
-  },
+  head: ({ params }) => projectSeo(getWorkItem(params.slug)),
   component: RouteComponent,
 });
 

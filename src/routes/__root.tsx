@@ -9,6 +9,12 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
+import {
+  homeSeo,
+  iconLinks,
+  organizationJsonLd,
+  websiteJsonLd,
+} from "@/components/site/seo";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -57,20 +63,20 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "TRAFFODATA - The Operating System for Modern Enterprises" },
-      { name: "description", content: "TRAFFODATA builds premium ERP, inventory, warehouse, POS, accounting, CRM and HR software that transforms how modern businesses operate." },
-      { name: "author", content: "TRAFFODATA" },
-      { property: "og:title", content: "TRAFFODATA - The Operating System for Modern Enterprises" },
-      { property: "og:description", content: "Premium ERP and business automation software for ambitious teams." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "stylesheet", href: appCss }],
-  }),
+  head: () => {
+    const seo = homeSeo();
+
+    return {
+      meta: [
+        { charSet: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        ...seo.meta,
+        { "script:ld+json": organizationJsonLd() },
+        { "script:ld+json": websiteJsonLd() },
+      ],
+      links: [{ rel: "stylesheet", href: appCss }, ...iconLinks()],
+    };
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
