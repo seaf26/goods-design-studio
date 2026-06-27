@@ -4,12 +4,14 @@ export const SITE_URL = "https://traffodata.com";
 export const SITE_NAME = "TRAFFODATA Software";
 export const DEFAULT_TITLE = "TRAFFODATA - The Operating System for Modern Enterprises";
 export const DEFAULT_DESCRIPTION =
-  "Premium ERP, inventory, warehouse, POS, accounting, CRM and HR software engineered for modern enterprise operations.";
+  "Premium ERP, inventory, warehouse, POS, accounting, CRM and AI software engineered for modern enterprise operations.";
 
 export const BRAND_ASSETS = {
   mark: "/brand/traffodata-logo-mark.png",
   wide: "/brand/traffodata-logo-wide.png",
-  og: "/brand/traffodata-og-logo.png",
+  og: "/brand/traffodata-og-cairo-light.png",
+  ogCairoLight: "/brand/traffodata-og-cairo-light.png",
+  ogCairoDark: "/brand/traffodata-og-cairo-dark.png",
   icon512: "/brand/traffodata-icon-512.png",
   icon192: "/brand/traffodata-icon-192.png",
   appleTouch: "/brand/apple-touch-icon.png",
@@ -40,6 +42,18 @@ export function assetUrl(path: string) {
   return absoluteUrl(path);
 }
 
+export function getCairoOgImage(date = new Date()) {
+  const cairoHour = Number(
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: "Africa/Cairo",
+      hour: "numeric",
+      hour12: false,
+    }).format(date),
+  );
+
+  return cairoHour >= 7 && cairoHour < 18 ? BRAND_ASSETS.ogCairoLight : BRAND_ASSETS.ogCairoDark;
+}
+
 export function iconLinks() {
   return [
     { rel: "icon", type: "image/png", href: BRAND_ASSETS.favicon },
@@ -54,7 +68,7 @@ export function seoHead({
   description,
   path = "/",
   type = "website",
-  image = BRAND_ASSETS.og,
+  image = getCairoOgImage(),
   imageAlt = "TRAFFODATA Software Solutions logo",
   jsonLd = [],
 }: SeoOptions) {
@@ -74,10 +88,14 @@ export function seoHead({
       { property: "og:site_name", content: SITE_NAME },
       { property: "og:image", content: socialImage },
       { property: "og:image:alt", content: imageAlt },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:type", content: "image/png" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: title },
       { name: "twitter:description", content: description },
       { name: "twitter:image", content: socialImage },
+      { name: "twitter:image:alt", content: imageAlt },
       ...jsonLd.map((data) => ({ "script:ld+json": data })),
     ],
     links: [{ rel: "canonical", href: canonical }],
@@ -92,7 +110,7 @@ export function organizationJsonLd(): JsonLd {
     url: SITE_URL,
     logo: assetUrl(BRAND_ASSETS.mark),
     description:
-      "TRAFFODATA builds ERP, inventory, warehouse, POS, accounting, CRM and HR software for modern enterprise operations.",
+      "TRAFFODATA builds ERP, inventory, warehouse, POS, accounting, CRM and AI software for modern enterprise operations.",
     sameAs: [SITE_URL],
   };
 }
@@ -116,6 +134,7 @@ export function homeSeo() {
     title: DEFAULT_TITLE,
     description: DEFAULT_DESCRIPTION,
     path: "/",
+    imageAlt: "TRAFFODATA enterprise operations software preview",
   });
 }
 

@@ -98,7 +98,7 @@ export const SITE_URL = "https://traffodata.com";
 export const SITE_NAME = "TRAFFODATA Software";
 export const DEFAULT_TITLE = "TRAFFODATA - The Operating System for Modern Enterprises";
 export const DEFAULT_DESCRIPTION =
-  "Premium ERP, inventory, warehouse, POS, accounting, CRM and HR software engineered for modern enterprise operations.";
+  "Premium ERP, inventory, warehouse, POS, accounting, CRM and AI software engineered for modern enterprise operations.";
 
 export const BRAND_ASSETS = {
   mark: "/brand/traffodata-logo-mark.png",
@@ -186,7 +186,7 @@ export function organizationJsonLd(): JsonLd {
     url: SITE_URL,
     logo: assetUrl(BRAND_ASSETS.mark),
     description:
-      "TRAFFODATA builds ERP, inventory, warehouse, POS, accounting, CRM and HR software for modern enterprise operations.",
+      "TRAFFODATA builds ERP, inventory, warehouse, POS, accounting, CRM and AI software for modern enterprise operations.",
     sameAs: [SITE_URL],
   };
 }

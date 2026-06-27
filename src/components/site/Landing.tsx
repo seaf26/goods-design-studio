@@ -501,7 +501,7 @@ function HeroDashboard() {
               { i: ScanBarcode, l: "POS" },
               { i: Calculator, l: "Accounting" },
               { i: Users, l: "CRM" },
-              { i: Briefcase, l: "HR" },
+              { i: Sparkles, l: "AI" },
             ].map(({ i: Icon, l, a }) => (
               <div
                 key={l}
@@ -906,7 +906,7 @@ function Hero() {
 
         <Reveal delay={0.7}>
           <p className="mx-auto mt-7 max-w-2xl text-center text-[15px] leading-relaxed text-white/78 [text-shadow:0_1px_18px_rgba(3,4,10,0.2)] md:text-base">
-            TRAFFODATA engineers premium ERP, inventory, warehouse, POS, accounting, CRM and HR
+            TRAFFODATA engineers premium ERP, inventory, warehouse, POS, accounting, CRM and AI
             platforms, built to scale with the world's most ambitious operators.
           </p>
         </Reveal>
@@ -1100,9 +1100,9 @@ const services = [
     d: "Pipeline, service and account intelligence connected to live operations.",
   },
   {
-    i: Briefcase,
-    t: "Human Resources",
-    d: "Hire-to-retire, payroll, time and attendance for distributed teams.",
+    i: Sparkles,
+    t: "AI Automation",
+    d: "Operational copilots, workflow intelligence and automation across your business systems.",
   },
   {
     i: Settings2,
@@ -1186,7 +1186,7 @@ const platformTabs = [
   { k: "inventory", l: "Inventory", icon: Boxes },
   { k: "accounting", l: "Accounting", icon: Calculator },
   { k: "crm", l: "CRM", icon: Users },
-  { k: "hr", l: "HR", icon: Briefcase },
+  { k: "ai", l: "AI", icon: Sparkles },
   { k: "warehouse", l: "Warehouse", icon: Warehouse },
   { k: "pos", l: "POS", icon: ScanBarcode },
   { k: "reports", l: "Reports", icon: BarChart3 },
@@ -1218,17 +1218,17 @@ function PlatformContent({ k }: { k: string }) {
       ],
       title: "CRM · operations-aware",
     },
-    hr: {
+    ai: {
       kpi: [
-        ["Headcount", "248"],
-        ["Open roles", "12"],
-        ["Retention", "94%"],
+        ["Automations", "248"],
+        ["AI workflows", "12"],
+        ["Assisted tasks", "94%"],
       ],
-      title: "HR · hire to retire",
+      title: "AI · operational automation",
     },
     warehouse: {
       kpi: [
-        ["Picks / hr", "412"],
+        ["Picks / hour", "412"],
         ["Accuracy", "99.8%"],
         ["Dock util.", "78%"],
       ],
@@ -2152,7 +2152,7 @@ export function Footer() {
           <Reveal className="max-w-[22rem]">
             <GoodsLogo />
             <p className="mt-6 text-[15px] leading-relaxed text-white/62 sm:mt-8 sm:text-sm">
-              Premium ERP, inventory, warehouse, POS, accounting, CRM and HR software for operators
+              Premium ERP, inventory, warehouse, POS, accounting, CRM and AI software for operators
               building serious businesses.
             </p>
             <p className="mt-7 text-sm text-white/45 sm:mt-8">

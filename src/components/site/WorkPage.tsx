@@ -94,7 +94,7 @@ function WarehouseVisual({ item }: { item: WorkItem }) {
           <div className="rounded-xl bg-black p-3 text-white">
             <Icon className="h-5 w-5 text-primary" />
             <div className="mt-8 font-display text-4xl font-bold tracking-tight">412</div>
-            <div className="mt-1 text-[10px] text-white/45">picks / hr</div>
+            <div className="mt-1 text-[10px] text-white/45">picks / hour</div>
           </div>
           <div className="space-y-2">
             {[82, 68, 91, 54].map((width) => (

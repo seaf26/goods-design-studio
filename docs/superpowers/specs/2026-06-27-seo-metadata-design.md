@@ -64,7 +64,7 @@ Every route should include:
 
 Home page should emphasize:
 
-- ERP, inventory, warehouse, POS, accounting, CRM, and HR software.
+- ERP, inventory, warehouse, POS, accounting, CRM, and AI software.
 - Premium operational software for modern enterprises.
 
 Work page should emphasize:

@@ -6,7 +6,7 @@ brand
 
 ## Users
 
-TRAFFODATA speaks to operators, founders, and technical decision-makers who need serious ERP, inventory, warehouse, POS, accounting, CRM, and HR systems. They are evaluating whether the team can understand operational pressure and ship dependable software, not browsing a decorative agency portfolio.
+TRAFFODATA speaks to operators, founders, and technical decision-makers who need serious ERP, inventory, warehouse, POS, accounting, CRM, and AI systems. They are evaluating whether the team can understand operational pressure and ship dependable software, not browsing a decorative agency portfolio.
 
 ## Product Purpose
 

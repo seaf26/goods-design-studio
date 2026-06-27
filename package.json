@@ -9,6 +9,7 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "sitemap": "node scripts/generate-sitemap.mjs",
+    "verify:cairo-og": "node scripts/verify-cairo-og.mjs",
     "scrape:behance": "node scripts/scrape-behance.mjs",
     "lint": "eslint .",
     "format": "prettier --write ."
