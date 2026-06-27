@@ -1,11 +1,58 @@
-import { lazy, Suspense, useEffect, useRef, useState, type MouseEvent, type PointerEvent, type ReactNode } from "react";
-import { AnimatePresence, motion, useScroll, useTransform, useMotionValue, useSpring, useInView, useReducedMotion } from "motion/react";
 import {
-  ArrowRight, ArrowUpRight, Boxes, Warehouse, ScanBarcode, Calculator,
-  Users, Briefcase, Truck, Settings2, Sparkles, ChevronRight, Plus,
-  TrendingUp, Activity, Package, CreditCard, BarChart3, Building2,
-  Layers, Zap, Shield, Globe2, Check, Quote, Menu, X, Gem, Cpu, MessageCircle, Send, Handshake,
-  PhoneCall, type LucideIcon
+  lazy,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+  type MouseEvent,
+  type PointerEvent,
+  type ReactNode,
+} from "react";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  useSpring,
+  useInView,
+  useReducedMotion,
+} from "motion/react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Boxes,
+  Warehouse,
+  ScanBarcode,
+  Calculator,
+  Users,
+  Briefcase,
+  Truck,
+  Settings2,
+  Sparkles,
+  ChevronRight,
+  Plus,
+  TrendingUp,
+  Activity,
+  Package,
+  CreditCard,
+  BarChart3,
+  Building2,
+  Layers,
+  Zap,
+  Shield,
+  Globe2,
+  Check,
+  Quote,
+  Menu,
+  X,
+  Gem,
+  Cpu,
+  MessageCircle,
+  Send,
+  Handshake,
+  PhoneCall,
+  type LucideIcon,
 } from "lucide-react";
 import { getHeroLiquidSettings, resolveHeroQuality, type HeroQuality } from "./heroPerformance";
 
@@ -16,7 +63,17 @@ import { getHeroLiquidSettings, resolveHeroQuality, type HeroQuality } from "./h
 const ease = [0.22, 1, 0.36, 1] as const;
 const LiquidEther = lazy(() => import("./LiquidEther"));
 
-export function Reveal({ children, delay = 0, y = 24, className = "" }: { children: ReactNode; delay?: number; y?: number; className?: string }) {
+export function Reveal({
+  children,
+  delay = 0,
+  y = 24,
+  className = "",
+}: {
+  children: ReactNode;
+  delay?: number;
+  y?: number;
+  className?: string;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   return (
@@ -32,7 +89,17 @@ export function Reveal({ children, delay = 0, y = 24, className = "" }: { childr
   );
 }
 
-export function SplitText({ text, className = "", delay = 0, textBlur = false }: { text: string; className?: string; delay?: number; textBlur?: boolean }) {
+export function SplitText({
+  text,
+  className = "",
+  delay = 0,
+  textBlur = false,
+}: {
+  text: string;
+  className?: string;
+  delay?: number;
+  textBlur?: boolean;
+}) {
   const shouldReduceMotion = useReducedMotion();
   const words = text.split(" ");
   return (
@@ -41,8 +108,20 @@ export function SplitText({ text, className = "", delay = 0, textBlur = false }:
         <span key={i} className="inline-block overflow-hidden align-top mr-[0.25em]">
           <motion.span
             className="inline-block"
-            initial={shouldReduceMotion ? false : textBlur ? { y: "116%", opacity: 0, filter: "blur(8px)" } : { y: "116%", opacity: 0 }}
-            animate={shouldReduceMotion ? { opacity: 1 } : textBlur ? { y: "0%", opacity: 1, filter: "blur(0px)" } : { y: "0%", opacity: 1 }}
+            initial={
+              shouldReduceMotion
+                ? false
+                : textBlur
+                  ? { y: "116%", opacity: 0, filter: "blur(8px)" }
+                  : { y: "116%", opacity: 0 }
+            }
+            animate={
+              shouldReduceMotion
+                ? { opacity: 1 }
+                : textBlur
+                  ? { y: "0%", opacity: 1, filter: "blur(0px)" }
+                  : { y: "0%", opacity: 1 }
+            }
             transition={{ duration: 1.05, delay: delay + i * 0.065, ease }}
           >
             {w}
@@ -55,7 +134,9 @@ export function SplitText({ text, className = "", delay = 0, textBlur = false }:
 
 export function Eyebrow({ children, light = false }: { children: ReactNode; light?: boolean }) {
   return (
-    <div className={`inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] ${light ? "text-white/60" : "text-[var(--muted-foreground)]"}`}>
+    <div
+      className={`inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] ${light ? "text-white/60" : "text-[var(--muted-foreground)]"}`}
+    >
       <span className={`h-1 w-1 rounded-full ${light ? "bg-primary" : "bg-primary"}`} />
       {children}
     </div>
@@ -90,12 +171,24 @@ function handleSectionLinkClick(event: MouseEvent<HTMLAnchorElement>, href: stri
   window.history.pushState(null, "", href);
 }
 
-function MagneticButton({ children, href = "#", variant = "primary", className = "" }: { children: ReactNode; href?: string; variant?: "primary" | "ghost" | "dark"; className?: string }) {
+function MagneticButton({
+  children,
+  href = "#",
+  variant = "primary",
+  className = "",
+}: {
+  children: ReactNode;
+  href?: string;
+  variant?: "primary" | "ghost" | "dark";
+  className?: string;
+}) {
   const ref = useRef<HTMLAnchorElement>(null);
-  const x = useMotionValue(0); const y = useMotionValue(0);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
   const sx = useSpring(x, { stiffness: 200, damping: 15 });
   const sy = useSpring(y, { stiffness: 200, damping: 15 });
-  const base = "group relative inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium transition-colors will-change-transform";
+  const base =
+    "group relative inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium transition-colors will-change-transform";
   const styles = {
     primary: "bg-[var(--ink)] text-white hover:bg-[var(--ink)]/90",
     dark: "bg-[#333da7] text-white hover:bg-[#2d3594]",
@@ -112,7 +205,10 @@ function MagneticButton({ children, href = "#", variant = "primary", className =
         x.set((e.clientX - r.left - r.width / 2) * 0.25);
         y.set((e.clientY - r.top - r.height / 2) * 0.25);
       }}
-      onMouseLeave={() => { x.set(0); y.set(0); }}
+      onMouseLeave={() => {
+        x.set(0);
+        y.set(0);
+      }}
       className={`${base} ${styles} ${className}`}
     >
       {children}
@@ -120,7 +216,15 @@ function MagneticButton({ children, href = "#", variant = "primary", className =
   );
 }
 
-function Counter({ to, suffix = "", duration = 2 }: { to: number; suffix?: string; duration?: number }) {
+function Counter({
+  to,
+  suffix = "",
+  duration = 2,
+}: {
+  to: number;
+  suffix?: string;
+  duration?: number;
+}) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true });
   const [v, setV] = useState(0);
@@ -138,7 +242,12 @@ function Counter({ to, suffix = "", duration = 2 }: { to: number; suffix?: strin
     return () => cancelAnimationFrame(raf);
   }, [inView, to, duration]);
   const isFloat = to % 1 !== 0;
-  return <span ref={ref}>{isFloat ? v.toFixed(1) : Math.floor(v).toLocaleString()}{suffix}</span>;
+  return (
+    <span ref={ref}>
+      {isFloat ? v.toFixed(1) : Math.floor(v).toLocaleString()}
+      {suffix}
+    </span>
+  );
 }
 
 /* ------------------------------------------------------------------ */
@@ -163,7 +272,9 @@ function BrandMark({ size = "sm", framed = true }: { size?: "sm" | "md"; framed?
   return (
     <span
       className={`grid shrink-0 place-items-center ${boxSize} ${
-        framed ? "bg-white text-[var(--ink)] ring-1 ring-black/8 shadow-[0_8px_24px_-18px_rgba(0,0,0,0.55)]" : ""
+        framed
+          ? "bg-white text-[var(--ink)] ring-1 ring-black/8 shadow-[0_8px_24px_-18px_rgba(0,0,0,0.55)]"
+          : ""
       }`}
     >
       <img
@@ -183,8 +294,15 @@ function GoodsNavLogo({ inverted = false }: { inverted?: boolean }) {
   return (
     <a href="/" className="flex items-center gap-2" aria-label={`${BRAND_NAME} home`}>
       <BrandMark />
-      <span className={`text-[15px] font-semibold tracking-[-0.01em] ${inverted ? "text-white" : "text-[var(--ink)]"}`}>
-        {BRAND_NAME} <span className={`font-normal ${inverted ? "text-white/62" : "text-[var(--muted-foreground)]"}`}>Software</span>
+      <span
+        className={`text-[15px] font-semibold tracking-[-0.01em] ${inverted ? "text-white" : "text-[var(--ink)]"}`}
+      >
+        {BRAND_NAME}{" "}
+        <span
+          className={`font-normal ${inverted ? "text-white/62" : "text-[var(--muted-foreground)]"}`}
+        >
+          Software
+        </span>
       </span>
     </a>
   );
@@ -225,11 +343,13 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
       className={`fixed inset-x-0 top-0 z-50 transition-[padding] duration-200 ${scrolled ? "py-3" : "py-5"}`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
-        <div className={`flex items-center rounded-full px-2 py-2 backdrop-blur transition-[background,border-color,box-shadow] duration-200 ${
-          elevated
-            ? "border border-[var(--hairline)] bg-white/85 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.14)]"
-            : "border border-white/10 bg-white/[0.03] shadow-none"
-        }`}>
+        <div
+          className={`flex items-center rounded-full px-2 py-2 backdrop-blur transition-[background,border-color,box-shadow] duration-200 ${
+            elevated
+              ? "border border-[var(--hairline)] bg-white/85 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.14)]"
+              : "border border-white/10 bg-white/[0.03] shadow-none"
+          }`}
+        >
           <div className="px-2">
             <GoodsNavLogo inverted={!elevated} />
           </div>
@@ -259,11 +379,13 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
           ))}
         </nav>
 
-        <div className={`flex items-center gap-2 rounded-full p-2 backdrop-blur transition-[background,border-color,box-shadow] duration-200 ${
-          elevated
-            ? "border border-[var(--hairline)] bg-white/85 shadow-[0_8px_30px_-16px_rgba(0,0,0,0.14)]"
-            : "border border-white/10 bg-white/[0.03] shadow-none"
-        }`}>
+        <div
+          className={`flex items-center gap-2 rounded-full p-2 backdrop-blur transition-[background,border-color,box-shadow] duration-200 ${
+            elevated
+              ? "border border-[var(--hairline)] bg-white/85 shadow-[0_8px_30px_-16px_rgba(0,0,0,0.14)]"
+              : "border border-white/10 bg-white/[0.03] shadow-none"
+          }`}
+        >
           <a
             href="#cta"
             onClick={(event) => handleNavClick(event, "#cta")}
@@ -324,7 +446,8 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
 
 function HeroDashboard() {
   const ref = useRef<HTMLDivElement>(null);
-  const mx = useMotionValue(0); const my = useMotionValue(0);
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
   const rx = useSpring(useTransform(my, [-1, 1], [4, -4]), { stiffness: 60, damping: 18 });
   const ry = useSpring(useTransform(mx, [-1, 1], [-6, 6]), { stiffness: 60, damping: 18 });
   return (
@@ -335,12 +458,18 @@ function HeroDashboard() {
         mx.set(((e.clientX - r.left) / r.width - 0.5) * 2);
         my.set(((e.clientY - r.top) / r.height - 0.5) * 2);
       }}
-      onMouseLeave={() => { mx.set(0); my.set(0); }}
+      onMouseLeave={() => {
+        mx.set(0);
+        my.set(0);
+      }}
       style={{ rotateX: rx, rotateY: ry, transformPerspective: 1400 }}
       className="relative mx-auto w-full max-w-6xl"
     >
       {/* Glow */}
-      <div aria-hidden className="pointer-events-none absolute -inset-x-12 -bottom-12 -top-8 -z-10 bg-[radial-gradient(60%_60%_at_50%_50%,rgba(124,58,237,0.18),transparent_70%)] blur-2xl" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -inset-x-12 -bottom-12 -top-8 -z-10 bg-[radial-gradient(60%_60%_at_50%_50%,rgba(124,58,237,0.18),transparent_70%)] blur-2xl"
+      />
 
       {/* Dashboard frame */}
       <motion.div
@@ -374,7 +503,10 @@ function HeroDashboard() {
               { i: Users, l: "CRM" },
               { i: Briefcase, l: "HR" },
             ].map(({ i: Icon, l, a }) => (
-              <div key={l} className={`flex items-center gap-2 rounded-lg px-3 py-2 text-[12px] ${a ? "bg-[var(--ink)] text-white" : "text-[var(--muted-foreground)]"}`}>
+              <div
+                key={l}
+                className={`flex items-center gap-2 rounded-lg px-3 py-2 text-[12px] ${a ? "bg-[var(--ink)] text-white" : "text-[var(--muted-foreground)]"}`}
+              >
                 <Icon className="h-3.5 w-3.5" /> {l}
               </div>
             ))}
@@ -389,7 +521,10 @@ function HeroDashboard() {
               { l: "Stock turn", v: "6.2x", d: "+0.4", icon: Activity },
             ].map(({ l, v, d, icon: Icon }) => (
               <div key={l} className="col-span-2 rounded-xl ring-hairline p-4">
-                <div className="flex items-center justify-between text-[11px] text-[var(--muted-foreground)]">{l}<Icon className="h-3.5 w-3.5" /></div>
+                <div className="flex items-center justify-between text-[11px] text-[var(--muted-foreground)]">
+                  {l}
+                  <Icon className="h-3.5 w-3.5" />
+                </div>
                 <div className="mt-2 font-display text-2xl font-semibold tracking-tight">{v}</div>
                 <div className="mt-1 text-[11px] text-primary">{d}</div>
               </div>
@@ -400,7 +535,14 @@ function HeroDashboard() {
               <div className="mb-3 flex items-center justify-between">
                 <div className="text-[12px] font-medium">Sales velocity</div>
                 <div className="flex gap-1 text-[10px] text-[var(--muted-foreground)]">
-                  {["1D","1W","1M","1Y"].map((t,i) => <span key={t} className={`rounded px-1.5 py-0.5 ${i===2 ? "bg-[var(--surface)] text-[var(--ink)]" : ""}`}>{t}</span>)}
+                  {["1D", "1W", "1M", "1Y"].map((t, i) => (
+                    <span
+                      key={t}
+                      className={`rounded px-1.5 py-0.5 ${i === 2 ? "bg-[var(--surface)] text-[var(--ink)]" : ""}`}
+                    >
+                      {t}
+                    </span>
+                  ))}
                 </div>
               </div>
               <svg viewBox="0 0 400 140" className="h-32 w-full">
@@ -410,13 +552,18 @@ function HeroDashboard() {
                     <stop offset="100%" stopColor="#7388DF" stopOpacity="0" />
                   </linearGradient>
                 </defs>
-                <path d="M0,100 C40,80 70,90 100,70 C140,45 180,85 220,60 C260,35 300,55 340,30 L400,18 L400,140 L0,140 Z" fill="url(#g1)" />
+                <path
+                  d="M0,100 C40,80 70,90 100,70 C140,45 180,85 220,60 C260,35 300,55 340,30 L400,18 L400,140 L0,140 Z"
+                  fill="url(#g1)"
+                />
                 <motion.path
                   initial={{ pathLength: 0 }}
                   animate={{ pathLength: 1 }}
                   transition={{ duration: 2.2, delay: 1, ease }}
                   d="M0,100 C40,80 70,90 100,70 C140,45 180,85 220,60 C260,35 300,55 340,30 L400,18"
-                  fill="none" stroke="#7388DF" strokeWidth="2"
+                  fill="none"
+                  stroke="#7388DF"
+                  strokeWidth="2"
                 />
                 {[100, 70, 60, 30, 18].map((y, i) => (
                   <circle key={i} cx={i * 100} cy={y} r="2.5" fill="#7388DF" />
@@ -427,21 +574,36 @@ function HeroDashboard() {
             {/* Side widgets */}
             <div className="col-span-6 md:col-span-2 space-y-4">
               <div className="rounded-xl ring-hairline p-4">
-                <div className="text-[11px] text-[var(--muted-foreground)]">Warehouse occupancy</div>
+                <div className="text-[11px] text-[var(--muted-foreground)]">
+                  Warehouse occupancy
+                </div>
                 <div className="mt-2 flex items-end gap-3">
                   <div className="font-display text-xl font-semibold">78%</div>
-                  <div className="text-[10px] text-[var(--muted-foreground)]">3 zones near full</div>
+                  <div className="text-[10px] text-[var(--muted-foreground)]">
+                    3 zones near full
+                  </div>
                 </div>
                 <div className="mt-3 h-1.5 w-full rounded-full bg-[var(--surface)]">
-                  <motion.div initial={{ width: 0 }} animate={{ width: "78%" }} transition={{ duration: 1.5, delay: 1.4, ease }} className="h-full rounded-full bg-primary" />
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: "78%" }}
+                    transition={{ duration: 1.5, delay: 1.4, ease }}
+                    className="h-full rounded-full bg-primary"
+                  />
                 </div>
               </div>
               <div className="rounded-xl ring-hairline p-4">
                 <div className="text-[11px] text-[var(--muted-foreground)]">Open invoices</div>
                 <div className="mt-2 font-display text-xl font-semibold">142</div>
                 <div className="mt-3 flex gap-1">
-                  {[3,5,2,7,4,6,8].map((h,i) => (
-                    <motion.span key={i} initial={{ height: 0 }} animate={{ height: h*4 }} transition={{ duration: 0.7, delay: 1.5 + i*0.06, ease }} className="w-2 rounded-sm bg-[var(--ink)]" />
+                  {[3, 5, 2, 7, 4, 6, 8].map((h, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ height: 0 }}
+                      animate={{ height: h * 4 }}
+                      transition={{ duration: 0.7, delay: 1.5 + i * 0.06, ease }}
+                      className="w-2 rounded-sm bg-[var(--ink)]"
+                    />
                   ))}
                 </div>
               </div>
@@ -458,9 +620,14 @@ function HeroDashboard() {
                   ["PO-3920 received", "Warehouse · Dock 4", "Just now"],
                   ["Invoice #4421 paid", "Accounting · Stripe", "2m ago"],
                   ["12 SKUs low stock", "Inventory · Zone B", "5m ago"],
-                ].map(([a,b,c], i) => (
-                  <li key={i} className="flex items-center justify-between px-4 py-2.5 text-[12px] hairline-b last:border-b-0">
-                    <span className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-primary" /> {a}</span>
+                ].map(([a, b, c], i) => (
+                  <li
+                    key={i}
+                    className="flex items-center justify-between px-4 py-2.5 text-[12px] hairline-b last:border-b-0"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-primary" /> {a}
+                    </span>
                     <span className="text-[var(--muted-foreground)]">{b}</span>
                     <span className="text-[var(--muted-foreground)]">{c}</span>
                   </li>
@@ -478,7 +645,9 @@ function HeroDashboard() {
         transition={{ duration: 1, delay: 1.2, ease }}
         className="absolute -left-6 top-16 hidden w-56 rounded-xl bg-white p-4 ring-hairline shadow-float animate-float md:block"
       >
-        <div className="flex items-center justify-between text-[11px] text-[var(--muted-foreground)]">Inventory <Boxes className="h-3.5 w-3.5" /></div>
+        <div className="flex items-center justify-between text-[11px] text-[var(--muted-foreground)]">
+          Inventory <Boxes className="h-3.5 w-3.5" />
+        </div>
         <div className="mt-2 font-display text-2xl font-semibold">24,108</div>
         <div className="mt-1 text-[11px] text-primary">SKUs synced live</div>
       </motion.div>
@@ -489,11 +658,17 @@ function HeroDashboard() {
         style={{ animationDelay: "1.2s" }}
         className="absolute -right-6 top-24 hidden w-60 rounded-xl bg-[var(--ink)] p-4 text-white shadow-float animate-float md:block"
       >
-        <div className="flex items-center justify-between text-[11px] text-white/60">Today's revenue <CreditCard className="h-3.5 w-3.5" /></div>
+        <div className="flex items-center justify-between text-[11px] text-white/60">
+          Today's revenue <CreditCard className="h-3.5 w-3.5" />
+        </div>
         <div className="mt-2 font-display text-2xl font-semibold">$48,920</div>
         <div className="mt-3 flex h-8 items-end gap-1">
-          {[4,7,5,9,6,8,10,7,9,12,8,11].map((h,i) => (
-            <span key={i} style={{ height: `${h*6}%` }} className="w-1.5 flex-1 rounded-sm bg-primary" />
+          {[4, 7, 5, 9, 6, 8, 10, 7, 9, 12, 8, 11].map((h, i) => (
+            <span
+              key={i}
+              style={{ height: `${h * 6}%` }}
+              className="w-1.5 flex-1 rounded-sm bg-primary"
+            />
           ))}
         </div>
       </motion.div>
@@ -508,12 +683,19 @@ function HeroDashboard() {
             <div className="text-[11px] text-[var(--muted-foreground)]">Order #OG-29104</div>
             <div className="mt-0.5 font-display text-sm font-semibold">Shipped from DXB-01</div>
           </div>
-          <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">On route</span>
+          <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
+            On route
+          </span>
         </div>
         <div className="mt-3 flex items-center gap-2 text-[11px]">
           <Truck className="h-3.5 w-3.5 text-primary" />
           <div className="relative h-1 flex-1 rounded-full bg-[var(--surface)]">
-            <motion.div initial={{ width: 0 }} animate={{ width: "64%" }} transition={{ duration: 2, delay: 2, ease }} className="absolute inset-y-0 left-0 rounded-full bg-primary" />
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: "64%" }}
+              transition={{ duration: 2, delay: 2, ease }}
+              className="absolute inset-y-0 left-0 rounded-full bg-primary"
+            />
           </div>
           <span className="text-[var(--muted-foreground)]">ETA 14m</span>
         </div>
@@ -536,7 +718,10 @@ function useHeroQuality() {
   useEffect(() => {
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const coarsePointerQuery = window.matchMedia("(pointer: coarse)");
-    const saveData = () => Boolean((navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData);
+    const saveData = () =>
+      Boolean(
+        (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData,
+      );
 
     const updateQuality = () => {
       setQuality(
@@ -569,13 +754,20 @@ function useHeroQuality() {
   return quality;
 }
 
-function HeroLiquidBackground({ settings }: { settings: ReturnType<typeof getHeroLiquidSettings> }) {
+function HeroLiquidBackground({
+  settings,
+}: {
+  settings: ReturnType<typeof getHeroLiquidSettings>;
+}) {
   const liquidClassName = settings.textBlur
     ? "absolute inset-0 scale-[1.08] opacity-100 mix-blend-multiply blur-[6px] contrast-[1.14] saturate-[1.1]"
     : "absolute inset-0 scale-[1.06] opacity-90 mix-blend-multiply blur-[3px] contrast-[1.08] saturate-[1.06]";
 
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#f8f9ff]">
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#f8f9ff]"
+    >
       <div className="absolute inset-0 origin-top scale-125 bg-white" />
       <div className="absolute left-1/2 top-[-30rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#7e91e8] blur-[96px]" />
       <div className="absolute left-1/2 top-[-38rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#333da7] blur-[96px]" />
@@ -587,30 +779,30 @@ function HeroLiquidBackground({ settings }: { settings: ReturnType<typeof getHer
       <div className="absolute left-[31%] bottom-[-12%] h-[28%] w-[42%] rounded-[50%] bg-[#050612]/45 blur-[48px] mix-blend-multiply" />
       {settings.enabled && (
         <Suspense fallback={null}>
-        <LiquidEther
-          className={liquidClassName}
-          colors={["#ffffff", "#aebaff", "#7388df", "#333da7", "#030409"]}
-          mouseForce={settings.mouseForce}
-          cursorSize={settings.cursorSize}
-          hoverForce={settings.hoverForce}
-          hoverOrbit={settings.hoverOrbit}
-          isViscous={false}
-          viscous={30}
-          iterationsViscous={settings.iterationsViscous}
-          iterationsPoisson={settings.iterationsPoisson}
-          resolution={settings.resolution}
-          isBounce={false}
-          autoDemo
-          autoSpeed={settings.autoSpeed}
-          autoIntensity={settings.autoIntensity}
-          takeoverDuration={0.25}
-          autoResumeDelay={2200}
-          autoRampDuration={0.5}
-          maxPixelRatio={settings.maxPixelRatio}
-          maxFps={settings.maxFps}
-          interactiveMaxFps={settings.interactiveMaxFps}
-          textureType="half"
-        />
+          <LiquidEther
+            className={liquidClassName}
+            colors={["#ffffff", "#aebaff", "#7388df", "#333da7", "#030409"]}
+            mouseForce={settings.mouseForce}
+            cursorSize={settings.cursorSize}
+            hoverForce={settings.hoverForce}
+            hoverOrbit={settings.hoverOrbit}
+            isViscous={false}
+            viscous={30}
+            iterationsViscous={settings.iterationsViscous}
+            iterationsPoisson={settings.iterationsPoisson}
+            resolution={settings.resolution}
+            isBounce={false}
+            autoDemo
+            autoSpeed={settings.autoSpeed}
+            autoIntensity={settings.autoIntensity}
+            takeoverDuration={0.25}
+            autoResumeDelay={2200}
+            autoRampDuration={0.5}
+            maxPixelRatio={settings.maxPixelRatio}
+            maxFps={settings.maxFps}
+            interactiveMaxFps={settings.interactiveMaxFps}
+            textureType="half"
+          />
         </Suspense>
       )}
       <div className="hero-liquid-bottom-drift absolute inset-x-[-24%] bottom-[-17%] h-[38%]" />
@@ -694,7 +886,9 @@ function Hero() {
         <Reveal delay={0.05}>
           <div className="mx-auto mb-7 flex w-fit items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-white ring-1 ring-white/14 backdrop-blur">
             <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-            <span className="text-[11px] uppercase tracking-[0.18em] text-white/62">TRAFFODATA Enterprise OS</span>
+            <span className="text-[11px] uppercase tracking-[0.18em] text-white/62">
+              TRAFFODATA Enterprise OS
+            </span>
           </div>
         </Reveal>
 
@@ -712,21 +906,30 @@ function Hero() {
 
         <Reveal delay={0.7}>
           <p className="mx-auto mt-7 max-w-2xl text-center text-[15px] leading-relaxed text-white/78 [text-shadow:0_1px_18px_rgba(3,4,10,0.2)] md:text-base">
-            TRAFFODATA engineers premium ERP, inventory, warehouse, POS, accounting, CRM and HR platforms, built to scale with the world's most ambitious operators.
+            TRAFFODATA engineers premium ERP, inventory, warehouse, POS, accounting, CRM and HR
+            platforms, built to scale with the world's most ambitious operators.
           </p>
         </Reveal>
 
         <Reveal delay={0.85}>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:mt-10">
-            <MagneticButton variant="dark" href="#cta" className="bg-[#333da7] shadow-[0_16px_44px_rgba(3,4,10,0.24)] hover:bg-[#2d3594]">
-              Book a demo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            <MagneticButton
+              variant="dark"
+              href="#cta"
+              className="bg-[#333da7] shadow-[0_16px_44px_rgba(3,4,10,0.24)] hover:bg-[#2d3594]"
+            >
+              Book a demo{" "}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </MagneticButton>
-            <MagneticButton variant="ghost" href="#platform" className="bg-[#0c0e21]/28 text-white ring-1 ring-white/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-md hover:bg-[#0c0e21]/36 hover:text-[#aebcff]">
+            <MagneticButton
+              variant="ghost"
+              href="#platform"
+              className="bg-[#0c0e21]/28 text-white ring-1 ring-white/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-md hover:bg-[#0c0e21]/36 hover:text-[#aebcff]"
+            >
               Explore platform
             </MagneticButton>
           </div>
         </Reveal>
-
       </motion.div>
 
       <div className="absolute inset-x-0 bottom-28 z-[3] mx-auto hidden max-w-4xl items-end justify-between px-6 text-[#4b5066] md:flex lg:px-8">
@@ -751,12 +954,27 @@ function Hero() {
 /* ------------------------------------------------------------------ */
 
 function Trust() {
-  const logos = ["Northwind", "Aurora", "Lumen", "Halcyon", "Vertex", "Kintsugi", "Monolith", "Atlas Co.", "Orbital", "Substrate"];
+  const logos = [
+    "Northwind",
+    "Aurora",
+    "Lumen",
+    "Halcyon",
+    "Vertex",
+    "Kintsugi",
+    "Monolith",
+    "Atlas Co.",
+    "Orbital",
+    "Substrate",
+  ];
   return (
     <section id="trust" className="hairline-t hairline-b bg-[var(--surface)]">
       <div className="mx-auto max-w-7xl px-6 py-10">
         <div className="mb-8 grid grid-cols-1 items-center gap-6 md:grid-cols-4">
-          <div className="text-[11px] uppercase tracking-[0.22em] text-[var(--muted-foreground)]">Trusted by operators<br />in 38 countries</div>
+          <div className="text-[11px] uppercase tracking-[0.22em] text-[var(--muted-foreground)]">
+            Trusted by operators
+            <br />
+            in 38 countries
+          </div>
           <div className="md:col-span-3 grid grid-cols-3 gap-6 md:grid-cols-3">
             {[
               { n: 1000, s: "+", l: "Businesses powered" },
@@ -777,7 +995,12 @@ function Trust() {
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[var(--surface)] to-transparent" />
           <div className="flex w-max gap-12 animate-marquee">
             {[...logos, ...logos].map((l, i) => (
-              <span key={i} className="font-display text-2xl font-semibold tracking-tight text-[var(--muted-foreground)] hover:text-[var(--ink)] transition">{l}</span>
+              <span
+                key={i}
+                className="font-display text-2xl font-semibold tracking-tight text-[var(--muted-foreground)] hover:text-[var(--ink)] transition"
+              >
+                {l}
+              </span>
             ))}
           </div>
         </div>
@@ -798,20 +1021,39 @@ function About() {
         <div className="mt-10 grid grid-cols-12 gap-8">
           <Reveal className="col-span-12 md:col-span-7">
             <h2 className="font-display text-[clamp(2.4rem,6vw,5.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
-              Software<br /><span className="text-[var(--muted-foreground)]">engineered for</span><br />operators.
+              Software
+              <br />
+              <span className="text-[var(--muted-foreground)]">engineered for</span>
+              <br />
+              operators.
             </h2>
           </Reveal>
           <Reveal delay={0.15} className="col-span-12 md:col-span-5 md:pt-6">
             <p className="text-[15px] leading-relaxed text-[var(--muted-foreground)]">
-              TRAFFODATA is a software studio building the connective tissue of modern enterprises. We design and ship ERP, warehouse, accounting and commerce systems that quietly run global operations: refined, reliable, and built to last a decade.
+              TRAFFODATA is a software studio building the connective tissue of modern enterprises.
+              We design and ship ERP, warehouse, accounting and commerce systems that quietly run
+              global operations: refined, reliable, and built to last a decade.
             </p>
             <p className="mt-4 text-[15px] leading-relaxed text-[var(--muted-foreground)]">
-              Our products power retailers, manufacturers, distributors and service companies, from boutique studios to publicly listed groups.
+              Our products power retailers, manufacturers, distributors and service companies, from
+              boutique studios to publicly listed groups.
             </p>
             <div className="mt-8 flex flex-wrap gap-2">
-              {["ERP", "Automation", "Warehouses", "Inventory", "Accounting", "POS", "Logistics"].map(t => (
-                <span key={t} className="group inline-flex cursor-default items-center gap-1.5 rounded-full bg-[var(--surface)] px-3 py-1.5 text-[12px] ring-hairline transition hover:bg-[var(--ink)] hover:text-white">
-                  <span className="h-1 w-1 rounded-full bg-primary transition group-hover:bg-white" /> {t}
+              {[
+                "ERP",
+                "Automation",
+                "Warehouses",
+                "Inventory",
+                "Accounting",
+                "POS",
+                "Logistics",
+              ].map((t) => (
+                <span
+                  key={t}
+                  className="group inline-flex cursor-default items-center gap-1.5 rounded-full bg-[var(--surface)] px-3 py-1.5 text-[12px] ring-hairline transition hover:bg-[var(--ink)] hover:text-white"
+                >
+                  <span className="h-1 w-1 rounded-full bg-primary transition group-hover:bg-white" />{" "}
+                  {t}
                 </span>
               ))}
             </div>
@@ -827,14 +1069,46 @@ function About() {
 /* ------------------------------------------------------------------ */
 
 const services = [
-  { i: Layers, t: "ERP Systems", d: "Unified financial, supply and ops backbone tailored to your industry." },
-  { i: Boxes, t: "Inventory Management", d: "Real-time stock, multi-location, batch & serial, accurate to the SKU." },
-  { i: Warehouse, t: "Warehouse Management", d: "Pick, pack, putaway and wave planning for high-velocity fulfillment." },
-  { i: ScanBarcode, t: "Point of Sale", d: "Offline-first retail POS with omnichannel inventory sync." },
-  { i: Calculator, t: "Accounting Systems", d: "Multi-entity ledgers, tax engines, statutory compliance built in." },
-  { i: Users, t: "CRM", d: "Pipeline, service and account intelligence connected to live operations." },
-  { i: Briefcase, t: "Human Resources", d: "Hire-to-retire, payroll, time and attendance for distributed teams." },
-  { i: Settings2, t: "Custom Development", d: "Bespoke modules and integrations engineered alongside your team." },
+  {
+    i: Layers,
+    t: "ERP Systems",
+    d: "Unified financial, supply and ops backbone tailored to your industry.",
+  },
+  {
+    i: Boxes,
+    t: "Inventory Management",
+    d: "Real-time stock, multi-location, batch & serial, accurate to the SKU.",
+  },
+  {
+    i: Warehouse,
+    t: "Warehouse Management",
+    d: "Pick, pack, putaway and wave planning for high-velocity fulfillment.",
+  },
+  {
+    i: ScanBarcode,
+    t: "Point of Sale",
+    d: "Offline-first retail POS with omnichannel inventory sync.",
+  },
+  {
+    i: Calculator,
+    t: "Accounting Systems",
+    d: "Multi-entity ledgers, tax engines, statutory compliance built in.",
+  },
+  {
+    i: Users,
+    t: "CRM",
+    d: "Pipeline, service and account intelligence connected to live operations.",
+  },
+  {
+    i: Briefcase,
+    t: "Human Resources",
+    d: "Hire-to-retire, payroll, time and attendance for distributed teams.",
+  },
+  {
+    i: Settings2,
+    t: "Custom Development",
+    d: "Bespoke modules and integrations engineered alongside your team.",
+  },
 ];
 
 function Services() {
@@ -846,10 +1120,15 @@ function Services() {
           <div>
             <Eyebrow light>What we build</Eyebrow>
             <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[1] tracking-[-0.04em]">
-              Eight disciplines.<br /><span className="text-white/50">One operating system.</span>
+              Eight disciplines.
+              <br />
+              <span className="text-white/50">One operating system.</span>
             </h2>
           </div>
-          <p className="max-w-md text-[14px] text-white/60">Every module is engineered to stand alone and compose seamlessly, so you adopt only what you need, when you need it.</p>
+          <p className="max-w-md text-[14px] text-white/60">
+            Every module is engineered to stand alone and compose seamlessly, so you adopt only what
+            you need, when you need it.
+          </p>
         </div>
 
         <div className="divide-y divide-white/10 border-y border-white/10">
@@ -866,7 +1145,9 @@ function Services() {
                   <s.i className="h-4 w-4" />
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block font-display text-2xl font-semibold tracking-tight md:text-3xl">{s.t}</span>
+                  <span className="block font-display text-2xl font-semibold tracking-tight md:text-3xl">
+                    {s.t}
+                  </span>
                   <AnimatePresence initial={false}>
                     {isOpen && (
                       <motion.span
@@ -881,7 +1162,11 @@ function Services() {
                     )}
                   </AnimatePresence>
                 </span>
-                <motion.span animate={{ rotate: isOpen ? 45 : 0 }} transition={{ duration: 0.4, ease }} className="shrink-0">
+                <motion.span
+                  animate={{ rotate: isOpen ? 45 : 0 }}
+                  transition={{ duration: 0.4, ease }}
+                  className="shrink-0"
+                >
                   <Plus className="h-5 w-5 text-white/60 group-hover:text-primary" />
                 </motion.span>
               </button>
@@ -909,13 +1194,62 @@ const platformTabs = [
 
 function PlatformContent({ k }: { k: string }) {
   const palette = {
-    inventory: { kpi: [["SKUs", "24,108"], ["Low stock", "32"], ["Turnover", "6.2x"]], title: "Inventory · live across 14 locations" },
-    accounting: { kpi: [["Revenue MTD", "$1.92M"], ["Receivables", "$214K"], ["Margin", "38.4%"]], title: "Accounting · multi-entity ledgers" },
-    crm: { kpi: [["Pipeline", "$4.7M"], ["Deals", "182"], ["Win rate", "31%"]], title: "CRM · operations-aware" },
-    hr: { kpi: [["Headcount", "248"], ["Open roles", "12"], ["Retention", "94%"]], title: "HR · hire to retire" },
-    warehouse: { kpi: [["Picks / hr", "412"], ["Accuracy", "99.8%"], ["Dock util.", "78%"]], title: "Warehouse · pick, pack, ship" },
-    pos: { kpi: [["Today", "$48,920"], ["Tickets", "1,204"], ["Avg basket", "$40.6"]], title: "POS · offline-first retail" },
-    reports: { kpi: [["Dashboards", "94"], ["Sources", "21"], ["Refresh", "60s"]], title: "Reports · realtime intelligence" },
+    inventory: {
+      kpi: [
+        ["SKUs", "24,108"],
+        ["Low stock", "32"],
+        ["Turnover", "6.2x"],
+      ],
+      title: "Inventory · live across 14 locations",
+    },
+    accounting: {
+      kpi: [
+        ["Revenue MTD", "$1.92M"],
+        ["Receivables", "$214K"],
+        ["Margin", "38.4%"],
+      ],
+      title: "Accounting · multi-entity ledgers",
+    },
+    crm: {
+      kpi: [
+        ["Pipeline", "$4.7M"],
+        ["Deals", "182"],
+        ["Win rate", "31%"],
+      ],
+      title: "CRM · operations-aware",
+    },
+    hr: {
+      kpi: [
+        ["Headcount", "248"],
+        ["Open roles", "12"],
+        ["Retention", "94%"],
+      ],
+      title: "HR · hire to retire",
+    },
+    warehouse: {
+      kpi: [
+        ["Picks / hr", "412"],
+        ["Accuracy", "99.8%"],
+        ["Dock util.", "78%"],
+      ],
+      title: "Warehouse · pick, pack, ship",
+    },
+    pos: {
+      kpi: [
+        ["Today", "$48,920"],
+        ["Tickets", "1,204"],
+        ["Avg basket", "$40.6"],
+      ],
+      title: "POS · offline-first retail",
+    },
+    reports: {
+      kpi: [
+        ["Dashboards", "94"],
+        ["Sources", "21"],
+        ["Refresh", "60s"],
+      ],
+      title: "Reports · realtime intelligence",
+    },
   }[k] ?? { kpi: [], title: "" };
 
   return (
@@ -927,7 +1261,9 @@ function PlatformContent({ k }: { k: string }) {
       className="grid grid-cols-6 gap-4 p-6"
     >
       <div className="col-span-6 md:col-span-2 space-y-3">
-        <div className="text-[12px] font-medium text-[var(--muted-foreground)]">{palette.title}</div>
+        <div className="text-[12px] font-medium text-[var(--muted-foreground)]">
+          {palette.title}
+        </div>
         {palette.kpi.map(([l, v]) => (
           <div key={l} className="rounded-xl ring-hairline p-4">
             <div className="text-[11px] text-[var(--muted-foreground)]">{l}</div>
@@ -937,7 +1273,8 @@ function PlatformContent({ k }: { k: string }) {
       </div>
       <div className="col-span-6 md:col-span-4 rounded-xl ring-hairline p-5">
         <div className="mb-3 flex items-center justify-between text-[11px] text-[var(--muted-foreground)]">
-          <span>Trend · last 30 days</span><span>Updated 6s ago</span>
+          <span>Trend · last 30 days</span>
+          <span>Updated 6s ago</span>
         </div>
         <svg viewBox="0 0 500 180" className="h-44 w-full">
           <defs>
@@ -947,26 +1284,42 @@ function PlatformContent({ k }: { k: string }) {
             </linearGradient>
           </defs>
           {Array.from({ length: 4 }).map((_, i) => (
-            <line key={i} x1="0" x2="500" y1={(i + 1) * 36} y2={(i + 1) * 36} stroke="#EAEAEA" strokeDasharray="2 4" />
+            <line
+              key={i}
+              x1="0"
+              x2="500"
+              y1={(i + 1) * 36}
+              y2={(i + 1) * 36}
+              stroke="#EAEAEA"
+              strokeDasharray="2 4"
+            />
           ))}
           <motion.path
             key={k + "fill"}
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
             d="M0,130 C50,120 90,90 140,100 C190,110 220,60 270,75 C320,90 360,40 410,55 C450,65 480,30 500,40 L500,180 L0,180 Z"
             fill="url(#pg)"
           />
           <motion.path
             key={k + "line"}
-            initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.8, ease }}
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 1.8, ease }}
             d="M0,130 C50,120 90,90 140,100 C190,110 220,60 270,75 C320,90 360,40 410,55 C450,65 480,30 500,40"
-            fill="none" stroke="#7388DF" strokeWidth="2"
+            fill="none"
+            stroke="#7388DF"
+            strokeWidth="2"
           />
         </svg>
         <div className="mt-4 grid grid-cols-3 gap-3 text-[11px]">
           {["North", "EMEA", "APAC"].map((r, i) => (
             <div key={r} className="rounded-lg bg-[var(--surface)] p-3">
               <div className="text-[var(--muted-foreground)]">{r}</div>
-              <div className="mt-1 font-display text-base font-semibold">{["$684K","$512K","$724K"][i]}</div>
+              <div className="mt-1 font-display text-base font-semibold">
+                {["$684K", "$512K", "$724K"][i]}
+              </div>
             </div>
           ))}
         </div>
@@ -984,29 +1337,44 @@ function Platform() {
           <div className="col-span-12 md:col-span-6">
             <Eyebrow>TRAFFODATA ERP · Platform</Eyebrow>
             <h2 className="mt-4 font-display text-[clamp(2.2rem,5.5vw,5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
-              One platform.<br /><span className="text-[var(--muted-foreground)]">Every workflow.</span>
+              One platform.
+              <br />
+              <span className="text-[var(--muted-foreground)]">Every workflow.</span>
             </h2>
           </div>
           <div className="col-span-12 md:col-span-6 md:pt-6">
-            <p className="text-[15px] leading-relaxed text-[var(--muted-foreground)]">A single source of truth for inventory, finance, sales, people and operations, engineered to feel like one product, not seven.</p>
+            <p className="text-[15px] leading-relaxed text-[var(--muted-foreground)]">
+              A single source of truth for inventory, finance, sales, people and operations,
+              engineered to feel like one product, not seven.
+            </p>
           </div>
         </div>
 
         <Reveal>
           <div className="overflow-hidden rounded-2xl bg-white ring-hairline shadow-elevated">
             <div className="flex flex-wrap items-center gap-1 hairline-b p-2">
-              {platformTabs.map(t => (
+              {platformTabs.map((t) => (
                 <button
                   key={t.k}
                   onClick={() => setTab(t.k)}
                   className={`relative inline-flex min-h-11 items-center gap-2 rounded-full px-4 py-2 text-[12px] transition ${tab === t.k ? "text-white" : "text-[var(--muted-foreground)] hover:text-[var(--ink)]"}`}
                 >
-                  {tab === t.k && <motion.span layoutId="ptab" transition={{ duration: 0.5, ease }} className="absolute inset-0 -z-0 rounded-full bg-[var(--ink)]" />}
-                  <span className="relative z-10 flex items-center gap-2"><t.icon className="h-3.5 w-3.5" /> {t.l}</span>
+                  {tab === t.k && (
+                    <motion.span
+                      layoutId="ptab"
+                      transition={{ duration: 0.5, ease }}
+                      className="absolute inset-0 -z-0 rounded-full bg-[var(--ink)]"
+                    />
+                  )}
+                  <span className="relative z-10 flex items-center gap-2">
+                    <t.icon className="h-3.5 w-3.5" /> {t.l}
+                  </span>
                 </button>
               ))}
             </div>
-            <AnimatePresence mode="wait"><PlatformContent k={tab} /></AnimatePresence>
+            <AnimatePresence mode="wait">
+              <PlatformContent k={tab} />
+            </AnimatePresence>
           </div>
         </Reveal>
       </div>
@@ -1026,12 +1394,18 @@ function Why() {
     { n: 60, s: "%", l: "Higher team productivity" },
   ];
   return (
-    <section id="why" data-scroll-stop className="scroll-stop bg-[var(--surface)] hairline-t hairline-b">
+    <section
+      id="why"
+      data-scroll-stop
+      className="scroll-stop bg-[var(--surface)] hairline-t hairline-b"
+    >
       <div className="mx-auto max-w-7xl px-6 py-28 md:py-36">
         <div className="mb-16 max-w-3xl">
           <Eyebrow>Why TRAFFODATA ERP</Eyebrow>
           <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
-            The compounding<br /><span className="text-primary">return of clarity.</span>
+            The compounding
+            <br />
+            <span className="text-primary">return of clarity.</span>
           </h2>
         </div>
         <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl bg-[var(--hairline)] sm:grid-cols-2 lg:grid-cols-4">
@@ -1122,12 +1496,22 @@ function ComparisonMark({ positive = true }: { positive?: boolean }) {
           : "bg-[var(--surface)] text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]"
       }`}
     >
-      {positive ? <Check className="h-4 w-4" strokeWidth={2.4} /> : <X className="h-4 w-4" strokeWidth={2.2} />}
+      {positive ? (
+        <Check className="h-4 w-4" strokeWidth={2.4} />
+      ) : (
+        <X className="h-4 w-4" strokeWidth={2.2} />
+      )}
     </span>
   );
 }
 
-function ComparisonAction({ variant, children }: { variant: "goods" | "traditional"; children: ReactNode }) {
+function ComparisonAction({
+  variant,
+  children,
+}: {
+  variant: "goods" | "traditional";
+  children: ReactNode;
+}) {
   const isGoods = variant === "goods";
   const className = `inline-flex w-fit items-center gap-3 rounded-xl bg-[var(--ink)] py-2 pl-2 pr-4 text-[14px] font-medium text-white shadow-[0_18px_50px_-28px_rgba(0,0,0,0.8)] transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] md:text-base ${
     isGoods ? "hover:-translate-y-0.5 active:scale-[0.98]" : "pointer-events-none opacity-55"
@@ -1162,7 +1546,11 @@ function ComparisonAction({ variant, children }: { variant: "goods" | "tradition
 
 function Comparison() {
   return (
-    <section id="comparison" data-scroll-stop className="scroll-stop bg-[var(--surface)] py-28 md:py-40">
+    <section
+      id="comparison"
+      data-scroll-stop
+      className="scroll-stop bg-[var(--surface)] py-28 md:py-40"
+    >
       <div className="mx-auto max-w-[92rem] px-4 sm:px-6">
         <Reveal className="max-w-[82rem]">
           <h2 className="font-display text-[clamp(2.75rem,6.4vw,5.9rem)] font-bold leading-[0.94] tracking-[-0.052em] text-balance">
@@ -1171,12 +1559,17 @@ function Comparison() {
         </Reveal>
 
         <Reveal delay={0.12}>
-          <div data-comparison-table className="mt-14 overflow-hidden rounded-[1.75rem] bg-white ring-1 ring-[var(--hairline)] shadow-[0_34px_120px_-84px_rgba(0,0,0,0.5)] md:mt-16">
+          <div
+            data-comparison-table
+            className="mt-14 overflow-hidden rounded-[1.75rem] bg-white ring-1 ring-[var(--hairline)] shadow-[0_34px_120px_-84px_rgba(0,0,0,0.5)] md:mt-16"
+          >
             <div className="hidden grid-cols-[0.84fr_1.38fr_1.38fr] border-b border-[var(--hairline)] bg-white md:grid">
               <div className="min-h-28 bg-[var(--surface)]/72" />
               <div className="flex min-h-28 items-center gap-3 border-l border-[var(--hairline)] px-8 xl:px-10">
                 <BrandMark size="md" />
-                <span className="font-display text-[1.6rem] font-semibold leading-none tracking-tight">TRAFFODATA Software</span>
+                <span className="font-display text-[1.6rem] font-semibold leading-none tracking-tight">
+                  TRAFFODATA Software
+                </span>
               </div>
               <div className="flex min-h-28 items-center border-l border-[var(--hairline)] px-8 font-display text-[1.6rem] font-semibold leading-none tracking-tight text-[var(--muted-foreground)] xl:px-10">
                 Traditional service providers
@@ -1188,12 +1581,17 @@ function Comparison() {
                 const Icon = row.icon;
                 return (
                   <Reveal key={row.label} delay={index * 0.04} y={16}>
-                    <div data-comparison-row className="grid gap-0 md:grid-cols-[0.84fr_1.38fr_1.38fr]">
+                    <div
+                      data-comparison-row
+                      className="grid gap-0 md:grid-cols-[0.84fr_1.38fr_1.38fr]"
+                    >
                       <div className="flex items-center gap-4 bg-[var(--surface)]/72 px-5 py-5 md:min-h-[7.35rem] md:px-8 xl:px-10">
                         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white text-[var(--ink)] ring-1 ring-[var(--hairline)] md:h-11 md:w-11">
                           <Icon className="h-5 w-5" strokeWidth={1.8} />
                         </span>
-                        <span className="font-display text-xl font-semibold tracking-tight md:text-[1.45rem]">{row.label}</span>
+                        <span className="font-display text-xl font-semibold tracking-tight md:text-[1.45rem]">
+                          {row.label}
+                        </span>
                       </div>
 
                       <div className="flex items-start gap-4 px-5 py-5 md:min-h-[7.35rem] md:items-center md:border-l md:border-[var(--hairline)] md:px-8 xl:px-10">
@@ -1203,8 +1601,12 @@ function Comparison() {
                           <>
                             <ComparisonMark />
                             <div>
-                              <div className="mb-1 text-[11px] font-medium text-primary md:hidden">TRAFFODATA Software</div>
-                              <p className="text-[16px] font-semibold leading-snug tracking-[-0.01em] text-[var(--ink)] md:text-[1.18rem]">{row.goods}</p>
+                              <div className="mb-1 text-[11px] font-medium text-primary md:hidden">
+                                TRAFFODATA Software
+                              </div>
+                              <p className="text-[16px] font-semibold leading-snug tracking-[-0.01em] text-[var(--ink)] md:text-[1.18rem]">
+                                {row.goods}
+                              </p>
                             </div>
                           </>
                         )}
@@ -1212,13 +1614,19 @@ function Comparison() {
 
                       <div className="flex items-start gap-4 border-t border-[var(--hairline)] px-5 py-5 md:min-h-[7.35rem] md:items-center md:border-l md:border-t-0 md:px-8 xl:px-10">
                         {row.action ? (
-                          <ComparisonAction variant="traditional">Book a paid call</ComparisonAction>
+                          <ComparisonAction variant="traditional">
+                            Book a paid call
+                          </ComparisonAction>
                         ) : (
                           <>
                             <ComparisonMark positive={false} />
                             <div>
-                              <div className="mb-1 text-[11px] font-medium text-[var(--muted-foreground)] md:hidden">Traditional providers</div>
-                              <p className="text-[16px] font-semibold leading-snug tracking-[-0.01em] text-[var(--muted-foreground)] md:text-[1.18rem]">{row.traditional}</p>
+                              <div className="mb-1 text-[11px] font-medium text-[var(--muted-foreground)] md:hidden">
+                                Traditional providers
+                              </div>
+                              <p className="text-[16px] font-semibold leading-snug tracking-[-0.01em] text-[var(--muted-foreground)] md:text-[1.18rem]">
+                                {row.traditional}
+                              </p>
                             </div>
                           </>
                         )}
@@ -1240,12 +1648,48 @@ function Comparison() {
 /* ------------------------------------------------------------------ */
 
 const projects = [
-  { t: "WikiFood Multi-Vendor Commerce Backend", c: "WikiFood", tag: "Mobile product", slug: "wikifood-commerce-delivery-backend", color: "#7388DF" },
-  { t: "Printout Backend", c: "Printout", tag: "Backend platform", slug: "printout-laravel-rest-api", color: "#1a1a1a" },
-  { t: "Taggz AI Event Photography Platform", c: "Taggz", tag: "AI platform", slug: "taggz-ai-event-photography-platform", color: "#7388DF" },
-  { t: "JAWAD Horse Riding Booking Platform", c: "JAWAD", tag: "Mobile product", slug: "jawad-horse-riding-booking-platform", color: "#1a1a1a" },
-  { t: "Elnasser Backend & Logistics Engine", c: "Al Nasser", tag: "Logistics system", slug: "elnasser-backend-dashboard", color: "#7388DF" },
-  { t: "Al Nasser E-Commerce Landing Page", c: "Al Nasser", tag: "Commerce system", slug: "alnasser-ecommerce", color: "#1a1a1a" },
+  {
+    t: "WikiFood Multi-Vendor Commerce Backend",
+    c: "WikiFood",
+    tag: "Mobile product",
+    slug: "wikifood-commerce-delivery-backend",
+    color: "#7388DF",
+  },
+  {
+    t: "Printout Backend",
+    c: "Printout",
+    tag: "Backend platform",
+    slug: "printout-laravel-rest-api",
+    color: "#1a1a1a",
+  },
+  {
+    t: "Taggz AI Event Photography Platform",
+    c: "Taggz",
+    tag: "AI platform",
+    slug: "taggz-ai-event-photography-platform",
+    color: "#7388DF",
+  },
+  {
+    t: "JAWAD Horse Riding Booking Platform",
+    c: "JAWAD",
+    tag: "Mobile product",
+    slug: "jawad-horse-riding-booking-platform",
+    color: "#1a1a1a",
+  },
+  {
+    t: "Elnasser Backend & Logistics Engine",
+    c: "Al Nasser",
+    tag: "Logistics system",
+    slug: "elnasser-backend-dashboard",
+    color: "#7388DF",
+  },
+  {
+    t: "Al Nasser E-Commerce Landing Page",
+    c: "Al Nasser",
+    tag: "Commerce system",
+    slug: "alnasser-ecommerce",
+    color: "#1a1a1a",
+  },
 ];
 
 function Projects() {
@@ -1259,8 +1703,12 @@ function Projects() {
               Featured projects.
             </h2>
           </div>
-          <a href="/work" className="group inline-flex items-center gap-1.5 text-[13px] font-medium">
-            View all case studies <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          <a
+            href="/work"
+            className="group inline-flex items-center gap-1.5 text-[13px] font-medium"
+          >
+            View all case studies{" "}
+            <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </a>
         </div>
       </div>
@@ -1270,24 +1718,39 @@ function Projects() {
             <Reveal key={p.t} delay={i * 0.06} className="snap-start">
               <a href={`/work/${p.slug}`} className="group block w-[88vw] max-w-[520px] shrink-0">
                 <div className="relative aspect-[4/5] overflow-hidden rounded-2xl ring-hairline">
-                  <div className="absolute inset-0 transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]" style={{ background: `linear-gradient(135deg, ${p.color} 0%, #000 100%)` }} />
+                  <div
+                    className="absolute inset-0 transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]"
+                    style={{ background: `linear-gradient(135deg, ${p.color} 0%, #000 100%)` }}
+                  />
                   {/* Mock UI inside card */}
                   <div className="absolute inset-6 rounded-xl bg-white/95 p-4 shadow-elevated transition-transform duration-[1.2s] ease-out group-hover:scale-[0.98]">
                     <div className="flex items-center justify-between text-[10px] text-[var(--muted-foreground)]">
-                      <span>{p.c}</span><span>{p.tag}</span>
+                      <span>{p.c}</span>
+                      <span>{p.tag}</span>
                     </div>
-                    <div className="mt-4 font-display text-[28px] font-bold leading-[0.95] tracking-tight">{p.t}</div>
+                    <div className="mt-4 font-display text-[28px] font-bold leading-[0.95] tracking-tight">
+                      {p.t}
+                    </div>
                     <div className="mt-6 grid grid-cols-3 gap-2">
-                      {[1,2,3].map(n => (
+                      {[1, 2, 3].map((n) => (
                         <div key={n} className="rounded-lg bg-[var(--surface)] p-3">
-                          <div className="text-[9px] text-[var(--muted-foreground)]">Metric 0{n}</div>
-                          <div className="mt-1 font-display text-base font-semibold">{["$2.1M","99.4%","6.2x"][n-1]}</div>
+                          <div className="text-[9px] text-[var(--muted-foreground)]">
+                            Metric 0{n}
+                          </div>
+                          <div className="mt-1 font-display text-base font-semibold">
+                            {["$2.1M", "99.4%", "6.2x"][n - 1]}
+                          </div>
                         </div>
                       ))}
                     </div>
                     <div className="mt-4 h-20 rounded-lg bg-[var(--surface)] p-3">
                       <svg viewBox="0 0 200 60" className="h-full w-full">
-                        <path d="M0,40 C30,30 50,45 80,30 C110,15 140,35 170,20 L200,12" fill="none" stroke={p.color} strokeWidth="1.5" />
+                        <path
+                          d="M0,40 C30,30 50,45 80,30 C110,15 140,35 170,20 L200,12"
+                          fill="none"
+                          stroke={p.color}
+                          strokeWidth="1.5"
+                        />
                       </svg>
                     </div>
                   </div>
@@ -1295,7 +1758,9 @@ function Projects() {
                 <div className="mt-4 flex items-center justify-between">
                   <div>
                     <div className="font-display text-lg font-semibold tracking-tight">{p.t}</div>
-                    <div className="text-[12px] text-[var(--muted-foreground)]">{p.c} - {p.tag}</div>
+                    <div className="text-[12px] text-[var(--muted-foreground)]">
+                      {p.c} - {p.tag}
+                    </div>
                   </div>
                   <ArrowUpRight className="h-5 w-5 text-[var(--muted-foreground)] transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--ink)]" />
                 </div>
@@ -1313,7 +1778,20 @@ function Projects() {
 /* Tech                                                                */
 /* ------------------------------------------------------------------ */
 
-const tech = ["Laravel","PHP","Node.js","React","Next.js","Flutter","MySQL","PostgreSQL","Redis","Docker","AWS","TypeScript"];
+const tech = [
+  "Laravel",
+  "PHP",
+  "Node.js",
+  "React",
+  "Next.js",
+  "Flutter",
+  "MySQL",
+  "PostgreSQL",
+  "Redis",
+  "Docker",
+  "AWS",
+  "TypeScript",
+];
 
 function Tech() {
   return (
@@ -1322,14 +1800,24 @@ function Tech() {
         <div className="mb-14 max-w-3xl">
           <Eyebrow light>Engineering stack</Eyebrow>
           <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
-            Built on a foundation<br /><span className="text-white/50">we trust for a decade.</span>
+            Built on a foundation
+            <br />
+            <span className="text-white/50">we trust for a decade.</span>
           </h2>
         </div>
         <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10 sm:grid-cols-3 lg:grid-cols-4">
           {tech.map((t, i) => (
-            <Reveal key={t} delay={i * 0.04} className="group relative bg-[var(--ink)] p-8 transition hover:bg-white/[0.04]">
-              <div className="text-[11px] text-white/65">0{(i+1).toString().padStart(2,"0")}</div>
-              <div className="mt-3 font-display text-2xl font-semibold tracking-tight transition group-hover:text-primary">{t}</div>
+            <Reveal
+              key={t}
+              delay={i * 0.04}
+              className="group relative bg-[var(--ink)] p-8 transition hover:bg-white/[0.04]"
+            >
+              <div className="text-[11px] text-white/65">
+                0{(i + 1).toString().padStart(2, "0")}
+              </div>
+              <div className="mt-3 font-display text-2xl font-semibold tracking-tight transition group-hover:text-primary">
+                {t}
+              </div>
               <div className="absolute right-6 top-6 opacity-0 transition group-hover:opacity-100">
                 <ArrowUpRight className="h-4 w-4 text-primary" />
               </div>
@@ -1346,11 +1834,31 @@ function Tech() {
 /* ------------------------------------------------------------------ */
 
 const steps = [
-  { n: "01", t: "Discovery", d: "We embed with your team to map operations, constraints and the unsolved problems worth solving." },
-  { n: "02", t: "Strategy", d: "We define modules, data model and the rollout path, sequenced for fast, measurable wins." },
-  { n: "03", t: "Design", d: "Interfaces designed around how your people actually work: calm, fast, and easy to learn." },
-  { n: "04", t: "Development", d: "Engineered in agile cycles with weekly demos and full transparency on quality and progress." },
-  { n: "05", t: "Deployment", d: "Migration, training and a long-term partnership. We stay with you as the business evolves." },
+  {
+    n: "01",
+    t: "Discovery",
+    d: "We embed with your team to map operations, constraints and the unsolved problems worth solving.",
+  },
+  {
+    n: "02",
+    t: "Strategy",
+    d: "We define modules, data model and the rollout path, sequenced for fast, measurable wins.",
+  },
+  {
+    n: "03",
+    t: "Design",
+    d: "Interfaces designed around how your people actually work: calm, fast, and easy to learn.",
+  },
+  {
+    n: "04",
+    t: "Development",
+    d: "Engineered in agile cycles with weekly demos and full transparency on quality and progress.",
+  },
+  {
+    n: "05",
+    t: "Deployment",
+    d: "Migration, training and a long-term partnership. We stay with you as the business evolves.",
+  },
 ];
 
 function Process() {
@@ -1363,7 +1871,8 @@ function Process() {
         <div className="mb-16 max-w-3xl">
           <Eyebrow>How we work</Eyebrow>
           <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
-            A process, not<br />a pitch deck.
+            A process, not
+            <br />a pitch deck.
           </h2>
         </div>
         <div ref={ref} className="relative">
@@ -1371,13 +1880,19 @@ function Process() {
             <motion.div style={{ height: h }} className="w-full bg-primary origin-top" />
           </div>
           {steps.map((s, i) => (
-            <Reveal key={s.n} delay={i * 0.05} className="relative mb-10 grid grid-cols-12 gap-6 md:pl-16">
+            <Reveal
+              key={s.n}
+              delay={i * 0.05}
+              className="relative mb-10 grid grid-cols-12 gap-6 md:pl-16"
+            >
               <div className="absolute left-0 top-2 hidden h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full bg-[var(--background)] ring-hairline md:flex">
                 <span className="text-[10px] font-medium tabular-nums">{s.n}</span>
               </div>
-          <div className="col-span-12 md:col-span-5">
+              <div className="col-span-12 md:col-span-5">
                 <div className="text-[12px] tabular-nums text-primary md:hidden">{s.n}</div>
-                <h3 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">{s.t}</h3>
+                <h3 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">
+                  {s.t}
+                </h3>
               </div>
               <div className="col-span-12 md:col-span-6">
                 <p className="text-[15px] leading-relaxed text-[var(--muted-foreground)]">{s.d}</p>
@@ -1396,26 +1911,44 @@ function Process() {
 /* ------------------------------------------------------------------ */
 
 const quotes = [
-  { q: "TRAFFODATA quietly replaced four legacy systems. Our finance close went from twelve days to three.", a: "Layla Othman", r: "CFO · Aurora Industries" },
-  { q: "It's the most considered enterprise product I've used. Every screen feels designed for the person who actually does the job.", a: "Marcus Reilly", r: "COO · Halcyon Logistics" },
-  { q: "We rolled it out across 38 stores in a quarter. The team adopted it without a single training session.", a: "Nadia Park", r: "Head of Retail · Vertex" },
+  {
+    q: "TRAFFODATA quietly replaced four legacy systems. Our finance close went from twelve days to three.",
+    a: "Layla Othman",
+    r: "CFO · Aurora Industries",
+  },
+  {
+    q: "It's the most considered enterprise product I've used. Every screen feels designed for the person who actually does the job.",
+    a: "Marcus Reilly",
+    r: "COO · Halcyon Logistics",
+  },
+  {
+    q: "We rolled it out across 38 stores in a quarter. The team adopted it without a single training session.",
+    a: "Nadia Park",
+    r: "Head of Retail · Vertex",
+  },
 ];
 
 function Testimonials() {
   const [i, setI] = useState(0);
   useEffect(() => {
-    const id = setInterval(() => setI(v => (v + 1) % quotes.length), 6000);
+    const id = setInterval(() => setI((v) => (v + 1) % quotes.length), 6000);
     return () => clearInterval(id);
   }, []);
   return (
-    <section id="testimonials" data-scroll-stop className="scroll-stop bg-[var(--surface)] hairline-t hairline-b">
+    <section
+      id="testimonials"
+      data-scroll-stop
+      className="scroll-stop bg-[var(--surface)] hairline-t hairline-b"
+    >
       <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
         <Eyebrow>Operators speak</Eyebrow>
         <div className="relative mt-10 min-h-[280px] md:min-h-[260px]">
           <AnimatePresence mode="wait">
             <motion.figure
               key={i}
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.7, ease }}
             >
               <Quote className="h-8 w-8 text-primary" />
@@ -1424,11 +1957,16 @@ function Testimonials() {
               </blockquote>
               <figcaption className="mt-8 flex items-center gap-3">
                 <span className="grid h-10 w-10 place-items-center rounded-full bg-[var(--ink)] text-white text-[12px] font-semibold">
-                  {quotes[i].a.split(" ").map(n => n[0]).join("")}
+                  {quotes[i].a
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
                 </span>
                 <span>
                   <span className="block text-[13px] font-medium">{quotes[i].a}</span>
-                  <span className="block text-[12px] text-[var(--muted-foreground)]">{quotes[i].r}</span>
+                  <span className="block text-[12px] text-[var(--muted-foreground)]">
+                    {quotes[i].r}
+                  </span>
                 </span>
               </figcaption>
             </motion.figure>
@@ -1445,7 +1983,9 @@ function Testimonials() {
               role="tab"
               className="grid h-11 w-11 place-items-center rounded-full transition-colors hover:bg-black/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
-              <span className={`h-1 rounded-full transition-all ${n === i ? "w-8 bg-[var(--ink)]" : "w-4 bg-[var(--muted-foreground)]"}`} />
+              <span
+                className={`h-1 rounded-full transition-all ${n === i ? "w-8 bg-[var(--ink)]" : "w-4 bg-[var(--muted-foreground)]"}`}
+              />
             </button>
           ))}
         </div>
@@ -1460,7 +2000,11 @@ function Testimonials() {
 
 function CTA() {
   return (
-    <section id="cta" data-scroll-stop className="scroll-stop relative overflow-hidden bg-[var(--surface)] text-[var(--ink)] hairline-t">
+    <section
+      id="cta"
+      data-scroll-stop
+      className="scroll-stop relative overflow-hidden bg-[var(--surface)] text-[var(--ink)] hairline-t"
+    >
       <motion.div
         aria-hidden
         animate={{ rotate: 360 }}
@@ -1476,14 +2020,23 @@ function CTA() {
       <div className="relative mx-auto max-w-6xl px-6 py-32 text-center md:py-48">
         <Eyebrow>Start the conversation</Eyebrow>
         <h2 className="mt-6 font-display text-[clamp(2.8rem,9vw,8rem)] font-bold leading-[0.92] tracking-[-0.05em]">
-          Ready to transform<br /><span className="text-[var(--muted-foreground)]">your business?</span>
+          Ready to transform
+          <br />
+          <span className="text-[var(--muted-foreground)]">your business?</span>
         </h2>
-        <p className="mx-auto mt-8 max-w-xl text-[15px] text-[var(--muted-foreground)]">A 30-minute call with our team. We'll show you the platform, mapped to your operations.</p>
+        <p className="mx-auto mt-8 max-w-xl text-[15px] text-[var(--muted-foreground)]">
+          A 30-minute call with our team. We'll show you the platform, mapped to your operations.
+        </p>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           <MagneticButton variant="dark" href="#">
             Book a demo <ArrowRight className="h-4 w-4" />
           </MagneticButton>
-          <a href={`mailto:${BRAND_EMAIL}`} className="text-[13px] text-[var(--muted-foreground)] underline-offset-4 hover:text-[var(--ink)] hover:underline">or email {BRAND_EMAIL}</a>
+          <a
+            href={`mailto:${BRAND_EMAIL}`}
+            className="text-[13px] text-[var(--muted-foreground)] underline-offset-4 hover:text-[var(--ink)] hover:underline"
+          >
+            or email {BRAND_EMAIL}
+          </a>
         </div>
         <div className="mt-16 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[12px] text-[var(--muted-foreground)]">
           {[
@@ -1494,7 +2047,9 @@ function CTA() {
           ].map(([I, l]) => {
             const Icon = I as typeof Shield;
             return (
-              <span key={l as string} className="inline-flex items-center gap-1.5"><Icon className="h-3.5 w-3.5 text-primary" /> {l as string}</span>
+              <span key={l as string} className="inline-flex items-center gap-1.5">
+                <Icon className="h-3.5 w-3.5 text-primary" /> {l as string}
+              </span>
             );
           })}
         </div>
@@ -1568,7 +2123,11 @@ function handleFooterLinkClick(event: MouseEvent<HTMLAnchorElement>, href: strin
 
 export function Footer() {
   return (
-    <footer id="contact" data-scroll-stop className="scroll-stop relative overflow-hidden bg-[var(--ink)] text-white">
+    <footer
+      id="contact"
+      data-scroll-stop
+      className="scroll-stop relative overflow-hidden bg-[var(--ink)] text-white"
+    >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,color-mix(in_oklch,var(--primary)_30%,transparent),transparent_42%),radial-gradient(ellipse_at_50%_58%,color-mix(in_oklch,var(--primary)_12%,transparent),transparent_48%)]" />
       <div className="pointer-events-none absolute left-1/2 top-[-12rem] h-[28rem] w-[72rem] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,color-mix(in_oklch,var(--primary)_26%,transparent),color-mix(in_oklch,var(--primary)_9%,transparent)_38%,transparent_70%)] blur-3xl" />
@@ -1593,7 +2152,8 @@ export function Footer() {
           <Reveal className="max-w-[22rem]">
             <GoodsLogo />
             <p className="mt-6 text-[15px] leading-relaxed text-white/62 sm:mt-8 sm:text-sm">
-              Premium ERP, inventory, warehouse, POS, accounting, CRM and HR software for operators building serious businesses.
+              Premium ERP, inventory, warehouse, POS, accounting, CRM and HR software for operators
+              building serious businesses.
             </p>
             <p className="mt-7 text-sm text-white/45 sm:mt-8">
               © {new Date().getFullYear()} TRAFFODATA Technologies. All rights reserved.
@@ -1610,7 +2170,11 @@ export function Footer() {
                       <li key={item.label}>
                         <a
                           href={item.href}
-                          onClick={item.href.startsWith("#") ? (event) => handleFooterLinkClick(event, item.href) : undefined}
+                          onClick={
+                            item.href.startsWith("#")
+                              ? (event) => handleFooterLinkClick(event, item.href)
+                              : undefined
+                          }
                           className="text-[15px] text-white/60 transition-colors hover:text-primary sm:text-sm"
                         >
                           {item.label}
@@ -1632,7 +2196,11 @@ export function Footer() {
             <a href="/#hero" className="transition-colors hover:text-primary">
               Back to top
             </a>
-            <a href="#cta" onClick={(event) => handleSectionLinkClick(event, "#cta")} className="transition-colors hover:text-primary">
+            <a
+              href="#cta"
+              onClick={(event) => handleSectionLinkClick(event, "#cta")}
+              className="transition-colors hover:text-primary"
+            >
               Book a demo
             </a>
           </div>

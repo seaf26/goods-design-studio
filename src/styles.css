@@ -33,7 +33,8 @@
   --color-ink: var(--ink);
   --color-surface: var(--surface);
   --color-hairline: var(--hairline);
-  --font-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-display:
+    "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 }
 
@@ -101,7 +102,9 @@
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
+  * {
+    border-color: var(--color-border);
+  }
   html {
     scroll-behavior: auto;
     scroll-padding-top: clamp(5.75rem, 9vh, 7rem);
@@ -115,7 +118,13 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  h1, h2, h3, h4, h5, h6, .font-display {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .font-display {
     font-family: var(--font-display);
     letter-spacing: -0.04em;
   }
@@ -123,10 +132,15 @@
     scroll-margin-top: clamp(5.75rem, 9vh, 7rem);
     scroll-snap-align: none;
   }
-  ::selection { background: var(--primary); color: white; }
+  ::selection {
+    background: var(--primary);
+    color: white;
+  }
 
   @media (max-width: 767px) {
-    html { scroll-snap-type: none; }
+    html {
+      scroll-snap-type: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -135,7 +149,9 @@
       scroll-snap-type: none;
     }
 
-    .scroll-stop { scroll-snap-align: none; }
+    .scroll-stop {
+      scroll-snap-align: none;
+    }
   }
 }
 
@@ -167,21 +183,25 @@
     transform: translateY(-4px);
   }
 
-  .project-card[data-project-card]:is(:hover, :focus-visible, [data-active="true"]) [data-project-visual] {
+  .project-card[data-project-card]:is(:hover, :focus-visible, [data-active="true"])
+    [data-project-visual] {
     filter: blur(3px);
     transform: translateZ(0) scale(1.035);
   }
 
-  .project-card[data-project-card]:is(:hover, :focus-visible, [data-active="true"]) [data-project-scrim] {
+  .project-card[data-project-card]:is(:hover, :focus-visible, [data-active="true"])
+    [data-project-scrim] {
     opacity: 1;
   }
 
-  .project-card[data-project-card]:is(:hover, :focus-visible, [data-active="true"]) [data-project-hover-content] {
+  .project-card[data-project-card]:is(:hover, :focus-visible, [data-active="true"])
+    [data-project-hover-content] {
     opacity: 1;
     transform: translateY(0);
   }
 
-  .project-card[data-project-card]:is(:hover, :focus-visible, [data-active="true"]) [data-project-rest-icon] {
+  .project-card[data-project-card]:is(:hover, :focus-visible, [data-active="true"])
+    [data-project-rest-icon] {
     opacity: 0;
   }
 }
@@ -203,23 +223,31 @@
   }
 }
 
-@utility text-balance { text-wrap: balance; }
-@utility text-pretty { text-wrap: pretty; }
+@utility text-balance {
+  text-wrap: balance;
+}
+@utility text-pretty {
+  text-wrap: pretty;
+}
 
-@utility hairline-b { border-bottom: 1px solid var(--hairline); }
-@utility hairline-t { border-top: 1px solid var(--hairline); }
+@utility hairline-b {
+  border-bottom: 1px solid var(--hairline);
+}
+@utility hairline-t {
+  border-top: 1px solid var(--hairline);
+}
 
 @utility shadow-elevated {
   box-shadow:
-    0 1px 2px rgba(0,0,0,0.04),
-    0 8px 24px -8px rgba(0,0,0,0.08),
-    0 24px 64px -24px rgba(0,0,0,0.12);
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 8px 24px -8px rgba(0, 0, 0, 0.08),
+    0 24px 64px -24px rgba(0, 0, 0, 0.12);
 }
 
 @utility shadow-float {
   box-shadow:
-    0 20px 60px -20px rgba(0,0,0,0.18),
-    0 8px 24px -12px rgba(124,58,237,0.12);
+    0 20px 60px -20px rgba(0, 0, 0, 0.18),
+    0 8px 24px -12px rgba(124, 58, 237, 0.12);
 }
 
 .liquid-hero-frame {
@@ -237,14 +265,13 @@
   pointer-events: none;
   border-radius: inherit;
   opacity: 0;
-  background:
-    radial-gradient(
-      14rem circle at var(--hero-x) var(--hero-y),
-      rgb(255 255 255 / 0.74),
-      rgb(115 136 223 / 0.52) 18%,
-      rgb(124 58 237 / 0.28) 40%,
-      transparent 70%
-    );
+  background: radial-gradient(
+    14rem circle at var(--hero-x) var(--hero-y),
+    rgb(255 255 255 / 0.74),
+    rgb(115 136 223 / 0.52) 18%,
+    rgb(124 58 237 / 0.28) 40%,
+    transparent 70%
+  );
   mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
@@ -269,7 +296,14 @@
   border-radius: 50%;
   background:
     radial-gradient(ellipse at 50% 42%, rgb(3 4 10 / 0.5), transparent 56%),
-    linear-gradient(90deg, transparent 0%, rgb(51 61 167 / 0.22) 34%, rgb(115 136 223 / 0.18) 52%, rgb(3 4 10 / 0.2) 72%, transparent 100%);
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgb(51 61 167 / 0.22) 34%,
+      rgb(115 136 223 / 0.18) 52%,
+      rgb(3 4 10 / 0.2) 72%,
+      transparent 100%
+    );
   filter: blur(42px);
   mix-blend-mode: multiply;
   opacity: 0.62;
@@ -315,8 +349,16 @@
 
 @utility grid-bg {
   background-image:
-    linear-gradient(to right, color-mix(in oklch, var(--hairline) 80%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklch, var(--hairline) 80%, transparent) 1px, transparent 1px);
+    linear-gradient(
+      to right,
+      color-mix(in oklch, var(--hairline) 80%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklch, var(--hairline) 80%, transparent) 1px,
+      transparent 1px
+    );
   background-size: 64px 64px;
 }
 
@@ -324,18 +366,34 @@
   position: relative;
 }
 @utility noise-overlay {
-  position: absolute; inset: 0; pointer-events: none; opacity: 0.04;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
   background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
-@utility animate-marquee { animation: marquee 40s linear infinite; }
+@utility animate-marquee {
+  animation: marquee 40s linear infinite;
+}
 
 @keyframes float-y {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
-@utility animate-float { animation: float-y 6s ease-in-out infinite; }
+@utility animate-float {
+  animation: float-y 6s ease-in-out infinite;
+}

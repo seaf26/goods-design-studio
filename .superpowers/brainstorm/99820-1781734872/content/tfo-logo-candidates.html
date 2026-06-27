@@ -1,6 +1,11 @@
 <style>
-  .candidate-page { color: #08080a; }
-  .candidate-page h2 { letter-spacing: -0.055em; margin-bottom: 8px; }
+  .candidate-page {
+    color: #08080a;
+  }
+  .candidate-page h2 {
+    letter-spacing: -0.055em;
+    margin-bottom: 8px;
+  }
   .candidate-page .lead {
     max-width: 820px;
     color: #666;
@@ -18,7 +23,10 @@
     background: #fff;
     overflow: hidden;
     cursor: pointer;
-    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      border-color 180ms ease;
   }
   .candidate-card:hover {
     transform: translateY(-4px);
@@ -32,8 +40,7 @@
   .thumb-wrap {
     aspect-ratio: 1;
     background:
-      radial-gradient(20rem circle at 50% 100%, rgba(174, 186, 255, 0.22), transparent 58%),
-      #f7f7f6;
+      radial-gradient(20rem circle at 50% 100%, rgba(174, 186, 255, 0.22), transparent 58%), #f7f7f6;
     display: grid;
     place-items: center;
     padding: 18px;
@@ -45,8 +52,13 @@
     border-radius: 16px;
     background: white;
   }
-  .candidate-body { padding: 18px; }
-  .candidate-body h3 { margin: 0 0 8px; letter-spacing: -0.035em; }
+  .candidate-body {
+    padding: 18px;
+  }
+  .candidate-body h3 {
+    margin: 0 0 8px;
+    letter-spacing: -0.035em;
+  }
   .candidate-body p {
     margin: 0 0 14px;
     color: #666;
@@ -63,64 +75,85 @@
     border: 1px solid rgba(115, 136, 223, 0.24);
     border-radius: 22px;
     padding: 22px;
-    background: linear-gradient(135deg, rgba(115, 136, 223, 0.1), rgba(255,255,255,0.7));
+    background: linear-gradient(135deg, rgba(115, 136, 223, 0.1), rgba(255, 255, 255, 0.7));
     color: #202024;
   }
-  @media (max-width: 1180px) { .candidate-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 720px) { .candidate-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 1180px) {
+    .candidate-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 720px) {
+    .candidate-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 
 <div class="candidate-page">
   <h2>TRAFFODATA T/F/O logo candidates</h2>
-  <p class="lead">Second pass based on your correction: the symbol should use <strong>T + F</strong>, with the <strong>O</strong> acting as a container, route loop, or data ring around the letters. Pick the closest one, or tell me what to combine.</p>
+  <p class="lead">
+    Second pass based on your correction: the symbol should use <strong>T + F</strong>, with the
+    <strong>O</strong> acting as a container, route loop, or data ring around the letters. Pick the
+    closest one, or tell me what to combine.
+  </p>
 
   <div class="candidate-grid">
     <div class="candidate-card" data-choice="tfo-candidate-1" onclick="toggleSelect(this)">
       <div class="thumb-wrap">
-        <img src="https://design.canva.ai/qW35ZFaNhvTJ_0U" alt="TRAFFODATA TFO logo candidate 1">
+        <img src="https://design.canva.ai/qW35ZFaNhvTJ_0U" alt="TRAFFODATA TFO logo candidate 1" />
       </div>
       <div class="candidate-body">
         <h3>Candidate 1</h3>
         <p>Look for the clearest T/F integration inside the O mark.</p>
-        <a href="https://www.canva.com/d/Z5BNUDWnWOMPwO_" target="_blank" rel="noreferrer">Open in Canva</a>
+        <a href="https://www.canva.com/d/Z5BNUDWnWOMPwO_" target="_blank" rel="noreferrer"
+          >Open in Canva</a
+        >
       </div>
     </div>
 
     <div class="candidate-card" data-choice="tfo-candidate-2" onclick="toggleSelect(this)">
       <div class="thumb-wrap">
-        <img src="https://design.canva.ai/rtp0U4wbui1O-as" alt="TRAFFODATA TFO logo candidate 2">
+        <img src="https://design.canva.ai/rtp0U4wbui1O-as" alt="TRAFFODATA TFO logo candidate 2" />
       </div>
       <div class="candidate-body">
         <h3>Candidate 2</h3>
         <p>Judge the balance between enterprise precision and route flow.</p>
-        <a href="https://www.canva.com/d/yrpo7N4gXQIuqmU" target="_blank" rel="noreferrer">Open in Canva</a>
+        <a href="https://www.canva.com/d/yrpo7N4gXQIuqmU" target="_blank" rel="noreferrer"
+          >Open in Canva</a
+        >
       </div>
     </div>
 
     <div class="candidate-card" data-choice="tfo-candidate-3" onclick="toggleSelect(this)">
       <div class="thumb-wrap">
-        <img src="https://design.canva.ai/qfGquZ9qubagA4z" alt="TRAFFODATA TFO logo candidate 3">
+        <img src="https://design.canva.ai/qfGquZ9qubagA4z" alt="TRAFFODATA TFO logo candidate 3" />
       </div>
       <div class="candidate-body">
         <h3>Candidate 3</h3>
         <p>Check if it feels strong enough as a favicon/app icon.</p>
-        <a href="https://www.canva.com/d/K4zjjJnAXsK4sRb" target="_blank" rel="noreferrer">Open in Canva</a>
+        <a href="https://www.canva.com/d/K4zjjJnAXsK4sRb" target="_blank" rel="noreferrer"
+          >Open in Canva</a
+        >
       </div>
     </div>
 
     <div class="candidate-card" data-choice="tfo-candidate-4" onclick="toggleSelect(this)">
       <div class="thumb-wrap">
-        <img src="https://design.canva.ai/y8dbiCyacB5DzqC" alt="TRAFFODATA TFO logo candidate 4">
+        <img src="https://design.canva.ai/y8dbiCyacB5DzqC" alt="TRAFFODATA TFO logo candidate 4" />
       </div>
       <div class="candidate-body">
         <h3>Candidate 4</h3>
         <p>Look for the most premium wordmark plus usable monogram.</p>
-        <a href="https://www.canva.com/d/SdZSmKPP-ZGrq4P" target="_blank" rel="noreferrer">Open in Canva</a>
+        <a href="https://www.canva.com/d/SdZSmKPP-ZGrq4P" target="_blank" rel="noreferrer"
+          >Open in Canva</a
+        >
       </div>
     </div>
   </div>
 
   <div class="direction-note">
-    Best outcome: a mark that reads as an O-shaped traffic/data loop at first glance, then reveals the T and F inside it.
+    Best outcome: a mark that reads as an O-shaped traffic/data loop at first glance, then reveals
+    the T and F inside it.
   </div>
 </div>
