@@ -30,10 +30,7 @@ import {
   Sparkles,
   ChevronRight,
   Plus,
-  TrendingUp,
-  Activity,
   Package,
-  CreditCard,
   BarChart3,
   Building2,
   Layers,
@@ -295,10 +292,20 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
   const elevated = scrolled || lightSurface;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(() => {
+        raf = 0;
+        setScrolled(window.scrollY > 8);
+      });
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) window.cancelAnimationFrame(raf);
+    };
   }, []);
 
   const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -417,266 +424,6 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
 /* ------------------------------------------------------------------ */
 /* Hero                                                                */
 /* ------------------------------------------------------------------ */
-
-function HeroDashboard() {
-  const ref = useRef<HTMLDivElement>(null);
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const rx = useSpring(useTransform(my, [-1, 1], [4, -4]), { stiffness: 60, damping: 18 });
-  const ry = useSpring(useTransform(mx, [-1, 1], [-6, 6]), { stiffness: 60, damping: 18 });
-  return (
-    <motion.div
-      ref={ref}
-      onMouseMove={(e) => {
-        const r = ref.current!.getBoundingClientRect();
-        mx.set(((e.clientX - r.left) / r.width - 0.5) * 2);
-        my.set(((e.clientY - r.top) / r.height - 0.5) * 2);
-      }}
-      onMouseLeave={() => {
-        mx.set(0);
-        my.set(0);
-      }}
-      style={{ rotateX: rx, rotateY: ry, transformPerspective: 1400 }}
-      className="relative mx-auto w-full max-w-6xl"
-    >
-      {/* Glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -inset-x-12 -bottom-12 -top-8 -z-10 bg-[radial-gradient(60%_60%_at_50%_50%,rgba(124,58,237,0.18),transparent_70%)] blur-2xl"
-      />
-
-      {/* Dashboard frame */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.1, delay: 0.5, ease }}
-        className="relative rounded-2xl bg-white ring-hairline shadow-elevated overflow-hidden"
-      >
-        {/* Toolbar */}
-        <div className="flex items-center justify-between hairline-b px-4 py-3">
-          <div className="flex items-center gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#EAEAEA]" />
-            <span className="h-2.5 w-2.5 rounded-full bg-[#EAEAEA]" />
-            <span className="h-2.5 w-2.5 rounded-full bg-[#EAEAEA]" />
-          </div>
-          <div className="flex items-center gap-2 rounded-full bg-[var(--surface)] px-3 py-1 text-[11px] text-[var(--muted-foreground)]">
-            <span className="h-1.5 w-1.5 rounded-full bg-primary" /> goods.app / dashboard
-          </div>
-          <div className="text-[11px] text-[var(--muted-foreground)]">Q4 · 2026</div>
-        </div>
-
-        <div className="grid grid-cols-12 gap-4 p-4 md:p-6">
-          {/* Sidebar */}
-          <div className="col-span-12 md:col-span-3 flex flex-col gap-1">
-            {[
-              { i: BarChart3, l: "Overview", a: true },
-              { i: Boxes, l: "Inventory" },
-              { i: Warehouse, l: "Warehouse" },
-              { i: ScanBarcode, l: "POS" },
-              { i: Calculator, l: "Accounting" },
-              { i: Users, l: "CRM" },
-              { i: Sparkles, l: "AI" },
-            ].map(({ i: Icon, l, a }) => (
-              <div
-                key={l}
-                className={`flex items-center gap-2 rounded-lg px-3 py-2 text-[12px] ${a ? "bg-[var(--ink)] text-white" : "text-[var(--muted-foreground)]"}`}
-              >
-                <Icon className="h-3.5 w-3.5" /> {l}
-              </div>
-            ))}
-          </div>
-
-          {/* Main */}
-          <div className="col-span-12 md:col-span-9 grid grid-cols-6 gap-4">
-            {/* KPI cards */}
-            {[
-              { l: "Revenue", v: "$2.84M", d: "+12.4%", icon: TrendingUp },
-              { l: "Orders", v: "18,402", d: "+5.1%", icon: Package },
-              { l: "Stock turn", v: "6.2x", d: "+0.4", icon: Activity },
-            ].map(({ l, v, d, icon: Icon }) => (
-              <div key={l} className="col-span-2 rounded-xl ring-hairline p-4">
-                <div className="flex items-center justify-between text-[11px] text-[var(--muted-foreground)]">
-                  {l}
-                  <Icon className="h-3.5 w-3.5" />
-                </div>
-                <div className="mt-2 font-display text-2xl font-semibold tracking-tight">{v}</div>
-                <div className="mt-1 text-[11px] text-primary">{d}</div>
-              </div>
-            ))}
-
-            {/* Chart */}
-            <div className="col-span-6 md:col-span-4 rounded-xl ring-hairline p-4">
-              <div className="mb-3 flex items-center justify-between">
-                <div className="text-[12px] font-medium">Sales velocity</div>
-                <div className="flex gap-1 text-[10px] text-[var(--muted-foreground)]">
-                  {["1D", "1W", "1M", "1Y"].map((t, i) => (
-                    <span
-                      key={t}
-                      className={`rounded px-1.5 py-0.5 ${i === 2 ? "bg-[var(--surface)] text-[var(--ink)]" : ""}`}
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <svg viewBox="0 0 400 140" className="h-32 w-full">
-                <defs>
-                  <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="#7388DF" stopOpacity="0.25" />
-                    <stop offset="100%" stopColor="#7388DF" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-                <path
-                  d="M0,100 C40,80 70,90 100,70 C140,45 180,85 220,60 C260,35 300,55 340,30 L400,18 L400,140 L0,140 Z"
-                  fill="url(#g1)"
-                />
-                <motion.path
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 2.2, delay: 1, ease }}
-                  d="M0,100 C40,80 70,90 100,70 C140,45 180,85 220,60 C260,35 300,55 340,30 L400,18"
-                  fill="none"
-                  stroke="#7388DF"
-                  strokeWidth="2"
-                />
-                {[100, 70, 60, 30, 18].map((y, i) => (
-                  <circle key={i} cx={i * 100} cy={y} r="2.5" fill="#7388DF" />
-                ))}
-              </svg>
-            </div>
-
-            {/* Side widgets */}
-            <div className="col-span-6 md:col-span-2 space-y-4">
-              <div className="rounded-xl ring-hairline p-4">
-                <div className="text-[11px] text-[var(--muted-foreground)]">
-                  Warehouse occupancy
-                </div>
-                <div className="mt-2 flex items-end gap-3">
-                  <div className="font-display text-xl font-semibold">78%</div>
-                  <div className="text-[10px] text-[var(--muted-foreground)]">
-                    3 zones near full
-                  </div>
-                </div>
-                <div className="mt-3 h-1.5 w-full rounded-full bg-[var(--surface)]">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: "78%" }}
-                    transition={{ duration: 1.5, delay: 1.4, ease }}
-                    className="h-full rounded-full bg-primary"
-                  />
-                </div>
-              </div>
-              <div className="rounded-xl ring-hairline p-4">
-                <div className="text-[11px] text-[var(--muted-foreground)]">Open invoices</div>
-                <div className="mt-2 font-display text-xl font-semibold">142</div>
-                <div className="mt-3 flex gap-1">
-                  {[3, 5, 2, 7, 4, 6, 8].map((h, i) => (
-                    <motion.span
-                      key={i}
-                      initial={{ height: 0 }}
-                      animate={{ height: h * 4 }}
-                      transition={{ duration: 0.7, delay: 1.5 + i * 0.06, ease }}
-                      className="w-2 rounded-sm bg-[var(--ink)]"
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Activity row */}
-            <div className="col-span-6 rounded-xl ring-hairline">
-              <div className="flex items-center justify-between hairline-b px-4 py-3 text-[12px]">
-                <span className="font-medium">Recent activity</span>
-                <span className="text-[var(--muted-foreground)]">View all</span>
-              </div>
-              <ul>
-                {[
-                  ["PO-3920 received", "Warehouse · Dock 4", "Just now"],
-                  ["Invoice #4421 paid", "Accounting · Stripe", "2m ago"],
-                  ["12 SKUs low stock", "Inventory · Zone B", "5m ago"],
-                ].map(([a, b, c], i) => (
-                  <li
-                    key={i}
-                    className="flex items-center justify-between px-4 py-2.5 text-[12px] hairline-b last:border-b-0"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-primary" /> {a}
-                    </span>
-                    <span className="text-[var(--muted-foreground)]">{b}</span>
-                    <span className="text-[var(--muted-foreground)]">{c}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Floating panels */}
-      <motion.div
-        initial={{ opacity: 0, x: -40, y: 20 }}
-        animate={{ opacity: 1, x: 0, y: 0 }}
-        transition={{ duration: 1, delay: 1.2, ease }}
-        className="absolute -left-6 top-16 hidden w-56 rounded-xl bg-white p-4 ring-hairline shadow-float animate-float md:block"
-      >
-        <div className="flex items-center justify-between text-[11px] text-[var(--muted-foreground)]">
-          Inventory <Boxes className="h-3.5 w-3.5" />
-        </div>
-        <div className="mt-2 font-display text-2xl font-semibold">24,108</div>
-        <div className="mt-1 text-[11px] text-primary">SKUs synced live</div>
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, x: 40, y: 20 }}
-        animate={{ opacity: 1, x: 0, y: 0 }}
-        transition={{ duration: 1, delay: 1.4, ease }}
-        style={{ animationDelay: "1.2s" }}
-        className="absolute -right-6 top-24 hidden w-60 rounded-xl bg-[var(--ink)] p-4 text-white shadow-float animate-float md:block"
-      >
-        <div className="flex items-center justify-between text-[11px] text-white/60">
-          Today's revenue <CreditCard className="h-3.5 w-3.5" />
-        </div>
-        <div className="mt-2 font-display text-2xl font-semibold">$48,920</div>
-        <div className="mt-3 flex h-8 items-end gap-1">
-          {[4, 7, 5, 9, 6, 8, 10, 7, 9, 12, 8, 11].map((h, i) => (
-            <span
-              key={i}
-              style={{ height: `${h * 6}%` }}
-              className="w-1.5 flex-1 rounded-sm bg-primary"
-            />
-          ))}
-        </div>
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 1.6, ease }}
-        className="absolute -bottom-8 left-1/2 hidden w-72 -translate-x-1/2 rounded-xl bg-white p-4 ring-hairline shadow-float md:block"
-      >
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-[11px] text-[var(--muted-foreground)]">Order #OG-29104</div>
-            <div className="mt-0.5 font-display text-sm font-semibold">Shipped from DXB-01</div>
-          </div>
-          <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
-            On route
-          </span>
-        </div>
-        <div className="mt-3 flex items-center gap-2 text-[11px]">
-          <Truck className="h-3.5 w-3.5 text-primary" />
-          <div className="relative h-1 flex-1 rounded-full bg-[var(--surface)]">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: "64%" }}
-              transition={{ duration: 2, delay: 2, ease }}
-              className="absolute inset-y-0 left-0 rounded-full bg-primary"
-            />
-          </div>
-          <span className="text-[var(--muted-foreground)]">ETA 14m</span>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-}
 function supportsWebGL() {
   try {
     const canvas = document.createElement("canvas");
@@ -849,7 +596,7 @@ function Hero() {
       data-hero-quality={quality}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
-      className="liquid-hero-frame scroll-stop relative isolate h-[100vh] min-h-[100dvh] overflow-hidden bg-[#03040a] text-white"
+      className="liquid-hero-frame scroll-stop relative isolate min-h-[100dvh] overflow-hidden bg-[#03040a] text-white"
     >
       <HeroLiquidBackground settings={settings} />
 
@@ -889,10 +636,10 @@ function Hero() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:mt-10">
             <MagneticButton
               variant="dark"
-              href="#cta"
+              href="/contact"
               className="bg-[#333da7] shadow-[0_16px_44px_rgba(3,4,10,0.24)] hover:bg-[#2d3594]"
             >
-              Book a demo{" "}
+              Start a project{" "}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </MagneticButton>
             <MagneticButton
@@ -928,38 +675,39 @@ function Hero() {
 /* ------------------------------------------------------------------ */
 
 function Trust() {
-  const logos = [
-    "Northwind",
-    "Aurora",
-    "Lumen",
-    "Halcyon",
-    "Vertex",
-    "Kintsugi",
-    "Monolith",
-    "Atlas Co.",
-    "Orbital",
-    "Substrate",
+  const proof = [
+    { v: "Commerce backends", l: "Vendor, checkout, wallet, and delivery operations" },
+    { v: "Operational platforms", l: "Inventory, warehouse, logistics, and finance workflows" },
+    { v: "AI and mobile products", l: "Event, booking, retail, and field-team experiences" },
+  ];
+  const systems = [
+    "WikiFood",
+    "Printout",
+    "Taggz",
+    "JAWAD",
+    "Al Nasser",
+    "Inovent",
+    "I Grill",
+    "Polaris Marine",
   ];
   return (
     <section id="trust" className="hairline-t hairline-b bg-[var(--surface)]">
       <div className="mx-auto max-w-7xl px-6 py-10">
         <div className="mb-8 grid grid-cols-1 items-center gap-6 md:grid-cols-4">
           <div className="text-[11px] uppercase tracking-[0.22em] text-[var(--muted-foreground)]">
-            Trusted by operators
+            Selected systems
             <br />
-            in 38 countries
+            shipped for operators
           </div>
           <div className="md:col-span-3 grid grid-cols-3 gap-6 md:grid-cols-3">
-            {[
-              { n: 1000, s: "+", l: "Businesses powered" },
-              { n: 50, s: "M+", l: "Transactions / month" },
-              { n: 99.9, s: "%", l: "System reliability" },
-            ].map((m) => (
-              <div key={m.l}>
-                <div className="font-display text-3xl font-semibold tracking-tight md:text-4xl">
-                  <Counter to={m.n} suffix={m.s} />
+            {proof.map((item) => (
+              <div key={item.v}>
+                <div className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
+                  {item.v}
                 </div>
-                <div className="mt-1 text-[12px] text-[var(--muted-foreground)]">{m.l}</div>
+                <div className="mt-1 max-w-[17rem] text-[12px] leading-relaxed text-[var(--muted-foreground)]">
+                  {item.l}
+                </div>
               </div>
             ))}
           </div>
@@ -968,7 +716,7 @@ function Trust() {
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[var(--surface)] to-transparent" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[var(--surface)] to-transparent" />
           <div className="flex w-max gap-12 animate-marquee">
-            {[...logos, ...logos].map((l, i) => (
+            {[...systems, ...systems].map((l, i) => (
               <span
                 key={i}
                 className="font-display text-2xl font-semibold tracking-tight text-[var(--muted-foreground)] hover:text-[var(--ink)] transition"
@@ -1611,9 +1359,9 @@ const comparisonRows: ComparisonRow[] = [
   },
   {
     icon: PhoneCall,
-    label: "Always Free",
-    goods: "Book a free call",
-    traditional: "Book a paid call",
+    label: "First conversation",
+    goods: "Start with a project-fit call",
+    traditional: "Paid discovery before clarity",
     action: true,
   },
 ];
@@ -1669,7 +1417,7 @@ function ComparisonAction({
   }
 
   return (
-    <a href="#cta" onClick={(event) => handleSectionLinkClick(event, "#cta")} className={className}>
+    <a href="/contact" className={className}>
       {content}
     </a>
   );
@@ -1729,7 +1477,7 @@ function Comparison() {
 
                       <div className="flex items-start gap-4 px-5 py-5 md:min-h-[7.35rem] md:items-center md:border-l md:border-[var(--hairline)] md:px-8 xl:px-10">
                         {row.action ? (
-                          <ComparisonAction variant="goods">Book a free call</ComparisonAction>
+                          <ComparisonAction variant="goods">Start a project</ComparisonAction>
                         ) : (
                           <>
                             <ComparisonMark />
@@ -1748,7 +1496,7 @@ function Comparison() {
                       <div className="flex items-start gap-4 border-t border-[var(--hairline)] px-5 py-5 md:min-h-[7.35rem] md:items-center md:border-l md:border-t-0 md:px-8 xl:px-10">
                         {row.action ? (
                           <ComparisonAction variant="traditional">
-                            Book a paid call
+                            Paid discovery call
                           </ComparisonAction>
                         ) : (
                           <>
@@ -2151,17 +1899,17 @@ const quotes = [
   {
     q: "TRAFFODATA quietly replaced four legacy systems. Our finance close went from twelve days to three.",
     a: "Layla Othman",
-    r: "CFO · Aurora Industries",
+    r: "CFO, Aurora Industries",
   },
   {
     q: "It's the most considered enterprise product I've used. Every screen feels designed for the person who actually does the job.",
     a: "Marcus Reilly",
-    r: "COO · Halcyon Logistics",
+    r: "COO, Halcyon Logistics",
   },
   {
     q: "We rolled it out across 38 stores in a quarter. The team adopted it without a single training session.",
     a: "Nadia Park",
-    r: "Head of Retail · Vertex",
+    r: "Head of Retail, Vertex",
   },
 ];
 
@@ -2269,8 +2017,8 @@ function CTA() {
           A 30-minute call with our team. We'll show you the platform, mapped to your operations.
         </p>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <MagneticButton variant="dark" href="#">
-            Book a demo <ArrowRight className="h-4 w-4" />
+          <MagneticButton variant="dark" href="/contact">
+            Start a project <ArrowRight className="h-4 w-4" />
           </MagneticButton>
           <a
             href={`mailto:${BRAND_EMAIL}`}
@@ -2281,10 +2029,10 @@ function CTA() {
         </div>
         <div className="mt-16 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[12px] text-[var(--muted-foreground)]">
           {[
-            [Shield, "SOC 2 · Type II"],
-            [Globe2, "Deployed in 38 countries"],
-            [Zap, "99.99% uptime SLA"],
-            [Check, "Free 14-day pilot"],
+            [Shield, "Verified email domain"],
+            [Globe2, "ERP, POS, inventory, warehouse"],
+            [Zap, "Fast technical review"],
+            [Check, "Clear next step"],
           ].map(([I, l]) => {
             const Icon = I as typeof Shield;
             return (
@@ -2328,8 +2076,6 @@ const footerColumns = [
     items: [
       { label: "Selected work", href: "/#projects" },
       { label: "How we work", href: "/#process" },
-      { label: "Security", href: "#" },
-      { label: "Status", href: "#" },
     ],
   },
   {

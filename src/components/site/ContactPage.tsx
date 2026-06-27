@@ -11,8 +11,10 @@ import {
 
 import { BlurText } from "./BlurText";
 import { Footer, Nav, Reveal } from "./Landing";
+import { sendContactInquiry } from "@/lib/api/contact.functions";
 
 type ContactErrors = Partial<Record<"name" | "email" | "services" | "message", string>>;
+type SubmissionState = "idle" | "sending" | "sent" | "manual" | "error";
 
 const services = [
   "ERP platform",
@@ -55,8 +57,9 @@ export function ContactPage() {
   const [company, setCompany] = useState("");
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [message, setMessage] = useState("");
+  const [website, setWebsite] = useState("");
   const [errors, setErrors] = useState<ContactErrors>({});
-  const [sent, setSent] = useState(false);
+  const [submissionState, setSubmissionState] = useState<SubmissionState>("idle");
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
@@ -87,7 +90,7 @@ export function ContactPage() {
     );
   };
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const nextErrors: ContactErrors = {};
@@ -98,15 +101,42 @@ export function ContactPage() {
       nextErrors.message = "Write at least 20 characters about the work.";
 
     setErrors(nextErrors);
-    setSent(Object.keys(nextErrors).length === 0);
+    setSubmissionState("idle");
 
     if (nextErrors.name) nameRef.current?.focus();
     else if (nextErrors.email) emailRef.current?.focus();
     else if (nextErrors.services) servicesRef.current?.focus();
     else if (nextErrors.message) messageRef.current?.focus();
 
-    if (Object.keys(nextErrors).length === 0) {
-      window.location.href = mailtoHref;
+    if (Object.keys(nextErrors).length > 0) return;
+
+    setSubmissionState("sending");
+    try {
+      const result = await sendContactInquiry({
+        data: {
+          name,
+          email,
+          company: company.trim() || undefined,
+          services: selectedServices,
+          message,
+          website,
+        },
+      });
+
+      if (result.ok) {
+        setSubmissionState("sent");
+        return;
+      }
+
+      if (result.reason === "manual-email") {
+        setSubmissionState("manual");
+        return;
+      }
+
+      setSubmissionState("error");
+    } catch (error) {
+      console.error(error);
+      setSubmissionState("error");
     }
   };
 
@@ -173,7 +203,7 @@ export function ContactPage() {
                 onSubmit={onSubmit}
                 className="rounded-[1.5rem] bg-white p-5 ring-1 ring-[var(--hairline)] sm:p-7 lg:p-8"
               >
-                {sent ? (
+                {submissionState === "sent" ? (
                   <div
                     aria-live="polite"
                     className="mb-6 flex items-start gap-3 rounded-2xl bg-primary/10 p-4 text-[14px] text-[var(--ink)] ring-1 ring-primary/20"
@@ -182,11 +212,41 @@ export function ContactPage() {
                       <Check className="h-3.5 w-3.5" />
                     </span>
                     <span>
-                      Your email client should open with the inquiry. If it does not, send the same
-                      note to hello@traffodata.com.
+                      Inquiry sent. We will review the workflow and reply with the right next step.
                     </span>
                   </div>
                 ) : null}
+
+                {submissionState === "manual" || submissionState === "error" ? (
+                  <div
+                    aria-live="polite"
+                    className="mb-6 rounded-2xl bg-[var(--surface)] p-4 text-[14px] text-[var(--ink)] ring-1 ring-[var(--hairline)]"
+                  >
+                    <span className="font-semibold">
+                      {submissionState === "manual"
+                        ? "Email sending is not configured yet."
+                        : "The message could not be sent."}
+                    </span>{" "}
+                    <a
+                      href={mailtoHref}
+                      className="font-semibold text-primary underline-offset-4 hover:underline"
+                    >
+                      Send it by email instead.
+                    </a>
+                  </div>
+                ) : null}
+
+                <div aria-hidden="true" className="hidden">
+                  <label htmlFor="contact-website">Website</label>
+                  <input
+                    id="contact-website"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={website}
+                    onChange={(event) => setWebsite(event.target.value)}
+                  />
+                </div>
 
                 <div className="grid gap-5 md:grid-cols-2">
                   <div>
@@ -362,11 +422,11 @@ export function ContactPage() {
 
                 <button
                   type="submit"
-                  disabled={sent}
-                  aria-disabled={sent}
+                  disabled={submissionState === "sending"}
+                  aria-disabled={submissionState === "sending"}
                   className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-[var(--ink)] px-6 py-3 text-[14px] font-semibold text-white transition-[transform,background-color,opacity] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-[#333da7] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  {sent ? "Opening email" : "Send inquiry"}
+                  {submissionState === "sending" ? "Sending inquiry" : "Send inquiry"}
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </form>
