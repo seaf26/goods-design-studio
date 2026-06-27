@@ -1171,138 +1171,280 @@ const platformTabs = [
   { k: "warehouse", l: "Warehouse", icon: Warehouse },
   { k: "pos", l: "POS", icon: ScanBarcode },
   { k: "reports", l: "Reports", icon: BarChart3 },
-];
+] as const;
 
-function PlatformContent({ k }: { k: string }) {
-  const palette = {
-    inventory: {
-      kpi: [
-        ["SKUs", "24,108"],
-        ["Low stock", "32"],
-        ["Turnover", "6.2x"],
-      ],
-      title: "Inventory · live across 14 locations",
-    },
-    accounting: {
-      kpi: [
-        ["Revenue MTD", "$1.92M"],
-        ["Receivables", "$214K"],
-        ["Margin", "38.4%"],
-      ],
-      title: "Accounting · multi-entity ledgers",
-    },
-    crm: {
-      kpi: [
-        ["Pipeline", "$4.7M"],
-        ["Deals", "182"],
-        ["Win rate", "31%"],
-      ],
-      title: "CRM · operations-aware",
-    },
-    ai: {
-      kpi: [
-        ["Automations", "248"],
-        ["AI workflows", "12"],
-        ["Assisted tasks", "94%"],
-      ],
-      title: "AI · operational automation",
-    },
-    warehouse: {
-      kpi: [
-        ["Picks / hour", "412"],
-        ["Accuracy", "99.8%"],
-        ["Dock util.", "78%"],
-      ],
-      title: "Warehouse · pick, pack, ship",
-    },
-    pos: {
-      kpi: [
-        ["Today", "$48,920"],
-        ["Tickets", "1,204"],
-        ["Avg basket", "$40.6"],
-      ],
-      title: "POS · offline-first retail",
-    },
-    reports: {
-      kpi: [
-        ["Dashboards", "94"],
-        ["Sources", "21"],
-        ["Refresh", "60s"],
-      ],
-      title: "Reports · realtime intelligence",
-    },
-  }[k] ?? { kpi: [], title: "" };
+type PlatformKey = (typeof platformTabs)[number]["k"];
+
+type PlatformScene = {
+  title: string;
+  subtitle: string;
+  operator: string;
+  focus: string;
+  queue: { label: string; value: string; state: "calm" | "review" | "active" }[];
+  lanes: { label: string; items: string[] }[];
+  footer: string[];
+};
+
+const platformScenes: Record<PlatformKey, PlatformScene> = {
+  inventory: {
+    title: "Inventory control room",
+    subtitle: "Stock, warehouses, suppliers, and exceptions in one operating view.",
+    operator: "Inventory manager",
+    focus: "Replenishment and exception handling",
+    queue: [
+      { label: "Reorder queue", value: "Supplier review", state: "review" },
+      { label: "Location health", value: "Receiving today", state: "active" },
+      { label: "Exception lane", value: "Low stock watched", state: "calm" },
+    ],
+    lanes: [
+      {
+        label: "Stock movement",
+        items: ["Purchase order received", "Transfer reserved", "Return inspected"],
+      },
+      {
+        label: "Rules",
+        items: ["Minimum quantity", "Always-in-stock items", "Warehouse priority"],
+      },
+      {
+        label: "Operator actions",
+        items: ["Approve transfer", "Update supplier", "Resolve mismatch"],
+      },
+    ],
+    footer: ["SKU history", "Warehouse stock", "Bulk import", "Supplier terms"],
+  },
+  accounting: {
+    title: "Finance close board",
+    subtitle: "Receivables, payouts, taxes, and approvals tied back to operational events.",
+    operator: "Finance lead",
+    focus: "Month-end without spreadsheet drift",
+    queue: [
+      { label: "Close checklist", value: "Entity review", state: "active" },
+      { label: "Receivables", value: "Aging watched", state: "review" },
+      { label: "Audit trail", value: "Ready for export", state: "calm" },
+    ],
+    lanes: [
+      { label: "Revenue", items: ["POS receipts", "Online payments", "Wallet adjustments"] },
+      { label: "Controls", items: ["Tax review", "Refund approval", "Disbursement lock"] },
+      { label: "Outputs", items: ["Ledger export", "VAT report", "Management pack"] },
+    ],
+    footer: ["Invoice states", "Tax rules", "Payment gateways", "Export logs"],
+  },
+  crm: {
+    title: "CRM handoff desk",
+    subtitle: "Sales activity, account context, and delivery follow-up without losing the thread.",
+    operator: "Account owner",
+    focus: "From lead to operational handoff",
+    queue: [
+      { label: "Next action", value: "Demo follow-up", state: "active" },
+      { label: "Account stage", value: "Ops review", state: "review" },
+      { label: "Handoff notes", value: "Delivery ready", state: "calm" },
+    ],
+    lanes: [
+      { label: "Pipeline", items: ["Qualified lead", "Proposal shared", "Procurement review"] },
+      { label: "Context", items: ["Sites", "Users", "Systems connected"] },
+      { label: "Follow-up", items: ["Schedule call", "Assign owner", "Create project brief"] },
+    ],
+    footer: ["Contacts", "Tasks", "Company profile", "Deal history"],
+  },
+  ai: {
+    title: "Automation review queue",
+    subtitle: "AI assists repetitive work while operators keep control over decisions.",
+    operator: "Operations analyst",
+    focus: "Suggested actions with human approval",
+    queue: [
+      { label: "Suggested fixes", value: "Awaiting approval", state: "review" },
+      { label: "Recipe status", value: "Running safely", state: "active" },
+      { label: "Guardrails", value: "Human review on", state: "calm" },
+    ],
+    lanes: [
+      { label: "Inputs", items: ["Low stock alert", "Late payout", "Duplicate customer"] },
+      { label: "Assistant", items: ["Draft action", "Explain reason", "Check policy"] },
+      { label: "Operator", items: ["Approve", "Edit", "Dismiss"] },
+    ],
+    footer: ["Rules", "Approvals", "Audit log", "Prompt history"],
+  },
+  warehouse: {
+    title: "Warehouse execution board",
+    subtitle: "Receiving, picking, packing, shipping, and returns coordinated from one queue.",
+    operator: "Warehouse supervisor",
+    focus: "Wave planning and dock visibility",
+    queue: [
+      { label: "Wave plan", value: "Picking now", state: "active" },
+      { label: "Dock status", value: "Inbound review", state: "review" },
+      { label: "Returns", value: "Inspection lane", state: "calm" },
+    ],
+    lanes: [
+      { label: "Inbound", items: ["ASN received", "Quality checked", "Putaway assigned"] },
+      { label: "Outbound", items: ["Pick wave", "Pack station", "Carrier handoff"] },
+      { label: "Exceptions", items: ["Short pick", "Damaged item", "Address hold"] },
+    ],
+    footer: ["Bins", "Pick lists", "Packing slips", "Carrier labels"],
+  },
+  pos: {
+    title: "Retail counter cockpit",
+    subtitle: "Counter sales, offline sync, refunds, loyalty, and inventory connected at checkout.",
+    operator: "Store operator",
+    focus: "Fast counter work with clean back-office data",
+    queue: [
+      { label: "Counter state", value: "Selling now", state: "active" },
+      { label: "Offline sync", value: "Protected queue", state: "calm" },
+      { label: "Returns", value: "Manager review", state: "review" },
+    ],
+    lanes: [
+      { label: "Sale", items: ["Scan item", "Apply offer", "Take payment"] },
+      { label: "Customer", items: ["Loyalty lookup", "Wallet balance", "Receipt delivery"] },
+      { label: "Back office", items: ["Stock decrement", "Tax record", "Shift close"] },
+    ],
+    footer: ["Cash drawer", "Coupons", "Receipts", "Shift reports"],
+  },
+  reports: {
+    title: "Reporting command surface",
+    subtitle: "Dashboards built from source systems, with freshness and ownership visible.",
+    operator: "Leadership team",
+    focus: "Decision views without data archaeology",
+    queue: [
+      { label: "Source health", value: "Feeds connected", state: "active" },
+      { label: "Board pack", value: "Owner review", state: "review" },
+      { label: "Exports", value: "Scheduled", state: "calm" },
+    ],
+    lanes: [
+      { label: "Inputs", items: ["Inventory", "Finance", "Sales"] },
+      { label: "Views", items: ["Executive summary", "Operations detail", "Exception list"] },
+      { label: "Distribution", items: ["PDF pack", "CSV export", "Email schedule"] },
+    ],
+    footer: ["Dashboards", "Sources", "Permissions", "Snapshots"],
+  },
+};
+
+function PlatformContent({ k }: { k: PlatformKey }) {
+  const scene = platformScenes[k];
+  const statusStyles = {
+    active: "bg-primary text-white",
+    calm: "bg-[var(--surface)] text-[var(--ink)] ring-1 ring-[var(--hairline)]",
+    review: "bg-[#11131f] text-white",
+  };
+  const handoff = [
+    ["Source event", "Captured"],
+    ["Shared record", "Validated against workflow rules"],
+    ["Operator action", "Assigned to owner"],
+  ];
 
   return (
     <motion.div
       key={k}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease }}
-      className="grid grid-cols-6 gap-4 p-6"
+      transition={{ duration: 0.42, ease }}
+      className="grid gap-5 p-4 sm:p-5 lg:grid-cols-[0.72fr_1.28fr]"
     >
-      <div className="col-span-6 md:col-span-2 space-y-3">
-        <div className="text-[12px] font-medium text-[var(--muted-foreground)]">
-          {palette.title}
-        </div>
-        {palette.kpi.map(([l, v]) => (
-          <div key={l} className="rounded-xl ring-hairline p-4">
-            <div className="text-[11px] text-[var(--muted-foreground)]">{l}</div>
-            <div className="mt-1 font-display text-2xl font-semibold tracking-tight">{v}</div>
+      <div className="flex flex-col rounded-xl bg-[var(--surface)] p-4 ring-1 ring-[var(--hairline)] sm:p-5">
+        <div>
+          <div className="text-[12px] font-semibold text-[var(--ink)]">{scene.operator}</div>
+          <div className="mt-2 font-display text-[clamp(1.55rem,3vw,2.35rem)] font-bold leading-[0.98] tracking-[-0.04em]">
+            {scene.title}
           </div>
-        ))}
-      </div>
-      <div className="col-span-6 md:col-span-4 rounded-xl ring-hairline p-5">
-        <div className="mb-3 flex items-center justify-between text-[11px] text-[var(--muted-foreground)]">
-          <span>Trend · last 30 days</span>
-          <span>Updated 6s ago</span>
+          <p className="mt-4 text-[14px] leading-[1.6] text-[var(--muted-foreground)]">
+            {scene.subtitle}
+          </p>
         </div>
-        <svg viewBox="0 0 500 180" className="h-44 w-full">
-          <defs>
-            <linearGradient id="pg" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stopColor="#7388DF" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#7388DF" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          {Array.from({ length: 4 }).map((_, i) => (
-            <line
-              key={i}
-              x1="0"
-              x2="500"
-              y1={(i + 1) * 36}
-              y2={(i + 1) * 36}
-              stroke="#EAEAEA"
-              strokeDasharray="2 4"
-            />
+
+        <div className="mt-6 grid gap-2">
+          {scene.queue.map((item) => (
+            <div
+              key={item.label}
+              className="flex min-w-0 flex-wrap items-center justify-between gap-3 rounded-lg bg-white px-3 py-3 ring-1 ring-[var(--hairline)]"
+            >
+              <span className="text-[12px] font-medium text-[var(--muted-foreground)]">
+                {item.label}
+              </span>
+              <span
+                className={`rounded-full px-2.5 py-1 text-[11px] font-semibold leading-none ${statusStyles[item.state]}`}
+              >
+                {item.value}
+              </span>
+            </div>
           ))}
-          <motion.path
-            key={k + "fill"}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            d="M0,130 C50,120 90,90 140,100 C190,110 220,60 270,75 C320,90 360,40 410,55 C450,65 480,30 500,40 L500,180 L0,180 Z"
-            fill="url(#pg)"
-          />
-          <motion.path
-            key={k + "line"}
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 1.8, ease }}
-            d="M0,130 C50,120 90,90 140,100 C190,110 220,60 270,75 C320,90 360,40 410,55 C450,65 480,30 500,40"
-            fill="none"
-            stroke="#7388DF"
-            strokeWidth="2"
-          />
-        </svg>
-        <div className="mt-4 grid grid-cols-3 gap-3 text-[11px]">
-          {["North", "EMEA", "APAC"].map((r, i) => (
-            <div key={r} className="rounded-lg bg-[var(--surface)] p-3">
-              <div className="text-[var(--muted-foreground)]">{r}</div>
-              <div className="mt-1 font-display text-base font-semibold">
-                {["$684K", "$512K", "$724K"][i]}
+        </div>
+
+        <div className="mt-auto pt-6">
+          <div className="rounded-lg bg-[var(--ink)] p-4 text-white">
+            <div className="text-[11px] font-medium text-white/50">Current focus</div>
+            <div className="mt-2 text-[14px] font-semibold leading-snug">{scene.focus}</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-xl bg-white p-4 ring-1 ring-[var(--hairline)] sm:p-5">
+        <div className="flex flex-col gap-2 border-b border-[var(--hairline)] pb-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <div className="text-[12px] font-medium text-[var(--muted-foreground)]">
+              Connected workflow
+            </div>
+            <div className="mt-1 font-display text-2xl font-semibold tracking-[-0.04em]">
+              {scene.title}
+            </div>
+          </div>
+          <div className="w-fit rounded-full bg-[var(--surface)] px-3 py-1.5 text-[11px] font-semibold text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]">
+            One shared record
+          </div>
+        </div>
+
+        <div className="mt-5 grid gap-3 md:grid-cols-3">
+          {scene.lanes.map((lane, laneIndex) => (
+            <div key={lane.label} className="rounded-lg bg-[var(--surface)] p-3">
+              <div className="mb-3 flex items-center justify-between">
+                <span className="text-[12px] font-semibold text-[var(--ink)]">{lane.label}</span>
+                <span className="font-mono text-[10px] text-[var(--muted-foreground)]">
+                  {String(laneIndex + 1).padStart(2, "0")}
+                </span>
+              </div>
+              <div className="space-y-2">
+                {lane.items.map((item, itemIndex) => (
+                  <div
+                    key={item}
+                    className="flex min-h-12 items-center gap-3 rounded-md bg-white px-3 py-2 ring-1 ring-black/5"
+                  >
+                    <span
+                      className={`grid h-5 w-5 shrink-0 place-items-center rounded-full ${
+                        itemIndex === 0 ? "bg-primary text-white" : "bg-black/5 text-primary"
+                      }`}
+                    >
+                      <Check className="h-3 w-3" />
+                    </span>
+                    <span className="text-[12px] font-medium leading-tight text-[var(--ink)]">
+                      {item}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="mt-5 grid gap-2 sm:grid-cols-4">
+          {scene.footer.map((item) => (
+            <div
+              key={item}
+              className="rounded-lg border border-dashed border-black/10 bg-white px-3 py-3 text-[12px] font-semibold text-[var(--muted-foreground)]"
+            >
+              <div className="h-1.5 w-8 rounded-full bg-primary/50" />
+              <div className="mt-3">{item}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-5 overflow-hidden rounded-lg bg-[var(--ink)] p-3 text-white">
+          <div className="grid gap-2 text-[11px] sm:grid-cols-3">
+            {handoff.map(([label, value]) => (
+              <div
+                key={label}
+                className="rounded-md bg-white/[0.08] px-3 py-2 font-medium text-white/78 ring-1 ring-white/10"
+              >
+                <div className="mb-1 text-white/45">{label}</div>
+                <div>{value}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </motion.div>
@@ -1310,13 +1452,13 @@ function PlatformContent({ k }: { k: string }) {
 }
 
 function Platform() {
-  const [tab, setTab] = useState("inventory");
+  const [tab, setTab] = useState<PlatformKey>("inventory");
   return (
     <section id="platform" data-scroll-stop className="scroll-stop py-28 md:py-40">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-16 grid grid-cols-12 gap-8">
           <div className="col-span-12 md:col-span-6">
-            <Eyebrow>TRAFFODATA ERP · Platform</Eyebrow>
+            <Eyebrow>TRAFFODATA ERP Platform</Eyebrow>
             <h2 className="mt-4 font-display text-[clamp(2.2rem,5.5vw,5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
               <BlurText as="span" text="One platform." className="block" />
               <BlurText
@@ -1330,7 +1472,7 @@ function Platform() {
           <div className="col-span-12 md:col-span-6 md:pt-6">
             <p className="text-[15px] leading-relaxed text-[var(--muted-foreground)]">
               A single source of truth for inventory, finance, sales, people and operations,
-              engineered to feel like one product, not seven.
+              engineered to feel like one product instead of seven disconnected screens.
             </p>
           </div>
         </div>
