@@ -8,23 +8,37 @@ import { getWorkItem, workItems, type WorkItem } from "./workData";
 function StatPill({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex min-h-32 flex-col justify-between rounded-2xl bg-white p-5 ring-1 ring-[var(--hairline)]">
-      <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-[var(--muted-foreground)]">{label}</div>
-      <div className="mt-5 line-clamp-2 font-display text-[clamp(1.45rem,2.4vw,2.25rem)] font-bold leading-[0.98] tracking-[-0.04em] text-[var(--ink)]">{value}</div>
+      <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-[var(--muted-foreground)]">
+        {label}
+      </div>
+      <div className="mt-5 line-clamp-2 font-display text-[clamp(1.45rem,2.4vw,2.25rem)] font-bold leading-[0.98] tracking-[-0.04em] text-[var(--ink)]">
+        {value}
+      </div>
     </div>
   );
 }
 
-function DetailSection({ section, index }: { section: { title: string; text: string }; index: number }) {
+function DetailSection({
+  section,
+  index,
+}: {
+  section: { title: string; text: string };
+  index: number;
+}) {
   return (
     <Reveal delay={index * 0.035}>
       <article className="border-t border-[var(--hairline)] py-7 md:grid md:grid-cols-[0.38fr_0.62fr] md:gap-10 md:py-9">
         <div>
-          <div className="font-mono text-[11px] text-[var(--muted-foreground)]">{String(index + 1).padStart(2, "0")}</div>
+          <div className="font-mono text-[11px] text-[var(--muted-foreground)]">
+            {String(index + 1).padStart(2, "0")}
+          </div>
           <h2 className="mt-3 max-w-md font-display text-[clamp(1.65rem,2.6vw,2.75rem)] font-semibold leading-[1] tracking-[-0.04em] text-[var(--ink)]">
             {section.title}
           </h2>
         </div>
-        <p className="mt-4 max-w-4xl text-[15px] leading-[1.72] text-[var(--muted-foreground)] md:mt-1 md:text-[16px]">{section.text}</p>
+        <p className="mt-4 max-w-4xl text-[15px] leading-[1.72] text-[var(--muted-foreground)] md:mt-1 md:text-[16px]">
+          {section.text}
+        </p>
       </article>
     </Reveal>
   );
@@ -38,9 +52,13 @@ function ModuleCard({ module, index }: { module: string; index: number }) {
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-[var(--surface)] text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]">
             <Layers3 className="h-4 w-4" />
           </span>
-          <span className="font-mono text-[11px] text-[var(--muted-foreground)]">{String(index + 1).padStart(2, "0")}</span>
+          <span className="font-mono text-[11px] text-[var(--muted-foreground)]">
+            {String(index + 1).padStart(2, "0")}
+          </span>
         </div>
-        <div className="mt-7 font-display text-[clamp(1.25rem,2vw,1.65rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-[var(--ink)]">{module}</div>
+        <div className="mt-7 font-display text-[clamp(1.25rem,2vw,1.65rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-[var(--ink)]">
+          {module}
+        </div>
       </div>
     </Reveal>
   );
@@ -56,7 +74,9 @@ function RelatedProject({ item }: { item: WorkItem }) {
     >
       <span>
         <span className="block text-[13px] text-white/45">{eyebrow}</span>
-        <span className="mt-1 block font-display text-2xl font-semibold tracking-[-0.04em]">{item.title}</span>
+        <span className="mt-1 block font-display text-2xl font-semibold tracking-[-0.04em]">
+          {item.title}
+        </span>
       </span>
       <ArrowRight className="h-5 w-5 shrink-0 transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-1" />
     </a>
@@ -71,11 +91,16 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
       <div className="min-h-screen bg-[var(--background)] text-[var(--ink)]">
         <Nav surface="light" />
         <main className="mx-auto flex min-h-[70vh] max-w-3xl flex-col justify-center px-6 py-28">
-          <a href="/work" className="inline-flex w-fit items-center gap-2 text-[13px] font-medium text-[var(--muted-foreground)] transition-colors hover:text-[var(--ink)]">
+          <a
+            href="/work"
+            className="inline-flex w-fit items-center gap-2 text-[13px] font-medium text-[var(--muted-foreground)] transition-colors hover:text-[var(--ink)]"
+          >
             <ArrowLeft className="h-4 w-4" />
             Back to work
           </a>
-          <h1 className="mt-8 font-display text-[clamp(3rem,7vw,6rem)] font-bold leading-[0.92] tracking-[-0.055em] text-balance">Project not found.</h1>
+          <h1 className="mt-8 font-display text-[clamp(3rem,7vw,6rem)] font-bold leading-[0.92] tracking-[-0.055em] text-balance">
+            Project not found.
+          </h1>
           <p className="mt-5 max-w-xl text-[16px] leading-[1.65] text-[var(--muted-foreground)]">
             This case study is not available. The work index has the current project list.
           </p>
@@ -96,7 +121,10 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
         <section className="relative overflow-hidden pt-24 md:pt-28">
           <div className="mx-auto max-w-[92rem] px-5 sm:px-6">
             <Reveal>
-              <a href="/work" className="inline-flex items-center gap-2 rounded-full bg-[var(--surface)] px-3 py-1.5 text-[12px] font-medium text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)] transition-colors hover:text-[var(--ink)]">
+              <a
+                href="/work"
+                className="inline-flex items-center gap-2 rounded-full bg-[var(--surface)] px-3 py-1.5 text-[12px] font-medium text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)] transition-colors hover:text-[var(--ink)]"
+              >
                 <ArrowLeft className="h-3.5 w-3.5" />
                 Work
               </a>
@@ -162,25 +190,40 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
                       <LineChart className="h-5 w-5" />
                     </span>
                     <div>
-                      <div className="text-[12px] font-medium text-[var(--muted-foreground)]">Delivery scope</div>
-                      <div className="mt-1 font-display text-xl font-semibold tracking-[-0.03em]">{project.team}</div>
+                      <div className="text-[12px] font-medium text-[var(--muted-foreground)]">
+                        Delivery scope
+                      </div>
+                      <div className="mt-1 font-display text-xl font-semibold tracking-[-0.03em]">
+                        {project.team}
+                      </div>
                     </div>
                   </div>
                   <div className="mt-6 space-y-3">
                     {project.outcomes.slice(0, 5).map((outcome) => (
-                      <div key={outcome} className="rounded-xl bg-white px-4 py-3 text-[13px] font-medium text-[var(--ink)] ring-1 ring-[var(--hairline)]">
+                      <div
+                        key={outcome}
+                        className="rounded-xl bg-white px-4 py-3 text-[13px] font-medium text-[var(--ink)] ring-1 ring-[var(--hairline)]"
+                      >
                         {outcome}
                       </div>
                     ))}
                   </div>
                   <div className="mt-5 grid grid-cols-2 gap-3">
                     <div className="rounded-xl bg-white p-4 ring-1 ring-[var(--hairline)]">
-                      <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">Timeline</div>
-                      <div className="mt-3 font-display text-lg font-semibold tracking-[-0.03em]">{project.duration}</div>
+                      <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+                        Timeline
+                      </div>
+                      <div className="mt-3 font-display text-lg font-semibold tracking-[-0.03em]">
+                        {project.duration}
+                      </div>
                     </div>
                     <div className="rounded-xl bg-white p-4 ring-1 ring-[var(--hairline)]">
-                      <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">Launch</div>
-                      <div className="mt-3 line-clamp-2 font-display text-lg font-semibold leading-[1.05] tracking-[-0.03em]">{project.outcome}</div>
+                      <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+                        Launch
+                      </div>
+                      <div className="mt-3 line-clamp-2 font-display text-lg font-semibold leading-[1.05] tracking-[-0.03em]">
+                        {project.outcome}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -198,7 +241,8 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
                     Stack and capabilities.
                   </h2>
                   <p className="mt-4 max-w-xl text-[15px] leading-[1.65] text-[var(--muted-foreground)]">
-                    The technical footprint stays visible without turning the case study into a sparse list.
+                    The technical footprint stays visible without turning the case study into a
+                    sparse list.
                   </p>
                 </div>
               </Reveal>
@@ -230,7 +274,9 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
                 <div className="mt-8 divide-y divide-white/12">
                   {project.timeline.map((step) => (
                     <div key={step.label} className="grid gap-3 py-5 md:grid-cols-[0.3fr_0.7fr]">
-                      <div className="font-display text-xl font-semibold tracking-[-0.03em] text-white">{step.label}</div>
+                      <div className="font-display text-xl font-semibold tracking-[-0.03em] text-white">
+                        {step.label}
+                      </div>
                       <p className="text-[14px] leading-[1.68] text-white/66">{step.text}</p>
                     </div>
                   ))}
@@ -251,7 +297,10 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
                 <h2 className="max-w-lg font-display text-[clamp(2.25rem,4.8vw,4.9rem)] font-bold leading-[0.94] tracking-[-0.04em] text-balance">
                   More systems under pressure.
                 </h2>
-                <a href="/work" className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[14px] font-semibold text-black transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]">
+                <a
+                  href="/work"
+                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[14px] font-semibold text-black transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]"
+                >
                   All work
                   <ArrowRight className="h-4 w-4" />
                 </a>

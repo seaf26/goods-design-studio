@@ -30,33 +30,33 @@ Lighthouse was run with Brave/Chromium using Lighthouse 12.8.2, three runs per d
 
 ## Lighthouse Results
 
-| Profile | Metric | Before Median | After Median |
-| --- | --- | ---: | ---: |
-| Mobile | Performance | 86 | 89 |
-| Mobile | FCP | 2.9 s | 2.8 s |
-| Mobile | LCP | 3.1 s | 2.8 s |
-| Mobile | Speed Index | 4.6 s | 4.4 s |
-| Mobile | TBT | 0 ms | 0 ms |
-| Mobile | CLS | 0 | 0 |
-| Desktop | Performance | 100 | 100 |
-| Desktop | FCP | 0.4 s | 0.4 s |
-| Desktop | LCP | 0.4 s | 0.6 s |
-| Desktop | Speed Index | 0.7 s | 0.6 s |
-| Desktop | TBT | 0 ms | 0 ms |
-| Desktop | CLS | 0 | 0 |
+| Profile | Metric      | Before Median | After Median |
+| ------- | ----------- | ------------: | -----------: |
+| Mobile  | Performance |            86 |           89 |
+| Mobile  | FCP         |         2.9 s |        2.8 s |
+| Mobile  | LCP         |         3.1 s |        2.8 s |
+| Mobile  | Speed Index |         4.6 s |        4.4 s |
+| Mobile  | TBT         |          0 ms |         0 ms |
+| Mobile  | CLS         |             0 |            0 |
+| Desktop | Performance |           100 |          100 |
+| Desktop | FCP         |         0.4 s |        0.4 s |
+| Desktop | LCP         |         0.4 s |        0.6 s |
+| Desktop | Speed Index |         0.7 s |        0.6 s |
+| Desktop | TBT         |          0 ms |         0 ms |
+| Desktop | CLS         |             0 |            0 |
 
 Lighthouse still reports text compression opportunities because the local preview server is not configured like production edge hosting. That is not a hero animation bottleneck.
 
 ## Build Payloads
 
-| Asset | Before | After | Notes |
-| --- | ---: | ---: | --- |
-| `styles` client chunk | 136.37 kB / 21.81 kB gzip | 136.32 kB / 21.80 kB gzip | Essentially unchanged. |
-| route `index` client chunk | 70.43 kB / 27.61 kB gzip | 70.12 kB / 27.48 kB gzip | Slightly smaller. |
-| `Landing` client chunk | 197.47 kB / 63.09 kB gzip | 197.74 kB / 63.13 kB gzip | Small increase from interactive FPS prop wiring. |
-| `LiquidEther` lazy chunk | 520.61 kB / 131.45 kB gzip | 520.85 kB / 131.50 kB gzip | Still lazy; standard users keep the liquid effect. |
-| `gsap/Observer` client chunk | 9.05 kB / 4.04 kB gzip | removed from eager flow | Global touch/pointer Observer is no longer imported on load. |
-| Main client runtime | 528.48 kB / 133.50 kB gzip | 528.48 kB / 133.50 kB gzip | Unchanged. |
+| Asset                        |                     Before |                      After | Notes                                                        |
+| ---------------------------- | -------------------------: | -------------------------: | ------------------------------------------------------------ |
+| `styles` client chunk        |  136.37 kB / 21.81 kB gzip |  136.32 kB / 21.80 kB gzip | Essentially unchanged.                                       |
+| route `index` client chunk   |   70.43 kB / 27.61 kB gzip |   70.12 kB / 27.48 kB gzip | Slightly smaller.                                            |
+| `Landing` client chunk       |  197.47 kB / 63.09 kB gzip |  197.74 kB / 63.13 kB gzip | Small increase from interactive FPS prop wiring.             |
+| `LiquidEther` lazy chunk     | 520.61 kB / 131.45 kB gzip | 520.85 kB / 131.50 kB gzip | Still lazy; standard users keep the liquid effect.           |
+| `gsap/Observer` client chunk |     9.05 kB / 4.04 kB gzip |    removed from eager flow | Global touch/pointer Observer is no longer imported on load. |
+| Main client runtime          | 528.48 kB / 133.50 kB gzip | 528.48 kB / 133.50 kB gzip | Unchanged.                                                   |
 
 ## Runtime Findings
 

@@ -34,16 +34,27 @@ function SystemPanel({ item, index = 0 }: { item: WorkItem; index?: number }) {
               <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#7388df]/12 text-[#333da7]">
                 <Icon className="h-5 w-5" />
               </span>
-              <span className="rounded-full bg-black px-2.5 py-1 text-[10px] font-semibold text-white">{item.year}</span>
+              <span className="rounded-full bg-black px-2.5 py-1 text-[10px] font-semibold text-white">
+                {item.year}
+              </span>
             </div>
-            <div className="mt-9 font-display text-[clamp(1.8rem,4vw,3.4rem)] font-bold leading-none tracking-[-0.04em]">{item.client}</div>
+            <div className="mt-9 font-display text-[clamp(1.8rem,4vw,3.4rem)] font-bold leading-none tracking-[-0.04em]">
+              {item.client}
+            </div>
             <div className="mt-3 text-[12px] leading-relaxed text-black/54">{item.type}</div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             {[metricOne, metricTwo, item.outcome, item.duration].map((value, metricIndex) => (
-              <div key={`${value}-${metricIndex}`} className="rounded-xl border border-white/10 bg-white/[0.08] p-4 text-white backdrop-blur-md">
-                <div className="text-[10px] uppercase tracking-[0.16em] text-white/42">Signal {metricIndex + 1}</div>
-                <div className="mt-5 line-clamp-2 font-display text-xl font-semibold leading-[1.02] tracking-[-0.03em]">{value}</div>
+              <div
+                key={`${value}-${metricIndex}`}
+                className="rounded-xl border border-white/10 bg-white/[0.08] p-4 text-white backdrop-blur-md"
+              >
+                <div className="text-[10px] uppercase tracking-[0.16em] text-white/42">
+                  Signal {metricIndex + 1}
+                </div>
+                <div className="mt-5 line-clamp-2 font-display text-xl font-semibold leading-[1.02] tracking-[-0.03em]">
+                  {value}
+                </div>
               </div>
             ))}
           </div>
@@ -56,7 +67,9 @@ function SystemPanel({ item, index = 0 }: { item: WorkItem; index?: number }) {
           </span>
           <div className="min-w-0">
             <div className="truncate text-[13px] font-semibold">{item.scope}</div>
-            <div className="mt-1 truncate text-[12px] text-white/52">{item.stack.slice(0, 4).join(" / ")}</div>
+            <div className="mt-1 truncate text-[12px] text-white/52">
+              {item.stack.slice(0, 4).join(" / ")}
+            </div>
           </div>
         </div>
       </div>
@@ -78,13 +91,17 @@ export function ProjectMediaFrame({
   priority?: boolean;
 }) {
   return (
-    <figure className={`project-media-frame overflow-hidden rounded-2xl bg-white ring-1 ring-[var(--hairline)] ${className}`}>
+    <figure
+      className={`project-media-frame overflow-hidden rounded-2xl bg-white ring-1 ring-[var(--hairline)] ${className}`}
+    >
       <div className="relative aspect-[16/10] overflow-hidden bg-[#030409] md:aspect-[16/8.6]">
         {children}
       </div>
       <figcaption className="flex min-h-14 items-center justify-between gap-4 border-t border-[var(--hairline)] bg-white px-4 py-3 md:px-5">
         <span className="text-[12px] font-medium text-[var(--muted-foreground)]">{label}</span>
-        <span className="line-clamp-1 text-right text-[13px] font-semibold text-[var(--ink)]">{caption}</span>
+        <span className="line-clamp-1 text-right text-[13px] font-semibold text-[var(--ink)]">
+          {caption}
+        </span>
       </figcaption>
     </figure>
   );
@@ -92,7 +109,11 @@ export function ProjectMediaFrame({
 
 export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: ReactNode }) {
   return (
-    <ProjectMediaFrame label="Project banner" caption={item.title} className="shadow-[0_30px_110px_-72px_rgba(0,0,0,0.75)]">
+    <ProjectMediaFrame
+      label="Project banner"
+      caption={item.title}
+      className="shadow-[0_30px_110px_-72px_rgba(0,0,0,0.75)]"
+    >
       <div className="absolute inset-0">{visual}</div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-black/18 to-transparent" />
       <div className="absolute bottom-5 left-5 right-5 flex flex-col gap-4 text-white md:bottom-8 md:left-8 md:right-8 md:flex-row md:items-end md:justify-between">
@@ -104,7 +125,10 @@ export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: Re
         </div>
         <div className="flex flex-wrap gap-2 md:max-w-md md:justify-end">
           {item.stats.map((stat) => (
-            <span key={stat} className="rounded-full bg-white/12 px-3 py-1.5 text-[12px] font-medium text-white/82 ring-1 ring-white/14 backdrop-blur-sm">
+            <span
+              key={stat}
+              className="rounded-full bg-white/12 px-3 py-1.5 text-[12px] font-medium text-white/82 ring-1 ring-white/14 backdrop-blur-sm"
+            >
               {stat}
             </span>
           ))}
@@ -125,7 +149,12 @@ export function ProjectGallery({ item }: { item: WorkItem }) {
         const isSystem = image === "system";
         const label = isSystem ? "Generated system banner" : `Project image ${index + 1}`;
         return (
-          <ProjectMediaFrame key={`${image}-${index}`} label={label} caption={isSystem ? item.scope : item.title} className="shadow-none">
+          <ProjectMediaFrame
+            key={`${image}-${index}`}
+            label={label}
+            caption={isSystem ? item.scope : item.title}
+            className="shadow-none"
+          >
             {isSystem ? (
               <SystemPanel item={item} index={index} />
             ) : (
