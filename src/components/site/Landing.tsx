@@ -1645,6 +1645,11 @@ const projects = [
     tag: "Mobile product",
     slug: "wikifood-commerce-delivery-backend",
     color: "#7388DF",
+    visual: "commerce",
+    headline: "Multi-vendor order engine",
+    modules: ["Vendor POS", "Customer app", "Delivery app"],
+    states: ["Orders split by store", "Wallets and disbursements", "Stock-safe checkout"],
+    action: "Laravel API platform",
   },
   {
     t: "Printout Backend",
@@ -1652,6 +1657,11 @@ const projects = [
     tag: "Backend platform",
     slug: "printout-laravel-rest-api",
     color: "#1a1a1a",
+    visual: "backend",
+    headline: "Print workflow API",
+    modules: ["REST endpoints", "Admin roles", "Order states"],
+    states: ["Quote received", "Files attached", "Production queued"],
+    action: "Operational backend",
   },
   {
     t: "Taggz AI Event Photography Platform",
@@ -1659,6 +1669,11 @@ const projects = [
     tag: "AI platform",
     slug: "taggz-ai-event-photography-platform",
     color: "#7388DF",
+    visual: "ai",
+    headline: "Event photo matching",
+    modules: ["Upload queue", "Face match", "Gallery delivery"],
+    states: ["Event imported", "Guests indexed", "Albums ready"],
+    action: "AI delivery flow",
   },
   {
     t: "JAWAD Horse Riding Booking Platform",
@@ -1666,6 +1681,11 @@ const projects = [
     tag: "Mobile product",
     slug: "jawad-horse-riding-booking-platform",
     color: "#1a1a1a",
+    visual: "booking",
+    headline: "Stable booking system",
+    modules: ["Rider app", "Trainer slots", "Payments"],
+    states: ["Choose horse", "Reserve lesson", "Confirm arrival"],
+    action: "Mobile booking flow",
   },
   {
     t: "Elnasser Backend & Logistics Engine",
@@ -1673,6 +1693,11 @@ const projects = [
     tag: "Logistics system",
     slug: "elnasser-backend-dashboard",
     color: "#7388DF",
+    visual: "logistics",
+    headline: "Fulfillment control desk",
+    modules: ["Warehouse", "Routes", "Returns"],
+    states: ["Stock reserved", "Driver assigned", "Delivery tracked"],
+    action: "Logistics operations",
   },
   {
     t: "Al Nasser E-Commerce Landing Page",
@@ -1680,8 +1705,110 @@ const projects = [
     tag: "Commerce system",
     slug: "alnasser-ecommerce",
     color: "#1a1a1a",
+    visual: "landing",
+    headline: "Commerce launch surface",
+    modules: ["Catalog hero", "Campaign blocks", "Checkout CTA"],
+    states: ["Browse offer", "Compare products", "Start order"],
+    action: "Frontend conversion path",
   },
 ];
+
+function ProjectSnapshot({ project }: { project: (typeof projects)[number] }) {
+  const Icon =
+    {
+      ai: Sparkles,
+      backend: Cpu,
+      booking: Users,
+      commerce: Package,
+      landing: Globe2,
+      logistics: Truck,
+    }[project.visual] ?? Layers;
+  const lines = {
+    ai: [32, 74, 48, 88],
+    backend: [64, 42, 78, 55],
+    booking: [46, 70, 56, 82],
+    commerce: [76, 52, 88, 68],
+    landing: [82, 62, 74, 92],
+    logistics: [40, 72, 60, 86],
+  }[project.visual] ?? [62, 78, 48, 84];
+
+  return (
+    <div className="absolute inset-5 flex flex-col overflow-hidden rounded-xl bg-white/96 p-4 text-[var(--ink)] shadow-[0_10px_36px_-26px_rgba(0,0,0,0.6)] ring-1 ring-black/8 sm:inset-6 sm:p-5">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <div className="text-[10px] font-medium text-[var(--muted-foreground)]">{project.c}</div>
+          <div className="mt-2 max-w-[17rem] font-display text-[clamp(1.55rem,4vw,2.25rem)] font-bold leading-[0.94] tracking-[-0.04em]">
+            {project.headline}
+          </div>
+        </div>
+        <span
+          className="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-white"
+          style={{ backgroundColor: project.color }}
+        >
+          <Icon className="h-[18px] w-[18px]" />
+        </span>
+      </div>
+
+      <div className="mt-5 grid gap-2">
+        {project.modules.map((module, index) => (
+          <div
+            key={module}
+            className="flex items-center gap-3 rounded-lg bg-[var(--surface)] px-3 py-2"
+          >
+            <span
+              className="h-2.5 w-2.5 rounded-full"
+              style={{ backgroundColor: index === 1 ? "#111111" : project.color }}
+            />
+            <span className="text-[12px] font-semibold">{module}</span>
+            <span
+              className="ml-auto h-1.5 rounded-full bg-black/10"
+              style={{ width: `${lines[index]}px` }}
+            />
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-4 rounded-lg bg-[var(--ink)] p-3 text-white">
+        <div className="flex items-center justify-between text-[10px] text-white/55">
+          <span>{project.action}</span>
+          <span>Live workflow</span>
+        </div>
+        <div className="mt-4 grid grid-cols-3 gap-2">
+          {project.states.map((state, index) => (
+            <div
+              key={state}
+              className="min-h-20 rounded-md bg-white/[0.08] p-2 ring-1 ring-white/10"
+            >
+              <div className="text-[10px] text-white/45">0{index + 1}</div>
+              <div className="mt-2 text-[11px] font-semibold leading-tight text-white/82">
+                {state}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-auto pt-4">
+        <div className="relative h-12 overflow-hidden rounded-lg bg-[var(--surface)]">
+          <div className="absolute inset-y-0 left-0 w-full">
+            {lines.map((width, index) => (
+              <span
+                key={`${project.slug}-${width}`}
+                className="absolute h-1.5 rounded-full"
+                style={{
+                  backgroundColor: index % 2 === 0 ? project.color : "rgba(0,0,0,0.16)",
+                  left: `${index * 23 + 6}%`,
+                  top: `${14 + (index % 2) * 16}px`,
+                  width: `${Math.min(width, 78)}px`,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function Projects() {
   return (
@@ -1715,38 +1842,7 @@ function Projects() {
                     className="absolute inset-0 transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]"
                     style={{ background: `linear-gradient(135deg, ${p.color} 0%, #000 100%)` }}
                   />
-                  {/* Mock UI inside card */}
-                  <div className="absolute inset-6 rounded-xl bg-white/95 p-4 shadow-elevated transition-transform duration-[1.2s] ease-out group-hover:scale-[0.98]">
-                    <div className="flex items-center justify-between text-[10px] text-[var(--muted-foreground)]">
-                      <span>{p.c}</span>
-                      <span>{p.tag}</span>
-                    </div>
-                    <div className="mt-4 font-display text-[28px] font-bold leading-[0.95] tracking-tight">
-                      {p.t}
-                    </div>
-                    <div className="mt-6 grid grid-cols-3 gap-2">
-                      {[1, 2, 3].map((n) => (
-                        <div key={n} className="rounded-lg bg-[var(--surface)] p-3">
-                          <div className="text-[9px] text-[var(--muted-foreground)]">
-                            Metric 0{n}
-                          </div>
-                          <div className="mt-1 font-display text-base font-semibold">
-                            {["$2.1M", "99.4%", "6.2x"][n - 1]}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-4 h-20 rounded-lg bg-[var(--surface)] p-3">
-                      <svg viewBox="0 0 200 60" className="h-full w-full">
-                        <path
-                          d="M0,40 C30,30 50,45 80,30 C110,15 140,35 170,20 L200,12"
-                          fill="none"
-                          stroke={p.color}
-                          strokeWidth="1.5"
-                        />
-                      </svg>
-                    </div>
-                  </div>
+                  <ProjectSnapshot project={p} />
                 </div>
                 <div className="mt-4 flex items-center justify-between">
                   <div>
