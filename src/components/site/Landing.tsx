@@ -237,7 +237,6 @@ function Counter({
 
 const NAV_ITEMS = [
   { label: "Work", href: "/work" },
-  { label: "Products", href: "/#platform" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
