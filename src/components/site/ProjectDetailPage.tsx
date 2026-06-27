@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight, ExternalLink, Layers3, LineChart, TimerReset } from "lucide-react";
 
+import { BlurText } from "./BlurText";
 import { Footer, Nav, Reveal } from "./Landing";
 import { ProjectGallery, ProjectHeroBanner } from "./ProjectMedia";
 import { WorkVisual } from "./WorkPage";
@@ -32,9 +33,11 @@ function DetailSection({
           <div className="font-mono text-[11px] text-[var(--muted-foreground)]">
             {String(index + 1).padStart(2, "0")}
           </div>
-          <h2 className="mt-3 max-w-md font-display text-[clamp(1.65rem,2.6vw,2.75rem)] font-semibold leading-[1] tracking-[-0.04em] text-[var(--ink)]">
-            {section.title}
-          </h2>
+          <BlurText
+            as="h2"
+            text={section.title}
+            className="mt-3 max-w-md font-display text-[clamp(1.65rem,2.6vw,2.75rem)] font-semibold leading-[1] tracking-[-0.04em] text-[var(--ink)]"
+          />
         </div>
         <p className="mt-4 max-w-4xl text-[15px] leading-[1.72] text-[var(--muted-foreground)] md:mt-1 md:text-[16px]">
           {section.text}
@@ -98,12 +101,17 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
             <ArrowLeft className="h-4 w-4" />
             Back to work
           </a>
-          <h1 className="mt-8 font-display text-[clamp(3rem,7vw,6rem)] font-bold leading-[0.92] tracking-[-0.055em] text-balance">
-            Project not found.
-          </h1>
-          <p className="mt-5 max-w-xl text-[16px] leading-[1.65] text-[var(--muted-foreground)]">
-            This case study is not available. The work index has the current project list.
-          </p>
+          <BlurText
+            as="h1"
+            text="Project not found."
+            className="mt-8 font-display text-[clamp(3rem,7vw,6rem)] font-bold leading-[0.92] tracking-[-0.055em] text-balance"
+          />
+          <BlurText
+            as="p"
+            text="This case study is not available. The work index has the current project list."
+            delay={0.12}
+            className="mt-5 max-w-xl text-[16px] leading-[1.65] text-[var(--muted-foreground)]"
+          />
         </main>
         <Footer />
       </div>
@@ -134,14 +142,19 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
                     <Icon className="h-4 w-4 text-primary" />
                     {eyebrow}
                   </div>
-                  <h1 className="mt-5 max-w-5xl font-display text-[clamp(2.9rem,6.2vw,5.9rem)] font-bold leading-[0.93] tracking-[-0.04em] text-balance">
-                    {project.headline}
-                  </h1>
+                  <BlurText
+                    as="h1"
+                    text={project.headline}
+                    className="mt-5 max-w-5xl font-display text-[clamp(2.9rem,6.2vw,5.9rem)] font-bold leading-[0.93] tracking-[-0.04em] text-balance"
+                  />
                 </div>
                 <div className="lg:pb-2">
-                  <p className="max-w-xl text-[16px] leading-[1.68] text-[var(--muted-foreground)] md:text-[18px]">
-                    {project.detailIntro}
-                  </p>
+                  <BlurText
+                    as="p"
+                    text={project.detailIntro}
+                    delay={0.1}
+                    className="max-w-xl text-[16px] leading-[1.68] text-[var(--muted-foreground)] md:text-[18px]"
+                  />
                   {project.href ? (
                     <a
                       href={project.href}
@@ -237,13 +250,17 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
             <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <Reveal>
                 <div>
-                  <h2 className="max-w-2xl font-display text-[clamp(2.2rem,4.4vw,4.5rem)] font-bold leading-[0.96] tracking-[-0.04em] text-balance">
-                    Stack and capabilities.
-                  </h2>
-                  <p className="mt-4 max-w-xl text-[15px] leading-[1.65] text-[var(--muted-foreground)]">
-                    The technical footprint stays visible without turning the case study into a
-                    sparse list.
-                  </p>
+                  <BlurText
+                    as="h2"
+                    text="Stack and capabilities."
+                    className="max-w-2xl font-display text-[clamp(2.2rem,4.4vw,4.5rem)] font-bold leading-[0.96] tracking-[-0.04em] text-balance"
+                  />
+                  <BlurText
+                    as="p"
+                    text="The technical footprint stays visible without turning the case study into a sparse list."
+                    delay={0.1}
+                    className="mt-4 max-w-xl text-[15px] leading-[1.65] text-[var(--muted-foreground)]"
+                  />
                 </div>
               </Reveal>
               <Reveal delay={0.08}>
@@ -268,9 +285,11 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-primary ring-1 ring-white/14">
                   <TimerReset className="h-5 w-5" />
                 </div>
-                <h2 className="mt-8 max-w-xl font-display text-[clamp(2rem,4vw,4.1rem)] font-bold leading-[0.96] tracking-[-0.04em] text-balance">
-                  Build notes and proof.
-                </h2>
+                <BlurText
+                  as="h2"
+                  text="Build notes and proof."
+                  className="mt-8 max-w-xl font-display text-[clamp(2rem,4vw,4.1rem)] font-bold leading-[0.96] tracking-[-0.04em] text-balance"
+                />
                 <div className="mt-8 divide-y divide-white/12">
                   {project.timeline.map((step) => (
                     <div key={step.label} className="grid gap-3 py-5 md:grid-cols-[0.3fr_0.7fr]">
@@ -294,9 +313,11 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
           <div className="mx-auto grid max-w-[92rem] gap-10 px-5 sm:px-6 lg:grid-cols-[0.78fr_1.22fr]">
             <Reveal>
               <div>
-                <h2 className="max-w-lg font-display text-[clamp(2.25rem,4.8vw,4.9rem)] font-bold leading-[0.94] tracking-[-0.04em] text-balance">
-                  More systems under pressure.
-                </h2>
+                <BlurText
+                  as="h2"
+                  text="More systems under pressure."
+                  className="max-w-lg font-display text-[clamp(2.25rem,4.8vw,4.9rem)] font-bold leading-[0.94] tracking-[-0.04em] text-balance"
+                />
                 <a
                   href="/work"
                   className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[14px] font-semibold text-black transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]"

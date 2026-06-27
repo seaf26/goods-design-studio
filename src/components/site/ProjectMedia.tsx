@@ -1,6 +1,7 @@
 import { Check, CircuitBoard, Layers3, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
+import { BlurText } from "./BlurText";
 import type { WorkItem } from "./workData";
 
 function mediaTone(item: WorkItem) {
@@ -119,9 +120,11 @@ export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: Re
       <div className="absolute bottom-5 left-5 right-5 flex flex-col gap-4 text-white md:bottom-8 md:left-8 md:right-8 md:flex-row md:items-end md:justify-between">
         <div>
           <div className="text-[12px] font-medium text-white/58">{item.type}</div>
-          <h2 className="mt-2 max-w-4xl font-display text-[clamp(1.9rem,4.2vw,4.8rem)] font-bold leading-[0.94] tracking-[-0.04em] text-balance">
-            {item.title}
-          </h2>
+          <BlurText
+            as="h2"
+            text={item.title}
+            className="mt-2 max-w-4xl font-display text-[clamp(1.9rem,4.2vw,4.8rem)] font-bold leading-[0.94] tracking-[-0.04em] text-balance"
+          />
         </div>
         <div className="flex flex-wrap gap-2 md:max-w-md md:justify-end">
           {item.stats.map((stat) => (

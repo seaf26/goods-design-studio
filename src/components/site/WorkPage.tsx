@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArrowRight, Boxes, ImageIcon } from "lucide-react";
 
+import { BlurText } from "./BlurText";
 import { Footer, Nav, Reveal } from "./Landing";
 import { workItems, type WorkCategory, type WorkItem } from "./workData";
 
@@ -298,12 +299,17 @@ function ProjectTile({ item, index }: { item: WorkItem; index: number }) {
         >
           <div className="max-w-xl">
             <div className="text-[13px] font-medium text-white/58">{eyebrow}</div>
-            <h2 className="mt-3 font-display text-[clamp(2.1rem,4.1vw,4.4rem)] font-bold leading-[0.9] tracking-[-0.052em] text-balance">
-              {item.title}
-            </h2>
-            <p className="mt-4 max-w-lg text-[14px] leading-[1.55] text-white/74 md:text-[15px]">
-              {item.summary}
-            </p>
+            <BlurText
+              as="h2"
+              text={item.title}
+              className="mt-3 font-display text-[clamp(2.1rem,4.1vw,4.4rem)] font-bold leading-[0.9] tracking-[-0.052em] text-balance"
+            />
+            <BlurText
+              as="p"
+              text={item.summary}
+              delay={0.08}
+              className="mt-4 max-w-lg text-[14px] leading-[1.55] text-white/74 md:text-[15px]"
+            />
           </div>
 
           <div className="flex flex-col gap-4 border-t border-white/14 pt-4 sm:flex-row sm:items-end sm:justify-between">
@@ -349,13 +355,17 @@ export function WorkPage() {
                 <div className="inline-flex rounded-full bg-[var(--surface)] px-3 py-1.5 text-[11px] font-medium text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]">
                   Selected systems
                 </div>
-                <h1 className="mt-7 max-w-[72rem] font-display text-[clamp(3.15rem,6.4vw,6rem)] font-bold leading-[0.94] tracking-[-0.052em] text-balance">
-                  Operational software, productized.
-                </h1>
-                <p className="mt-6 max-w-xl text-[15px] leading-[1.65] text-[var(--muted-foreground)] md:text-[17px]">
-                  A selected archive of backend platforms, mobile products, dashboards, commerce
-                  systems, and web experiences.
-                </p>
+                <BlurText
+                  as="h1"
+                  text="Operational software, productized."
+                  className="mt-7 max-w-[72rem] font-display text-[clamp(3.15rem,6.4vw,6rem)] font-bold leading-[0.94] tracking-[-0.052em] text-balance"
+                />
+                <BlurText
+                  as="p"
+                  text="A selected archive of backend platforms, mobile products, dashboards, commerce systems, and web experiences."
+                  delay={0.16}
+                  className="mt-6 max-w-xl text-[15px] leading-[1.65] text-[var(--muted-foreground)] md:text-[17px]"
+                />
                 <div className="mt-8 flex flex-wrap gap-2" aria-label="Work filters">
                   {workFilters.map((filter) => {
                     const isActive = activeFilter === filter.value;
@@ -403,13 +413,17 @@ export function WorkPage() {
           <div className="mx-auto grid max-w-7xl gap-10 px-6 md:grid-cols-[0.9fr_1.1fr] md:items-end">
             <Reveal>
               <div>
-                <h2 className="max-w-xl font-display text-[clamp(2.4rem,5vw,4.8rem)] font-bold leading-[0.96] tracking-[-0.05em] text-balance">
-                  Built around operating pressure.
-                </h2>
-                <p className="mt-5 max-w-md text-[15px] leading-[1.65] text-[var(--muted-foreground)]">
-                  The work starts where the business is already moving: counters, docks, approvals,
-                  exceptions, and month-end.
-                </p>
+                <BlurText
+                  as="h2"
+                  text="Built around operating pressure."
+                  className="max-w-xl font-display text-[clamp(2.4rem,5vw,4.8rem)] font-bold leading-[0.96] tracking-[-0.05em] text-balance"
+                />
+                <BlurText
+                  as="p"
+                  text="The work starts where the business is already moving: counters, docks, approvals, exceptions, and month-end."
+                  delay={0.12}
+                  className="mt-5 max-w-md text-[15px] leading-[1.65] text-[var(--muted-foreground)]"
+                />
               </div>
             </Reveal>
             <Reveal delay={0.12}>
@@ -422,9 +436,12 @@ export function WorkPage() {
                     <div className="font-display text-2xl font-semibold tracking-tight">
                       {note.title}
                     </div>
-                    <p className="mt-7 text-[14px] leading-[1.6] text-[var(--muted-foreground)]">
-                      {note.text}
-                    </p>
+                    <BlurText
+                      as="p"
+                      text={note.text}
+                      delay={0.08}
+                      className="mt-7 text-[14px] leading-[1.6] text-[var(--muted-foreground)]"
+                    />
                   </div>
                 ))}
               </div>

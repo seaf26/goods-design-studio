@@ -16,7 +16,6 @@ import {
   useMotionValue,
   useSpring,
   useInView,
-  useReducedMotion,
 } from "motion/react";
 import {
   ArrowRight,
@@ -26,7 +25,6 @@ import {
   ScanBarcode,
   Calculator,
   Users,
-  Briefcase,
   Truck,
   Settings2,
   Sparkles,
@@ -54,6 +52,7 @@ import {
   PhoneCall,
   type LucideIcon,
 } from "lucide-react";
+import { BlurText } from "./BlurText";
 import { getHeroLiquidSettings, resolveHeroQuality, type HeroQuality } from "./heroPerformance";
 
 /* ------------------------------------------------------------------ */
@@ -100,35 +99,17 @@ export function SplitText({
   delay?: number;
   textBlur?: boolean;
 }) {
-  const shouldReduceMotion = useReducedMotion();
-  const words = text.split(" ");
   return (
-    <h1 className={className} aria-label={text}>
-      {words.map((w, i) => (
-        <span key={i} className="inline-block overflow-hidden align-top mr-[0.25em]">
-          <motion.span
-            className="inline-block"
-            initial={
-              shouldReduceMotion
-                ? false
-                : textBlur
-                  ? { y: "116%", opacity: 0, filter: "blur(8px)" }
-                  : { y: "116%", opacity: 0 }
-            }
-            animate={
-              shouldReduceMotion
-                ? { opacity: 1 }
-                : textBlur
-                  ? { y: "0%", opacity: 1, filter: "blur(0px)" }
-                  : { y: "0%", opacity: 1 }
-            }
-            transition={{ duration: 1.05, delay: delay + i * 0.065, ease }}
-          >
-            {w}
-          </motion.span>
-        </span>
-      ))}
-    </h1>
+    <BlurText
+      as="h1"
+      text={text}
+      delay={delay}
+      duration={1.05}
+      stagger={0.065}
+      direction="bottom"
+      className={className}
+      data-text-blur={textBlur ? "true" : undefined}
+    />
   );
 }
 
@@ -257,8 +238,8 @@ function Counter({
 const NAV_ITEMS = [
   { label: "Work", href: "/work" },
   { label: "Products", href: "/#platform" },
-  { label: "Pricing", href: "/#cta" },
-  { label: "Blog", href: "#blog" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const BRAND_NAME = "TRAFFODATA";
@@ -322,12 +303,6 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
   }, []);
 
   const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href === "#blog") {
-      event.preventDefault();
-      setOpen(false);
-      return;
-    }
-
     if (href.startsWith("#")) {
       handleSectionLinkClick(event, href);
     }
@@ -387,12 +362,12 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
           }`}
         >
           <a
-            href="#cta"
-            onClick={(event) => handleNavClick(event, "#cta")}
+            href="/contact"
+            onClick={(event) => handleNavClick(event, "/contact")}
             className="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-white px-4 py-2 text-sm font-medium text-[#03040a] transition duration-200 hover:bg-primary hover:text-white active:scale-[0.97]"
           >
-            <span className="sm:hidden">Book</span>
-            <span className="hidden sm:inline">Book a demo</span>
+            <span className="sm:hidden">Start</span>
+            <span className="hidden sm:inline">Start a project</span>
             <span className="grid h-5 w-5 place-items-center rounded-full bg-white/15">
               <ArrowUpRight className="h-3 w-3" />
             </span>
@@ -1021,11 +996,14 @@ function About() {
         <div className="mt-10 grid grid-cols-12 gap-8">
           <Reveal className="col-span-12 md:col-span-7">
             <h2 className="font-display text-[clamp(2.4rem,6vw,5.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
-              Software
-              <br />
-              <span className="text-[var(--muted-foreground)]">engineered for</span>
-              <br />
-              operators.
+              <BlurText as="span" text="Software" className="block" />
+              <BlurText
+                as="span"
+                text="engineered for"
+                delay={0.08}
+                className="block text-[var(--muted-foreground)]"
+              />
+              <BlurText as="span" text="operators." delay={0.16} className="block" />
             </h2>
           </Reveal>
           <Reveal delay={0.15} className="col-span-12 md:col-span-5 md:pt-6">
@@ -1120,9 +1098,13 @@ function Services() {
           <div>
             <Eyebrow light>What we build</Eyebrow>
             <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[1] tracking-[-0.04em]">
-              Eight disciplines.
-              <br />
-              <span className="text-white/50">One operating system.</span>
+              <BlurText as="span" text="Eight disciplines." className="block" />
+              <BlurText
+                as="span"
+                text="One operating system."
+                delay={0.08}
+                className="block text-white/50"
+              />
             </h2>
           </div>
           <p className="max-w-md text-[14px] text-white/60">
@@ -1337,9 +1319,13 @@ function Platform() {
           <div className="col-span-12 md:col-span-6">
             <Eyebrow>TRAFFODATA ERP · Platform</Eyebrow>
             <h2 className="mt-4 font-display text-[clamp(2.2rem,5.5vw,5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
-              One platform.
-              <br />
-              <span className="text-[var(--muted-foreground)]">Every workflow.</span>
+              <BlurText as="span" text="One platform." className="block" />
+              <BlurText
+                as="span"
+                text="Every workflow."
+                delay={0.08}
+                className="block text-[var(--muted-foreground)]"
+              />
             </h2>
           </div>
           <div className="col-span-12 md:col-span-6 md:pt-6">
@@ -1403,9 +1389,13 @@ function Why() {
         <div className="mb-16 max-w-3xl">
           <Eyebrow>Why TRAFFODATA ERP</Eyebrow>
           <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
-            The compounding
-            <br />
-            <span className="text-primary">return of clarity.</span>
+            <BlurText as="span" text="The compounding" className="block" />
+            <BlurText
+              as="span"
+              text="return of clarity."
+              delay={0.08}
+              className="block text-primary"
+            />
           </h2>
         </div>
         <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl bg-[var(--hairline)] sm:grid-cols-2 lg:grid-cols-4">
@@ -1553,9 +1543,11 @@ function Comparison() {
     >
       <div className="mx-auto max-w-[92rem] px-4 sm:px-6">
         <Reveal className="max-w-[82rem]">
-          <h2 className="font-display text-[clamp(2.75rem,6.4vw,5.9rem)] font-bold leading-[0.94] tracking-[-0.052em] text-balance">
-            TRAFFODATA vs traditional service providers
-          </h2>
+          <BlurText
+            as="h2"
+            text="TRAFFODATA vs traditional service providers"
+            className="font-display text-[clamp(2.75rem,6.4vw,5.9rem)] font-bold leading-[0.94] tracking-[-0.052em] text-balance"
+          />
         </Reveal>
 
         <Reveal delay={0.12}>
@@ -1699,9 +1691,11 @@ function Projects() {
         <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
           <div>
             <Eyebrow>Selected work</Eyebrow>
-            <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
-              Featured projects.
-            </h2>
+            <BlurText
+              as="h2"
+              text="Featured projects."
+              className="mt-4 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.04em]"
+            />
           </div>
           <a
             href="/work"
@@ -1800,9 +1794,13 @@ function Tech() {
         <div className="mb-14 max-w-3xl">
           <Eyebrow light>Engineering stack</Eyebrow>
           <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
-            Built on a foundation
-            <br />
-            <span className="text-white/50">we trust for a decade.</span>
+            <BlurText as="span" text="Built on a foundation" className="block" />
+            <BlurText
+              as="span"
+              text="we trust for a decade."
+              delay={0.08}
+              className="block text-white/50"
+            />
           </h2>
         </div>
         <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10 sm:grid-cols-3 lg:grid-cols-4">
@@ -1871,8 +1869,8 @@ function Process() {
         <div className="mb-16 max-w-3xl">
           <Eyebrow>How we work</Eyebrow>
           <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
-            A process, not
-            <br />a pitch deck.
+            <BlurText as="span" text="A process, not" className="block" />
+            <BlurText as="span" text="a pitch deck." delay={0.08} className="block" />
           </h2>
         </div>
         <div ref={ref} className="relative">
@@ -1890,9 +1888,11 @@ function Process() {
               </div>
               <div className="col-span-12 md:col-span-5">
                 <div className="text-[12px] tabular-nums text-primary md:hidden">{s.n}</div>
-                <h3 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">
-                  {s.t}
-                </h3>
+                <BlurText
+                  as="h3"
+                  text={s.t}
+                  className="font-display text-3xl font-semibold tracking-tight md:text-4xl"
+                />
               </div>
               <div className="col-span-12 md:col-span-6">
                 <p className="text-[15px] leading-relaxed text-[var(--muted-foreground)]">{s.d}</p>
@@ -2020,9 +2020,13 @@ function CTA() {
       <div className="relative mx-auto max-w-6xl px-6 py-32 text-center md:py-48">
         <Eyebrow>Start the conversation</Eyebrow>
         <h2 className="mt-6 font-display text-[clamp(2.8rem,9vw,8rem)] font-bold leading-[0.92] tracking-[-0.05em]">
-          Ready to transform
-          <br />
-          <span className="text-[var(--muted-foreground)]">your business?</span>
+          <BlurText as="span" text="Ready to transform" className="block" />
+          <BlurText
+            as="span"
+            text="your business?"
+            delay={0.08}
+            className="block text-[var(--muted-foreground)]"
+          />
         </h2>
         <p className="mx-auto mt-8 max-w-xl text-[15px] text-[var(--muted-foreground)]">
           A 30-minute call with our team. We'll show you the platform, mapped to your operations.
@@ -2068,25 +2072,25 @@ const footerColumns = [
     items: [
       { label: "Work", href: "/work" },
       { label: "Products", href: "/#platform" },
-      { label: "Pricing", href: "/#cta" },
-      { label: "Blog", href: "#" },
+      { label: "Contact", href: "/contact" },
+      { label: "Blog", href: "/blog" },
     ],
   },
   {
     title: "Products",
     items: [
       { label: "ERP Systems", href: "#services" },
-      { label: "Inventory", href: "#platform" },
-      { label: "Warehouse", href: "#platform" },
-      { label: "POS", href: "#platform" },
-      { label: "Accounting", href: "#platform" },
+      { label: "Inventory", href: "/#platform" },
+      { label: "Warehouse", href: "/#platform" },
+      { label: "POS", href: "/#platform" },
+      { label: "Accounting", href: "/#platform" },
     ],
   },
   {
     title: "Company",
     items: [
-      { label: "Selected work", href: "#projects" },
-      { label: "How we work", href: "#process" },
+      { label: "Selected work", href: "/#projects" },
+      { label: "How we work", href: "/#process" },
       { label: "Security", href: "#" },
       { label: "Status", href: "#" },
     ],
@@ -2094,9 +2098,8 @@ const footerColumns = [
   {
     title: "Start",
     items: [
-      { label: "Book a demo", href: "#cta" },
-      { label: "Email us", href: `mailto:${BRAND_EMAIL}` },
-      { label: "Dubai operations", href: "#contact" },
+      { label: "Start a project", href: "/contact" },
+      { label: "Email hello@traffodata.com", href: `mailto:${BRAND_EMAIL}` },
     ],
   },
 ];
@@ -2196,12 +2199,8 @@ export function Footer() {
             <a href="/#hero" className="transition-colors hover:text-primary">
               Back to top
             </a>
-            <a
-              href="#cta"
-              onClick={(event) => handleSectionLinkClick(event, "#cta")}
-              className="transition-colors hover:text-primary"
-            >
-              Book a demo
+            <a href="/contact" className="transition-colors hover:text-primary">
+              Start a project
             </a>
           </div>
         </div>
