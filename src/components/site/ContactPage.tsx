@@ -90,6 +90,16 @@ export function ContactPage() {
     );
   };
 
+  const clearForm = () => {
+    setName("");
+    setEmail("");
+    setCompany("");
+    setSelectedServices([]);
+    setMessage("");
+    setWebsite("");
+    setErrors({});
+  };
+
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -124,6 +134,7 @@ export function ContactPage() {
       });
 
       if (result.ok) {
+        clearForm();
         setSubmissionState("sent");
         return;
       }
