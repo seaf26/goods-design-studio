@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import { BlurText } from "./BlurText";
 import type { WorkItem } from "./workData";
+import { getWorkBannerAlt, getWorkBannerImage } from "./workBannerMedia";
 
 function mediaTone(item: WorkItem) {
   if (item.visual === "warehouse") return "from-[#050612] via-[#101742] to-[#030409]";
@@ -109,13 +110,24 @@ export function ProjectMediaFrame({
 }
 
 export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: ReactNode }) {
+  const bannerImage = getWorkBannerImage(item);
+
   return (
     <ProjectMediaFrame
       label="Project banner"
       caption={item.title}
       className="shadow-[0_30px_110px_-72px_rgba(0,0,0,0.75)]"
     >
-      <div className="absolute inset-0">{visual}</div>
+      {bannerImage ? (
+        <img
+          src={bannerImage}
+          alt={getWorkBannerAlt(item)}
+          className="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+        />
+      ) : (
+        <div className="absolute inset-0">{visual}</div>
+      )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-black/18 to-transparent" />
       <div className="absolute bottom-5 left-5 right-5 flex flex-col gap-4 text-white md:bottom-8 md:left-8 md:right-8 md:flex-row md:items-end md:justify-between">
         <div>
