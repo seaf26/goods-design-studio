@@ -207,8 +207,10 @@ function DistributionVisual({ item }: { item: WorkItem }) {
 
 function PortfolioVisual({ item }: { item: WorkItem }) {
   const Icon = item.icon;
+  const [bannerImageFailed, setBannerImageFailed] = useState(false);
   const bannerImage = getWorkBannerImage(item);
   const proofImage = getWorkProofImage(item);
+  const backgroundImage = bannerImageFailed ? proofImage : bannerImage;
   const familyLabel = getWorkBannerFamilyLabel(item);
 
   return (
@@ -216,13 +218,18 @@ function PortfolioVisual({ item }: { item: WorkItem }) {
       <div
         className={`absolute inset-0 ${item.tone === "dark" || item.tone === "dim" ? "bg-black" : "bg-[var(--surface)]"}`}
       />
-      <img
-        src={bannerImage}
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover opacity-80"
-        loading="lazy"
-      />
+      {backgroundImage ? (
+        <img
+          src={backgroundImage}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover opacity-80"
+          loading="lazy"
+          onError={() => {
+            if (!bannerImageFailed) setBannerImageFailed(true);
+          }}
+        />
+      ) : null}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_22%,rgba(115,136,223,0.42),transparent_34%),linear-gradient(135deg,rgba(3,4,9,0.92),rgba(3,4,9,0.32)_42%,rgba(3,4,9,0.86))]" />
       <div className="absolute inset-0 opacity-[0.18] [background-image:linear-gradient(to_right,rgba(255,255,255,.14)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.12)_1px,transparent_1px)] [background-size:44px_44px]" />
 
