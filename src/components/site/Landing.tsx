@@ -51,6 +51,7 @@ import {
 } from "lucide-react";
 import { BlurText } from "./BlurText";
 import { getHeroLiquidSettings, resolveHeroQuality, type HeroQuality } from "./heroPerformance";
+import { trackSiteEvent } from "@/lib/siteAnalytics";
 
 /* ------------------------------------------------------------------ */
 /* Primitives                                                          */
@@ -149,16 +150,24 @@ function handleSectionLinkClick(event: MouseEvent<HTMLAnchorElement>, href: stri
   window.history.pushState(null, "", href);
 }
 
+function trackHomeWorkClick(location: string) {
+  if (typeof window === "undefined" || window.location.pathname !== "/") return;
+
+  trackSiteEvent("home_view_work_click", { location });
+}
+
 function MagneticButton({
   children,
   href = "#",
   variant = "primary",
   className = "",
+  onIntent,
 }: {
   children: ReactNode;
   href?: string;
   variant?: "primary" | "ghost" | "dark";
   className?: string;
+  onIntent?: () => void;
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
   const x = useMotionValue(0);
@@ -177,7 +186,10 @@ function MagneticButton({
       ref={ref}
       href={href}
       style={{ x: sx, y: sy }}
-      onClick={(event) => handleSectionLinkClick(event, href)}
+      onClick={(event) => {
+        onIntent?.();
+        handleSectionLinkClick(event, href);
+      }}
       onMouseMove={(e) => {
         const r = ref.current!.getBoundingClientRect();
         x.set((e.clientX - r.left - r.width / 2) * 0.25);
@@ -308,9 +320,13 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
     };
   }, []);
 
-  const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, href: string, location = "nav") => {
     if (href.startsWith("#")) {
       handleSectionLinkClick(event, href);
+    }
+
+    if (href === "/work") {
+      trackHomeWorkClick(location);
     }
 
     setOpen(false);
@@ -348,7 +364,7 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
             <a
               key={item.href}
               href={item.href}
-              onClick={(event) => handleNavClick(event, item.href)}
+              onClick={(event) => handleNavClick(event, item.href, "nav")}
               className={`relative rounded-full px-4 py-2 text-sm transition-colors duration-200 ${
                 elevated
                   ? "text-[var(--ink)]/80 hover:bg-[var(--surface)] hover:text-[var(--ink)]"
@@ -407,7 +423,7 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
                 <a
                   key={item.href}
                   href={item.href}
-                  onClick={(event) => handleNavClick(event, item.href)}
+                  onClick={(event) => handleNavClick(event, item.href, "mobile_nav")}
                   className="block rounded-xl px-4 py-3 text-[15px] text-[var(--ink)] transition-colors hover:bg-[var(--surface)] hover:text-primary"
                 >
                   {item.label}
@@ -644,10 +660,12 @@ function Hero() {
             </MagneticButton>
             <MagneticButton
               variant="ghost"
-              href="#platform"
+              href="/work"
+              onIntent={() => trackSiteEvent("home_view_work_click", { location: "hero" })}
               className="bg-[#0c0e21]/28 text-white ring-1 ring-white/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-md hover:bg-[#0c0e21]/36 hover:text-[#aebcff]"
             >
-              Explore platform
+              View selected work
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </MagneticButton>
           </div>
         </Reveal>
@@ -1715,6 +1733,9 @@ function Projects() {
           </div>
           <a
             href="/work"
+            onClick={() =>
+              trackSiteEvent("home_view_work_click", { location: "featured_projects" })
+            }
             className="group inline-flex items-center gap-1.5 text-[13px] font-medium"
           >
             View all case studies{" "}
@@ -1726,7 +1747,16 @@ function Projects() {
         <div className="flex gap-6 px-6 md:px-[max(1.5rem,calc((100vw-80rem)/2))]">
           {projects.map((p, i) => (
             <Reveal key={p.t} delay={i * 0.06} className="snap-start">
-              <a href={`/work/${p.slug}`} className="group block w-[88vw] max-w-[520px] shrink-0">
+              <a
+                href={`/work/${p.slug}`}
+                onClick={() =>
+                  trackSiteEvent("home_project_click", {
+                    location: "featured_projects",
+                    project_slug: p.slug,
+                  })
+                }
+                className="group block w-[88vw] max-w-[520px] shrink-0"
+              >
                 <div className="relative aspect-[4/5] overflow-hidden rounded-2xl ring-hairline">
                   <div
                     className="absolute inset-0 transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]"
@@ -2104,6 +2134,10 @@ function handleFooterLinkClick(event: MouseEvent<HTMLAnchorElement>, href: strin
     return;
   }
 
+  if (href === "/work") {
+    trackHomeWorkClick("footer");
+  }
+
   handleSectionLinkClick(event, href);
 }
 
@@ -2156,11 +2190,7 @@ export function Footer() {
                       <li key={item.label}>
                         <a
                           href={item.href}
-                          onClick={
-                            item.href.startsWith("#")
-                              ? (event) => handleFooterLinkClick(event, item.href)
-                              : undefined
-                          }
+                          onClick={(event) => handleFooterLinkClick(event, item.href)}
                           className="text-[15px] text-white/60 transition-colors hover:text-primary sm:text-sm"
                         >
                           {item.label}

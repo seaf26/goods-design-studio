@@ -138,12 +138,52 @@ export function homeSeo() {
   });
 }
 
-export function workSeo() {
-  return seoHead({
-    title: "Work - TRAFFODATA Software",
+function workCollectionJsonLd(items: WorkItem[]): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "TRAFFODATA case studies",
     description:
-      "Explore TRAFFODATA case studies across backend platforms, websites, mobile apps, Figma designs, dashboards, ecommerce systems and operational software.",
+      "Case studies for ERP, inventory, warehouse, POS, accounting, CRM, ecommerce, dashboards, backend platforms, and custom operational software.",
+    url: absoluteUrl("/work"),
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: items.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: absoluteUrl(`/work/${item.slug}`),
+        name: item.title,
+        description: item.summary || item.description,
+      })),
+    },
+  };
+}
+
+export function workSeo(items: WorkItem[] = []) {
+  return seoHead({
+    title: "Case Studies - ERP, Ecommerce, Dashboards and Backend Systems | TRAFFODATA",
+    description:
+      "Explore TRAFFODATA case studies for ERP, inventory, warehouse, POS, accounting, CRM, ecommerce, dashboards, backend platforms, mobile apps, and operational software.",
     path: "/work",
+    jsonLd: items.length > 0 ? [workCollectionJsonLd(items)] : [],
+  });
+}
+
+export function blogSeo() {
+  return seoHead({
+    title: "Blog - TRAFFODATA Software",
+    description:
+      "Operational essays on ERP, inventory, warehouse, POS, accounting, CRM, automation, and durable business software.",
+    path: "/blog",
+  });
+}
+
+export function contactSeo() {
+  return seoHead({
+    title: "Contact Us - TRAFFODATA Software",
+    description:
+      "Talk to TRAFFODATA about ERP, inventory, warehouse, POS, accounting, CRM, AI, and custom software systems.",
+    path: "/contact",
   });
 }
 

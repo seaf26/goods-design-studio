@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 
 const SITE_URL = "https://traffodata.com";
-const LASTMOD = "2026-06-27";
+const LASTMOD = "2026-06-29";
 const SOURCE_FILES = [
   "src/components/site/workData.ts",
   "src/components/site/behanceWorkData.generated.ts",
@@ -22,6 +22,8 @@ for (const file of SOURCE_FILES) {
 const paths = [
   "/",
   "/work",
+  "/blog",
+  "/contact",
   ...Array.from(slugs)
     .sort()
     .map((slug) => `/work/${slug}`),

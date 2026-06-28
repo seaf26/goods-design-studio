@@ -12,7 +12,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 
 import { BlurText } from "@/components/site/BlurText";
-import { homeSeo, iconLinks, organizationJsonLd, websiteJsonLd } from "@/components/site/seo";
+import { iconLinks, organizationJsonLd, websiteJsonLd } from "@/components/site/seo";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -82,13 +82,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => {
-    const seo = homeSeo();
-
     return {
       meta: [
         { charSet: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
-        ...seo.meta,
         { "script:ld+json": organizationJsonLd() },
         { "script:ld+json": websiteJsonLd() },
       ],

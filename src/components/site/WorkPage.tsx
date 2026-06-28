@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { ArrowRight, Boxes, ImageIcon } from "lucide-react";
+import { ArrowRight, Boxes, ImageIcon, MessageCircle } from "lucide-react";
 
 import { BlurText } from "./BlurText";
 import { Footer, Nav, Reveal } from "./Landing";
-import { workItems, type WorkCategory, type WorkItem } from "./workData";
+import { workItems, type WorkItem } from "./workData";
+import { trackSiteEvent } from "@/lib/siteAnalytics";
 
 const tileSpans = {
   wide: "lg:col-span-7",
@@ -26,13 +27,56 @@ const processNotes = [
   },
 ];
 
-type WorkFilter = "all" | WorkCategory;
+type WorkFilter = "all" | "operations" | "commerce" | "dashboards" | "mobile" | "web";
 
-const workFilters: { value: WorkFilter; label: string }[] = [
-  { value: "all", label: "All" },
-  { value: "website", label: "Website" },
-  { value: "mobile-app", label: "Mobile Apps" },
-  { value: "figma-design", label: "Figma Designs" },
+const searchableWorkText = (item: WorkItem) =>
+  [
+    item.title,
+    item.type,
+    item.summary,
+    item.scope,
+    item.outcome,
+    item.stack.join(" "),
+    item.modules.join(" "),
+  ]
+    .join(" ")
+    .toLowerCase();
+
+const workFilters: { value: WorkFilter; label: string; matches: (item: WorkItem) => boolean }[] = [
+  { value: "all", label: "All", matches: () => true },
+  {
+    value: "operations",
+    label: "Operations",
+    matches: (item) =>
+      /erp|inventory|warehouse|pos|accounting|crm|backend|api|delivery|operations/.test(
+        searchableWorkText(item),
+      ),
+  },
+  {
+    value: "commerce",
+    label: "Commerce",
+    matches: (item) =>
+      /commerce|ecommerce|checkout|vendor|cart|payment|delivery|store/.test(
+        searchableWorkText(item),
+      ),
+  },
+  {
+    value: "dashboards",
+    label: "Dashboards",
+    matches: (item) =>
+      /dashboard|admin|report|analytics|finance|accounting/.test(searchableWorkText(item)),
+  },
+  {
+    value: "mobile",
+    label: "Mobile",
+    matches: (item) =>
+      item.category === "mobile-app" || /mobile|ios|android|app/.test(searchableWorkText(item)),
+  },
+  {
+    value: "web",
+    label: "Web",
+    matches: (item) => item.category === "website" || item.category === "figma-design",
+  },
 ];
 
 function RetailVisual({ item }: { item: WorkItem }) {
@@ -259,7 +303,15 @@ export function WorkVisual({ item }: { item: WorkItem }) {
   return <RetailVisual item={item} />;
 }
 
-function ProjectTile({ item, index }: { item: WorkItem; index: number }) {
+function ProjectTile({
+  item,
+  index,
+  filter,
+}: {
+  item: WorkItem;
+  index: number;
+  filter: WorkFilter;
+}) {
   const Icon = item.icon;
   const isDark = item.tone === "dark" || item.tone === "dim";
   const [isActive, setIsActive] = useState(false);
@@ -271,6 +323,13 @@ function ProjectTile({ item, index }: { item: WorkItem; index: number }) {
         href={`/work/${item.slug}`}
         data-project-card
         data-active={isActive ? "true" : undefined}
+        onClick={() =>
+          trackSiteEvent("work_project_click", {
+            project_slug: item.slug,
+            location: "work_grid",
+            filter,
+          })
+        }
         onPointerEnter={() => setIsActive(true)}
         onPointerLeave={() => setIsActive(false)}
         onFocus={() => setIsActive(true)}
@@ -324,6 +383,9 @@ function ProjectTile({ item, index }: { item: WorkItem; index: number }) {
               <span className="rounded-full bg-white/12 px-3 py-1 text-[11px] font-medium text-white/76 ring-1 ring-white/12 backdrop-blur-sm">
                 {item.outcome}
               </span>
+              <span className="rounded-full bg-white/12 px-3 py-1 text-[11px] font-medium text-white/76 ring-1 ring-white/12 backdrop-blur-sm">
+                {item.type}
+              </span>
             </div>
           </div>
         </div>
@@ -341,8 +403,8 @@ function ProjectTile({ item, index }: { item: WorkItem; index: number }) {
 
 export function WorkPage() {
   const [activeFilter, setActiveFilter] = useState<WorkFilter>("all");
-  const visibleWorkItems =
-    activeFilter === "all" ? workItems : workItems.filter((item) => item.category === activeFilter);
+  const activeFilterConfig = workFilters.find((filter) => filter.value === activeFilter);
+  const visibleWorkItems = workItems.filter((item) => activeFilterConfig?.matches(item) ?? true);
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--ink)]">
@@ -362,7 +424,7 @@ export function WorkPage() {
                 />
                 <BlurText
                   as="p"
-                  text="A selected archive of backend platforms, mobile products, dashboards, commerce systems, and web experiences."
+                  text="Case studies for ERP, inventory, ecommerce, dashboards, backend platforms, and operational systems built around real business pressure."
                   delay={0.16}
                   className="mt-6 max-w-xl text-[15px] leading-[1.65] text-[var(--muted-foreground)] md:text-[17px]"
                 />
@@ -375,7 +437,10 @@ export function WorkPage() {
                         key={filter.value}
                         type="button"
                         aria-pressed={isActive}
-                        onClick={() => setActiveFilter(filter.value)}
+                        onClick={() => {
+                          setActiveFilter(filter.value);
+                          trackSiteEvent("work_filter_click", { filter: filter.value });
+                        }}
                         className={`rounded-full px-4 py-2 text-[12px] font-semibold transition-[background-color,color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary active:scale-[0.97] ${
                           isActive
                             ? "bg-[var(--ink)] text-white shadow-[0_14px_40px_-28px_rgba(0,0,0,0.8)]"
@@ -404,8 +469,43 @@ export function WorkPage() {
         <section className="relative overflow-hidden pt-6 pb-24 md:pt-8 md:pb-36">
           <div className="relative mx-auto grid max-w-[92rem] grid-cols-1 gap-5 px-5 sm:px-6 lg:grid-cols-12 lg:gap-6 lg:[grid-auto-flow:row_dense]">
             {visibleWorkItems.map((item, index) => (
-              <ProjectTile key={item.slug} item={item} index={index} />
+              <ProjectTile key={item.slug} item={item} index={index} filter={activeFilter} />
             ))}
+            {visibleWorkItems.length === 0 ? (
+              <Reveal className="lg:col-span-12">
+                <div className="rounded-[1.25rem] bg-[var(--surface)] p-8 text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]">
+                  No case studies match this filter yet. View all work to scan the full archive.
+                </div>
+              </Reveal>
+            ) : null}
+          </div>
+        </section>
+
+        <section className="pb-24 md:pb-32">
+          <div className="mx-auto max-w-[92rem] px-5 sm:px-6">
+            <Reveal>
+              <div className="grid gap-6 rounded-[1.5rem] bg-[var(--ink)] p-6 text-white ring-1 ring-black/10 md:grid-cols-[1fr_auto] md:items-center md:p-8">
+                <div>
+                  <div className="inline-flex items-center gap-2 text-[12px] font-medium text-white/58">
+                    <MessageCircle className="h-4 w-4 text-primary" />
+                    Have a workflow like this?
+                  </div>
+                  <BlurText
+                    as="h2"
+                    text="Bring us the operating problem. We will map the first useful system."
+                    className="mt-4 max-w-3xl font-display text-[clamp(2rem,4vw,3.8rem)] font-bold leading-[0.96] tracking-[-0.05em] text-balance"
+                  />
+                </div>
+                <a
+                  href="/contact"
+                  onClick={() => trackSiteEvent("work_contact_click", { location: "work_cta" })}
+                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[var(--ink)] transition hover:bg-primary hover:text-white active:scale-[0.98]"
+                >
+                  Start a project
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </a>
+              </div>
+            </Reveal>
           </div>
         </section>
 

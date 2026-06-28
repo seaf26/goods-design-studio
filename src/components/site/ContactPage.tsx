@@ -12,6 +12,7 @@ import {
 import { BlurText } from "./BlurText";
 import { Footer, Nav, Reveal } from "./Landing";
 import { sendContactInquiry } from "@/lib/api/contact.functions";
+import { trackSiteEvent } from "@/lib/siteAnalytics";
 
 type ContactErrors = Partial<Record<"name" | "email" | "services" | "message", string>>;
 type SubmissionState = "idle" | "sending" | "sent" | "manual" | "error";
@@ -134,6 +135,10 @@ export function ContactPage() {
       });
 
       if (result.ok) {
+        trackSiteEvent("contact_submit_success", {
+          services_count: selectedServices.length,
+          has_company: Boolean(company.trim()),
+        });
         clearForm();
         setSubmissionState("sent");
         return;
