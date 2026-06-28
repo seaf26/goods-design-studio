@@ -1,5 +1,5 @@
 import { Check, CircuitBoard, Layers3, type LucideIcon } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { BlurText } from "./BlurText";
 import type { WorkItem } from "./workData";
@@ -114,11 +114,18 @@ export function ProjectMediaFrame({
 }
 
 export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: ReactNode }) {
-  const [imageFallbackStep, setImageFallbackStep] = useState(0);
+  const [heroImageIndex, setHeroImageIndex] = useState(0);
   const bannerImage = getWorkBannerImage(item);
   const proofImage = getWorkProofImage(item);
-  const heroImage =
-    imageFallbackStep === 0 ? bannerImage : imageFallbackStep === 1 ? proofImage : "";
+  const heroImages = useMemo(
+    () => Array.from(new Set([bannerImage, proofImage].filter(Boolean))),
+    [bannerImage, proofImage],
+  );
+  const heroImage = heroImages[heroImageIndex] || "";
+
+  useEffect(() => {
+    setHeroImageIndex(0);
+  }, [item.slug]);
 
   return (
     <ProjectMediaFrame
@@ -132,7 +139,7 @@ export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: Re
           alt={getWorkBannerAlt(item)}
           className="absolute inset-0 h-full w-full object-cover"
           loading="eager"
-          onError={() => setImageFallbackStep((step) => Math.min(step + 1, 2))}
+          onError={() => setHeroImageIndex((index) => index + 1)}
         />
       ) : (
         <div className="absolute inset-0">{visual}</div>
