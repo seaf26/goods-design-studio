@@ -4,6 +4,12 @@ import { ArrowRight, Boxes, ImageIcon } from "lucide-react";
 import { BlurText } from "./BlurText";
 import { Footer, Nav, Reveal } from "./Landing";
 import { workItems, type WorkCategory, type WorkItem } from "./workData";
+import {
+  getWorkBannerAlt,
+  getWorkBannerFamilyLabel,
+  getWorkBannerImage,
+  getWorkProofImage,
+} from "./workBannerMedia";
 
 const tileSpans = {
   wide: "lg:col-span-7",
@@ -201,26 +207,41 @@ function DistributionVisual({ item }: { item: WorkItem }) {
 
 function PortfolioVisual({ item }: { item: WorkItem }) {
   const Icon = item.icon;
-  const image = item.thumbnail || item.images[0];
+  const bannerImage = getWorkBannerImage(item);
+  const proofImage = getWorkProofImage(item);
+  const familyLabel = getWorkBannerFamilyLabel(item);
 
   return (
     <>
       <div
         className={`absolute inset-0 ${item.tone === "dark" || item.tone === "dim" ? "bg-black" : "bg-[var(--surface)]"}`}
       />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_24%,rgba(115,136,223,0.26),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.12),transparent_42%)]" />
-      <div className="absolute inset-x-6 top-16 overflow-hidden rounded-[1.35rem] bg-white shadow-[0_28px_90px_-44px_rgba(0,0,0,0.65)] ring-1 ring-black/10 md:inset-x-10 md:top-20">
-        <div className="flex h-10 items-center gap-2 border-b border-black/8 bg-white px-4">
+      <img
+        src={bannerImage}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover opacity-80"
+        loading="lazy"
+      />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_22%,rgba(115,136,223,0.42),transparent_34%),linear-gradient(135deg,rgba(3,4,9,0.92),rgba(3,4,9,0.32)_42%,rgba(3,4,9,0.86))]" />
+      <div className="absolute inset-0 opacity-[0.18] [background-image:linear-gradient(to_right,rgba(255,255,255,.14)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.12)_1px,transparent_1px)] [background-size:44px_44px]" />
+
+      <div className="absolute left-6 top-6 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/48 md:left-8 md:top-8">
+        {familyLabel}
+      </div>
+
+      <div className="absolute inset-x-6 top-16 overflow-hidden rounded-[1rem] bg-white shadow-[0_30px_90px_-44px_rgba(0,0,0,0.86)] ring-1 ring-white/18 md:inset-x-10 md:top-20">
+        <div className="flex h-9 items-center gap-2 border-b border-black/8 bg-white px-4">
           <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
           <span className="h-2.5 w-2.5 rounded-full bg-[#ffbd2e]" />
           <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
           <span className="ml-3 h-2 w-28 rounded-full bg-black/8" />
         </div>
         <div className="relative aspect-[16/10] bg-[var(--surface)]">
-          {image ? (
+          {proofImage ? (
             <img
-              src={image}
-              alt={`${item.title} preview`}
+              src={proofImage}
+              alt={getWorkBannerAlt(item)}
               className="h-full w-full object-cover"
               loading="lazy"
             />
@@ -229,19 +250,19 @@ function PortfolioVisual({ item }: { item: WorkItem }) {
               <ImageIcon className="h-10 w-10" />
             </div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
         </div>
       </div>
-      <div className="absolute bottom-14 left-7 right-7 rounded-[1.25rem] bg-white/92 p-4 shadow-[0_18px_60px_-34px_rgba(0,0,0,0.6)] ring-1 ring-black/10 backdrop-blur-md md:left-10 md:right-auto md:w-[62%]">
+
+      <div className="absolute bottom-14 left-7 right-7 rounded-[1rem] bg-black/58 p-4 text-white ring-1 ring-white/14 backdrop-blur-md md:left-10 md:right-auto md:w-[62%]">
         <div className="flex items-center gap-3">
-          <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary/12 text-primary">
+          <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/10 text-primary ring-1 ring-white/14">
             <Icon className="h-5 w-5" />
           </span>
           <div className="min-w-0">
-            <div className="truncate font-display text-xl font-semibold tracking-[-0.04em] text-black">
+            <div className="truncate font-display text-xl font-semibold tracking-[-0.04em]">
               {item.type}
             </div>
-            <div className="mt-1 truncate text-[11px] font-medium text-black/45">
+            <div className="mt-1 truncate text-[11px] font-medium text-white/52">
               {item.stack.slice(0, 3).join(" / ")}
             </div>
           </div>
