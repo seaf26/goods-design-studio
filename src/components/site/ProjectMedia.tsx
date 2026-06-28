@@ -1,9 +1,13 @@
 import { Check, CircuitBoard, Layers3, type LucideIcon } from "lucide-react";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 import { BlurText } from "./BlurText";
 import type { WorkItem } from "./workData";
-import { getWorkBannerAlt, getWorkBannerImage } from "./workBannerMedia";
+import {
+  getWorkBannerAlt,
+  getWorkBannerImage,
+  getWorkProofImage,
+} from "./workBannerMedia";
 
 function mediaTone(item: WorkItem) {
   if (item.visual === "warehouse") return "from-[#050612] via-[#101742] to-[#030409]";
@@ -110,7 +114,11 @@ export function ProjectMediaFrame({
 }
 
 export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: ReactNode }) {
+  const [imageFallbackStep, setImageFallbackStep] = useState(0);
   const bannerImage = getWorkBannerImage(item);
+  const proofImage = getWorkProofImage(item);
+  const heroImage =
+    imageFallbackStep === 0 ? bannerImage : imageFallbackStep === 1 ? proofImage : "";
 
   return (
     <ProjectMediaFrame
@@ -118,12 +126,13 @@ export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: Re
       caption={item.title}
       className="shadow-[0_30px_110px_-72px_rgba(0,0,0,0.75)]"
     >
-      {bannerImage ? (
+      {heroImage ? (
         <img
-          src={bannerImage}
+          src={heroImage}
           alt={getWorkBannerAlt(item)}
           className="absolute inset-0 h-full w-full object-cover"
           loading="eager"
+          onError={() => setImageFallbackStep((step) => Math.min(step + 1, 2))}
         />
       ) : (
         <div className="absolute inset-0">{visual}</div>
