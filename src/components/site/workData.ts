@@ -7,6 +7,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { behanceWorkItems } from "./behanceWorkData.generated";
+import { workBannerData, type WorkBannerFamily } from "./workBannerData.generated";
 
 export type WorkSection = {
   title: string;
@@ -45,6 +46,8 @@ export type WorkItem = {
   outcomes: string[];
   timeline: { label: string; text: string }[];
   thumbnail: string;
+  banner?: string;
+  bannerFamily?: WorkBannerFamily;
   images: string[];
   stack: string[];
   detailSections: WorkSection[];
@@ -2788,10 +2791,15 @@ const portfolioProjects = [
 
 const allProjectInputs = [...portfolioProjects, ...behanceWorkItems] satisfies WorkItemInput[];
 
-export const workItems: WorkItem[] = allProjectInputs.map((project) => ({
-  ...project,
-  icon: icons[project.iconName],
-}));
+export const workItems: WorkItem[] = allProjectInputs.map((project) => {
+  const bannerMetadata = workBannerData[project.slug as keyof typeof workBannerData];
+
+  return {
+    ...project,
+    ...bannerMetadata,
+    icon: icons[project.iconName],
+  };
+});
 
 export function getWorkItem(slug: string) {
   return workItems.find((item) => item.slug === slug);
