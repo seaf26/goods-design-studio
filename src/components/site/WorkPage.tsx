@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ArrowRight, Boxes, ImageIcon, MessageCircle } from "lucide-react";
 
 import { BlurText } from "./BlurText";
 import { Footer, Nav, Reveal } from "./Landing";
+import { localizeWorkItems } from "./localizedWorkData";
 import { workItems, type WorkItem } from "./workData";
 import { trackSiteEvent } from "@/lib/siteAnalytics";
+import { useI18n } from "@/lib/i18n";
 
 const tileSpans = {
   wide: "lg:col-span-7",
@@ -14,16 +16,16 @@ const tileSpans = {
 
 const processNotes = [
   {
-    title: "Map the floor",
-    text: "We start with the handoffs, queues, exceptions, and approval paths operators already live with.",
+    titleKey: "work.process.map.title",
+    textKey: "work.process.map.text",
   },
   {
-    title: "Prototype the pressure",
-    text: "Weekly reviews use realistic orders, inventory states, and finance rules instead of polished demo data.",
+    titleKey: "work.process.prototype.title",
+    textKey: "work.process.prototype.text",
   },
   {
-    title: "Sequence the rollout",
-    text: "Launch plans are cut around risk, training windows, and measurable operational lift.",
+    titleKey: "work.process.rollout.title",
+    textKey: "work.process.rollout.text",
   },
 ];
 
@@ -42,11 +44,11 @@ const searchableWorkText = (item: WorkItem) =>
     .join(" ")
     .toLowerCase();
 
-const workFilters: { value: WorkFilter; label: string; matches: (item: WorkItem) => boolean }[] = [
-  { value: "all", label: "All", matches: () => true },
+const workFilters: { value: WorkFilter; labelKey: string; matches: (item: WorkItem) => boolean }[] = [
+  { value: "all", labelKey: "work.filter.all", matches: () => true },
   {
     value: "operations",
-    label: "Operations",
+    labelKey: "work.filter.operations",
     matches: (item) =>
       /erp|inventory|warehouse|pos|accounting|crm|backend|api|delivery|operations/.test(
         searchableWorkText(item),
@@ -54,7 +56,7 @@ const workFilters: { value: WorkFilter; label: string; matches: (item: WorkItem)
   },
   {
     value: "commerce",
-    label: "Commerce",
+    labelKey: "work.filter.commerce",
     matches: (item) =>
       /commerce|ecommerce|checkout|vendor|cart|payment|delivery|store/.test(
         searchableWorkText(item),
@@ -62,24 +64,25 @@ const workFilters: { value: WorkFilter; label: string; matches: (item: WorkItem)
   },
   {
     value: "dashboards",
-    label: "Dashboards",
+    labelKey: "work.filter.dashboards",
     matches: (item) =>
       /dashboard|admin|report|analytics|finance|accounting/.test(searchableWorkText(item)),
   },
   {
     value: "mobile",
-    label: "Mobile",
+    labelKey: "work.filter.mobile",
     matches: (item) =>
       item.category === "mobile-app" || /mobile|ios|android|app/.test(searchableWorkText(item)),
   },
   {
     value: "web",
-    label: "Web",
+    labelKey: "work.filter.web",
     matches: (item) => item.category === "website" || item.category === "figma-design",
   },
 ];
 
 function RetailVisual({ item }: { item: WorkItem }) {
+  const { t } = useI18n();
   const Icon = item.icon;
 
   return (
@@ -88,8 +91,10 @@ function RetailVisual({ item }: { item: WorkItem }) {
       <div className="absolute -bottom-10 left-[19%] h-[66%] w-[56%] rotate-[-3deg] rounded-[1.1rem] bg-black p-3 shadow-[0_28px_80px_-32px_rgba(0,0,0,0.7)]">
         <div className="h-full rounded-[0.8rem] bg-white p-4">
           <div className="flex items-center justify-between text-[10px] font-medium text-black/45">
-            <span>TRAFFODATA / RETAIL</span>
-            <span>LIVE</span>
+            <span>
+              TRAFFODATA / {t("work.visual.retail")}
+            </span>
+            <span>{t("work.visual.live")}</span>
           </div>
           <div className="mt-8 grid grid-cols-[1.1fr_0.9fr] gap-4">
             <div>
@@ -125,6 +130,7 @@ function RetailVisual({ item }: { item: WorkItem }) {
 }
 
 function WarehouseVisual({ item }: { item: WorkItem }) {
+  const { t } = useI18n();
   const Icon = item.icon;
 
   return (
@@ -132,14 +138,14 @@ function WarehouseVisual({ item }: { item: WorkItem }) {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_24%,rgba(124,58,237,0.28),transparent_34%),linear-gradient(145deg,#101010,#030303)]" />
       <div className="absolute -right-10 top-20 h-[76%] w-[76%] rotate-3 rounded-[1.35rem] bg-white/95 p-4 shadow-[0_28px_90px_-34px_rgba(0,0,0,0.8)]">
         <div className="flex items-center justify-between text-[10px] font-medium text-black/45">
-          <span>WAVE PLAN</span>
-          <span>DEPOT 04</span>
+          <span>{t("work.visual.wavePlan")}</span>
+          <span>{t("work.visual.depot")} 04</span>
         </div>
         <div className="mt-4 grid grid-cols-[0.85fr_1fr] gap-3">
           <div className="rounded-xl bg-black p-3 text-white">
             <Icon className="h-5 w-5 text-primary" />
             <div className="mt-8 font-display text-4xl font-bold tracking-tight">412</div>
-            <div className="mt-1 text-[10px] text-white/45">picks / hour</div>
+            <div className="mt-1 text-[10px] text-white/45">{t("work.visual.picksHour")}</div>
           </div>
           <div className="space-y-2">
             {[82, 68, 91, 54].map((width) => (
@@ -170,6 +176,7 @@ function WarehouseVisual({ item }: { item: WorkItem }) {
 }
 
 function FinanceVisual({ item }: { item: WorkItem }) {
+  const { t } = useI18n();
   const Icon = item.icon;
 
   return (
@@ -177,15 +184,19 @@ function FinanceVisual({ item }: { item: WorkItem }) {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_62%_38%,rgba(0,0,0,0.22),transparent_30%),linear-gradient(135deg,#8d8d88,#c7c7c1)]" />
       <div className="absolute inset-x-12 top-20 h-[62%] rounded-[1.25rem] bg-white/70 p-5 shadow-[0_24px_80px_-34px_rgba(0,0,0,0.65)] backdrop-blur-md ring-1 ring-white/70">
         <div className="flex items-center justify-between">
-          <span className="text-[10px] font-medium text-black/45">CLOSE BOARD</span>
+          <span className="text-[10px] font-medium text-black/45">
+            {t("work.visual.closeBoard")}
+          </span>
           <span className="rounded-full bg-primary px-2 py-1 text-[10px] font-semibold text-white">
-            3 days
+            3 {t("work.visual.days")}
           </span>
         </div>
         <div className="mt-7 grid grid-cols-[1fr_0.7fr] gap-4">
           <div>
             <div className="font-display text-5xl font-bold tracking-tight">5</div>
-            <div className="text-[11px] text-black/45">entities reconciled</div>
+            <div className="text-[11px] text-black/45">
+              {t("work.visual.entitiesReconciled")}
+            </div>
             <div className="mt-6 space-y-2">
               {[92, 74, 61].map((width) => (
                 <div key={width} className="h-2 rounded-full bg-black/10">
@@ -204,6 +215,7 @@ function FinanceVisual({ item }: { item: WorkItem }) {
 }
 
 function DistributionVisual({ item }: { item: WorkItem }) {
+  const { t } = useI18n();
   const Icon = item.icon;
 
   return (
@@ -213,8 +225,8 @@ function DistributionVisual({ item }: { item: WorkItem }) {
         <div className="relative h-full overflow-hidden rounded-[1rem] bg-[#151515] p-5">
           <div className="absolute inset-0 opacity-35 [background-image:linear-gradient(to_right,rgba(255,255,255,.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.12)_1px,transparent_1px)] [background-size:42px_42px]" />
           <div className="relative flex items-center justify-between text-[10px] text-white/45">
-            <span>ROUTE DESK</span>
-            <span>LIVE</span>
+            <span>{t("work.visual.routeDesk")}</span>
+            <span>{t("work.visual.live")}</span>
           </div>
           <div className="relative mt-12 flex h-32 items-center">
             <div className="h-2 flex-1 rounded-full bg-primary" />
@@ -235,7 +247,9 @@ function DistributionVisual({ item }: { item: WorkItem }) {
           </span>
           <div>
             <div className="font-display text-2xl font-bold tracking-tight">24k</div>
-            <div className="text-[10px] font-medium text-black/45">SKU reservations</div>
+            <div className="text-[10px] font-medium text-black/45">
+              {t("work.visual.skuReservations")}
+            </div>
           </div>
         </div>
       </div>
@@ -244,6 +258,7 @@ function DistributionVisual({ item }: { item: WorkItem }) {
 }
 
 function PortfolioVisual({ item }: { item: WorkItem }) {
+  const { t } = useI18n();
   const Icon = item.icon;
   const image = item.thumbnail || item.images[0];
 
@@ -264,7 +279,7 @@ function PortfolioVisual({ item }: { item: WorkItem }) {
           {image ? (
             <img
               src={image}
-              alt={`${item.title} preview`}
+              alt={`${item.title} ${t("work.visual.preview")}`}
               className="h-full w-full object-cover"
               loading="lazy"
             />
@@ -312,6 +327,7 @@ function ProjectTile({
   index: number;
   filter: WorkFilter;
 }) {
+  const { t } = useI18n();
   const Icon = item.icon;
   const isDark = item.tone === "dark" || item.tone === "dim";
   const [isActive, setIsActive] = useState(false);
@@ -373,7 +389,7 @@ function ProjectTile({
 
           <div className="flex flex-col gap-4 border-t border-white/14 pt-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="inline-flex items-center gap-2 text-[14px] font-medium text-white">
-              View project{" "}
+              {t("work.project.view")}{" "}
               <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-1" />
             </div>
             <div className="flex max-w-lg flex-wrap gap-2 sm:justify-end">
@@ -402,9 +418,16 @@ function ProjectTile({
 }
 
 export function WorkPage() {
+  const { t, tWithFallback } = useI18n();
   const [activeFilter, setActiveFilter] = useState<WorkFilter>("all");
+  const localizedWorkItems = useMemo(
+    () => localizeWorkItems(workItems, tWithFallback),
+    [tWithFallback],
+  );
   const activeFilterConfig = workFilters.find((filter) => filter.value === activeFilter);
-  const visibleWorkItems = workItems.filter((item) => activeFilterConfig?.matches(item) ?? true);
+  const visibleWorkItems = localizedWorkItems.filter(
+    (item) => activeFilterConfig?.matches(item) ?? true,
+  );
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--ink)]">
@@ -415,20 +438,20 @@ export function WorkPage() {
             <Reveal>
               <div className="max-w-5xl">
                 <div className="inline-flex rounded-full bg-[var(--surface)] px-3 py-1.5 text-[11px] font-medium text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]">
-                  Selected systems
+                  {t("work.hero.eyebrow")}
                 </div>
                 <BlurText
                   as="h1"
-                  text="Operational software, productized."
+                  text={t("work.hero.title")}
                   className="mt-7 max-w-[72rem] font-display text-[clamp(3.15rem,6.4vw,6rem)] font-bold leading-[0.94] tracking-[-0.052em] text-balance"
                 />
                 <BlurText
                   as="p"
-                  text="Case studies for ERP, inventory, ecommerce, dashboards, backend platforms, and operational systems built around real business pressure."
+                  text={t("work.hero.copy")}
                   delay={0.16}
-                  className="mt-6 max-w-xl text-[15px] leading-[1.65] text-[var(--muted-foreground)] md:text-[17px]"
+                  className="mt-6 max-w-2xl text-[15px] leading-[1.65] text-[var(--muted-foreground)] md:text-[17px]"
                 />
-                <div className="mt-8 flex flex-wrap gap-2" aria-label="Work filters">
+                <div className="mt-8 flex flex-wrap gap-2" aria-label={t("work.filters.label")}>
                   {workFilters.map((filter) => {
                     const isActive = activeFilter === filter.value;
 
@@ -447,7 +470,7 @@ export function WorkPage() {
                             : "bg-[var(--surface)] text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)] hover:text-[var(--ink)]"
                         }`}
                       >
-                        {filter.label}
+                        {t(filter.labelKey)}
                       </button>
                     );
                   })}
@@ -461,7 +484,7 @@ export function WorkPage() {
               data-work-backdrop-title
               className="mx-auto max-w-[92rem] select-none px-5 text-left font-display text-[clamp(6.5rem,24vw,23rem)] font-bold leading-[0.72] tracking-[-0.075em] text-[var(--ink)]/[0.08] sm:px-6"
             >
-              Projects
+              {t("work.hero.backdrop")}
             </div>
           </div>
         </section>
@@ -474,7 +497,7 @@ export function WorkPage() {
             {visibleWorkItems.length === 0 ? (
               <Reveal className="lg:col-span-12">
                 <div className="rounded-[1.25rem] bg-[var(--surface)] p-8 text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]">
-                  No case studies match this filter yet. View all work to scan the full archive.
+                  {t("work.empty")}
                 </div>
               </Reveal>
             ) : null}
@@ -488,11 +511,11 @@ export function WorkPage() {
                 <div>
                   <div className="inline-flex items-center gap-2 text-[12px] font-medium text-white/58">
                     <MessageCircle className="h-4 w-4 text-primary" />
-                    Have a workflow like this?
+                    {t("work.cta.eyebrow")}
                   </div>
                   <BlurText
                     as="h2"
-                    text="Bring us the operating problem. We will map the first useful system."
+                    text={t("work.cta.title")}
                     className="mt-4 max-w-3xl font-display text-[clamp(2rem,4vw,3.8rem)] font-bold leading-[0.96] tracking-[-0.05em] text-balance"
                   />
                 </div>
@@ -501,7 +524,7 @@ export function WorkPage() {
                   onClick={() => trackSiteEvent("work_contact_click", { location: "work_cta" })}
                   className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[var(--ink)] transition hover:bg-primary hover:text-white active:scale-[0.98]"
                 >
-                  Start a project
+                  {t("nav.startProject")}
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </a>
               </div>
@@ -515,12 +538,12 @@ export function WorkPage() {
               <div>
                 <BlurText
                   as="h2"
-                  text="Built around operating pressure."
+                  text={t("work.process.title")}
                   className="max-w-xl font-display text-[clamp(2.4rem,5vw,4.8rem)] font-bold leading-[0.96] tracking-[-0.05em] text-balance"
                 />
                 <BlurText
                   as="p"
-                  text="The work starts where the business is already moving: counters, docks, approvals, exceptions, and month-end."
+                  text={t("work.process.copy")}
                   delay={0.12}
                   className="mt-5 max-w-md text-[15px] leading-[1.65] text-[var(--muted-foreground)]"
                 />
@@ -530,15 +553,15 @@ export function WorkPage() {
               <div className="grid gap-3 sm:grid-cols-3">
                 {processNotes.map((note) => (
                   <div
-                    key={note.title}
-                    className="rounded-2xl bg-white p-6 ring-1 ring-[var(--hairline)]"
+                    key={note.titleKey}
+                    className="rounded-2xl bg-[var(--card)] p-6 ring-1 ring-[var(--hairline)]"
                   >
                     <div className="font-display text-2xl font-semibold tracking-tight">
-                      {note.title}
+                      {t(note.titleKey)}
                     </div>
                     <BlurText
                       as="p"
-                      text={note.text}
+                      text={t(note.textKey)}
                       delay={0.08}
                       className="mt-7 text-[14px] leading-[1.6] text-[var(--muted-foreground)]"
                     />

@@ -1,12 +1,31 @@
+import { useMemo } from "react";
 import { ArrowRight, BookOpen, type LucideIcon } from "lucide-react";
 
 import { BlurText } from "./BlurText";
 import { Footer, Nav, Reveal } from "./Landing";
 import { blogArticles, blogTopics, type BlogArticle } from "./blogData";
+import { useI18n } from "@/lib/i18n";
 
-const featuredArticle = blogArticles[0];
+type DisplayBlogArticle = Omit<BlogArticle, "topic"> & { topic: string };
 
-function OperationsVisual({ article }: { article: BlogArticle }) {
+function localizeBlogArticle(article: BlogArticle, t: (key: string) => string): DisplayBlogArticle {
+  return {
+    ...article,
+    title: t(`blog.article.${article.slug}.title`),
+    deck: t(`blog.article.${article.slug}.deck`),
+    topic: t(`blog.article.${article.slug}.topic`),
+    readTime: t(`blog.article.${article.slug}.readTime`),
+    publishedAt: t(`blog.article.${article.slug}.publishedAt`),
+    audience: t(`blog.article.${article.slug}.audience`),
+    operatingQuestion: t(`blog.article.${article.slug}.question`),
+    signals: article.signals.map((signal, index) => ({
+      label: t(`blog.article.${article.slug}.signal.${index}.label`),
+      value: t(`blog.article.${article.slug}.signal.${index}.value`),
+    })),
+  };
+}
+
+function OperationsVisual({ article }: { article: DisplayBlogArticle }) {
   const Icon = article.icon;
 
   return (
@@ -41,7 +60,8 @@ function OperationsVisual({ article }: { article: BlogArticle }) {
   );
 }
 
-function ArticleRow({ article, index }: { article: BlogArticle; index: number }) {
+function ArticleRow({ article, index }: { article: DisplayBlogArticle; index: number }) {
+  const { t } = useI18n();
   const Icon = article.icon;
 
   return (
@@ -79,7 +99,7 @@ function ArticleRow({ article, index }: { article: BlogArticle; index: number })
             {article.operatingQuestion}
           </div>
           <span className="inline-flex w-fit items-center gap-2 text-[13px] font-semibold text-[var(--ink)]">
-            Discuss
+            {t("blog.discuss")}
             <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-1" />
           </span>
         </div>
@@ -90,7 +110,7 @@ function ArticleRow({ article, index }: { article: BlogArticle; index: number })
 
 function TopicPill({ topic }: { topic: string }) {
   return (
-    <span className="rounded-full bg-white px-3 py-1.5 text-[12px] font-medium text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]">
+    <span className="rounded-full bg-[var(--card)] px-3 py-1.5 text-[12px] font-medium text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]">
       {topic}
     </span>
   );
@@ -106,7 +126,7 @@ function BriefingMetric({
   value: string;
 }) {
   return (
-    <div className="rounded-2xl bg-white p-5 ring-1 ring-[var(--hairline)]">
+    <div className="rounded-2xl bg-[var(--card)] p-5 ring-1 ring-[var(--hairline)]">
       <span className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--surface)] text-primary ring-1 ring-[var(--hairline)]">
         <Icon className="h-4 w-4" />
       </span>
@@ -119,8 +139,18 @@ function BriefingMetric({
 }
 
 export function BlogPage() {
+  const { t } = useI18n();
+  const localizedArticles = useMemo(
+    () => blogArticles.map((article) => localizeBlogArticle(article, t)),
+    [t],
+  );
+  const localizedTopics = useMemo(
+    () => blogTopics.map((topic) => t(`blog.article.topic.${topic.toLowerCase()}`)),
+    [t],
+  );
+  const featuredArticle = localizedArticles[0];
   const FeaturedIcon = featuredArticle.icon;
-  const otherArticles = blogArticles.slice(1);
+  const otherArticles = localizedArticles.slice(1);
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--ink)]">
@@ -133,16 +163,16 @@ export function BlogPage() {
               <div className="max-w-5xl">
                 <div className="inline-flex items-center gap-2 rounded-full bg-[var(--surface)] px-3 py-1.5 text-[11px] font-medium text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]">
                   <BookOpen className="h-3.5 w-3.5 text-primary" />
-                  Operations journal
+                  {t("blog.hero.eyebrow")}
                 </div>
                 <BlurText
                   as="h1"
-                  text="Writing for operating systems."
+                  text={t("blog.hero.title")}
                   className="mt-7 max-w-[68rem] font-display text-[clamp(3.1rem,6.2vw,5.9rem)] font-bold leading-[0.94] tracking-[-0.052em] text-balance"
                 />
                 <BlurText
                   as="p"
-                  text="Practical essays on ERP, inventory, finance, warehouse, POS, CRM, and durable business software decisions."
+                  text={t("blog.hero.copy")}
                   delay={0.18}
                   className="mt-6 max-w-2xl text-[15px] leading-[1.66] text-[var(--muted-foreground)] md:text-[17px]"
                 />
@@ -151,7 +181,7 @@ export function BlogPage() {
           </div>
           <div className="pointer-events-none mt-10 overflow-hidden sm:mt-12">
             <div className="mx-auto max-w-[92rem] select-none px-5 text-left font-display text-[clamp(6rem,21vw,20rem)] font-bold leading-[0.72] tracking-[-0.075em] text-[var(--ink)]/[0.07] sm:px-6">
-              Notes
+              {t("blog.hero.backdrop")}
             </div>
           </div>
         </section>
@@ -167,7 +197,7 @@ export function BlogPage() {
                 <div>
                   <div className="inline-flex items-center gap-2 text-[13px] font-medium text-[var(--muted-foreground)]">
                     <FeaturedIcon className="h-4 w-4 text-primary" />
-                    Featured briefing
+                    {t("blog.featured")}
                   </div>
                   <BlurText
                     as="h2"
@@ -203,11 +233,11 @@ export function BlogPage() {
               <div className="mb-8 flex flex-col gap-5 border-t border-[var(--hairline)] pt-8">
                 <BlurText
                   as="h2"
-                  text="Reading list."
+                  text={t("blog.readingList")}
                   className="max-w-2xl font-display text-[clamp(2.1rem,4vw,4rem)] font-bold leading-[0.98] tracking-[-0.045em]"
                 />
                 <div className="flex flex-wrap gap-2">
-                  {blogTopics.map((topic) => (
+                  {localizedTopics.map((topic) => (
                     <TopicPill key={topic} topic={topic} />
                   ))}
                 </div>
@@ -226,7 +256,7 @@ export function BlogPage() {
             <Reveal>
               <BlurText
                 as="h2"
-                text="Bring the workflow to the table."
+                text={t("blog.cta.title")}
                 className="max-w-xl font-display text-[clamp(2.25rem,4.8vw,4.9rem)] font-bold leading-[0.94] tracking-[-0.04em] text-balance"
               />
             </Reveal>
@@ -234,7 +264,7 @@ export function BlogPage() {
               <div className="lg:justify-self-end">
                 <BlurText
                   as="p"
-                  text="If an article sounds like your operating problem, send us the workflow and the systems around it."
+                  text={t("blog.cta.copy")}
                   delay={0.1}
                   className="max-w-xl text-[15px] leading-[1.65] text-white/62"
                 />
@@ -242,7 +272,7 @@ export function BlogPage() {
                   href="/contact"
                   className="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[14px] font-semibold text-black transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]"
                 >
-                  Start a project
+                  {t("nav.startProject")}
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </div>

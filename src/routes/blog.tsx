@@ -3,6 +3,6 @@ import { BlogPage } from "@/components/site/BlogPage";
 import { blogSeo } from "@/components/site/seo";
 
 export const Route = createFileRoute("/blog")({
-  head: blogSeo,
+  head: () => blogSeo(),
   component: BlogPage,
 });

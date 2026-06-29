@@ -13,28 +13,48 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 
 import { BlurText } from "@/components/site/BlurText";
 import { iconLinks, organizationJsonLd, websiteJsonLd } from "@/components/site/seo";
+import { DEFAULT_LOCALE, I18nProvider, useI18n } from "@/lib/i18n";
+import { ThemeProvider } from "@/lib/theme";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
+const preferenceScript = `
+(() => {
+  try {
+    const root = document.documentElement;
+    const theme = localStorage.getItem("traffodata:theme") || "system";
+    const locale = localStorage.getItem("traffodata:locale") || "${DEFAULT_LOCALE}";
+    const dark = theme === "dark" || (theme === "system" && matchMedia("(prefers-color-scheme: dark)").matches);
+    root.classList.toggle("dark", dark);
+    root.dataset.theme = theme;
+    root.dataset.resolvedTheme = dark ? "dark" : "light";
+    root.dataset.locale = locale;
+    root.lang = locale;
+    root.dir = locale === "ar" ? "rtl" : "ltr";
+    root.style.colorScheme = dark ? "dark" : "light";
+  } catch {}
+})();
+`;
+
 function NotFoundComponent() {
+  const { t } = useI18n();
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <BlurText as="h1" text="404" className="text-7xl font-bold text-foreground" />
+        <BlurText as="h1" text={t("root.notFound.code")} className="text-7xl font-bold text-foreground" />
         <BlurText
           as="h2"
-          text="Page not found"
+          text={t("root.notFound.title")}
           className="mt-4 text-xl font-semibold text-foreground"
         />
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
+        <p className="mt-2 text-sm text-muted-foreground">{t("root.notFound.description")}</p>
         <div className="mt-6">
           <Link
             to="/"
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Go home
+            {t("root.goHome")}
           </Link>
         </div>
       </div>
@@ -43,6 +63,7 @@ function NotFoundComponent() {
 }
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+  const { t } = useI18n();
   console.error(error);
   const router = useRouter();
   useEffect(() => {
@@ -54,10 +75,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
       <div className="max-w-md text-center">
         <BlurText
           as="h1"
-          text="This page didn't load"
+          text={t("root.error.title")}
           className="text-xl font-semibold tracking-tight text-foreground"
         />
-        <p className="mt-2 text-sm text-muted-foreground">Something went wrong on our end.</p>
+        <p className="mt-2 text-sm text-muted-foreground">{t("root.error.description")}</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
@@ -66,13 +87,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
           >
-            Try again
+            {t("root.error.tryAgain")}
           </button>
           <a
             href="/"
             className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-accent"
           >
-            Go home
+            {t("root.goHome")}
           </a>
         </div>
       </div>
@@ -100,13 +121,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html
+      lang={DEFAULT_LOCALE}
+      dir="ltr"
+      data-theme="system"
+      data-locale={DEFAULT_LOCALE}
+      suppressHydrationWarning
+    >
       <head>
         <style
           dangerouslySetInnerHTML={{
-            __html: "html,body{background:#030409;color:#fff}body{margin:0}",
+            __html:
+              "html,body{background:#fff;color:#000}html.dark,html.dark body{background:#000;color:#fff}body{margin:0}",
           }}
         />
+        <script dangerouslySetInnerHTML={{ __html: preferenceScript }} />
         <HeadContent />
       </head>
       <body>
@@ -122,8 +151,12 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
-    <QueryClientProvider client={queryClient}>
-      <Outlet />
-    </QueryClientProvider>
+    <I18nProvider>
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <Outlet />
+        </QueryClientProvider>
+      </ThemeProvider>
+    </I18nProvider>
   );
 }

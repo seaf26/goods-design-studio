@@ -3,6 +3,6 @@ import { ContactPage } from "@/components/site/ContactPage";
 import { contactSeo } from "@/components/site/seo";
 
 export const Route = createFileRoute("/contact")({
-  head: contactSeo,
+  head: () => contactSeo(),
   component: ContactPage,
 });

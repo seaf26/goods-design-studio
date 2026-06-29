@@ -2,13 +2,15 @@ import { ArrowLeft, ArrowRight, ExternalLink, Layers3, LineChart, TimerReset } f
 
 import { BlurText } from "./BlurText";
 import { Footer, Nav, Reveal } from "./Landing";
+import { localizeWorkItem, localizeWorkItems } from "./localizedWorkData";
 import { ProjectGallery, ProjectHeroBanner } from "./ProjectMedia";
 import { WorkVisual } from "./WorkPage";
+import { useI18n } from "@/lib/i18n";
 import { getWorkItem, workItems, type WorkItem } from "./workData";
 
 function StatPill({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex min-h-32 flex-col justify-between rounded-2xl bg-white p-5 ring-1 ring-[var(--hairline)]">
+    <div className="flex min-h-32 flex-col justify-between rounded-2xl bg-[var(--card)] p-5 ring-1 ring-[var(--hairline)]">
       <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-[var(--muted-foreground)]">
         {label}
       </div>
@@ -50,7 +52,7 @@ function DetailSection({
 function ModuleCard({ module, index }: { module: string; index: number }) {
   return (
     <Reveal delay={index * 0.035}>
-      <div className="group flex min-h-28 flex-col justify-between rounded-2xl bg-white p-5 ring-1 ring-[var(--hairline)] transition-[transform,box-shadow] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.99] motion-reduce:transition-none">
+      <div className="group flex min-h-28 flex-col justify-between rounded-2xl bg-[var(--card)] p-5 ring-1 ring-[var(--hairline)] transition-[transform,box-shadow] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.99] motion-reduce:transition-none">
         <div className="flex items-center justify-between gap-3">
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-[var(--surface)] text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]">
             <Layers3 className="h-4 w-4" />
@@ -87,7 +89,9 @@ function RelatedProject({ item }: { item: WorkItem }) {
 }
 
 export function ProjectDetailPage({ slug }: { slug: string }) {
-  const project = getWorkItem(slug);
+  const { t, tWithFallback } = useI18n();
+  const rawProject = getWorkItem(slug);
+  const project = rawProject ? localizeWorkItem(rawProject, tWithFallback) : undefined;
 
   if (!project) {
     return (
@@ -99,16 +103,16 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
             className="inline-flex w-fit items-center gap-2 text-[13px] font-medium text-[var(--muted-foreground)] transition-colors hover:text-[var(--ink)]"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to work
+            {t("project.backToWork")}
           </a>
           <BlurText
             as="h1"
-            text="Project not found."
+            text={t("project.notFound.title")}
             className="mt-8 font-display text-[clamp(3rem,7vw,6rem)] font-bold leading-[0.92] tracking-[-0.055em] text-balance"
           />
           <BlurText
             as="p"
-            text="This case study is not available. The work index has the current project list."
+            text={t("project.notFound.copy")}
             delay={0.12}
             className="mt-5 max-w-xl text-[16px] leading-[1.65] text-[var(--muted-foreground)]"
           />
@@ -119,7 +123,10 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
   }
 
   const Icon = project.icon;
-  const related = workItems.filter((item) => item.slug !== project.slug).slice(0, 3);
+  const related = localizeWorkItems(
+    workItems.filter((item) => item.slug !== project.slug).slice(0, 3),
+    tWithFallback,
+  );
   const eyebrow = project.client === project.title ? project.type : project.client;
 
   return (
@@ -134,7 +141,7 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
                 className="inline-flex items-center gap-2 rounded-full bg-[var(--surface)] px-3 py-1.5 text-[12px] font-medium text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)] transition-colors hover:text-[var(--ink)]"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
-                Work
+                {t("project.work")}
               </a>
               <div className="mt-8 grid gap-7 lg:grid-cols-[0.92fr_0.58fr] lg:items-end">
                 <div>
@@ -162,7 +169,7 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
                       rel="noreferrer"
                       className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-[var(--ink)] px-5 py-3 text-[14px] font-semibold text-white transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]"
                     >
-                      Open project
+                      {t("project.open")}
                       <ExternalLink className="h-4 w-4" />
                     </a>
                   ) : null}
@@ -172,10 +179,10 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
 
             <Reveal delay={0.1}>
               <div className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                <StatPill label="System" value={project.title} />
-                <StatPill label="Timeline" value={project.duration} />
-                <StatPill label="Launch" value={project.outcome} />
-                <StatPill label="Year" value={project.year} />
+                <StatPill label={t("project.stat.system")} value={project.title} />
+                <StatPill label={t("project.stat.timeline")} value={project.duration} />
+                <StatPill label={t("project.stat.launch")} value={project.outcome} />
+                <StatPill label={t("project.stat.year")} value={project.year} />
               </div>
             </Reveal>
           </div>
@@ -199,12 +206,12 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-[radial-gradient(circle_at_50%_0%,rgba(115,136,223,0.24),transparent_68%)]" />
                 <div className="relative lg:sticky lg:top-28">
                   <div className="flex items-center gap-3">
-                    <span className="grid h-11 w-11 place-items-center rounded-xl bg-white text-primary ring-1 ring-[var(--hairline)]">
+                    <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--card)] text-primary ring-1 ring-[var(--hairline)]">
                       <LineChart className="h-5 w-5" />
                     </span>
                     <div>
                       <div className="text-[12px] font-medium text-[var(--muted-foreground)]">
-                        Delivery scope
+                        {t("project.deliveryScope")}
                       </div>
                       <div className="mt-1 font-display text-xl font-semibold tracking-[-0.03em]">
                         {project.team}
@@ -215,24 +222,24 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
                     {project.outcomes.slice(0, 5).map((outcome) => (
                       <div
                         key={outcome}
-                        className="rounded-xl bg-white px-4 py-3 text-[13px] font-medium text-[var(--ink)] ring-1 ring-[var(--hairline)]"
+                        className="rounded-xl bg-[var(--card)] px-4 py-3 text-[13px] font-medium text-[var(--ink)] ring-1 ring-[var(--hairline)]"
                       >
                         {outcome}
                       </div>
                     ))}
                   </div>
                   <div className="mt-5 grid grid-cols-2 gap-3">
-                    <div className="rounded-xl bg-white p-4 ring-1 ring-[var(--hairline)]">
+                    <div className="rounded-xl bg-[var(--card)] p-4 ring-1 ring-[var(--hairline)]">
                       <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
-                        Timeline
+                        {t("project.stat.timeline")}
                       </div>
                       <div className="mt-3 font-display text-lg font-semibold tracking-[-0.03em]">
                         {project.duration}
                       </div>
                     </div>
-                    <div className="rounded-xl bg-white p-4 ring-1 ring-[var(--hairline)]">
+                    <div className="rounded-xl bg-[var(--card)] p-4 ring-1 ring-[var(--hairline)]">
                       <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
-                        Launch
+                        {t("project.stat.launch")}
                       </div>
                       <div className="mt-3 line-clamp-2 font-display text-lg font-semibold leading-[1.05] tracking-[-0.03em]">
                         {project.outcome}
@@ -252,21 +259,21 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
                 <div>
                   <BlurText
                     as="h2"
-                    text="Stack and capabilities."
+                    text={t("project.stack.title")}
                     className="max-w-2xl font-display text-[clamp(2.2rem,4.4vw,4.5rem)] font-bold leading-[0.96] tracking-[-0.04em] text-balance"
                   />
                   <BlurText
                     as="p"
-                    text="The technical footprint stays visible without turning the case study into a sparse list."
+                    text={t("project.stack.copy")}
                     delay={0.1}
                     className="mt-4 max-w-xl text-[15px] leading-[1.65] text-[var(--muted-foreground)]"
                   />
                 </div>
               </Reveal>
               <Reveal delay={0.08}>
-                <div className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-[12px] font-medium text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]">
+                <div className="inline-flex items-center gap-2 rounded-full bg-[var(--card)] px-3 py-2 text-[12px] font-medium text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]">
                   <Layers3 className="h-4 w-4 text-primary" />
-                  {project.modules.length} capabilities
+                  {project.modules.length} {t("project.capabilities")}
                 </div>
               </Reveal>
             </div>
@@ -287,7 +294,7 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
                 </div>
                 <BlurText
                   as="h2"
-                  text="Build notes and proof."
+                  text={t("project.notes.title")}
                   className="mt-8 max-w-xl font-display text-[clamp(2rem,4vw,4.1rem)] font-bold leading-[0.96] tracking-[-0.04em] text-balance"
                 />
                 <div className="mt-8 divide-y divide-white/12">
@@ -315,14 +322,14 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
               <div>
                 <BlurText
                   as="h2"
-                  text="More systems under pressure."
+                  text={t("project.related.title")}
                   className="max-w-lg font-display text-[clamp(2.25rem,4.8vw,4.9rem)] font-bold leading-[0.94] tracking-[-0.04em] text-balance"
                 />
                 <a
                   href="/work"
                   className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[14px] font-semibold text-black transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]"
                 >
-                  All work
+                  {t("project.allWork")}
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </div>

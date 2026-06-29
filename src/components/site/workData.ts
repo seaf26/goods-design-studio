@@ -47,6 +47,7 @@ export type WorkItem = {
   thumbnail: string;
   images: string[];
   stack: string[];
+  sections?: WorkSection[];
   detailSections: WorkSection[];
 };
 
