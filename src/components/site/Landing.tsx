@@ -230,8 +230,8 @@ function MagneticButton({
   const base =
     "group relative inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium transition-colors will-change-transform";
   const styles = {
-    primary: "bg-[#03040a] text-white hover:bg-[#151827]",
-    dark: "bg-[#333da7] text-white hover:bg-[#2d3594]",
+    primary: "bg-[var(--night-mid)] text-white hover:bg-[var(--night-lift)]",
+    dark: "bg-primary text-white hover:bg-[var(--primary-strong)]",
     ghost: "ring-hairline text-[var(--ink)] hover:bg-[var(--surface)]",
   }[variant];
   return (
@@ -393,8 +393,8 @@ function PreferenceControls({
           forceDarkText
             ? "text-[#303342] hover:bg-black/[0.05] hover:text-[#03040a]"
             : elevated
-            ? "text-[var(--ink)] hover:bg-[var(--surface)]"
-            : "text-white/82 hover:bg-white/10 hover:text-white"
+              ? "text-[var(--ink)] hover:bg-[var(--surface)]"
+              : "text-white/82 hover:bg-white/10 hover:text-white"
         }`}
       >
         <Languages className="h-3.5 w-3.5" />
@@ -402,11 +402,7 @@ function PreferenceControls({
       </button>
       <div
         className={`flex rounded-full p-1 ${
-          forceDarkText
-            ? "bg-[#eef1fb]"
-            : elevated
-              ? "bg-[var(--surface)]"
-              : "bg-white/[0.06]"
+          forceDarkText ? "bg-[#eef1fb]" : elevated ? "bg-[var(--surface)]" : "bg-white/[0.06]"
         }`}
         aria-label={t("theme.label")}
       >
@@ -427,8 +423,8 @@ function PreferenceControls({
                   : forceDarkText
                     ? "text-[#626678] hover:text-[#03040a]"
                     : elevated
-                    ? "text-[var(--muted-foreground)] hover:text-[var(--ink)]"
-                    : "text-white/70 hover:text-white"
+                      ? "text-[var(--muted-foreground)] hover:text-[var(--ink)]"
+                      : "text-white/70 hover:text-white"
               }`}
             >
               <Icon className="h-3.5 w-3.5" />
@@ -511,8 +507,8 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
                 forceDarkText
                   ? "text-[#303342] hover:bg-black/[0.05] hover:text-[#03040a]"
                   : elevated
-                  ? "text-[var(--ink)]/80 hover:bg-[var(--surface)] hover:text-[var(--ink)]"
-                  : "text-white/82 hover:bg-white/10 hover:text-white"
+                    ? "text-[var(--ink)]/80 hover:bg-[var(--surface)] hover:text-[var(--ink)]"
+                    : "text-white/82 hover:bg-white/10 hover:text-white"
               }`}
             >
               {t(item.key)}
@@ -784,7 +780,7 @@ function Hero() {
       data-hero-quality={quality}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
-      className="liquid-hero-frame scroll-stop relative isolate min-h-[100dvh] overflow-hidden bg-[#03040a] text-white"
+      className="liquid-hero-frame section-night scroll-stop relative isolate min-h-[100dvh] overflow-hidden text-white"
     >
       <HeroLiquidBackground settings={settings} />
 
@@ -810,7 +806,7 @@ function Hero() {
             <MagneticButton
               variant="dark"
               href="/contact"
-              className="bg-[#333da7] shadow-[0_16px_44px_rgba(3,4,10,0.24)] hover:bg-[#2d3594]"
+              className="bg-primary shadow-[0_16px_44px_rgba(3,4,10,0.24)] hover:bg-[var(--primary-strong)]"
             >
               {t("home.hero.primaryCta")}{" "}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -819,7 +815,7 @@ function Hero() {
               variant="ghost"
               href="/work"
               onIntent={() => trackSiteEvent("home_view_work_click", { location: "hero" })}
-              className="bg-[#0c0e21]/28 text-white ring-1 ring-white/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-md hover:bg-[#0c0e21]/36 hover:text-[#aebcff]"
+              className="night-panel text-white ring-1 ring-white/20 backdrop-blur-md hover:text-[#dbe1ff]"
             >
               {t("home.hero.secondaryCta")}
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -829,9 +825,7 @@ function Hero() {
       </motion.div>
 
       <div className="absolute inset-x-0 bottom-28 z-[3] mx-auto hidden max-w-4xl items-end justify-between px-6 text-[#262a3f] dark:text-white/58 md:flex lg:px-8">
-        <p className="max-w-[30rem] text-[15px] leading-relaxed">
-          {t("home.hero.note")}
-        </p>
+        <p className="max-w-[30rem] text-[15px] leading-relaxed">{t("home.hero.note")}</p>
         <a
           href="#about"
           onClick={(event) => handleSectionLinkClick(event, "#about")}
@@ -1026,7 +1020,7 @@ function Services() {
   const { t } = useI18n();
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="services" data-scroll-stop className="scroll-stop bg-[#03040a] text-white">
+    <section id="services" data-scroll-stop className="section-night scroll-stop text-white">
       <div className="mx-auto max-w-7xl px-6 py-28 md:py-40">
         <div className="mb-16 flex flex-wrap items-end justify-between gap-6">
           <div>
@@ -1041,22 +1035,20 @@ function Services() {
               />
             </h2>
           </div>
-          <p className="max-w-md text-[14px] text-white/60">
-            {t("home.services.copy")}
-          </p>
+          <p className="max-w-md text-[14px] text-white/60">{t("home.services.copy")}</p>
         </div>
 
-        <div className="divide-y divide-white/10 border-y border-white/10">
+        <div className="overflow-hidden rounded-[1.35rem] border border-white/10 bg-white/[0.035] shadow-[0_30px_100px_-76px_rgba(0,0,0,0.75)] backdrop-blur">
           {services.map((s, i) => {
             const isOpen = open === i;
             return (
               <button
                 key={s.titleKey}
                 onClick={() => setOpen(isOpen ? null : i)}
-                className="group flex w-full items-center gap-6 py-6 text-left transition hover:px-2"
+                className="group flex w-full items-center gap-6 border-b border-white/10 px-5 py-6 text-left transition-[background-color,transform] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] last:border-b-0 hover:bg-white/[0.045] active:scale-[0.995] sm:px-6"
               >
                 <span className="w-12 text-[12px] tabular-nums text-white/65">0{i + 1}</span>
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white/5 ring-1 ring-white/10 transition group-hover:bg-primary group-hover:ring-primary">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white/8 ring-1 ring-white/12 transition group-hover:bg-primary group-hover:ring-primary">
                   <s.i className="h-4 w-4" />
                 </span>
                 <span className="min-w-0 flex-1">
@@ -2054,7 +2046,7 @@ function Tech() {
   const { t } = useI18n();
 
   return (
-    <section id="tech" data-scroll-stop className="scroll-stop bg-[#03040a] text-white">
+    <section id="tech" data-scroll-stop className="section-night scroll-stop text-white">
       <div className="mx-auto max-w-7xl px-6 py-28 md:py-36">
         <div className="mb-14 max-w-3xl">
           <Eyebrow light>{t("home.tech.eyebrow")}</Eyebrow>
@@ -2068,12 +2060,12 @@ function Tech() {
             />
           </h2>
         </div>
-        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/12 shadow-[0_30px_100px_-74px_rgba(0,0,0,0.78)] sm:grid-cols-3 lg:grid-cols-4">
           {tech.map((t, i) => (
             <Reveal
               key={t}
               delay={i * 0.04}
-              className="group relative bg-[#03040a] p-8 transition hover:bg-white/[0.04]"
+              className="night-cell group relative p-8 transition-[background-color,transform] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.99]"
             >
               <div className="text-[11px] text-white/65">
                 0{(i + 1).toString().padStart(2, "0")}
@@ -2415,7 +2407,7 @@ export function Footer() {
     <footer
       id="contact"
       data-scroll-stop
-      className="scroll-stop relative overflow-hidden bg-[#03040a] text-white"
+      className="section-night scroll-stop relative overflow-hidden text-white"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,color-mix(in_oklch,var(--primary)_30%,transparent),transparent_42%),radial-gradient(ellipse_at_50%_58%,color-mix(in_oklch,var(--primary)_12%,transparent),transparent_48%)]" />

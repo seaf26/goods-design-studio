@@ -42,7 +42,11 @@ function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <BlurText as="h1" text={t("root.notFound.code")} className="text-7xl font-bold text-foreground" />
+        <BlurText
+          as="h1"
+          text={t("root.notFound.code")}
+          className="text-7xl font-bold text-foreground"
+        />
         <BlurText
           as="h2"
           text={t("root.notFound.title")}
@@ -132,7 +136,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <style
           dangerouslySetInnerHTML={{
             __html:
-              "html,body{background:#fff;color:#000}html.dark,html.dark body{background:#000;color:#fff}body{margin:0}",
+              "html,body{background:#fff;color:#000}html.dark,html.dark body{background:#070915;color:#fff}body{margin:0}",
           }}
         />
         <script dangerouslySetInnerHTML={{ __html: preferenceScript }} />
