@@ -230,7 +230,7 @@ function MagneticButton({
   const base =
     "group relative inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium transition-colors will-change-transform";
   const styles = {
-    primary: "bg-[var(--ink)] text-white hover:bg-[var(--ink)]/90",
+    primary: "bg-[#03040a] text-white hover:bg-[#151827]",
     dark: "bg-[#333da7] text-white hover:bg-[#2d3594]",
     ghost: "ring-hairline text-[var(--ink)] hover:bg-[var(--surface)]",
   }[variant];
@@ -343,7 +343,7 @@ function GoodsNavLogo({
 
   return (
     <a href="/" className="flex items-center gap-2" aria-label={t("brand.home")}>
-      <BrandMark />
+      <BrandMark framed={false} />
       <span
         className={`text-[15px] font-semibold tracking-[-0.01em] ${
           inverted ? "text-white" : forceDarkText ? "text-[#03040a]" : "text-[var(--ink)]"
@@ -406,7 +406,7 @@ function PreferenceControls({
             ? "bg-[#eef1fb]"
             : elevated
               ? "bg-[var(--surface)]"
-              : "bg-white/[0.06] ring-1 ring-white/10"
+              : "bg-white/[0.06]"
         }`}
         aria-label={t("theme.label")}
       >
@@ -485,13 +485,7 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
       className={`fixed inset-x-0 top-0 z-50 py-2 transition-[padding] duration-200`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
-        <div
-          className={`flex items-center rounded-full px-2 py-2 backdrop-blur transition-[background,border-color,box-shadow] duration-200 ${
-            elevated
-              ? "border border-[var(--hairline)] bg-white/85 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.14)]"
-              : "border border-white/10 bg-white/[0.03] shadow-none"
-          }`}
-        >
+        <div className="flex items-center rounded-full px-2 py-2">
           <div className="px-2">
             <GoodsNavLogo inverted={!elevated} forceDarkText={forceDarkText} />
           </div>
@@ -499,11 +493,7 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
 
         <nav
           aria-label={t("nav.primary")}
-          className={`hidden items-center rounded-full px-2 py-2 backdrop-blur transition-[background,border-color,box-shadow] duration-200 lg:flex ${
-            elevated
-              ? "border border-[var(--hairline)] bg-white/85 shadow-[0_8px_30px_-16px_rgba(0,0,0,0.14)]"
-              : "border border-white/10 bg-white/[0.03] shadow-none"
-          }`}
+          className="hidden items-center rounded-full px-2 py-2 lg:flex"
         >
           {NAV_ITEMS.map((item) => (
             <a
@@ -523,13 +513,7 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
           ))}
         </nav>
 
-        <div
-          className={`flex items-center gap-2 rounded-full p-2 backdrop-blur transition-[background,border-color,box-shadow] duration-200 ${
-            elevated
-              ? "border border-[var(--hairline)] bg-white/85 shadow-[0_8px_30px_-16px_rgba(0,0,0,0.14)]"
-              : "border border-white/10 bg-white/[0.03] shadow-none"
-          }`}
-        >
+        <div className="flex items-center gap-2 rounded-full p-2">
           <a
             href="/contact"
             onClick={(event) => handleNavClick(event, "/contact")}
@@ -551,12 +535,12 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
             aria-label={open ? t("nav.closeMenu") : t("nav.openMenu")}
             aria-expanded={open}
             onClick={() => setOpen((value) => !value)}
-            className={`grid h-11 w-11 place-items-center rounded-full border transition duration-200 hover:border-primary hover:text-primary active:scale-[0.97] lg:hidden ${
+            className={`grid h-11 w-11 place-items-center rounded-full transition duration-200 hover:text-primary active:scale-[0.97] lg:hidden ${
               forceDarkText
-                ? "border-black/10 text-[#03040a]"
+                ? "bg-black/[0.04] text-[#03040a]"
                 : elevated
-                  ? "border-[var(--hairline)] text-[var(--ink)]"
-                  : "border-white/12 text-white"
+                  ? "bg-[var(--surface)] text-[var(--ink)]"
+                  : "bg-white/[0.06] text-white"
             }`}
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -573,7 +557,7 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
             transition={{ duration: 0.22, ease }}
             className="mx-auto mt-3 max-w-7xl px-4 sm:px-6 lg:hidden"
           >
-            <div className="rounded-2xl border border-[var(--hairline)] bg-[var(--background)] p-2 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.18)]">
+            <div className="rounded-2xl bg-[var(--background)] p-2 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.18)]">
               {NAV_ITEMS.map((item) => (
                 <a
                   key={item.href}
@@ -584,7 +568,7 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
                   {t(item.key)}
                 </a>
               ))}
-              <div className="mt-2 border-t border-[var(--hairline)] px-2 pt-2 md:hidden">
+              <div className="mt-2 px-2 pt-2 md:hidden">
                 <PreferenceControls elevated />
               </div>
             </div>
@@ -970,7 +954,7 @@ function About() {
               ].map((t) => (
                 <span
                   key={t}
-                  className="group inline-flex cursor-default items-center gap-1.5 rounded-full bg-[var(--surface)] px-3 py-1.5 text-[12px] ring-hairline transition hover:bg-[var(--ink)] hover:text-white"
+                  className="group inline-flex cursor-default items-center gap-1.5 rounded-full bg-[var(--surface)] px-3 py-1.5 text-[12px] ring-hairline transition hover:bg-[#03040a] hover:text-white"
                 >
                   <span className="h-1 w-1 rounded-full bg-primary transition group-hover:bg-white" />{" "}
                   {t}
@@ -1035,7 +1019,7 @@ function Services() {
   const { t } = useI18n();
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="services" data-scroll-stop className="scroll-stop bg-[var(--ink)] text-white">
+    <section id="services" data-scroll-stop className="scroll-stop bg-[#03040a] text-white">
       <div className="mx-auto max-w-7xl px-6 py-28 md:py-40">
         <div className="mb-16 flex flex-wrap items-end justify-between gap-6">
           <div>
@@ -1349,7 +1333,7 @@ function PlatformContent({ k }: { k: PlatformKey }) {
         </div>
 
         <div className="mt-auto pt-6">
-          <div className="rounded-lg bg-[var(--ink)] p-4 text-white">
+          <div className="rounded-lg bg-[#03040a] p-4 text-white">
             <div className="text-[11px] font-medium text-white/50">
               {t("home.platform.currentFocus")}
             </div>
@@ -1417,7 +1401,7 @@ function PlatformContent({ k }: { k: PlatformKey }) {
           ))}
         </div>
 
-        <div className="mt-5 overflow-hidden rounded-lg bg-[var(--ink)] p-3 text-white">
+        <div className="mt-5 overflow-hidden rounded-lg bg-[#03040a] p-3 text-white">
           <div className="grid gap-2 text-[11px] sm:grid-cols-3">
             {handoff.map(([label, value]) => (
               <div
@@ -1474,7 +1458,7 @@ function Platform() {
                     <motion.span
                       layoutId="ptab"
                       transition={{ duration: 0.5, ease }}
-                      className="absolute inset-0 -z-0 rounded-full bg-[var(--ink)]"
+                      className="absolute inset-0 -z-0 rounded-full bg-[#03040a]"
                     />
                   )}
                   <span className="relative z-10 flex items-center gap-2">
@@ -1638,7 +1622,7 @@ function ComparisonAction({
   children: ReactNode;
 }) {
   const isGoods = variant === "goods";
-  const className = `inline-flex w-fit items-center gap-3 rounded-xl bg-[var(--ink)] py-2 pl-2 pr-4 text-[14px] font-medium text-white shadow-[0_18px_50px_-28px_rgba(0,0,0,0.8)] transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] md:text-base ${
+  const className = `inline-flex w-fit items-center gap-3 rounded-xl bg-[#03040a] py-2 pl-2 pr-4 text-[14px] font-medium text-white shadow-[0_18px_50px_-28px_rgba(0,0,0,0.8)] transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] md:text-base ${
     isGoods ? "hover:-translate-y-0.5 active:scale-[0.98]" : "pointer-events-none opacity-55"
   }`;
   const iconClass = `grid h-9 w-9 place-items-center rounded-lg ${
@@ -1930,7 +1914,7 @@ function ProjectSnapshot({ project }: { project: (typeof projects)[number] }) {
         ))}
       </div>
 
-      <div className="mt-4 rounded-lg bg-[var(--ink)] p-3 text-white">
+      <div className="mt-4 rounded-lg bg-[#03040a] p-3 text-white">
         <div className="flex items-center justify-between text-[10px] text-white/55">
           <span>{project.action}</span>
           <span>{t("home.projects.liveWorkflow")}</span>
@@ -2063,7 +2047,7 @@ function Tech() {
   const { t } = useI18n();
 
   return (
-    <section id="tech" data-scroll-stop className="scroll-stop bg-[var(--ink)] text-white">
+    <section id="tech" data-scroll-stop className="scroll-stop bg-[#03040a] text-white">
       <div className="mx-auto max-w-7xl px-6 py-28 md:py-36">
         <div className="mb-14 max-w-3xl">
           <Eyebrow light>{t("home.tech.eyebrow")}</Eyebrow>
@@ -2082,7 +2066,7 @@ function Tech() {
             <Reveal
               key={t}
               delay={i * 0.04}
-              className="group relative bg-[var(--ink)] p-8 transition hover:bg-white/[0.04]"
+              className="group relative bg-[#03040a] p-8 transition hover:bg-white/[0.04]"
             >
               <div className="text-[11px] text-white/65">
                 0{(i + 1).toString().padStart(2, "0")}
@@ -2243,7 +2227,7 @@ function Testimonials() {
                 "{localizedQuotes[i].q}"
               </blockquote>
               <figcaption className="mt-8 flex items-center gap-3">
-                <span className="grid h-10 w-10 place-items-center rounded-full bg-[var(--ink)] text-white text-[12px] font-semibold">
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-[#03040a] text-white text-[12px] font-semibold">
                   {localizedQuotes[i].a
                     .split(" ")
                     .map((n) => n[0])
@@ -2271,7 +2255,7 @@ function Testimonials() {
               className="grid h-11 w-11 place-items-center rounded-full transition-colors hover:bg-black/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
               <span
-                className={`h-1 rounded-full transition-all ${n === i ? "w-8 bg-[var(--ink)]" : "w-4 bg-[var(--muted-foreground)]"}`}
+                className={`h-1 rounded-full transition-all ${n === i ? "w-8 bg-[#03040a]" : "w-4 bg-[var(--muted-foreground)]"}`}
               />
             </button>
           ))}
@@ -2424,7 +2408,7 @@ export function Footer() {
     <footer
       id="contact"
       data-scroll-stop
-      className="scroll-stop relative overflow-hidden bg-[var(--ink)] text-white"
+      className="scroll-stop relative overflow-hidden bg-[#03040a] text-white"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,color-mix(in_oklch,var(--primary)_30%,transparent),transparent_42%),radial-gradient(ellipse_at_50%_58%,color-mix(in_oklch,var(--primary)_12%,transparent),transparent_48%)]" />
