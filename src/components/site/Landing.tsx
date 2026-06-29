@@ -815,7 +815,7 @@ function Hero() {
               variant="ghost"
               href="/work"
               onIntent={() => trackSiteEvent("home_view_work_click", { location: "hero" })}
-              className="night-panel text-white ring-1 ring-white/20 backdrop-blur-md hover:text-[#dbe1ff]"
+              className="bg-white/[0.06] text-white ring-1 ring-white/[0.18] backdrop-blur-md hover:bg-primary/[0.16] hover:text-[#dbe1ff]"
             >
               {t("home.hero.secondaryCta")}
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -1038,17 +1038,17 @@ function Services() {
           <p className="max-w-md text-[14px] text-white/60">{t("home.services.copy")}</p>
         </div>
 
-        <div className="overflow-hidden rounded-[1.35rem] border border-white/10 bg-white/[0.035] shadow-[0_30px_100px_-76px_rgba(0,0,0,0.75)] backdrop-blur">
+        <div className="divide-y divide-white/10 border-y border-white/10">
           {services.map((s, i) => {
             const isOpen = open === i;
             return (
               <button
                 key={s.titleKey}
                 onClick={() => setOpen(isOpen ? null : i)}
-                className="group flex w-full items-center gap-6 border-b border-white/10 px-5 py-6 text-left transition-[background-color,transform] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] last:border-b-0 hover:bg-white/[0.045] active:scale-[0.995] sm:px-6"
+                className="group flex w-full items-center gap-6 py-6 text-left transition-[background-color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-white/[0.025]"
               >
                 <span className="w-12 text-[12px] tabular-nums text-white/65">0{i + 1}</span>
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white/8 ring-1 ring-white/12 transition group-hover:bg-primary group-hover:ring-primary">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-white/8 ring-1 ring-white/12 transition group-hover:bg-primary/20 group-hover:text-[#dbe1ff] group-hover:ring-primary/35">
                   <s.i className="h-4 w-4" />
                 </span>
                 <span className="min-w-0 flex-1">
@@ -2060,12 +2060,12 @@ function Tech() {
             />
           </h2>
         </div>
-        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/12 shadow-[0_30px_100px_-74px_rgba(0,0,0,0.78)] sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10 sm:grid-cols-3 lg:grid-cols-4">
           {tech.map((t, i) => (
             <Reveal
               key={t}
               delay={i * 0.04}
-              className="night-cell group relative p-8 transition-[background-color,transform] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.99]"
+              className="night-cell group relative p-8 transition-[background-color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]"
             >
               <div className="text-[11px] text-white/65">
                 0{(i + 1).toString().padStart(2, "0")}

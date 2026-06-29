@@ -136,7 +136,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <style
           dangerouslySetInnerHTML={{
             __html:
-              "html,body{background:#fff;color:#000}html.dark,html.dark body{background:#070915;color:#fff}body{margin:0}",
+              "html,body{background:#fff;color:#000}html.dark,html.dark body{background:#000;color:#fff}body{margin:0}",
           }}
         />
         <script dangerouslySetInnerHTML={{ __html: preferenceScript }} />
