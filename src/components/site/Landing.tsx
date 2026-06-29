@@ -442,11 +442,14 @@ function PreferenceControls({
 
 export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
   const { t } = useI18n();
+  const { resolvedTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const lightSurface = surface === "light";
+  const darkSurface = surface === "dark";
   const elevated = scrolled || lightSurface;
   const forceDarkText = elevated && lightSurface;
+  const needsDarkModeContrast = darkSurface && resolvedTheme === "dark";
 
   useEffect(() => {
     let raf = 0;
@@ -482,7 +485,11 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
       initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.9, ease, delay: 0.1 }}
-      className={`fixed inset-x-0 top-0 z-50 py-2 transition-[padding] duration-200`}
+      className={`fixed inset-x-0 top-0 z-50 py-2 transition-[background,padding] duration-200 ${
+        needsDarkModeContrast
+          ? "bg-[linear-gradient(to_bottom,rgba(3,4,10,0.58),rgba(51,61,167,0.16)_48%,rgba(3,4,10,0))]"
+          : ""
+      }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         <div className="flex items-center rounded-full px-2 py-2">
@@ -2488,11 +2495,9 @@ export function Footer() {
 /* ------------------------------------------------------------------ */
 
 export function GoodsLanding() {
-  const { resolvedTheme } = useTheme();
-
   return (
     <div className="bg-[var(--background)] text-[var(--ink)]">
-      <Nav surface={resolvedTheme === "dark" ? "light" : "dark"} />
+      <Nav surface="dark" />
       <main>
         <Hero />
         <Trust />
