@@ -13,6 +13,50 @@
       "status": "generated-local"
     },
     {
+      "slug": "printout-laravel-rest-api",
+      "family": "backend",
+      "banner": "/work-banners/printout-laravel-rest-api.webp",
+      "sourceImage": "/work-images/printoutt.webp",
+      "status": "generated-local"
+    },
+    {
+      "slug": "taggz-ai-event-photography-platform",
+      "family": "specialty",
+      "banner": "/work-banners/taggz-ai-event-photography-platform.webp",
+      "sourceImage": "/work-images/taggz.webp",
+      "status": "generated-local"
+    }
+  ],
+  "banners": [
+    {
+      "slug": "wikifood-commerce-delivery-backend",
+      "family": "commerce",
+      "banner": "/work-banners/wikifood-commerce-delivery-backend.webp",
+      "sourceImage": "/work-images/wikifood.webp",
+      "status": "generated-local"
+    },
+    {
+      "slug": "printout-laravel-rest-api",
+      "family": "backend",
+      "banner": "/work-banners/printout-laravel-rest-api.webp",
+      "sourceImage": "/work-images/printoutt.webp",
+      "status": "generated-local"
+    },
+    {
+      "slug": "taggz-ai-event-photography-platform",
+      "family": "specialty",
+      "banner": "/work-banners/taggz-ai-event-photography-platform.webp",
+      "sourceImage": "/work-images/taggz.webp",
+      "status": "generated-local"
+    },
+    {
+      "slug": "jawad-horse-riding-booking-platform",
+      "family": "mobile",
+      "banner": "/work-banners/jawad-horse-riding-booking-platform.webp",
+      "sourceImage": "/work-images/jawad.webp",
+      "status": "generated-local"
+    },
+    {
       "slug": "elnasser-backend-dashboard",
       "family": "logistics",
       "banner": "/work-banners/elnasser-backend-dashboard.webp",
@@ -20,10 +64,269 @@
       "status": "generated-local"
     },
     {
+      "slug": "alnasser-ecommerce",
+      "family": "commerce",
+      "banner": "/work-banners/alnasser-ecommerce.webp",
+      "sourceImage": "/work-images/alnasser.webp",
+      "status": "generated-local"
+    },
+    {
+      "slug": "igc-influencer-ugc-platform",
+      "family": "commerce",
+      "banner": "/work-banners/igc-influencer-ugc-platform.webp",
+      "sourceImage": "/work-images/igc.webp",
+      "status": "generated-local"
+    },
+    {
+      "slug": "medad-alqemam",
+      "family": "corporate",
+      "banner": "/work-banners/medad-alqemam.webp",
+      "sourceImage": "/work-images/medad.webp",
+      "status": "generated-local"
+    },
+    {
+      "slug": "ar-dish-visuals",
+      "family": "specialty",
+      "banner": "/work-banners/ar-dish-visuals.webp",
+      "sourceImage": "/work-images/ar.webp",
+      "status": "generated-local"
+    },
+    {
+      "slug": "kemedar-real-estate-platform",
+      "family": "corporate",
+      "banner": "/work-banners/kemedar-real-estate-platform.webp",
+      "sourceImage": "/work-images/kemedar.webp",
+      "status": "generated-local"
+    },
+    {
+      "slug": "dental-osrais",
+      "family": "specialty",
+      "banner": "/work-banners/dental-osrais.webp",
+      "sourceImage": "/work-images/dental.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "polrais-marine",
+      "family": "specialty",
+      "banner": "/work-banners/polrais-marine.webp",
+      "sourceImage": "/work-images/polraismarine.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "nourtha-tech-v2",
+      "family": "corporate",
+      "banner": "/work-banners/nourtha-tech-v2.webp",
+      "sourceImage": "/work-images/noutha-techv2.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "nourtha-tech",
+      "family": "corporate",
+      "banner": "/work-banners/nourtha-tech.webp",
+      "sourceImage": "/work-images/noutha-tech.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "fanzvar",
+      "family": "corporate",
+      "banner": "/work-banners/fanzvar.webp",
+      "sourceImage": "/work-images/fanvarl.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "inomhub",
+      "family": "corporate",
+      "banner": "/work-banners/inomhub.webp",
+      "sourceImage": "/work-images/inomhub.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "kenz",
+      "family": "corporate",
+      "banner": "/work-banners/kenz.webp",
+      "sourceImage": "/work-images/thumnail.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "cslf",
+      "family": "corporate",
+      "banner": "/work-banners/cslf.webp",
+      "sourceImage": "/work-images/78.jpeg",
+      "status": "generated-local"
+    },
+    {
+      "slug": "inovent",
+      "family": "corporate",
+      "banner": "/work-banners/inovent.webp",
+      "sourceImage": "/work-images/inovent.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "out-seller-landing-page",
+      "family": "commerce",
+      "banner": "/work-banners/out-seller-landing-page.webp",
+      "sourceImage": "/work-images/landseller.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "inom-techs",
+      "family": "corporate",
+      "banner": "/work-banners/inom-techs.webp",
+      "sourceImage": "/work-images/inom.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "out-seller",
+      "family": "commerce",
+      "banner": "/work-banners/out-seller.webp",
+      "sourceImage": "/work-images/newseller1.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "edu-chain",
+      "family": "specialty",
+      "banner": "/work-banners/edu-chain.webp",
+      "sourceImage": "/work-images/educhain.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "out-seller-2",
+      "family": "commerce",
+      "banner": "/work-banners/out-seller-2.webp",
+      "sourceImage": "/work-images/outseller.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "hunter",
+      "family": "specialty",
+      "banner": "/work-banners/hunter.webp",
+      "sourceImage": "/work-images/hunter.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "gameing",
+      "family": "specialty",
+      "banner": "/work-banners/gameing.webp",
+      "sourceImage": "/work-images/game1.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "spiro",
+      "family": "specialty",
+      "banner": "/work-banners/spiro.webp",
+      "sourceImage": "/work-images/Spiro.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "halaa-bazaar",
+      "family": "commerce",
+      "banner": "/work-banners/halaa-bazaar.webp",
+      "sourceImage": "/work-images/pro6.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "shopwise",
+      "family": "commerce",
+      "banner": "/work-banners/shopwise.webp",
+      "sourceImage": "/work-images/66.jpg",
+      "status": "generated-local"
+    },
+    {
+      "slug": "e-commerce-gamel",
+      "family": "commerce",
+      "banner": "/work-banners/e-commerce-gamel.webp",
+      "sourceImage": "/work-images/gamel1.png",
+      "status": "generated-local"
+    },
+    {
+      "slug": "kids",
+      "family": "commerce",
+      "banner": "/work-banners/kids.webp",
+      "sourceImage": "/work-images/kids.png",
+      "status": "generated-local"
+    },
+    {
       "slug": "behance-sync-gym-app",
       "family": "mobile",
       "banner": "/work-banners/behance-sync-gym-app.webp",
-      "sourceImage": "/work-images/behance/behance-sync-gym-app-01-3fa6e2cc.png",
+      "sourceImage": "",
+      "status": "generated-local"
+    },
+    {
+      "slug": "behance-i-grill",
+      "family": "mobile",
+      "banner": "/work-banners/behance-i-grill.webp",
+      "sourceImage": "",
+      "status": "generated-local"
+    },
+    {
+      "slug": "behance-baqa-app",
+      "family": "mobile",
+      "banner": "/work-banners/behance-baqa-app.webp",
+      "sourceImage": "",
+      "status": "generated-local"
+    },
+    {
+      "slug": "behance-max-hub-e-commerce",
+      "family": "commerce",
+      "banner": "/work-banners/behance-max-hub-e-commerce.webp",
+      "sourceImage": "",
+      "status": "generated-local"
+    },
+    {
+      "slug": "behance-naqlty-app",
+      "family": "logistics",
+      "banner": "/work-banners/behance-naqlty-app.webp",
+      "sourceImage": "",
+      "status": "generated-local"
+    },
+    {
+      "slug": "behance-logistic-platform",
+      "family": "logistics",
+      "banner": "/work-banners/behance-logistic-platform.webp",
+      "sourceImage": "",
+      "status": "generated-local"
+    },
+    {
+      "slug": "behance-e-coomerce",
+      "family": "commerce",
+      "banner": "/work-banners/behance-e-coomerce.webp",
+      "sourceImage": "",
+      "status": "generated-local"
+    },
+    {
+      "slug": "behance-inovent",
+      "family": "corporate",
+      "banner": "/work-banners/behance-inovent.webp",
+      "sourceImage": "",
+      "status": "generated-local"
+    },
+    {
+      "slug": "behance-e-commerce",
+      "family": "commerce",
+      "banner": "/work-banners/behance-e-commerce.webp",
+      "sourceImage": "",
+      "status": "generated-local"
+    },
+    {
+      "slug": "behance-test-system",
+      "family": "dashboard",
+      "banner": "/work-banners/behance-test-system.webp",
+      "sourceImage": "",
+      "status": "generated-local"
+    },
+    {
+      "slug": "behance-tawsila-app",
+      "family": "logistics",
+      "banner": "/work-banners/behance-tawsila-app.webp",
+      "sourceImage": "",
+      "status": "generated-local"
+    },
+    {
+      "slug": "behance-financial-dashboard",
+      "family": "dashboard",
+      "banner": "/work-banners/behance-financial-dashboard.webp",
+      "sourceImage": "",
       "status": "generated-local"
     }
   ]
