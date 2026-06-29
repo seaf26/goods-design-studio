@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "style": "hybrid-cinematic",
+  "dimensions": "16:9",
+  "generator": "local-pillow-fallback",
+  "pikaStatus": "blocked: caller_insufficient_balance",
+  "pilot": [
+    {
+      "slug": "wikifood-commerce-delivery-backend",
+      "family": "commerce",
+      "banner": "/work-banners/wikifood-commerce-delivery-backend.webp",
+      "sourceImage": "/work-images/wikifood.webp",
+      "status": "generated-local"
+    },
+    {
+      "slug": "elnasser-backend-dashboard",
+      "family": "logistics",
+      "banner": "/work-banners/elnasser-backend-dashboard.webp",
+      "sourceImage": "/work-images/elnasserback.webp",
+      "status": "generated-local"
+    },
+    {
+      "slug": "behance-sync-gym-app",
+      "family": "mobile",
+      "banner": "/work-banners/behance-sync-gym-app.webp",
+      "sourceImage": "/work-images/behance/behance-sync-gym-app-01-3fa6e2cc.png",
+      "status": "generated-local"
+    }
+  ]
+}
