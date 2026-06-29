@@ -6,26 +6,24 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-export default defineConfig({
-  nitro: {
-    preset: "vercel",
-    compressPublicAssets: {
-      gzip: true,
-      brotli: true,
-    },
-    routeRules: {
-      "/assets/**": {
-        headers: {
-          "cache-control": "public, max-age=31536000, immutable",
-        },
+const nitroConfig = {
+  preset: "vercel",
+  routeRules: {
+    "/assets/**": {
+      headers: {
+        "cache-control": "public, max-age=31536000, immutable",
       },
-      "/brand/**": {
-        headers: {
-          "cache-control": "public, max-age=31536000, immutable",
-        },
+    },
+    "/brand/**": {
+      headers: {
+        "cache-control": "public, max-age=31536000, immutable",
       },
     },
   },
+};
+
+export default defineConfig({
+  nitro: nitroConfig as never,
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this

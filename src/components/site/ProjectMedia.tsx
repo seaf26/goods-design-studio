@@ -1,6 +1,8 @@
 import { Check, CircuitBoard, Layers3, type LucideIcon } from "lucide-react";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
+import { useI18n } from "@/lib/i18n";
+
 import { BlurText } from "./BlurText";
 import type { WorkItem } from "./workData";
 import {
@@ -20,6 +22,7 @@ function mediaTone(item: WorkItem) {
 }
 
 function SystemPanel({ item, index = 0 }: { item: WorkItem; index?: number }) {
+  const { t } = useI18n();
   const Icon = item.icon as LucideIcon;
   const metricOne = item.stats[0] ?? item.type;
   const metricTwo = item.stack[0] ?? item.scope;
@@ -31,8 +34,10 @@ function SystemPanel({ item, index = 0 }: { item: WorkItem; index?: number }) {
       <div className="absolute -bottom-28 left-[12%] h-[44%] w-[62%] rounded-full bg-[#333da7]/40 blur-3xl" />
       <div className="absolute inset-x-4 top-6 rounded-2xl border border-white/12 bg-black/34 p-3 shadow-[0_24px_80px_-42px_rgba(0,0,0,0.8)] backdrop-blur-md md:inset-x-10 md:top-10 md:p-4">
         <div className="flex items-center justify-between gap-4 text-[10px] font-medium uppercase tracking-[0.16em] text-white/52">
-          <span>TRAFFODATA / System {String(index + 1).padStart(2, "0")}</span>
-          <span>Live model</span>
+          <span>
+            TRAFFODATA / {t("project.stat.system")} {String(index + 1).padStart(2, "0")}
+          </span>
+          <span>{t("project.media.liveModel")}</span>
         </div>
         <div className="mt-4 grid gap-3 md:grid-cols-[0.9fr_1.1fr]">
           <div className="rounded-xl bg-white p-4 text-black">
@@ -56,7 +61,7 @@ function SystemPanel({ item, index = 0 }: { item: WorkItem; index?: number }) {
                 className="rounded-xl border border-white/10 bg-white/[0.08] p-4 text-white backdrop-blur-md"
               >
                 <div className="text-[10px] uppercase tracking-[0.16em] text-white/42">
-                  Signal {metricIndex + 1}
+                  {t("project.media.signal")} {metricIndex + 1}
                 </div>
                 <div className="mt-5 line-clamp-2 font-display text-xl font-semibold leading-[1.02] tracking-[-0.03em]">
                   {value}
@@ -98,12 +103,12 @@ export function ProjectMediaFrame({
 }) {
   return (
     <figure
-      className={`project-media-frame overflow-hidden rounded-2xl bg-white ring-1 ring-[var(--hairline)] ${className}`}
+      className={`project-media-frame overflow-hidden rounded-2xl bg-[var(--card)] ring-1 ring-[var(--hairline)] ${className}`}
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-[#030409] md:aspect-[16/8.6]">
         {children}
       </div>
-      <figcaption className="flex min-h-14 items-center justify-between gap-4 border-t border-[var(--hairline)] bg-white px-4 py-3 md:px-5">
+      <figcaption className="flex min-h-14 items-center justify-between gap-4 border-t border-[var(--hairline)] bg-[var(--card)] px-4 py-3 md:px-5">
         <span className="text-[12px] font-medium text-[var(--muted-foreground)]">{label}</span>
         <span className="line-clamp-1 text-right text-[13px] font-semibold text-[var(--ink)]">
           {caption}
@@ -114,6 +119,7 @@ export function ProjectMediaFrame({
 }
 
 export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: ReactNode }) {
+  const { t } = useI18n();
   const [heroImageIndex, setHeroImageIndex] = useState(0);
   const bannerImage = getWorkBannerImage(item);
   const proofImage = getWorkProofImage(item);
@@ -129,7 +135,7 @@ export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: Re
 
   return (
     <ProjectMediaFrame
-      label="Project banner"
+      label={t("project.media.banner")}
       caption={item.title}
       className="shadow-[0_30px_110px_-72px_rgba(0,0,0,0.75)]"
     >
@@ -170,6 +176,7 @@ export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: Re
 }
 
 export function ProjectGallery({ item }: { item: WorkItem }) {
+  const { t } = useI18n();
   const imageItems = item.images.filter(Boolean).slice(0, 3);
   const needsSystemBanner = imageItems.length < 2;
   const media = needsSystemBanner ? [...imageItems, "system"] : imageItems;
@@ -178,7 +185,9 @@ export function ProjectGallery({ item }: { item: WorkItem }) {
     <div className="grid gap-4">
       {media.map((image, index) => {
         const isSystem = image === "system";
-        const label = isSystem ? "Generated system banner" : `Project image ${index + 1}`;
+        const label = isSystem
+          ? t("project.media.generated")
+          : `${t("project.media.image")} ${index + 1}`;
         return (
           <ProjectMediaFrame
             key={`${image}-${index}`}
@@ -191,7 +200,7 @@ export function ProjectGallery({ item }: { item: WorkItem }) {
             ) : (
               <img
                 src={image}
-                alt={`${item.title} project media ${index + 1}`}
+                alt={`${item.title} ${t("project.media.alt")} ${index + 1}`}
                 className="h-full w-full object-cover"
                 loading="lazy"
               />

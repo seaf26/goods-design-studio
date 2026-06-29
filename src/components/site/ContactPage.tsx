@@ -12,36 +12,38 @@ import {
 import { BlurText } from "./BlurText";
 import { Footer, Nav, Reveal } from "./Landing";
 import { sendContactInquiry } from "@/lib/api/contact.functions";
+import { trackSiteEvent } from "@/lib/siteAnalytics";
+import { useI18n } from "@/lib/i18n";
 
 type ContactErrors = Partial<Record<"name" | "email" | "services" | "message", string>>;
 type SubmissionState = "idle" | "sending" | "sent" | "manual" | "error";
 
 const services = [
-  "ERP platform",
-  "Inventory and warehouse",
-  "POS and commerce",
-  "Accounting workflows",
-  "CRM and AI",
-  "Custom software",
-  "Not sure yet",
+  "contact.service.erp",
+  "contact.service.inventory",
+  "contact.service.pos",
+  "contact.service.accounting",
+  "contact.service.crm",
+  "contact.service.custom",
+  "contact.service.unsure",
 ];
 
 const contactMethods = [
   {
-    label: "Email",
-    value: "hello@traffodata.com",
+    labelKey: "contact.method.email",
+    valueKey: "contact.method.emailValue",
     href: "mailto:hello@traffodata.com",
     icon: Mail,
   },
   {
-    label: "Phone",
-    value: "Schedule by email",
+    labelKey: "contact.method.phone",
+    valueKey: "contact.method.phoneValue",
     href: "mailto:hello@traffodata.com?subject=Call%20request",
     icon: PhoneCall,
   },
   {
-    label: "Region",
-    value: "Dubai operations",
+    labelKey: "contact.method.region",
+    valueKey: "contact.method.regionValue",
     href: "mailto:hello@traffodata.com?subject=Dubai%20operations",
     icon: MapPin,
   },
@@ -52,6 +54,7 @@ function validateEmail(value: string) {
 }
 
 export function ContactPage() {
+  const { locale, t } = useI18n();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
@@ -68,13 +71,15 @@ export function ContactPage() {
   const mailtoHref = useMemo(() => {
     const subject =
       selectedServices.length > 0
-        ? `TRAFFODATA inquiry: ${selectedServices.join(", ")}`
-        : "TRAFFODATA inquiry";
+        ? `${t("contact.mailto.subject")}: ${selectedServices.map((service) => t(service)).join(", ")}`
+        : t("contact.mailto.subject");
     const body = [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      company ? `Company: ${company}` : "",
-      selectedServices.length > 0 ? `Services: ${selectedServices.join(", ")}` : "",
+      `${t("contact.mailto.name")}: ${name}`,
+      `${t("contact.mailto.email")}: ${email}`,
+      company ? `${t("contact.mailto.company")}: ${company}` : "",
+      selectedServices.length > 0
+        ? `${t("contact.mailto.services")}: ${selectedServices.map((service) => t(service)).join(", ")}`
+        : "",
       "",
       message,
     ]
@@ -82,7 +87,7 @@ export function ContactPage() {
       .join("\n");
 
     return `mailto:hello@traffodata.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  }, [company, email, message, name, selectedServices]);
+  }, [company, email, message, name, selectedServices, t]);
 
   const toggleService = (item: string) => {
     setSelectedServices((current) =>
@@ -104,11 +109,11 @@ export function ContactPage() {
     event.preventDefault();
 
     const nextErrors: ContactErrors = {};
-    if (!name.trim()) nextErrors.name = "Add your name so we know who to reply to.";
-    if (!validateEmail(email)) nextErrors.email = "Use a valid work email address.";
-    if (selectedServices.length === 0) nextErrors.services = "Choose at least one area.";
+    if (!name.trim()) nextErrors.name = t("contact.validation.name");
+    if (!validateEmail(email)) nextErrors.email = t("contact.validation.email");
+    if (selectedServices.length === 0) nextErrors.services = t("contact.validation.services");
     if (message.trim().length < 20)
-      nextErrors.message = "Write at least 20 characters about the work.";
+      nextErrors.message = t("contact.validation.message");
 
     setErrors(nextErrors);
     setSubmissionState("idle");
@@ -124,16 +129,21 @@ export function ContactPage() {
     try {
       const result = await sendContactInquiry({
         data: {
+          locale,
           name,
           email,
           company: company.trim() || undefined,
-          services: selectedServices,
+          services: selectedServices.map((service) => t(service)),
           message,
           website,
         },
       });
 
       if (result.ok) {
+        trackSiteEvent("contact_submit_success", {
+          services_count: selectedServices.length,
+          has_company: Boolean(company.trim()),
+        });
         clearForm();
         setSubmissionState("sent");
         return;
@@ -162,11 +172,11 @@ export function ContactPage() {
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full bg-[var(--surface)] px-3 py-1.5 text-[11px] font-medium text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]">
                   <MessageCircle className="h-3.5 w-3.5 text-primary" />
-                  Contact us
+                  {t("contact.hero.eyebrow")}
                 </div>
                 <BlurText
                   as="h1"
-                  text="Bring us the workflow that keeps slowing the business down."
+                  text={t("contact.hero.title")}
                   className="mt-7 max-w-4xl font-display text-[clamp(3.1rem,6.2vw,5.9rem)] font-bold leading-[0.94] tracking-[-0.052em] text-balance"
                 />
               </div>
@@ -175,7 +185,7 @@ export function ContactPage() {
               <div className="lg:pb-2">
                 <BlurText
                   as="p"
-                  text="Tell us what is breaking, what is growing, and what needs to connect. We will map the first useful conversation."
+                  text={t("contact.hero.copy")}
                   delay={0.12}
                   className="max-w-xl text-[16px] leading-[1.68] text-[var(--muted-foreground)] md:text-[18px]"
                 />
@@ -184,18 +194,18 @@ export function ContactPage() {
                     const Icon = method.icon;
                     return (
                       <a
-                        key={method.label}
+                        key={method.labelKey}
                         href={method.href}
-                        className="group rounded-2xl bg-white p-4 ring-1 ring-[var(--hairline)] transition-[transform,box-shadow] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.98]"
+                        className="group rounded-2xl bg-[var(--card)] p-4 ring-1 ring-[var(--hairline)] transition-[transform,box-shadow] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.98]"
                       >
                         <span className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--surface)] text-primary ring-1 ring-[var(--hairline)]">
                           <Icon className="h-4 w-4" />
                         </span>
                         <span className="mt-5 block text-[12px] font-medium text-[var(--muted-foreground)]">
-                          {method.label}
+                          {t(method.labelKey)}
                         </span>
                         <span className="mt-1 block text-[14px] font-semibold text-[var(--ink)]">
-                          {method.value}
+                          {t(method.valueKey)}
                         </span>
                       </a>
                     );
@@ -212,7 +222,7 @@ export function ContactPage() {
               <form
                 noValidate
                 onSubmit={onSubmit}
-                className="rounded-[1.5rem] bg-white p-5 ring-1 ring-[var(--hairline)] sm:p-7 lg:p-8"
+                className="rounded-[1.5rem] bg-[var(--card)] p-5 ring-1 ring-[var(--hairline)] sm:p-7 lg:p-8"
               >
                 {submissionState === "sent" ? (
                   <div
@@ -223,7 +233,7 @@ export function ContactPage() {
                       <Check className="h-3.5 w-3.5" />
                     </span>
                     <span>
-                      Inquiry sent. We will review the workflow and reply with the right next step.
+                      {t("contact.form.sent")}
                     </span>
                   </div>
                 ) : null}
@@ -235,20 +245,20 @@ export function ContactPage() {
                   >
                     <span className="font-semibold">
                       {submissionState === "manual"
-                        ? "Email sending is not configured yet."
-                        : "The message could not be sent."}
+                        ? t("contact.form.manual")
+                        : t("contact.form.error")}
                     </span>{" "}
                     <a
                       href={mailtoHref}
                       className="font-semibold text-primary underline-offset-4 hover:underline"
                     >
-                      Send it by email instead.
+                      {t("contact.form.emailInstead")}
                     </a>
                   </div>
                 ) : null}
 
                 <div aria-hidden="true" className="hidden">
-                  <label htmlFor="contact-website">Website</label>
+                  <label htmlFor="contact-website">{t("contact.form.website")}</label>
                   <input
                     id="contact-website"
                     name="website"
@@ -265,7 +275,7 @@ export function ContactPage() {
                       htmlFor="contact-name"
                       className="block text-[13px] font-semibold text-[var(--ink)]"
                     >
-                      Name
+                      {t("contact.form.name")}
                     </label>
                     <input
                       id="contact-name"
@@ -278,7 +288,7 @@ export function ContactPage() {
                       aria-required="true"
                       aria-invalid={Boolean(errors.name)}
                       aria-describedby={errors.name ? "contact-name-error" : undefined}
-                      className="mt-2 h-12 w-full rounded-xl border border-[var(--hairline)] bg-[var(--surface)] px-4 text-[15px] text-[var(--ink)] outline-none transition-[border-color,box-shadow,background-color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus:border-primary focus:bg-white focus:shadow-[0_0_0_4px_rgba(115,136,223,0.16)]"
+                      className="mt-2 h-12 w-full rounded-xl border border-[var(--hairline)] bg-[var(--surface)] px-4 text-[15px] text-[var(--ink)] outline-none transition-[border-color,box-shadow,background-color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus:border-primary focus:bg-[var(--card)] focus:shadow-[0_0_0_4px_rgba(115,136,223,0.16)]"
                     />
                     {errors.name ? (
                       <p
@@ -295,7 +305,7 @@ export function ContactPage() {
                       htmlFor="contact-email"
                       className="block text-[13px] font-semibold text-[var(--ink)]"
                     >
-                      Work email
+                      {t("contact.form.email")}
                     </label>
                     <input
                       id="contact-email"
@@ -309,7 +319,7 @@ export function ContactPage() {
                       aria-required="true"
                       aria-invalid={Boolean(errors.email)}
                       aria-describedby={errors.email ? "contact-email-error" : undefined}
-                      className="mt-2 h-12 w-full rounded-xl border border-[var(--hairline)] bg-[var(--surface)] px-4 text-[15px] text-[var(--ink)] outline-none transition-[border-color,box-shadow,background-color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus:border-primary focus:bg-white focus:shadow-[0_0_0_4px_rgba(115,136,223,0.16)]"
+                      className="mt-2 h-12 w-full rounded-xl border border-[var(--hairline)] bg-[var(--surface)] px-4 text-[15px] text-[var(--ink)] outline-none transition-[border-color,box-shadow,background-color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus:border-primary focus:bg-[var(--card)] focus:shadow-[0_0_0_4px_rgba(115,136,223,0.16)]"
                     />
                     {errors.email ? (
                       <p
@@ -326,7 +336,7 @@ export function ContactPage() {
                       htmlFor="contact-company"
                       className="block text-[13px] font-semibold text-[var(--ink)]"
                     >
-                      Company
+                      {t("contact.form.company")}
                     </label>
                     <input
                       id="contact-company"
@@ -334,20 +344,20 @@ export function ContactPage() {
                       value={company}
                       onChange={(event) => setCompany(event.target.value)}
                       autoComplete="organization"
-                      className="mt-2 h-12 w-full rounded-xl border border-[var(--hairline)] bg-[var(--surface)] px-4 text-[15px] text-[var(--ink)] outline-none transition-[border-color,box-shadow,background-color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus:border-primary focus:bg-white focus:shadow-[0_0_0_4px_rgba(115,136,223,0.16)]"
+                      className="mt-2 h-12 w-full rounded-xl border border-[var(--hairline)] bg-[var(--surface)] px-4 text-[15px] text-[var(--ink)] outline-none transition-[border-color,box-shadow,background-color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus:border-primary focus:bg-[var(--card)] focus:shadow-[0_0_0_4px_rgba(115,136,223,0.16)]"
                     />
                   </div>
                 </div>
 
                 <fieldset className="mt-6">
                   <legend className="text-[13px] font-semibold text-[var(--ink)]">
-                    What do you need help with?
+                    {t("contact.form.services")}
                   </legend>
                   <p
                     id="contact-services-help"
                     className="mt-1 text-[12px] text-[var(--muted-foreground)]"
                   >
-                    Choose one or more. We will route the conversation.
+                    {t("contact.form.servicesHelp")}
                   </p>
                   <div
                     ref={servicesRef}
@@ -376,7 +386,7 @@ export function ContactPage() {
                             onChange={() => toggleService(item)}
                             className="h-4 w-4 accent-[#333da7]"
                           />
-                          {item}
+                          {t(item)}
                         </label>
                       );
                     })}
@@ -396,7 +406,7 @@ export function ContactPage() {
                     htmlFor="contact-message"
                     className="block text-[13px] font-semibold text-[var(--ink)]"
                   >
-                    What should we understand first?
+                    {t("contact.form.message")}
                   </label>
                   <textarea
                     id="contact-message"
@@ -411,7 +421,7 @@ export function ContactPage() {
                       errors.message ? "contact-message-error" : "contact-message-help"
                     }
                     rows={7}
-                    className="mt-2 w-full resize-y rounded-xl border border-[var(--hairline)] bg-[var(--surface)] px-4 py-3 text-[15px] leading-[1.55] text-[var(--ink)] outline-none transition-[border-color,box-shadow,background-color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus:border-primary focus:bg-white focus:shadow-[0_0_0_4px_rgba(115,136,223,0.16)]"
+                    className="mt-2 w-full resize-y rounded-xl border border-[var(--hairline)] bg-[var(--surface)] px-4 py-3 text-[15px] leading-[1.55] text-[var(--ink)] outline-none transition-[border-color,box-shadow,background-color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus:border-primary focus:bg-[var(--card)] focus:shadow-[0_0_0_4px_rgba(115,136,223,0.16)]"
                   />
                   {errors.message ? (
                     <p
@@ -425,8 +435,7 @@ export function ContactPage() {
                       id="contact-message-help"
                       className="mt-2 text-[12px] text-[var(--muted-foreground)]"
                     >
-                      Share the workflow, deadline, systems involved, and what a useful first call
-                      should answer.
+                      {t("contact.form.messageHelp")}
                     </p>
                   )}
                 </div>
@@ -437,7 +446,7 @@ export function ContactPage() {
                   aria-disabled={submissionState === "sending"}
                   className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-[var(--ink)] px-6 py-3 text-[14px] font-semibold text-white transition-[transform,background-color,opacity] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-[#333da7] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  {submissionState === "sending" ? "Sending inquiry" : "Send inquiry"}
+                  {submissionState === "sending" ? t("contact.form.sending") : t("contact.form.send")}
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </form>
@@ -455,14 +464,14 @@ export function ContactPage() {
                     <div>
                       <BlurText
                         as="h2"
-                        text="What happens next."
+                        text={t("contact.next.title")}
                         className="font-display text-[clamp(2rem,4vw,4.1rem)] font-bold leading-[0.96] tracking-[-0.05em] text-balance"
                       />
                       <div className="mt-7 divide-y divide-white/12">
                         {[
-                          "We review the operational context and reply with the right next step.",
-                          "If there is fit, we map systems, users, risks, and the first release boundary.",
-                          "You leave the first conversation with a clearer path, not a generic proposal.",
+                          t("contact.next.one"),
+                          t("contact.next.two"),
+                          t("contact.next.three"),
                         ].map((item) => (
                           <BlurText
                             key={item}

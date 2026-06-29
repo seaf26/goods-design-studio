@@ -50,6 +50,7 @@ export type WorkItem = {
   bannerFamily?: WorkBannerFamily;
   images: string[];
   stack: string[];
+  sections?: WorkSection[];
   detailSections: WorkSection[];
 };
 

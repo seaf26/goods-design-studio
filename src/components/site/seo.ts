@@ -1,10 +1,12 @@
+import { DEFAULT_LOCALE, translations, type Locale } from "@/lib/i18n";
+
 import type { WorkItem } from "./workData";
+import type { DetailedHTMLProps, LinkHTMLAttributes, MetaHTMLAttributes, ScriptHTMLAttributes } from "react";
 
 export const SITE_URL = "https://traffodata.com";
 export const SITE_NAME = "TRAFFODATA Software";
-export const DEFAULT_TITLE = "TRAFFODATA - The Operating System for Modern Enterprises";
-export const DEFAULT_DESCRIPTION =
-  "Premium ERP, inventory, warehouse, POS, accounting, CRM and AI software engineered for modern enterprise operations.";
+export const DEFAULT_TITLE = translations[DEFAULT_LOCALE]["seo.defaultTitle"];
+export const DEFAULT_DESCRIPTION = translations[DEFAULT_LOCALE]["seo.defaultDescription"];
 
 export const BRAND_ASSETS = {
   mark: "/brand/traffodata-logo-mark.png",
@@ -20,6 +22,12 @@ export const BRAND_ASSETS = {
 
 type JsonLd = Record<string, unknown>;
 
+type SeoHead = {
+  meta: DetailedHTMLProps<MetaHTMLAttributes<HTMLMetaElement>, HTMLMetaElement>[];
+  links: DetailedHTMLProps<LinkHTMLAttributes<HTMLLinkElement>, HTMLLinkElement>[];
+  scripts: DetailedHTMLProps<ScriptHTMLAttributes<HTMLScriptElement>, HTMLScriptElement>[];
+};
+
 type SeoOptions = {
   title: string;
   description: string;
@@ -28,7 +36,12 @@ type SeoOptions = {
   image?: string;
   imageAlt?: string;
   jsonLd?: JsonLd[];
+  locale?: Locale;
 };
+
+function seoCopy(key: string, locale: Locale = DEFAULT_LOCALE) {
+  return translations[locale][key] ?? translations[DEFAULT_LOCALE][key] ?? key;
+}
 
 export function absoluteUrl(path = "/") {
   if (/^https?:\/\//.test(path)) {
@@ -69,9 +82,9 @@ export function seoHead({
   path = "/",
   type = "website",
   image = getCairoOgImage(),
-  imageAlt = "TRAFFODATA Software Solutions logo",
+  imageAlt = seoCopy("seo.imageAlt.logo"),
   jsonLd = [],
-}: SeoOptions) {
+}: SeoOptions): SeoHead {
   const canonical = absoluteUrl(path);
   const socialImage = assetUrl(image);
 
@@ -96,9 +109,12 @@ export function seoHead({
       { name: "twitter:description", content: description },
       { name: "twitter:image", content: socialImage },
       { name: "twitter:image:alt", content: imageAlt },
-      ...jsonLd.map((data) => ({ "script:ld+json": data })),
     ],
     links: [{ rel: "canonical", href: canonical }],
+    scripts: jsonLd.map((data) => ({
+      type: "application/ld+json",
+      children: JSON.stringify(data),
+    })),
   };
 }
 
@@ -109,8 +125,7 @@ export function organizationJsonLd(): JsonLd {
     name: "TRAFFODATA",
     url: SITE_URL,
     logo: assetUrl(BRAND_ASSETS.mark),
-    description:
-      "TRAFFODATA builds ERP, inventory, warehouse, POS, accounting, CRM and AI software for modern enterprise operations.",
+    description: seoCopy("seo.organization.description"),
     sameAs: [SITE_URL],
   };
 }
@@ -131,27 +146,63 @@ export function websiteJsonLd(): JsonLd {
 
 export function homeSeo() {
   return seoHead({
-    title: DEFAULT_TITLE,
-    description: DEFAULT_DESCRIPTION,
+    title: seoCopy("seo.defaultTitle"),
+    description: seoCopy("seo.defaultDescription"),
     path: "/",
-    imageAlt: "TRAFFODATA enterprise operations software preview",
+    imageAlt: seoCopy("seo.imageAlt.home"),
   });
 }
 
-export function workSeo() {
+function workCollectionJsonLd(items: WorkItem[], locale: Locale = DEFAULT_LOCALE): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: seoCopy("seo.work.collectionName", locale),
+    description: seoCopy("seo.work.collectionDescription", locale),
+    url: absoluteUrl("/work"),
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: items.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: absoluteUrl(`/work/${item.slug}`),
+        name: item.title,
+        description: item.summary || item.description,
+      })),
+    },
+  };
+}
+
+export function workSeo(items: WorkItem[] = [], locale: Locale = DEFAULT_LOCALE) {
   return seoHead({
-    title: "Work - TRAFFODATA Software",
-    description:
-      "Explore TRAFFODATA case studies across backend platforms, websites, mobile apps, Figma designs, dashboards, ecommerce systems and operational software.",
+    title: seoCopy("seo.work.title", locale),
+    description: seoCopy("seo.work.description", locale),
     path: "/work",
+    jsonLd: items.length > 0 ? [workCollectionJsonLd(items, locale)] : [],
   });
 }
 
-export function projectSeo(project?: WorkItem | null) {
+export function blogSeo(locale: Locale = DEFAULT_LOCALE) {
+  return seoHead({
+    title: seoCopy("seo.blog.title", locale),
+    description: seoCopy("seo.blog.description", locale),
+    path: "/blog",
+  });
+}
+
+export function contactSeo(locale: Locale = DEFAULT_LOCALE) {
+  return seoHead({
+    title: seoCopy("seo.contact.title", locale),
+    description: seoCopy("seo.contact.description", locale),
+    path: "/contact",
+  });
+}
+
+export function projectSeo(project?: WorkItem | null, locale: Locale = DEFAULT_LOCALE) {
   if (!project) {
     return seoHead({
-      title: "Project - TRAFFODATA Software",
-      description: "Project details for selected operational software work by TRAFFODATA.",
+      title: seoCopy("seo.project.title", locale),
+      description: seoCopy("seo.project.description", locale),
       path: "/work",
       type: "article",
     });
@@ -168,7 +219,7 @@ export function projectSeo(project?: WorkItem | null) {
     path,
     type: "article",
     image,
-    imageAlt: `${project.title} project preview`,
+    imageAlt: `${project.title} ${seoCopy("seo.project.imageAltSuffix", locale)}`,
     jsonLd: [creativeWorkJsonLd(project, path, image)],
   });
 }

@@ -16,6 +16,7 @@ import {
   useMotionValue,
   useSpring,
   useInView,
+  useReducedMotion,
 } from "motion/react";
 import {
   ArrowRight,
@@ -47,10 +48,17 @@ import {
   Send,
   Handshake,
   PhoneCall,
+  Sun,
+  Moon,
+  Monitor,
+  Languages,
   type LucideIcon,
 } from "lucide-react";
 import { BlurText } from "./BlurText";
 import { getHeroLiquidSettings, resolveHeroQuality, type HeroQuality } from "./heroPerformance";
+import { trackSiteEvent } from "@/lib/siteAnalytics";
+import { localeLabels, useI18n } from "@/lib/i18n";
+import { useTheme, type ThemeMode } from "@/lib/theme";
 
 /* ------------------------------------------------------------------ */
 /* Primitives                                                          */
@@ -110,6 +118,52 @@ export function SplitText({
   );
 }
 
+function HeroHeadline() {
+  const { t } = useI18n();
+  const lineClass =
+    "block text-center font-display text-[clamp(2.55rem,6.8vw,6.2rem)] font-bold leading-[0.96] tracking-[-0.04em] [text-shadow:0_1px_26px_rgba(3,4,10,0.28)]";
+
+  return (
+    <h1 className="m-0" aria-label={t("home.hero.title")}>
+      <BlurText
+        as="span"
+        text={t("home.hero.titleLine1")}
+        aria-hidden="true"
+        paintStrategy="lcp"
+        duration={0.54}
+        stagger={0.022}
+        className={`${lineClass} text-white`}
+      />
+      <BlurText
+        as="span"
+        text={t("home.hero.titleLine2")}
+        aria-hidden="true"
+        delay={0.05}
+        paintStrategy="lcp"
+        duration={0.54}
+        stagger={0.022}
+        className={`${lineClass} text-white/76 [text-shadow:0_1px_26px_rgba(3,4,10,0.22)]`}
+      />
+    </h1>
+  );
+}
+
+function HeroLead() {
+  const shouldReduceMotion = useReducedMotion();
+  const { t } = useI18n();
+
+  return (
+    <motion.p
+      initial={shouldReduceMotion ? false : { y: 8 }}
+      animate={{ y: 0 }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.5, delay: 0.08, ease }}
+      className="mx-auto mt-7 max-w-2xl text-center text-[15px] leading-relaxed text-white/78 [text-shadow:0_1px_18px_rgba(3,4,10,0.2)] md:text-base"
+    >
+      {t("home.hero.lead")}
+    </motion.p>
+  );
+}
+
 export function Eyebrow({ children, light = false }: { children: ReactNode; light?: boolean }) {
   return (
     <div
@@ -149,16 +203,24 @@ function handleSectionLinkClick(event: MouseEvent<HTMLAnchorElement>, href: stri
   window.history.pushState(null, "", href);
 }
 
+function trackHomeWorkClick(location: string) {
+  if (typeof window === "undefined" || window.location.pathname !== "/") return;
+
+  trackSiteEvent("home_view_work_click", { location });
+}
+
 function MagneticButton({
   children,
   href = "#",
   variant = "primary",
   className = "",
+  onIntent,
 }: {
   children: ReactNode;
   href?: string;
   variant?: "primary" | "ghost" | "dark";
   className?: string;
+  onIntent?: () => void;
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
   const x = useMotionValue(0);
@@ -177,7 +239,10 @@ function MagneticButton({
       ref={ref}
       href={href}
       style={{ x: sx, y: sy }}
-      onClick={(event) => handleSectionLinkClick(event, href)}
+      onClick={(event) => {
+        onIntent?.();
+        handleSectionLinkClick(event, href);
+      }}
       onMouseMove={(e) => {
         const r = ref.current!.getBoundingClientRect();
         x.set((e.clientX - r.left - r.width / 2) * 0.25);
@@ -233,9 +298,9 @@ function Counter({
 /* ------------------------------------------------------------------ */
 
 const NAV_ITEMS = [
-  { label: "Work", href: "/work" },
-  { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "/contact" },
+  { key: "nav.work", href: "/work" },
+  { key: "nav.blog", href: "/blog" },
+  { key: "nav.contact", href: "/contact" },
 ];
 
 const BRAND_NAME = "TRAFFODATA";
@@ -267,29 +332,121 @@ function BrandMark({ size = "sm", framed = true }: { size?: "sm" | "md"; framed?
   );
 }
 
-function GoodsNavLogo({ inverted = false }: { inverted?: boolean }) {
+function GoodsNavLogo({
+  inverted = false,
+  forceDarkText = false,
+}: {
+  inverted?: boolean;
+  forceDarkText?: boolean;
+}) {
+  const { t } = useI18n();
+
   return (
-    <a href="/" className="flex items-center gap-2" aria-label={`${BRAND_NAME} home`}>
+    <a href="/" className="flex items-center gap-2" aria-label={t("brand.home")}>
       <BrandMark />
       <span
-        className={`text-[15px] font-semibold tracking-[-0.01em] ${inverted ? "text-white" : "text-[var(--ink)]"}`}
+        className={`text-[15px] font-semibold tracking-[-0.01em] ${
+          inverted ? "text-white" : forceDarkText ? "text-[#03040a]" : "text-[var(--ink)]"
+        }`}
       >
-        {BRAND_NAME}{" "}
+        {t("brand.name")}{" "}
         <span
-          className={`font-normal ${inverted ? "text-white/62" : "text-[var(--muted-foreground)]"}`}
+          className={`font-normal ${
+            inverted
+              ? "text-white/62"
+              : forceDarkText
+                ? "text-[#626678]"
+                : "text-[var(--muted-foreground)]"
+          }`}
         >
-          Software
+          {t("brand.segment")}
         </span>
       </span>
     </a>
   );
 }
 
+function PreferenceControls({
+  elevated,
+  forceDarkText = false,
+}: {
+  elevated: boolean;
+  forceDarkText?: boolean;
+}) {
+  const { locale, t, toggleLocale } = useI18n();
+  const { themeMode, setThemeMode } = useTheme();
+  const nextLocale = locale === "en" ? "ar" : "en";
+  const themeOptions: { mode: ThemeMode; label: string; icon: LucideIcon }[] = [
+    { mode: "system", label: t("theme.system"), icon: Monitor },
+    { mode: "light", label: t("theme.light"), icon: Sun },
+    { mode: "dark", label: t("theme.dark"), icon: Moon },
+  ];
+
+  return (
+    <div className="flex items-center gap-1">
+      <button
+        type="button"
+        aria-label={`${t("language.switchTo")}: ${localeLabels[nextLocale]}`}
+        title={`${t("language.label")}: ${localeLabels[locale]}`}
+        onClick={toggleLocale}
+        className={`inline-flex h-10 items-center gap-1.5 rounded-full px-3 text-xs font-semibold transition duration-200 active:scale-[0.97] ${
+          forceDarkText
+            ? "text-[#303342] hover:bg-black/[0.05] hover:text-[#03040a]"
+            : elevated
+            ? "text-[var(--ink)] hover:bg-[var(--surface)]"
+            : "text-white/82 hover:bg-white/10 hover:text-white"
+        }`}
+      >
+        <Languages className="h-3.5 w-3.5" />
+        {locale.toUpperCase()}
+      </button>
+      <div
+        className={`flex rounded-full p-1 ${
+          forceDarkText
+            ? "bg-[#eef1fb]"
+            : elevated
+              ? "bg-[var(--surface)]"
+              : "bg-white/[0.06] ring-1 ring-white/10"
+        }`}
+        aria-label={t("theme.label")}
+      >
+        {themeOptions.map((option) => {
+          const Icon = option.icon;
+          const selected = themeMode === option.mode;
+          return (
+            <button
+              key={option.mode}
+              type="button"
+              aria-label={`${t("theme.switchTo")}: ${option.label}`}
+              title={option.label}
+              aria-pressed={selected}
+              onClick={() => setThemeMode(option.mode)}
+              className={`grid h-8 w-8 place-items-center rounded-full transition duration-200 active:scale-[0.94] ${
+                selected
+                  ? "bg-primary text-white"
+                  : forceDarkText
+                    ? "text-[#626678] hover:text-[#03040a]"
+                    : elevated
+                    ? "text-[var(--muted-foreground)] hover:text-[var(--ink)]"
+                    : "text-white/70 hover:text-white"
+              }`}
+            >
+              <Icon className="h-3.5 w-3.5" />
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
+  const { t } = useI18n();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const lightSurface = surface === "light";
   const elevated = scrolled || lightSurface;
+  const forceDarkText = elevated && lightSurface;
 
   useEffect(() => {
     let raf = 0;
@@ -308,9 +465,13 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
     };
   }, []);
 
-  const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, href: string, location = "nav") => {
     if (href.startsWith("#")) {
       handleSectionLinkClick(event, href);
+    }
+
+    if (href === "/work") {
+      trackHomeWorkClick(location);
     }
 
     setOpen(false);
@@ -321,7 +482,7 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
       initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.9, ease, delay: 0.1 }}
-      className={`fixed inset-x-0 top-0 z-50 transition-[padding] duration-200 ${scrolled ? "py-3" : "py-5"}`}
+      className={`fixed inset-x-0 top-0 z-50 py-2 transition-[padding] duration-200`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         <div
@@ -332,12 +493,12 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
           }`}
         >
           <div className="px-2">
-            <GoodsNavLogo inverted={!elevated} />
+            <GoodsNavLogo inverted={!elevated} forceDarkText={forceDarkText} />
           </div>
         </div>
 
         <nav
-          aria-label="Primary"
+          aria-label={t("nav.primary")}
           className={`hidden items-center rounded-full px-2 py-2 backdrop-blur transition-[background,border-color,box-shadow] duration-200 lg:flex ${
             elevated
               ? "border border-[var(--hairline)] bg-white/85 shadow-[0_8px_30px_-16px_rgba(0,0,0,0.14)]"
@@ -348,14 +509,16 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
             <a
               key={item.href}
               href={item.href}
-              onClick={(event) => handleNavClick(event, item.href)}
+              onClick={(event) => handleNavClick(event, item.href, "nav")}
               className={`relative rounded-full px-4 py-2 text-sm transition-colors duration-200 ${
-                elevated
+                forceDarkText
+                  ? "text-[#303342] hover:bg-black/[0.05] hover:text-[#03040a]"
+                  : elevated
                   ? "text-[var(--ink)]/80 hover:bg-[var(--surface)] hover:text-[var(--ink)]"
                   : "text-white/82 hover:bg-white/10 hover:text-white"
               }`}
             >
-              {item.label}
+              {t(item.key)}
             </a>
           ))}
         </nav>
@@ -372,20 +535,28 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
             onClick={(event) => handleNavClick(event, "/contact")}
             className="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-white px-4 py-2 text-sm font-medium text-[#03040a] transition duration-200 hover:bg-primary hover:text-white active:scale-[0.97]"
           >
-            <span className="sm:hidden">Start</span>
-            <span className="hidden sm:inline">Start a project</span>
+            <span className="sm:hidden">{t("nav.start")}</span>
+            <span className="hidden sm:inline">{t("nav.startProject")}</span>
             <span className="grid h-5 w-5 place-items-center rounded-full bg-white/15">
               <ArrowUpRight className="h-3 w-3" />
             </span>
           </a>
 
+          <div className="hidden md:block">
+            <PreferenceControls elevated={elevated} forceDarkText={forceDarkText} />
+          </div>
+
           <button
             type="button"
-            aria-label={open ? "Close menu" : "Open menu"}
+            aria-label={open ? t("nav.closeMenu") : t("nav.openMenu")}
             aria-expanded={open}
             onClick={() => setOpen((value) => !value)}
             className={`grid h-11 w-11 place-items-center rounded-full border transition duration-200 hover:border-primary hover:text-primary active:scale-[0.97] lg:hidden ${
-              elevated ? "border-[var(--hairline)] text-[var(--ink)]" : "border-white/12 text-white"
+              forceDarkText
+                ? "border-black/10 text-[#03040a]"
+                : elevated
+                  ? "border-[var(--hairline)] text-[var(--ink)]"
+                  : "border-white/12 text-white"
             }`}
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -402,17 +573,20 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
             transition={{ duration: 0.22, ease }}
             className="mx-auto mt-3 max-w-7xl px-4 sm:px-6 lg:hidden"
           >
-            <div className="rounded-2xl border border-[var(--hairline)] bg-white p-2 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.18)]">
+            <div className="rounded-2xl border border-[var(--hairline)] bg-[var(--background)] p-2 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.18)]">
               {NAV_ITEMS.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  onClick={(event) => handleNavClick(event, item.href)}
+                  onClick={(event) => handleNavClick(event, item.href, "mobile_nav")}
                   className="block rounded-xl px-4 py-3 text-[15px] text-[var(--ink)] transition-colors hover:bg-[var(--surface)] hover:text-primary"
                 >
-                  {item.label}
+                  {t(item.key)}
                 </a>
               ))}
+              <div className="mt-2 border-t border-[var(--hairline)] px-2 pt-2 md:hidden">
+                <PreferenceControls elevated />
+              </div>
             </div>
           </motion.div>
         )}
@@ -480,29 +654,51 @@ function HeroLiquidBackground({
 }: {
   settings: ReturnType<typeof getHeroLiquidSettings>;
 }) {
+  const { resolvedTheme } = useTheme();
+  const isDarkHero = resolvedTheme === "dark";
   const liquidClassName = settings.textBlur
     ? "absolute inset-0 scale-[1.08] opacity-100 mix-blend-multiply blur-[6px] contrast-[1.14] saturate-[1.1]"
     : "absolute inset-0 scale-[1.06] opacity-90 mix-blend-multiply blur-[3px] contrast-[1.08] saturate-[1.06]";
+  const liquidColors = isDarkHero
+    ? ["#fbfcff", "#dbe1ff", "#8a9bf0", "#151932", "#030409"]
+    : ["#ffffff", "#aebaff", "#7388df", "#333da7", "#030409"];
 
   return (
     <div
       aria-hidden
-      className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#f8f9ff]"
+      className={`pointer-events-none absolute inset-0 z-0 overflow-hidden ${
+        isDarkHero ? "bg-[#030409]" : "bg-[#f8f9ff]"
+      }`}
     >
-      <div className="absolute inset-0 origin-top scale-125 bg-white" />
-      <div className="absolute left-1/2 top-[-30rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#7e91e8] blur-[96px]" />
-      <div className="absolute left-1/2 top-[-38rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#333da7] blur-[96px]" />
-      <div className="absolute left-1/2 top-[-45rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#0a0d21] blur-[88px]" />
-      <div className="absolute left-1/2 top-[-51rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#030409] blur-[88px]" />
-      <div className="absolute inset-x-[-22%] top-[38%] h-[51%] rounded-[50%] bg-[#a9b5ff]/82 blur-[72px]" />
-      <div className="absolute inset-x-[-12%] bottom-[-8%] h-[30%] bg-[linear-gradient(to_top,rgba(251,252,255,0.68)_0%,rgba(244,246,255,0.44)_28%,rgba(194,203,252,0.26)_58%,rgba(3,4,10,0)_100%)] blur-[18px]" />
-      <div className="absolute inset-x-[-10%] top-[48%] h-[30%] bg-[linear-gradient(to_bottom,transparent,rgba(115,136,223,0.52),rgba(238,241,255,0.1),transparent)] blur-2xl" />
-      <div className="absolute left-[31%] bottom-[-12%] h-[28%] w-[42%] rounded-[50%] bg-[#050612]/45 blur-[48px] mix-blend-multiply" />
+      {isDarkHero ? (
+        <>
+          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,#fbfcff_0%,#eef2ff_13%,#aeb9f4_25%,#171b35_43%,#05060f_76%,#010105_100%)]" />
+          <div className="absolute left-1/2 top-[-45rem] h-[72rem] w-[220rem] -translate-x-1/2 rounded-[50%] bg-white blur-[92px]" />
+          <div className="absolute left-1/2 top-[-31rem] h-[62rem] w-[210rem] -translate-x-1/2 rounded-[50%] bg-[#c8d1ff]/88 blur-[96px]" />
+          <div className="absolute inset-x-[-18%] top-[23%] h-[51%] rounded-[50%] bg-[radial-gradient(ellipse_at_50%_54%,rgba(3,4,10,0.78),rgba(3,4,10,0.44)_48%,rgba(3,4,10,0)_74%)] blur-[24px]" />
+          <div className="absolute inset-x-[-24%] bottom-[-20%] h-[55%] rounded-[50%] bg-[#010105] blur-[58px]" />
+          <div className="absolute left-[-8%] bottom-[-16%] h-[58%] w-[62%] rounded-[50%] bg-[#030409]/92 blur-[76px]" />
+          <div className="absolute right-[-14%] bottom-[-18%] h-[62%] w-[68%] rounded-[50%] bg-[#050713]/95 blur-[82px]" />
+          <div className="absolute inset-x-[-10%] top-[40%] h-[28%] bg-[linear-gradient(to_bottom,transparent,rgba(115,136,223,0.42),rgba(3,4,10,0.36),transparent)] blur-2xl" />
+        </>
+      ) : (
+        <>
+          <div className="absolute inset-0 origin-top scale-125 bg-white" />
+          <div className="absolute left-1/2 top-[-30rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#7e91e8] blur-[96px]" />
+          <div className="absolute left-1/2 top-[-38rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#333da7] blur-[96px]" />
+          <div className="absolute left-1/2 top-[-45rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#0a0d21] blur-[88px]" />
+          <div className="absolute left-1/2 top-[-51rem] h-[66rem] w-[216rem] -translate-x-1/2 rounded-[50%] bg-[#030409] blur-[88px]" />
+          <div className="absolute inset-x-[-22%] top-[38%] h-[51%] rounded-[50%] bg-[#a9b5ff]/82 blur-[72px]" />
+          <div className="absolute inset-x-[-12%] bottom-[-8%] h-[30%] bg-[linear-gradient(to_top,rgba(251,252,255,0.68)_0%,rgba(244,246,255,0.44)_28%,rgba(194,203,252,0.26)_58%,rgba(3,4,10,0)_100%)] blur-[18px]" />
+          <div className="absolute inset-x-[-10%] top-[48%] h-[30%] bg-[linear-gradient(to_bottom,transparent,rgba(115,136,223,0.52),rgba(238,241,255,0.1),transparent)] blur-2xl" />
+          <div className="absolute left-[31%] bottom-[-12%] h-[28%] w-[42%] rounded-[50%] bg-[#050612]/45 blur-[48px] mix-blend-multiply" />
+        </>
+      )}
       {settings.enabled && (
         <Suspense fallback={null}>
           <LiquidEther
             className={liquidClassName}
-            colors={["#ffffff", "#aebaff", "#7388df", "#333da7", "#030409"]}
+            colors={liquidColors}
             mouseForce={settings.mouseForce}
             cursorSize={settings.cursorSize}
             hoverForce={settings.hoverForce}
@@ -532,6 +728,7 @@ function HeroLiquidBackground({
 }
 
 function Hero() {
+  const { t } = useI18n();
   const quality = useHeroQuality();
   const settings = getHeroLiquidSettings(quality);
   const { scrollY } = useScroll();
@@ -608,29 +805,14 @@ function Hero() {
           <div className="mx-auto mb-7 flex w-fit items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-white ring-1 ring-white/14 backdrop-blur">
             <span className="h-1.5 w-1.5 rounded-full bg-primary" />
             <span className="text-[11px] uppercase tracking-[0.18em] text-white/62">
-              TRAFFODATA Enterprise OS
+              {t("home.hero.eyebrow")}
             </span>
           </div>
         </Reveal>
 
-        <SplitText
-          text="Build the operating system"
-          textBlur={settings.textBlur}
-          className="text-center font-display text-[clamp(2.55rem,6.8vw,6.2rem)] font-bold leading-[0.96] tracking-[-0.045em] text-white [text-shadow:0_1px_26px_rgba(3,4,10,0.28)]"
-        />
-        <SplitText
-          text="for your business."
-          delay={0.25}
-          textBlur={settings.textBlur}
-          className="text-center font-display text-[clamp(2.55rem,6.8vw,6.2rem)] font-bold leading-[0.96] tracking-[-0.045em] text-white/76 [text-shadow:0_1px_26px_rgba(3,4,10,0.22)]"
-        />
+        <HeroHeadline />
 
-        <Reveal delay={0.7}>
-          <p className="mx-auto mt-7 max-w-2xl text-center text-[15px] leading-relaxed text-white/78 [text-shadow:0_1px_18px_rgba(3,4,10,0.2)] md:text-base">
-            TRAFFODATA engineers premium ERP, inventory, warehouse, POS, accounting, CRM and AI
-            platforms, built to scale with the world's most ambitious operators.
-          </p>
-        </Reveal>
+        <HeroLead />
 
         <Reveal delay={0.85}>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3 md:mt-10">
@@ -639,29 +821,31 @@ function Hero() {
               href="/contact"
               className="bg-[#333da7] shadow-[0_16px_44px_rgba(3,4,10,0.24)] hover:bg-[#2d3594]"
             >
-              Start a project{" "}
+              {t("home.hero.primaryCta")}{" "}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </MagneticButton>
             <MagneticButton
               variant="ghost"
-              href="#platform"
+              href="/work"
+              onIntent={() => trackSiteEvent("home_view_work_click", { location: "hero" })}
               className="bg-[#0c0e21]/28 text-white ring-1 ring-white/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-md hover:bg-[#0c0e21]/36 hover:text-[#aebcff]"
             >
-              Explore platform
+              {t("home.hero.secondaryCta")}
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </MagneticButton>
           </div>
         </Reveal>
       </motion.div>
 
-      <div className="absolute inset-x-0 bottom-28 z-[3] mx-auto hidden max-w-4xl items-end justify-between px-6 text-[#4b5066] md:flex lg:px-8">
+      <div className="absolute inset-x-0 bottom-28 z-[3] mx-auto hidden max-w-4xl items-end justify-between px-6 text-[#262a3f] dark:text-white/58 md:flex lg:px-8">
         <p className="max-w-[30rem] text-[15px] leading-relaxed">
-          AI-assisted delivery for inventory, warehouse, POS, accounting and CRM workflows.
+          {t("home.hero.note")}
         </p>
         <a
           href="#about"
           onClick={(event) => handleSectionLinkClick(event, "#about")}
-          aria-label="Continue to about section"
-          className="grid h-14 w-14 place-items-center rounded-full text-[#4b5066] transition-[transform,color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:text-primary active:scale-[0.97]"
+          aria-label={t("home.hero.continue")}
+          className="grid h-14 w-14 place-items-center rounded-full text-[#262a3f] transition-[transform,color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:text-primary active:scale-[0.97] dark:text-white/58 dark:hover:text-[#aebcff]"
         >
           <ArrowRight className="h-11 w-11 rotate-90" strokeWidth={1.4} />
         </a>
@@ -675,10 +859,17 @@ function Hero() {
 /* ------------------------------------------------------------------ */
 
 function Trust() {
+  const { t } = useI18n();
   const proof = [
-    { v: "Commerce backends", l: "Vendor, checkout, wallet, and delivery operations" },
-    { v: "Operational platforms", l: "Inventory, warehouse, logistics, and finance workflows" },
-    { v: "AI and mobile products", l: "Event, booking, retail, and field-team experiences" },
+    {
+      v: t("home.trust.proof.commerce.title"),
+      l: t("home.trust.proof.commerce.text"),
+    },
+    {
+      v: t("home.trust.proof.platforms.title"),
+      l: t("home.trust.proof.platforms.text"),
+    },
+    { v: t("home.trust.proof.ai.title"), l: t("home.trust.proof.ai.text") },
   ];
   const systems = [
     "WikiFood",
@@ -695,9 +886,14 @@ function Trust() {
       <div className="mx-auto max-w-7xl px-6 py-10">
         <div className="mb-8 grid grid-cols-1 items-center gap-6 md:grid-cols-4">
           <div className="text-[11px] uppercase tracking-[0.22em] text-[var(--muted-foreground)]">
-            Selected systems
-            <br />
-            shipped for operators
+            {t("home.trust.label")
+              .split("\n")
+              .map((line, index) => (
+                <span key={line}>
+                  {index > 0 ? <br /> : null}
+                  {line}
+                </span>
+              ))}
           </div>
           <div className="md:col-span-3 grid grid-cols-3 gap-6 md:grid-cols-3">
             {proof.map((item) => (
@@ -736,32 +932,31 @@ function Trust() {
 /* ------------------------------------------------------------------ */
 
 function About() {
+  const { t } = useI18n();
+
   return (
     <section id="about" data-scroll-stop className="scroll-stop relative py-28 md:py-40">
       <div className="mx-auto max-w-7xl px-6">
-        <Eyebrow>Who we are</Eyebrow>
+        <Eyebrow>{t("home.about.eyebrow")}</Eyebrow>
         <div className="mt-10 grid grid-cols-12 gap-8">
           <Reveal className="col-span-12 md:col-span-7">
             <h2 className="font-display text-[clamp(2.4rem,6vw,5.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
-              <BlurText as="span" text="Software" className="block" />
+              <BlurText as="span" text={t("home.about.title1")} className="block" />
               <BlurText
                 as="span"
-                text="engineered for"
+                text={t("home.about.title2")}
                 delay={0.08}
                 className="block text-[var(--muted-foreground)]"
               />
-              <BlurText as="span" text="operators." delay={0.16} className="block" />
+              <BlurText as="span" text={t("home.about.title3")} delay={0.16} className="block" />
             </h2>
           </Reveal>
           <Reveal delay={0.15} className="col-span-12 md:col-span-5 md:pt-6">
             <p className="text-[15px] leading-relaxed text-[var(--muted-foreground)]">
-              TRAFFODATA is a software studio building the connective tissue of modern enterprises.
-              We design and ship ERP, warehouse, accounting and commerce systems that quietly run
-              global operations: refined, reliable, and built to last a decade.
+              {t("home.about.copy1")}
             </p>
             <p className="mt-4 text-[15px] leading-relaxed text-[var(--muted-foreground)]">
-              Our products power retailers, manufacturers, distributors and service companies, from
-              boutique studios to publicly listed groups.
+              {t("home.about.copy2")}
             </p>
             <div className="mt-8 flex flex-wrap gap-2">
               {[
@@ -796,67 +991,67 @@ function About() {
 const services = [
   {
     i: Layers,
-    t: "ERP Systems",
-    d: "Unified financial, supply and ops backbone tailored to your industry.",
+    titleKey: "home.services.operational.title",
+    textKey: "home.services.operational.text",
   },
   {
     i: Boxes,
-    t: "Inventory Management",
-    d: "Real-time stock, multi-location, batch & serial, accurate to the SKU.",
+    titleKey: "home.services.inventory.title",
+    textKey: "home.services.inventory.text",
   },
   {
     i: Warehouse,
-    t: "Warehouse Management",
-    d: "Pick, pack, putaway and wave planning for high-velocity fulfillment.",
+    titleKey: "home.services.warehouse.title",
+    textKey: "home.services.warehouse.text",
   },
   {
     i: ScanBarcode,
-    t: "Point of Sale",
-    d: "Offline-first retail POS with omnichannel inventory sync.",
+    titleKey: "home.services.pos.title",
+    textKey: "home.services.pos.text",
   },
   {
     i: Calculator,
-    t: "Accounting Systems",
-    d: "Multi-entity ledgers, tax engines, statutory compliance built in.",
+    titleKey: "home.services.accounting.title",
+    textKey: "home.services.accounting.text",
   },
   {
     i: Users,
-    t: "CRM",
-    d: "Pipeline, service and account intelligence connected to live operations.",
+    titleKey: "home.services.crm.title",
+    textKey: "home.services.crm.text",
   },
   {
     i: Sparkles,
-    t: "AI Automation",
-    d: "Operational copilots, workflow intelligence and automation across your business systems.",
+    titleKey: "home.services.ai.title",
+    textKey: "home.services.ai.text",
   },
   {
     i: Settings2,
-    t: "Custom Development",
-    d: "Bespoke modules and integrations engineered alongside your team.",
+    titleKey: "home.services.integration.title",
+    textKey: "home.services.integration.text",
   },
 ];
 
 function Services() {
+  const { t } = useI18n();
   const [open, setOpen] = useState<number | null>(0);
   return (
     <section id="services" data-scroll-stop className="scroll-stop bg-[var(--ink)] text-white">
       <div className="mx-auto max-w-7xl px-6 py-28 md:py-40">
         <div className="mb-16 flex flex-wrap items-end justify-between gap-6">
           <div>
-            <Eyebrow light>What we build</Eyebrow>
+            <Eyebrow light>{t("home.services.eyebrow")}</Eyebrow>
             <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[1] tracking-[-0.04em]">
-              <BlurText as="span" text="Eight disciplines." className="block" />
+              <BlurText as="span" text={t("home.services.title1")} className="block" />
               <BlurText
                 as="span"
-                text="One operating system."
+                text={t("home.services.title2")}
                 delay={0.08}
                 className="block text-white/50"
               />
             </h2>
           </div>
           <p className="max-w-md text-[14px] text-white/60">
-            Every module is engineered to stand alone and compose seamlessly, so you adopt only what
-            you need, when you need it.
+            {t("home.services.copy")}
           </p>
         </div>
 
@@ -865,7 +1060,7 @@ function Services() {
             const isOpen = open === i;
             return (
               <button
-                key={s.t}
+                key={s.titleKey}
                 onClick={() => setOpen(isOpen ? null : i)}
                 className="group flex w-full items-center gap-6 py-6 text-left transition hover:px-2"
               >
@@ -875,7 +1070,7 @@ function Services() {
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block font-display text-2xl font-semibold tracking-tight md:text-3xl">
-                    {s.t}
+                    {t(s.titleKey)}
                   </span>
                   <AnimatePresence initial={false}>
                     {isOpen && (
@@ -886,7 +1081,7 @@ function Services() {
                         transition={{ duration: 0.5, ease }}
                         className="mt-3 block max-w-2xl text-[14px] leading-relaxed text-white/60 overflow-hidden"
                       >
-                        {s.d}
+                        {t(s.textKey)}
                       </motion.span>
                     )}
                   </AnimatePresence>
@@ -912,13 +1107,13 @@ function Services() {
 /* ------------------------------------------------------------------ */
 
 const platformTabs = [
-  { k: "inventory", l: "Inventory", icon: Boxes },
-  { k: "accounting", l: "Accounting", icon: Calculator },
-  { k: "crm", l: "CRM", icon: Users },
-  { k: "ai", l: "AI", icon: Sparkles },
-  { k: "warehouse", l: "Warehouse", icon: Warehouse },
-  { k: "pos", l: "POS", icon: ScanBarcode },
-  { k: "reports", l: "Reports", icon: BarChart3 },
+  { k: "inventory", labelKey: "home.platform.tab.inventory", icon: Boxes },
+  { k: "accounting", labelKey: "home.platform.tab.accounting", icon: Calculator },
+  { k: "crm", labelKey: "home.platform.tab.crm", icon: Users },
+  { k: "ai", labelKey: "home.platform.tab.ai", icon: Sparkles },
+  { k: "warehouse", labelKey: "home.platform.tab.warehouse", icon: Warehouse },
+  { k: "pos", labelKey: "home.platform.tab.pos", icon: ScanBarcode },
+  { k: "reports", labelKey: "home.platform.tab.reports", icon: BarChart3 },
 ] as const;
 
 type PlatformKey = (typeof platformTabs)[number]["k"];
@@ -1064,17 +1259,56 @@ const platformScenes: Record<PlatformKey, PlatformScene> = {
   },
 };
 
+type TranslateWithFallback = (key: string, fallback: string) => string;
+
+function localizePlatformScene(
+  key: PlatformKey,
+  scene: PlatformScene,
+  t: TranslateWithFallback,
+): PlatformScene {
+  const sceneKey = `home.platform.scene.${key}`;
+
+  return {
+    title: t(`${sceneKey}.title`, scene.title),
+    subtitle: t(`${sceneKey}.subtitle`, scene.subtitle),
+    operator: t(`${sceneKey}.operator`, scene.operator),
+    focus: t(`${sceneKey}.focus`, scene.focus),
+    queue: scene.queue.map((item, index) => ({
+      ...item,
+      label: t(`${sceneKey}.queue.${index}.label`, item.label),
+      value: t(`${sceneKey}.queue.${index}.value`, item.value),
+    })),
+    lanes: scene.lanes.map((lane, laneIndex) => ({
+      label: t(`${sceneKey}.lanes.${laneIndex}.label`, lane.label),
+      items: lane.items.map((item, itemIndex) =>
+        t(`${sceneKey}.lanes.${laneIndex}.items.${itemIndex}`, item),
+      ),
+    })),
+    footer: scene.footer.map((item, index) => t(`${sceneKey}.footer.${index}`, item)),
+  };
+}
+
 function PlatformContent({ k }: { k: PlatformKey }) {
-  const scene = platformScenes[k];
+  const { t, tWithFallback } = useI18n();
+  const scene = localizePlatformScene(k, platformScenes[k], tWithFallback);
   const statusStyles = {
     active: "bg-primary text-white",
     calm: "bg-[var(--surface)] text-[var(--ink)] ring-1 ring-[var(--hairline)]",
     review: "bg-[#11131f] text-white",
   };
   const handoff = [
-    ["Source event", "Captured"],
-    ["Shared record", "Validated against workflow rules"],
-    ["Operator action", "Assigned to owner"],
+    [
+      tWithFallback("home.platform.handoff.0.label", "Source event"),
+      tWithFallback("home.platform.handoff.0.value", "Captured"),
+    ],
+    [
+      tWithFallback("home.platform.handoff.1.label", "Shared record"),
+      tWithFallback("home.platform.handoff.1.value", "Validated against workflow rules"),
+    ],
+    [
+      tWithFallback("home.platform.handoff.2.label", "Operator action"),
+      tWithFallback("home.platform.handoff.2.value", "Assigned to owner"),
+    ],
   ];
 
   return (
@@ -1100,7 +1334,7 @@ function PlatformContent({ k }: { k: PlatformKey }) {
           {scene.queue.map((item) => (
             <div
               key={item.label}
-              className="flex min-w-0 flex-wrap items-center justify-between gap-3 rounded-lg bg-white px-3 py-3 ring-1 ring-[var(--hairline)]"
+              className="flex min-w-0 flex-wrap items-center justify-between gap-3 rounded-lg bg-[var(--background)] px-3 py-3 ring-1 ring-[var(--hairline)]"
             >
               <span className="text-[12px] font-medium text-[var(--muted-foreground)]">
                 {item.label}
@@ -1116,24 +1350,26 @@ function PlatformContent({ k }: { k: PlatformKey }) {
 
         <div className="mt-auto pt-6">
           <div className="rounded-lg bg-[var(--ink)] p-4 text-white">
-            <div className="text-[11px] font-medium text-white/50">Current focus</div>
+            <div className="text-[11px] font-medium text-white/50">
+              {t("home.platform.currentFocus")}
+            </div>
             <div className="mt-2 text-[14px] font-semibold leading-snug">{scene.focus}</div>
           </div>
         </div>
       </div>
 
-      <div className="rounded-xl bg-white p-4 ring-1 ring-[var(--hairline)] sm:p-5">
+      <div className="rounded-xl bg-[var(--background)] p-4 ring-1 ring-[var(--hairline)] sm:p-5">
         <div className="flex flex-col gap-2 border-b border-[var(--hairline)] pb-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <div className="text-[12px] font-medium text-[var(--muted-foreground)]">
-              Connected workflow
+              {t("home.platform.connectedWorkflow")}
             </div>
             <div className="mt-1 font-display text-2xl font-semibold tracking-[-0.04em]">
               {scene.title}
             </div>
           </div>
           <div className="w-fit rounded-full bg-[var(--surface)] px-3 py-1.5 text-[11px] font-semibold text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)]">
-            One shared record
+            {t("home.platform.sharedRecord")}
           </div>
         </div>
 
@@ -1150,7 +1386,7 @@ function PlatformContent({ k }: { k: PlatformKey }) {
                 {lane.items.map((item, itemIndex) => (
                   <div
                     key={item}
-                    className="flex min-h-12 items-center gap-3 rounded-md bg-white px-3 py-2 ring-1 ring-black/5"
+                    className="flex min-h-12 items-center gap-3 rounded-md bg-[var(--background)] px-3 py-2 ring-1 ring-[var(--hairline)]"
                   >
                     <span
                       className={`grid h-5 w-5 shrink-0 place-items-center rounded-full ${
@@ -1173,7 +1409,7 @@ function PlatformContent({ k }: { k: PlatformKey }) {
           {scene.footer.map((item) => (
             <div
               key={item}
-              className="rounded-lg border border-dashed border-black/10 bg-white px-3 py-3 text-[12px] font-semibold text-[var(--muted-foreground)]"
+              className="rounded-lg border border-dashed border-[var(--hairline)] bg-[var(--background)] px-3 py-3 text-[12px] font-semibold text-[var(--muted-foreground)]"
             >
               <div className="h-1.5 w-8 rounded-full bg-primary/50" />
               <div className="mt-3">{item}</div>
@@ -1200,18 +1436,19 @@ function PlatformContent({ k }: { k: PlatformKey }) {
 }
 
 function Platform() {
+  const { t } = useI18n();
   const [tab, setTab] = useState<PlatformKey>("inventory");
   return (
     <section id="platform" data-scroll-stop className="scroll-stop py-28 md:py-40">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-16 grid grid-cols-12 gap-8">
           <div className="col-span-12 md:col-span-6">
-            <Eyebrow>TRAFFODATA ERP Platform</Eyebrow>
+            <Eyebrow>{t("home.platform.eyebrow")}</Eyebrow>
             <h2 className="mt-4 font-display text-[clamp(2.2rem,5.5vw,5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
-              <BlurText as="span" text="One platform." className="block" />
+              <BlurText as="span" text={t("home.platform.title1")} className="block" />
               <BlurText
                 as="span"
-                text="Every workflow."
+                text={t("home.platform.title2")}
                 delay={0.08}
                 className="block text-[var(--muted-foreground)]"
               />
@@ -1219,22 +1456,21 @@ function Platform() {
           </div>
           <div className="col-span-12 md:col-span-6 md:pt-6">
             <p className="text-[15px] leading-relaxed text-[var(--muted-foreground)]">
-              A single source of truth for inventory, finance, sales, people and operations,
-              engineered to feel like one product instead of seven disconnected screens.
+              {t("home.platform.copy")}
             </p>
           </div>
         </div>
 
         <Reveal>
-          <div className="overflow-hidden rounded-2xl bg-white ring-hairline shadow-elevated">
+          <div className="overflow-hidden rounded-2xl bg-[var(--background)] ring-hairline shadow-elevated">
             <div className="flex flex-wrap items-center gap-1 hairline-b p-2">
-              {platformTabs.map((t) => (
+              {platformTabs.map((tabInfo) => (
                 <button
-                  key={t.k}
-                  onClick={() => setTab(t.k)}
-                  className={`relative inline-flex min-h-11 items-center gap-2 rounded-full px-4 py-2 text-[12px] transition ${tab === t.k ? "text-white" : "text-[var(--muted-foreground)] hover:text-[var(--ink)]"}`}
+                  key={tabInfo.k}
+                  onClick={() => setTab(tabInfo.k)}
+                  className={`relative inline-flex min-h-11 items-center gap-2 rounded-full px-4 py-2 text-[12px] transition ${tab === tabInfo.k ? "text-white" : "text-[var(--muted-foreground)] hover:text-[var(--ink)]"}`}
                 >
-                  {tab === t.k && (
+                  {tab === tabInfo.k && (
                     <motion.span
                       layoutId="ptab"
                       transition={{ duration: 0.5, ease }}
@@ -1242,7 +1478,7 @@ function Platform() {
                     />
                   )}
                   <span className="relative z-10 flex items-center gap-2">
-                    <t.icon className="h-3.5 w-3.5" /> {t.l}
+                    <tabInfo.icon className="h-3.5 w-3.5" /> {t(tabInfo.labelKey)}
                   </span>
                 </button>
               ))}
@@ -1262,11 +1498,12 @@ function Platform() {
 /* ------------------------------------------------------------------ */
 
 function Why() {
+  const { t } = useI18n();
   const stats = [
-    { n: 95, s: "%", l: "Operational efficiency" },
-    { n: 80, s: "%", l: "Faster inventory control" },
-    { n: 70, s: "%", l: "Reduced manual work" },
-    { n: 60, s: "%", l: "Higher team productivity" },
+    { n: 95, s: "%", l: t("home.why.efficiency") },
+    { n: 80, s: "%", l: t("home.why.inventory") },
+    { n: 70, s: "%", l: t("home.why.manual") },
+    { n: 60, s: "%", l: t("home.why.productivity") },
   ];
   return (
     <section
@@ -1276,12 +1513,12 @@ function Why() {
     >
       <div className="mx-auto max-w-7xl px-6 py-28 md:py-36">
         <div className="mb-16 max-w-3xl">
-          <Eyebrow>Why TRAFFODATA ERP</Eyebrow>
+          <Eyebrow>{t("home.why.eyebrow")}</Eyebrow>
           <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
-            <BlurText as="span" text="The compounding" className="block" />
+            <BlurText as="span" text={t("home.why.title1")} className="block" />
             <BlurText
               as="span"
-              text="return of clarity."
+              text={t("home.why.title2")}
               delay={0.08}
               className="block text-primary"
             />
@@ -1318,26 +1555,26 @@ const comparisonRows: ComparisonRow[] = [
   {
     icon: Gem,
     label: "Approach",
-    goods: "Design and engineering in sync",
-    traditional: "Disconnected teams",
+    goods: "Workflow mapping before screens",
+    traditional: "Generic app scoping",
   },
   {
     icon: Settings2,
     label: "Process",
-    goods: "Streamlined, transparent and async",
-    traditional: "Endless calls, vague timelines",
+    goods: "Systems, roles and exceptions made visible",
+    traditional: "Requirements hidden in meetings",
   },
   {
     icon: Sparkles,
     label: "Design Philosophy",
-    goods: "Modern, minimal and purposeful",
-    traditional: "Trend-based and cluttered",
+    goods: "Polished product surfaces backed by real logic",
+    traditional: "Pretty screens with fragile operations",
   },
   {
     icon: Cpu,
     label: "Development Stack",
-    goods: "Built with modern frameworks",
-    traditional: "Outdated stacks",
+    goods: "Backend, APIs, dashboards and mobile flows together",
+    traditional: "One-off pieces that do not connect",
   },
   {
     icon: MessageCircle,
@@ -1348,7 +1585,7 @@ const comparisonRows: ComparisonRow[] = [
   {
     icon: Send,
     label: "Deliverables",
-    goods: "Production-ready software systems",
+    goods: "Production-ready operational systems",
     traditional: "Static mockups",
   },
   {
@@ -1365,6 +1602,15 @@ const comparisonRows: ComparisonRow[] = [
     action: true,
   },
 ];
+
+function localizeComparisonRows(rows: ComparisonRow[], t: TranslateWithFallback): ComparisonRow[] {
+  return rows.map((row, index) => ({
+    ...row,
+    label: t(`home.comparison.row.${index}.label`, row.label),
+    goods: t(`home.comparison.row.${index}.goods`, row.goods),
+    traditional: t(`home.comparison.row.${index}.traditional`, row.traditional),
+  }));
+}
 
 function ComparisonMark({ positive = true }: { positive?: boolean }) {
   return (
@@ -1424,6 +1670,9 @@ function ComparisonAction({
 }
 
 function Comparison() {
+  const { t, tWithFallback } = useI18n();
+  const rows = localizeComparisonRows(comparisonRows, tWithFallback);
+
   return (
     <section
       id="comparison"
@@ -1434,7 +1683,7 @@ function Comparison() {
         <Reveal className="max-w-[82rem]">
           <BlurText
             as="h2"
-            text="TRAFFODATA vs traditional service providers"
+            text={t("home.comparison.title")}
             className="font-display text-[clamp(2.75rem,6.4vw,5.9rem)] font-bold leading-[0.94] tracking-[-0.052em] text-balance"
           />
         </Reveal>
@@ -1442,23 +1691,23 @@ function Comparison() {
         <Reveal delay={0.12}>
           <div
             data-comparison-table
-            className="mt-14 overflow-hidden rounded-[1.75rem] bg-white ring-1 ring-[var(--hairline)] shadow-[0_34px_120px_-84px_rgba(0,0,0,0.5)] md:mt-16"
+            className="mt-14 overflow-hidden rounded-[1.75rem] bg-[var(--card)] ring-1 ring-[var(--hairline)] shadow-[0_34px_120px_-84px_rgba(0,0,0,0.5)] md:mt-16"
           >
-            <div className="hidden grid-cols-[0.84fr_1.38fr_1.38fr] border-b border-[var(--hairline)] bg-white md:grid">
+            <div className="hidden grid-cols-[0.84fr_1.38fr_1.38fr] border-b border-[var(--hairline)] bg-[var(--card)] md:grid">
               <div className="min-h-28 bg-[var(--surface)]/72" />
               <div className="flex min-h-28 items-center gap-3 border-l border-[var(--hairline)] px-8 xl:px-10">
                 <BrandMark size="md" />
                 <span className="font-display text-[1.6rem] font-semibold leading-none tracking-tight">
-                  TRAFFODATA Software
+                  {t("home.comparison.goods")}
                 </span>
               </div>
               <div className="flex min-h-28 items-center border-l border-[var(--hairline)] px-8 font-display text-[1.6rem] font-semibold leading-none tracking-tight text-[var(--muted-foreground)] xl:px-10">
-                Traditional service providers
+                {t("home.comparison.traditional")}
               </div>
             </div>
 
             <div className="divide-y divide-[var(--hairline)]">
-              {comparisonRows.map((row, index) => {
+              {rows.map((row, index) => {
                 const Icon = row.icon;
                 return (
                   <Reveal key={row.label} delay={index * 0.04} y={16}>
@@ -1467,7 +1716,7 @@ function Comparison() {
                       className="grid gap-0 md:grid-cols-[0.84fr_1.38fr_1.38fr]"
                     >
                       <div className="flex items-center gap-4 bg-[var(--surface)]/72 px-5 py-5 md:min-h-[7.35rem] md:px-8 xl:px-10">
-                        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white text-[var(--ink)] ring-1 ring-[var(--hairline)] md:h-11 md:w-11">
+                        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[var(--card)] text-[var(--ink)] ring-1 ring-[var(--hairline)] md:h-11 md:w-11">
                           <Icon className="h-5 w-5" strokeWidth={1.8} />
                         </span>
                         <span className="font-display text-xl font-semibold tracking-tight md:text-[1.45rem]">
@@ -1477,13 +1726,15 @@ function Comparison() {
 
                       <div className="flex items-start gap-4 px-5 py-5 md:min-h-[7.35rem] md:items-center md:border-l md:border-[var(--hairline)] md:px-8 xl:px-10">
                         {row.action ? (
-                          <ComparisonAction variant="goods">Start a project</ComparisonAction>
+                          <ComparisonAction variant="goods">
+                            {t("nav.startProject")}
+                          </ComparisonAction>
                         ) : (
                           <>
                             <ComparisonMark />
                             <div>
                               <div className="mb-1 text-[11px] font-medium text-primary md:hidden">
-                                TRAFFODATA Software
+                                {t("home.comparison.goods")}
                               </div>
                               <p className="text-[16px] font-semibold leading-snug tracking-[-0.01em] text-[var(--ink)] md:text-[1.18rem]">
                                 {row.goods}
@@ -1496,14 +1747,14 @@ function Comparison() {
                       <div className="flex items-start gap-4 border-t border-[var(--hairline)] px-5 py-5 md:min-h-[7.35rem] md:items-center md:border-l md:border-t-0 md:px-8 xl:px-10">
                         {row.action ? (
                           <ComparisonAction variant="traditional">
-                            Paid discovery call
+                            {t("home.comparison.paidDiscovery")}
                           </ComparisonAction>
                         ) : (
                           <>
                             <ComparisonMark positive={false} />
                             <div>
                               <div className="mb-1 text-[11px] font-medium text-[var(--muted-foreground)] md:hidden">
-                                Traditional providers
+                                {t("home.comparison.traditionalMobile")}
                               </div>
                               <p className="text-[16px] font-semibold leading-snug tracking-[-0.01em] text-[var(--muted-foreground)] md:text-[1.18rem]">
                                 {row.traditional}
@@ -1603,7 +1854,28 @@ const projects = [
   },
 ];
 
+function localizeFeaturedProjects(
+  items: typeof projects,
+  t: TranslateWithFallback,
+): typeof projects {
+  return items.map((project) => ({
+    ...project,
+    t: t(`home.projects.item.${project.slug}.t`, project.t),
+    c: t(`home.projects.item.${project.slug}.c`, project.c),
+    tag: t(`home.projects.item.${project.slug}.tag`, project.tag),
+    headline: t(`home.projects.item.${project.slug}.headline`, project.headline),
+    modules: project.modules.map((module, index) =>
+      t(`home.projects.item.${project.slug}.modules.${index}`, module),
+    ),
+    states: project.states.map((state, index) =>
+      t(`home.projects.item.${project.slug}.states.${index}`, state),
+    ),
+    action: t(`home.projects.item.${project.slug}.action`, project.action),
+  }));
+}
+
 function ProjectSnapshot({ project }: { project: (typeof projects)[number] }) {
+  const { t } = useI18n();
   const Icon =
     {
       ai: Sparkles,
@@ -1623,7 +1895,7 @@ function ProjectSnapshot({ project }: { project: (typeof projects)[number] }) {
   }[project.visual] ?? [62, 78, 48, 84];
 
   return (
-    <div className="absolute inset-5 flex flex-col overflow-hidden rounded-xl bg-white/96 p-4 text-[var(--ink)] shadow-[0_10px_36px_-26px_rgba(0,0,0,0.6)] ring-1 ring-black/8 sm:inset-6 sm:p-5">
+    <div className="absolute inset-5 flex flex-col overflow-hidden rounded-xl bg-[var(--card)] p-4 text-[var(--ink)] shadow-[0_10px_36px_-26px_rgba(0,0,0,0.6)] ring-1 ring-[var(--hairline)] sm:inset-6 sm:p-5">
       <div className="flex items-start justify-between gap-4">
         <div>
           <div className="text-[10px] font-medium text-[var(--muted-foreground)]">{project.c}</div>
@@ -1661,7 +1933,7 @@ function ProjectSnapshot({ project }: { project: (typeof projects)[number] }) {
       <div className="mt-4 rounded-lg bg-[var(--ink)] p-3 text-white">
         <div className="flex items-center justify-between text-[10px] text-white/55">
           <span>{project.action}</span>
-          <span>Live workflow</span>
+          <span>{t("home.projects.liveWorkflow")}</span>
         </div>
         <div className="mt-4 grid grid-cols-3 gap-2">
           {project.states.map((state, index) => (
@@ -1701,32 +1973,47 @@ function ProjectSnapshot({ project }: { project: (typeof projects)[number] }) {
 }
 
 function Projects() {
+  const { t, tWithFallback } = useI18n();
+  const featuredProjects = localizeFeaturedProjects(projects, tWithFallback);
+
   return (
     <section id="projects" data-scroll-stop className="scroll-stop py-28 md:py-36">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
           <div>
-            <Eyebrow>Selected work</Eyebrow>
+            <Eyebrow>{t("home.projects.eyebrow")}</Eyebrow>
             <BlurText
               as="h2"
-              text="Featured projects."
+              text={t("home.projects.title")}
               className="mt-4 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.04em]"
             />
           </div>
           <a
             href="/work"
+            onClick={() =>
+              trackSiteEvent("home_view_work_click", { location: "featured_projects" })
+            }
             className="group inline-flex items-center gap-1.5 text-[13px] font-medium"
           >
-            View all case studies{" "}
+            {t("home.projects.viewAll")}{" "}
             <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </a>
         </div>
       </div>
       <div className="overflow-x-auto pb-8 [scrollbar-width:thin] snap-x snap-mandatory">
         <div className="flex gap-6 px-6 md:px-[max(1.5rem,calc((100vw-80rem)/2))]">
-          {projects.map((p, i) => (
+          {featuredProjects.map((p, i) => (
             <Reveal key={p.t} delay={i * 0.06} className="snap-start">
-              <a href={`/work/${p.slug}`} className="group block w-[88vw] max-w-[520px] shrink-0">
+              <a
+                href={`/work/${p.slug}`}
+                onClick={() =>
+                  trackSiteEvent("home_project_click", {
+                    location: "featured_projects",
+                    project_slug: p.slug,
+                  })
+                }
+                className="group block w-[88vw] max-w-[520px] shrink-0"
+              >
                 <div className="relative aspect-[4/5] overflow-hidden rounded-2xl ring-hairline">
                   <div
                     className="absolute inset-0 transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]"
@@ -1773,16 +2060,18 @@ const tech = [
 ];
 
 function Tech() {
+  const { t } = useI18n();
+
   return (
     <section id="tech" data-scroll-stop className="scroll-stop bg-[var(--ink)] text-white">
       <div className="mx-auto max-w-7xl px-6 py-28 md:py-36">
         <div className="mb-14 max-w-3xl">
-          <Eyebrow light>Engineering stack</Eyebrow>
+          <Eyebrow light>{t("home.tech.eyebrow")}</Eyebrow>
           <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
-            <BlurText as="span" text="Built on a foundation" className="block" />
+            <BlurText as="span" text={t("home.tech.title1")} className="block" />
             <BlurText
               as="span"
-              text="we trust for a decade."
+              text={t("home.tech.title2")}
               delay={0.08}
               className="block text-white/50"
             />
@@ -1819,32 +2108,33 @@ function Tech() {
 const steps = [
   {
     n: "01",
-    t: "Discovery",
-    d: "We embed with your team to map operations, constraints and the unsolved problems worth solving.",
+    titleKey: "home.process.discovery.title",
+    textKey: "home.process.discovery.text",
   },
   {
     n: "02",
-    t: "Strategy",
-    d: "We define modules, data model and the rollout path, sequenced for fast, measurable wins.",
+    titleKey: "home.process.strategy.title",
+    textKey: "home.process.strategy.text",
   },
   {
     n: "03",
-    t: "Design",
-    d: "Interfaces designed around how your people actually work: calm, fast, and easy to learn.",
+    titleKey: "home.process.design.title",
+    textKey: "home.process.design.text",
   },
   {
     n: "04",
-    t: "Development",
-    d: "Engineered in agile cycles with weekly demos and full transparency on quality and progress.",
+    titleKey: "home.process.development.title",
+    textKey: "home.process.development.text",
   },
   {
     n: "05",
-    t: "Deployment",
-    d: "Migration, training and a long-term partnership. We stay with you as the business evolves.",
+    titleKey: "home.process.deployment.title",
+    textKey: "home.process.deployment.text",
   },
 ];
 
 function Process() {
+  const { t } = useI18n();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 70%", "end 30%"] });
   const h = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
@@ -1852,10 +2142,10 @@ function Process() {
     <section id="process" data-scroll-stop className="scroll-stop py-28 md:py-40">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-16 max-w-3xl">
-          <Eyebrow>How we work</Eyebrow>
+          <Eyebrow>{t("home.process.eyebrow")}</Eyebrow>
           <h2 className="mt-4 font-display text-[clamp(2.2rem,5vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
-            <BlurText as="span" text="A process, not" className="block" />
-            <BlurText as="span" text="a pitch deck." delay={0.08} className="block" />
+            <BlurText as="span" text={t("home.process.title1")} className="block" />
+            <BlurText as="span" text={t("home.process.title2")} delay={0.08} className="block" />
           </h2>
         </div>
         <div ref={ref} className="relative">
@@ -1875,12 +2165,14 @@ function Process() {
                 <div className="text-[12px] tabular-nums text-primary md:hidden">{s.n}</div>
                 <BlurText
                   as="h3"
-                  text={s.t}
+                  text={t(s.titleKey)}
                   className="font-display text-3xl font-semibold tracking-tight md:text-4xl"
                 />
               </div>
               <div className="col-span-12 md:col-span-6">
-                <p className="text-[15px] leading-relaxed text-[var(--muted-foreground)]">{s.d}</p>
+                <p className="text-[15px] leading-relaxed text-[var(--muted-foreground)]">
+                  {t(s.textKey)}
+                </p>
               </div>
               <div className="col-span-12 hairline-b mt-6" />
             </Reveal>
@@ -1913,7 +2205,17 @@ const quotes = [
   },
 ];
 
+function localizeQuotes(items: typeof quotes, t: TranslateWithFallback): typeof quotes {
+  return items.map((quote, index) => ({
+    q: t(`home.testimonials.quote.${index}.q`, quote.q),
+    a: t(`home.testimonials.quote.${index}.a`, quote.a),
+    r: t(`home.testimonials.quote.${index}.r`, quote.r),
+  }));
+}
+
 function Testimonials() {
+  const { t, tWithFallback } = useI18n();
+  const localizedQuotes = localizeQuotes(quotes, tWithFallback);
   const [i, setI] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setI((v) => (v + 1) % quotes.length), 6000);
@@ -1926,7 +2228,7 @@ function Testimonials() {
       className="scroll-stop bg-[var(--surface)] hairline-t hairline-b"
     >
       <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
-        <Eyebrow>Operators speak</Eyebrow>
+        <Eyebrow>{t("home.testimonials.eyebrow")}</Eyebrow>
         <div className="relative mt-10 min-h-[280px] md:min-h-[260px]">
           <AnimatePresence mode="wait">
             <motion.figure
@@ -1938,32 +2240,32 @@ function Testimonials() {
             >
               <Quote className="h-8 w-8 text-primary" />
               <blockquote className="mt-6 font-display text-[clamp(1.6rem,3.5vw,3rem)] font-medium leading-[1.15] tracking-[-0.02em] text-balance">
-                "{quotes[i].q}"
+                "{localizedQuotes[i].q}"
               </blockquote>
               <figcaption className="mt-8 flex items-center gap-3">
                 <span className="grid h-10 w-10 place-items-center rounded-full bg-[var(--ink)] text-white text-[12px] font-semibold">
-                  {quotes[i].a
+                  {localizedQuotes[i].a
                     .split(" ")
                     .map((n) => n[0])
                     .join("")}
                 </span>
                 <span>
-                  <span className="block text-[13px] font-medium">{quotes[i].a}</span>
+                  <span className="block text-[13px] font-medium">{localizedQuotes[i].a}</span>
                   <span className="block text-[12px] text-[var(--muted-foreground)]">
-                    {quotes[i].r}
+                    {localizedQuotes[i].r}
                   </span>
                 </span>
               </figcaption>
             </motion.figure>
           </AnimatePresence>
         </div>
-        <div className="mt-10 flex gap-2" role="tablist" aria-label="Testimonials">
+        <div className="mt-10 flex gap-2" role="tablist" aria-label={t("home.testimonials.label")}>
           {quotes.map((_, n) => (
             <button
               key={n}
               type="button"
               onClick={() => setI(n)}
-              aria-label={`Show testimonial ${n + 1}`}
+              aria-label={`${t("home.testimonials.show")} ${n + 1}`}
               aria-selected={n === i}
               role="tab"
               className="grid h-11 w-11 place-items-center rounded-full transition-colors hover:bg-black/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
@@ -1984,6 +2286,8 @@ function Testimonials() {
 /* ------------------------------------------------------------------ */
 
 function CTA() {
+  const { t } = useI18n();
+
   return (
     <section
       id="cta"
@@ -2003,36 +2307,36 @@ function CTA() {
         className="absolute -right-40 top-0 -z-0 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(115,136,223,0.14),transparent_60%)] blur-3xl"
       />
       <div className="relative mx-auto max-w-6xl px-6 py-32 text-center md:py-48">
-        <Eyebrow>Start the conversation</Eyebrow>
+        <Eyebrow>{t("home.cta.eyebrow")}</Eyebrow>
         <h2 className="mt-6 font-display text-[clamp(2.8rem,9vw,8rem)] font-bold leading-[0.92] tracking-[-0.05em]">
-          <BlurText as="span" text="Ready to transform" className="block" />
+          <BlurText as="span" text={t("home.cta.title1")} className="block" />
           <BlurText
             as="span"
-            text="your business?"
+            text={t("home.cta.title2")}
             delay={0.08}
             className="block text-[var(--muted-foreground)]"
           />
         </h2>
         <p className="mx-auto mt-8 max-w-xl text-[15px] text-[var(--muted-foreground)]">
-          A 30-minute call with our team. We'll show you the platform, mapped to your operations.
+          {t("home.cta.copy")}
         </p>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           <MagneticButton variant="dark" href="/contact">
-            Start a project <ArrowRight className="h-4 w-4" />
+            {t("nav.startProject")} <ArrowRight className="h-4 w-4" />
           </MagneticButton>
           <a
             href={`mailto:${BRAND_EMAIL}`}
             className="text-[13px] text-[var(--muted-foreground)] underline-offset-4 hover:text-[var(--ink)] hover:underline"
           >
-            or email {BRAND_EMAIL}
+            {t("home.cta.emailPrefix")} {BRAND_EMAIL}
           </a>
         </div>
         <div className="mt-16 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[12px] text-[var(--muted-foreground)]">
           {[
-            [Shield, "Verified email domain"],
-            [Globe2, "ERP, POS, inventory, warehouse"],
-            [Zap, "Fast technical review"],
-            [Check, "Clear next step"],
+            [Shield, t("home.cta.badge.domain")],
+            [Globe2, t("home.cta.badge.scope")],
+            [Zap, t("home.cta.badge.review")],
+            [Check, t("home.cta.badge.next")],
           ].map(([I, l]) => {
             const Icon = I as typeof Shield;
             return (
@@ -2053,46 +2357,48 @@ function CTA() {
 
 const footerColumns = [
   {
-    title: "Pages",
+    titleKey: "home.footer.pages",
     items: [
-      { label: "Work", href: "/work" },
-      { label: "Products", href: "/#platform" },
-      { label: "Contact", href: "/contact" },
-      { label: "Blog", href: "/blog" },
+      { labelKey: "nav.work", href: "/work" },
+      { labelKey: "home.footer.productsLink", href: "/#platform" },
+      { labelKey: "nav.contact", href: "/contact" },
+      { labelKey: "nav.blog", href: "/blog" },
     ],
   },
   {
-    title: "Products",
+    titleKey: "home.footer.products",
     items: [
-      { label: "ERP Systems", href: "#services" },
-      { label: "Inventory", href: "/#platform" },
-      { label: "Warehouse", href: "/#platform" },
-      { label: "POS", href: "/#platform" },
-      { label: "Accounting", href: "/#platform" },
+      { labelKey: "home.footer.erp", href: "#services" },
+      { labelKey: "home.footer.inventory", href: "/#platform" },
+      { labelKey: "home.footer.warehouse", href: "/#platform" },
+      { labelKey: "home.footer.pos", href: "/#platform" },
+      { labelKey: "home.footer.accounting", href: "/#platform" },
     ],
   },
   {
-    title: "Company",
+    titleKey: "home.footer.company",
     items: [
-      { label: "Selected work", href: "/#projects" },
-      { label: "How we work", href: "/#process" },
+      { labelKey: "home.footer.selectedWork", href: "/#projects" },
+      { labelKey: "home.footer.howWeWork", href: "/#process" },
     ],
   },
   {
-    title: "Start",
+    titleKey: "home.footer.start",
     items: [
-      { label: "Start a project", href: "/contact" },
-      { label: "Email hello@traffodata.com", href: `mailto:${BRAND_EMAIL}` },
+      { labelKey: "nav.startProject", href: "/contact" },
+      { labelKey: "home.footer.email", href: `mailto:${BRAND_EMAIL}` },
     ],
   },
 ];
 
 function GoodsLogo() {
+  const { t } = useI18n();
+
   return (
-    <a href="/" className="flex items-center gap-2" aria-label={`${BRAND_NAME} home`}>
+    <a href="/" className="flex items-center gap-2" aria-label={t("brand.home")}>
       <BrandMark />
       <span className="text-[15px] font-semibold">
-        {BRAND_NAME} <span className="font-normal text-white/55">Software</span>
+        {t("brand.name")} <span className="font-normal text-white/55">{t("brand.segment")}</span>
       </span>
     </a>
   );
@@ -2104,10 +2410,16 @@ function handleFooterLinkClick(event: MouseEvent<HTMLAnchorElement>, href: strin
     return;
   }
 
+  if (href === "/work") {
+    trackHomeWorkClick("footer");
+  }
+
   handleSectionLinkClick(event, href);
 }
 
 export function Footer() {
+  const { t } = useI18n();
+
   return (
     <footer
       id="contact"
@@ -2138,32 +2450,27 @@ export function Footer() {
           <Reveal className="max-w-[22rem]">
             <GoodsLogo />
             <p className="mt-6 text-[15px] leading-relaxed text-white/62 sm:mt-8 sm:text-sm">
-              Premium ERP, inventory, warehouse, POS, accounting, CRM and AI software for operators
-              building serious businesses.
+              {t("home.footer.description")}
             </p>
             <p className="mt-7 text-sm text-white/45 sm:mt-8">
-              © {new Date().getFullYear()} TRAFFODATA Technologies. All rights reserved.
+              © {new Date().getFullYear()} {t("home.footer.legalName")} {t("home.footer.rights")}
             </p>
           </Reveal>
 
           <Reveal delay={0.12}>
             <div className="grid grid-cols-2 gap-x-6 gap-y-9 sm:grid-cols-4 sm:gap-x-8">
               {footerColumns.map((col) => (
-                <div key={col.title}>
-                  <div className="text-sm font-semibold text-white/82">{col.title}</div>
+                <div key={col.titleKey}>
+                  <div className="text-sm font-semibold text-white/82">{t(col.titleKey)}</div>
                   <ul className="mt-5 space-y-3.5 sm:mt-6 sm:space-y-4">
                     {col.items.map((item) => (
-                      <li key={item.label}>
+                      <li key={item.labelKey}>
                         <a
                           href={item.href}
-                          onClick={
-                            item.href.startsWith("#")
-                              ? (event) => handleFooterLinkClick(event, item.href)
-                              : undefined
-                          }
+                          onClick={(event) => handleFooterLinkClick(event, item.href)}
                           className="text-[15px] text-white/60 transition-colors hover:text-primary sm:text-sm"
                         >
-                          {item.label}
+                          {t(item.labelKey)}
                         </a>
                       </li>
                     ))}
@@ -2180,10 +2487,10 @@ export function Footer() {
           </a>
           <div className="flex flex-wrap gap-x-5 gap-y-2">
             <a href="/#hero" className="transition-colors hover:text-primary">
-              Back to top
+              {t("home.footer.backToTop")}
             </a>
             <a href="/contact" className="transition-colors hover:text-primary">
-              Start a project
+              {t("nav.startProject")}
             </a>
           </div>
         </div>
@@ -2197,9 +2504,11 @@ export function Footer() {
 /* ------------------------------------------------------------------ */
 
 export function GoodsLanding() {
+  const { resolvedTheme } = useTheme();
+
   return (
     <div className="bg-[var(--background)] text-[var(--ink)]">
-      <Nav />
+      <Nav surface={resolvedTheme === "dark" ? "light" : "dark"} />
       <main>
         <Hero />
         <Trust />
