@@ -143,6 +143,10 @@ export const translations: Record<Locale, Record<string, string>> = {
     "seo.imageAlt.home": "TRAFFODATA enterprise operations software preview",
     "seo.organization.description":
       "TRAFFODATA builds custom operational software for businesses that have outgrown spreadsheets, disconnected SaaS, and fragile internal tools.",
+    "seo.navigation.name": "TRAFFODATA site navigation",
+    "seo.navigation.work": "Case Studies",
+    "seo.navigation.blog": "Blog",
+    "seo.navigation.contact": "Contact",
     "seo.work.collectionName": "TRAFFODATA case studies",
     "seo.work.collectionDescription":
       "Case studies for custom operational software across inventory, warehouse, POS, accounting, CRM, ecommerce, dashboards, backend platforms, mobile apps, and internal tools.",
@@ -865,6 +869,10 @@ export const translations: Record<Locale, Record<string, string>> = {
     "seo.imageAlt.home": "معاينة برمجيات تشغيل المؤسسات من TRAFFODATA",
     "seo.organization.description":
       "تبني TRAFFODATA برمجيات تشغيلية مخصصة للشركات التي تجاوزت الجداول وتطبيقات SaaS المنفصلة والأدوات الداخلية الهشة.",
+    "seo.navigation.name": "تنقل موقع TRAFFODATA",
+    "seo.navigation.work": "دراسات الحالة",
+    "seo.navigation.blog": "المدونة",
+    "seo.navigation.contact": "التواصل",
     "seo.work.collectionName": "دراسات حالة TRAFFODATA",
     "seo.work.collectionDescription":
       "دراسات حالة لبرمجيات تشغيلية مخصصة عبر المخزون والمستودعات ونقاط البيع والمحاسبة وCRM والتجارة ولوحات البيانات والمنصات الخلفية وتطبيقات الموبايل والأدوات الداخلية.",

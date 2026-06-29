@@ -12,7 +12,12 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 
 import { BlurText } from "@/components/site/BlurText";
-import { iconLinks, organizationJsonLd, websiteJsonLd } from "@/components/site/seo";
+import {
+  iconLinks,
+  navigationJsonLd,
+  organizationJsonLd,
+  websiteJsonLd,
+} from "@/components/site/seo";
 import { DEFAULT_LOCALE, I18nProvider, useI18n } from "@/lib/i18n";
 import { ThemeProvider } from "@/lib/theme";
 import appCss from "../styles.css?url";
@@ -113,6 +118,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { name: "viewport", content: "width=device-width, initial-scale=1" },
         { "script:ld+json": organizationJsonLd() },
         { "script:ld+json": websiteJsonLd() },
+        { "script:ld+json": navigationJsonLd() },
       ],
       links: [{ rel: "stylesheet", href: appCss }, ...iconLinks()],
     };

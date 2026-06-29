@@ -9,6 +9,7 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "test": "node scripts/i18n-theme.test.mjs",
+    "test:seo": "node scripts/seo-structured-data.test.mjs",
     "sitemap": "node scripts/generate-sitemap.mjs",
     "verify:cairo-og": "node scripts/verify-cairo-og.mjs",
     "scrape:behance": "node scripts/scrape-behance.mjs",
