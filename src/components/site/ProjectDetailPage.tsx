@@ -167,7 +167,7 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
                       href={project.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-[var(--ink)] px-5 py-3 text-[14px] font-semibold text-white transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]"
+                      className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-[var(--ink)] px-5 py-3 text-[14px] font-semibold text-[var(--background)] transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]"
                     >
                       {t("project.open")}
                       <ExternalLink className="h-4 w-4" />

@@ -444,7 +444,7 @@ export function ContactPage() {
                   type="submit"
                   disabled={submissionState === "sending"}
                   aria-disabled={submissionState === "sending"}
-                  className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-[var(--ink)] px-6 py-3 text-[14px] font-semibold text-white transition-[transform,background-color,opacity] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-[#333da7] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70"
+                  className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-[var(--ink)] px-6 py-3 text-[14px] font-semibold text-[var(--background)] transition-[transform,background-color,opacity] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-[#333da7] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70"
                 >
                   {submissionState === "sending" ? t("contact.form.sending") : t("contact.form.send")}
                   <ArrowRight className="h-4 w-4" />

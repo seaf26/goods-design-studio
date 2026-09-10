@@ -1,88 +1,38 @@
-import { Check, CircuitBoard, Layers3, type LucideIcon } from "lucide-react";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 
 import { useI18n } from "@/lib/i18n";
 
 import { BlurText } from "./BlurText";
 import type { WorkItem } from "./workData";
-import {
-  getWorkBannerAlt,
-  getWorkBannerImage,
-  getWorkProofImage,
-} from "./workBannerMedia";
 
-function mediaTone(item: WorkItem) {
-  if (item.visual === "warehouse") return "from-[#050612] via-[#101742] to-[#030409]";
-  if (item.visual === "finance") return "from-[#0b0b0d] via-[#333da7] to-[#d9defb]";
-  if (item.visual === "distribution") return "from-[#030409] via-[#1a1a1a] to-[#7388df]";
-  if (item.visual === "retail") return "from-[#f8f9ff] via-[#7388df] to-[#030409]";
-  return item.tone === "dark"
-    ? "from-[#030409] via-[#12152c] to-[#333da7]"
-    : "from-[#f8f9ff] via-[#c8d0ff] to-[#333da7]";
-}
-
-function SystemPanel({ item, index = 0 }: { item: WorkItem; index?: number }) {
-  const { t } = useI18n();
-  const Icon = item.icon as LucideIcon;
-  const metricOne = item.stats[0] ?? item.type;
-  const metricTwo = item.stack[0] ?? item.scope;
+function ProjectShot({
+  src,
+  alt,
+  eager = false,
+}: {
+  src: string;
+  alt: string;
+  eager?: boolean;
+}) {
+  const [portrait, setPortrait] = useState(false);
 
   return (
-    <div className={`relative h-full overflow-hidden bg-gradient-to-br ${mediaTone(item)}`}>
-      <div className="absolute inset-0 opacity-[0.18] [background-image:linear-gradient(to_right,rgba(255,255,255,.18)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.18)_1px,transparent_1px)] [background-size:54px_54px]" />
-      <div className="absolute right-[-4%] top-[-18%] h-[58%] w-[44%] rounded-full bg-[#7388df]/35 blur-3xl" />
-      <div className="absolute -bottom-28 left-[12%] h-[44%] w-[62%] rounded-full bg-[#333da7]/40 blur-3xl" />
-      <div className="absolute inset-x-4 top-6 rounded-2xl border border-white/12 bg-black/34 p-3 shadow-[0_24px_80px_-42px_rgba(0,0,0,0.8)] backdrop-blur-md md:inset-x-10 md:top-10 md:p-4">
-        <div className="flex items-center justify-between gap-4 text-[10px] font-medium uppercase tracking-[0.16em] text-white/52">
-          <span>
-            TRAFFODATA / {t("project.stat.system")} {String(index + 1).padStart(2, "0")}
-          </span>
-          <span>{t("project.media.liveModel")}</span>
-        </div>
-        <div className="mt-4 grid gap-3 md:grid-cols-[0.9fr_1.1fr]">
-          <div className="rounded-xl bg-white p-4 text-black">
-            <div className="flex items-center justify-between">
-              <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#7388df]/12 text-[#333da7]">
-                <Icon className="h-5 w-5" />
-              </span>
-              <span className="rounded-full bg-black px-2.5 py-1 text-[10px] font-semibold text-white">
-                {item.year}
-              </span>
-            </div>
-            <div className="mt-9 font-display text-[clamp(1.8rem,4vw,3.4rem)] font-bold leading-none tracking-[-0.04em]">
-              {item.client}
-            </div>
-            <div className="mt-3 text-[12px] leading-relaxed text-black/54">{item.type}</div>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {[metricOne, metricTwo, item.outcome, item.duration].map((value, metricIndex) => (
-              <div
-                key={`${value}-${metricIndex}`}
-                className="rounded-xl border border-white/10 bg-white/[0.08] p-4 text-white backdrop-blur-md"
-              >
-                <div className="text-[10px] uppercase tracking-[0.16em] text-white/42">
-                  {t("project.media.signal")} {metricIndex + 1}
-                </div>
-                <div className="mt-5 line-clamp-2 font-display text-xl font-semibold leading-[1.02] tracking-[-0.03em]">
-                  {value}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="absolute bottom-6 left-4 right-4 rounded-2xl border border-white/12 bg-black/45 p-4 text-white backdrop-blur-md md:bottom-10 md:left-10 md:right-10">
-        <div className="flex items-center gap-3">
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/10 text-[#aebaff]">
-            <CircuitBoard className="h-5 w-5" />
-          </span>
-          <div className="min-w-0">
-            <div className="truncate text-[13px] font-semibold">{item.scope}</div>
-            <div className="mt-1 truncate text-[12px] text-white/52">
-              {item.stack.slice(0, 4).join(" / ")}
-            </div>
-          </div>
-        </div>
+    <div className="absolute inset-0 bg-[#030409]">
+      <div className="absolute inset-0 flex items-center justify-center p-3 md:p-4">
+        <img
+          src={src}
+          alt={alt}
+          className={
+            portrait
+              ? "h-auto w-auto max-h-[86%] max-w-[min(72vw,18rem)] rounded-[1.25rem] object-contain md:max-w-[min(28vw,18rem)]"
+              : "h-full w-full object-cover"
+          }
+          loading={eager ? "eager" : "lazy"}
+          onLoad={(event) => {
+            const target = event.currentTarget;
+            setPortrait(target.naturalHeight > target.naturalWidth);
+          }}
+        />
       </div>
     </div>
   );
@@ -120,18 +70,10 @@ export function ProjectMediaFrame({
 
 export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: ReactNode }) {
   const { t } = useI18n();
-  const [heroImageIndex, setHeroImageIndex] = useState(0);
-  const bannerImage = getWorkBannerImage(item);
-  const proofImage = getWorkProofImage(item);
   const heroImages = useMemo(
-    () => Array.from(new Set([bannerImage, proofImage].filter(Boolean))),
-    [bannerImage, proofImage],
+    () => Array.from(new Set(item.images.filter(Boolean).slice(0, 3))),
+    [item.images],
   );
-  const heroImage = heroImages[heroImageIndex] || "";
-
-  useEffect(() => {
-    setHeroImageIndex(0);
-  }, [item.slug]);
 
   return (
     <ProjectMediaFrame
@@ -139,14 +81,29 @@ export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: Re
       caption={item.title}
       className="shadow-[0_30px_110px_-72px_rgba(0,0,0,0.75)]"
     >
-      {heroImage ? (
-        <img
-          src={heroImage}
-          alt={getWorkBannerAlt(item)}
-          className="absolute inset-0 h-full w-full object-cover"
-          loading="eager"
-          onError={() => setHeroImageIndex((index) => index + 1)}
-        />
+      {heroImages.length ? (
+        <div
+          className={`absolute inset-0 grid gap-3 p-3 md:p-4 ${
+            heroImages.length === 1
+              ? "grid-cols-1"
+              : heroImages.length === 2
+                ? "grid-cols-1 md:grid-cols-2"
+                : "grid-cols-1 md:grid-cols-3"
+          }`}
+        >
+          {heroImages.map((image, index) => (
+            <div
+              key={image}
+              className="relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-black/20"
+            >
+              <ProjectShot
+                src={image}
+                alt={`${item.title} ${t("project.media.alt")} ${index + 1}`}
+                eager={index === 0}
+              />
+            </div>
+          ))}
+        </div>
       ) : (
         <div className="absolute inset-0">{visual}</div>
       )}
@@ -178,39 +135,23 @@ export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: Re
 export function ProjectGallery({ item }: { item: WorkItem }) {
   const { t } = useI18n();
   const imageItems = item.images.filter(Boolean).slice(0, 3);
-  const needsSystemBanner = imageItems.length < 2;
-  const media = needsSystemBanner ? [...imageItems, "system"] : imageItems;
+
+  if (!imageItems.length) {
+    return null;
+  }
 
   return (
     <div className="grid gap-4">
-      {media.map((image, index) => {
-        const isSystem = image === "system";
-        const label = isSystem
-          ? t("project.media.generated")
-          : `${t("project.media.image")} ${index + 1}`;
-        return (
-          <ProjectMediaFrame
-            key={`${image}-${index}`}
-            label={label}
-            caption={isSystem ? item.scope : item.title}
-            className="shadow-none"
-          >
-            {isSystem ? (
-              <SystemPanel item={item} index={index} />
-            ) : (
-              <img
-                src={image}
-                alt={`${item.title} ${t("project.media.alt")} ${index + 1}`}
-                className="h-full w-full object-cover"
-                loading="lazy"
-              />
-            )}
-            <div className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-black/40 text-white ring-1 ring-white/14 backdrop-blur-md">
-              {isSystem ? <Layers3 className="h-4 w-4" /> : <Check className="h-4 w-4" />}
-            </div>
-          </ProjectMediaFrame>
-        );
-      })}
+      {imageItems.map((image, index) => (
+        <ProjectMediaFrame
+          key={`${image}-${index}`}
+          label={`${t("project.media.image")} ${index + 1}`}
+          caption={item.title}
+          className="shadow-none"
+        >
+          <ProjectShot src={image} alt={`${item.title} ${t("project.media.alt")} ${index + 1}`} />
+        </ProjectMediaFrame>
+      ))}
     </div>
   );
 }

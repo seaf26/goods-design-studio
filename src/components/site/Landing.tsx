@@ -444,7 +444,7 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
   const lightSurface = surface === "light";
   const darkSurface = surface === "dark";
   const elevated = scrolled || lightSurface;
-  const forceDarkText = elevated && lightSurface;
+  const forceDarkText = elevated && lightSurface && resolvedTheme !== "dark";
   const needsDarkModeContrast = darkSurface && resolvedTheme === "dark";
 
   useEffect(() => {

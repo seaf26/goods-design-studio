@@ -1,11 +1,11 @@
 import type { WorkItem } from "./workData";
 
 export function getWorkBannerImage(item: WorkItem) {
-    return item.banner || item.thumbnail || item.images[0] || "";
+  return item.thumbnail || item.images[0] || item.banner || "";
 }
 
 export function getWorkProofImage(item: WorkItem) {
-    return item.thumbnail || item.images[0] || item.banner || "";
+  return item.images[0] || item.thumbnail || item.banner || "";
 }
 
 export function getWorkBannerFamilyLabel(item: WorkItem) {
@@ -25,5 +25,5 @@ export function getWorkBannerFamilyLabel(item: WorkItem) {
 }
 
 export function getWorkBannerAlt(item: WorkItem) {
-    return `${item.title} ${item.type} banner showing the project interface in a TRAFFODATA cinematic operations frame`;
+  return `${item.title} ${item.type} project preview`;
 }

@@ -1,4 +1,4 @@
-import { useRef, type ElementType, type HTMLAttributes, type Ref } from "react";
+import { useEffect, useRef, useState, type ElementType, type HTMLAttributes, type Ref } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 
 type BlurTextElement = "h1" | "h2" | "h3" | "h4" | "p" | "div" | "span" | "blockquote";
@@ -38,6 +38,7 @@ export function BlurText({
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once, margin: "-8% 0px" });
   const shouldReduceMotion = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
   const units = animateBy === "letters" ? Array.from(text) : text.split(" ");
   const offset = direction === "top" ? -18 : 18;
   const isLcpSafe = paintStrategy === "lcp";
@@ -45,6 +46,18 @@ export function BlurText({
     ? { y: offset * 0.5 }
     : { opacity: 0, filter: "blur(10px)", y: offset };
   const visibleState = isLcpSafe ? { y: 0 } : { opacity: 1, filter: "blur(0px)", y: 0 };
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || shouldReduceMotion || !inView) {
+    return (
+      <Component ref={ref} className={className} {...props}>
+        {text}
+      </Component>
+    );
+  }
 
   return (
     <Component ref={ref} className={className} aria-label={text} {...props}>

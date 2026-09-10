@@ -106,7 +106,7 @@ function RetailVisual({ item }: { item: WorkItem }) {
           <div className="mt-8 grid grid-cols-[1.1fr_0.9fr] gap-4">
             <div>
               <div className="h-3 w-20 rounded-full bg-black/10" />
-              <div className="mt-3 h-16 rounded-xl bg-[var(--ink)] p-3 text-white">
+              <div className="mt-3 h-16 rounded-xl bg-[var(--ink)] p-3 text-[var(--background)]">
                 <Icon className="h-5 w-5 text-primary" />
                 <div className="mt-3 h-1.5 w-24 rounded-full bg-white/25" />
               </div>
@@ -495,7 +495,7 @@ export function WorkPage() {
                         }}
                         className={`rounded-full px-4 py-2 text-[12px] font-semibold transition-[background-color,color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary active:scale-[0.97] ${
                           isActive
-                            ? "bg-[var(--ink)] text-white shadow-[0_14px_40px_-28px_rgba(0,0,0,0.8)]"
+                            ? "bg-[var(--ink)] text-[var(--background)] shadow-[0_14px_40px_-28px_rgba(0,0,0,0.8)]"
                             : "bg-[var(--surface)] text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)] hover:text-[var(--ink)]"
                         }`}
                       >
@@ -536,9 +536,9 @@ export function WorkPage() {
         <section className="pb-24 md:pb-32">
           <div className="mx-auto max-w-[92rem] px-5 sm:px-6">
             <Reveal>
-              <div className="grid gap-6 rounded-[1.5rem] bg-[var(--ink)] p-6 text-white ring-1 ring-black/10 md:grid-cols-[1fr_auto] md:items-center md:p-8">
+              <div className="grid gap-6 rounded-[1.5rem] bg-[var(--ink)] p-6 text-[var(--background)] ring-1 ring-black/10 md:grid-cols-[1fr_auto] md:items-center md:p-8">
                 <div>
-                  <div className="inline-flex items-center gap-2 text-[12px] font-medium text-white/58">
+                  <div className="inline-flex items-center gap-2 text-[12px] font-medium text-[var(--background)]/58">
                     <MessageCircle className="h-4 w-4 text-primary" />
                     {t("work.cta.eyebrow")}
                   </div>
@@ -551,7 +551,7 @@ export function WorkPage() {
                 <a
                   href="/contact"
                   onClick={() => trackSiteEvent("work_contact_click", { location: "work_cta" })}
-                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[var(--ink)] transition hover:bg-primary hover:text-white active:scale-[0.98]"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-[#03040a] transition hover:bg-primary hover:text-white active:scale-[0.98]"
                 >
                   {t("nav.startProject")}
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
