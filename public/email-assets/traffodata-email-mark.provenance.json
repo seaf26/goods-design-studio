@@ -1,0 +1,10 @@
+{
+  "asset": "public/email-assets/traffodata-email-mark.png",
+  "created": "2026-09-10",
+  "source": "public/brand/traffodata-logo-mark.png",
+  "transformations": [
+    "Cropped the transparent 500x500 canvas to the centered 330x330 mark area",
+    "Resampled to 128x128 for a compact high-density email asset"
+  ],
+  "purpose": "Email-specific symbol used with live dark wordmark text on light backgrounds"
+}

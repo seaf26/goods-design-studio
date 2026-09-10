@@ -32,19 +32,19 @@ const contactMethods = [
   {
     labelKey: "contact.method.email",
     valueKey: "contact.method.emailValue",
-    href: "mailto:hello@traffodata.com",
+    href: "mailto:info@traffodata.com",
     icon: Mail,
   },
   {
     labelKey: "contact.method.phone",
     valueKey: "contact.method.phoneValue",
-    href: "mailto:hello@traffodata.com?subject=Call%20request",
+    href: "mailto:info@traffodata.com?subject=Call%20request",
     icon: PhoneCall,
   },
   {
     labelKey: "contact.method.region",
     valueKey: "contact.method.regionValue",
-    href: "mailto:hello@traffodata.com?subject=Dubai%20operations",
+    href: "mailto:info@traffodata.com?subject=Dubai%20operations",
     icon: MapPin,
   },
 ];
@@ -86,7 +86,7 @@ export function ContactPage() {
       .filter(Boolean)
       .join("\n");
 
-    return `mailto:hello@traffodata.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    return `mailto:info@traffodata.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }, [company, email, message, name, selectedServices, t]);
 
   const toggleService = (item: string) => {

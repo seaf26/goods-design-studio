@@ -1,0 +1,73 @@
+{{preheader}}
+
+TRAFFODATA SOFTWARE
+{{delivery_type}}
+{{project_name}}
+
+{{email_title}}
+
+Hello {{client_name}},
+
+{{intro_message}}
+
+[OPTIONAL PRIMARY_ACTION START]
+PRIMARY ACTION
+{{primary_action_label}}: {{primary_action_url}}
+[OPTIONAL PRIMARY_ACTION END]
+
+DELIVERY SUMMARY
+Status: {{delivery_status}}
+Delivery date: {{delivery_date}}
+Project reference: {{project_reference}}
+
+[OPTIONAL CONTRACT START]
+CONTRACT
+Name: {{contract_name}}
+Reference: {{contract_reference}}
+[OPTIONAL CONTRACT_LINK START]
+Secure document: {{contract_url}}
+[OPTIONAL CONTRACT_LINK END]
+[OPTIONAL CONTRACT END]
+
+[OPTIONAL SOFTWARE_ACCESS START]
+SOFTWARE ACCESS
+Software: {{software_name}}
+Login URL: {{login_url}}
+Username: {{username}}
+[OPTIONAL SOFTWARE_ACCESS END]
+
+[OPTIONAL SECURE_SETUP START]
+SECURE SETUP LINK (RECOMMENDED)
+Use this private link to create your password. Do not forward it.
+{{password_setup_url}}
+[OPTIONAL SECURE_SETUP END]
+
+[OPTIONAL TEMPORARY_PASSWORD START]
+TEMPORARY PASSWORD
+Password: {{temporary_password}}
+Expires: {{password_expiry}}
+For security, change this password after your first sign-in.
+[OPTIONAL TEMPORARY_PASSWORD END]
+
+[OPTIONAL RESOURCES START]
+FILES AND RESOURCES
+1. {{resource_1_name}}: {{resource_1_url}}
+2. {{resource_2_name}}: {{resource_2_url}}
+3. {{resource_3_name}}: {{resource_3_url}}
+[OPTIONAL RESOURCES END]
+
+[OPTIONAL NEXT_STEPS START]
+NEXT STEPS
+1. {{next_step_1}}
+2. {{next_step_2}}
+3. {{next_step_3}}
+Owner: {{next_step_owner}}
+Deadline: {{next_step_deadline}}
+[OPTIONAL NEXT_STEPS END]
+
+NEED SUPPORT?
+{{support_note}}
+info@traffodata.com
+
+Traffodata Software
+https://traffodata.com

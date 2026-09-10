@@ -1,0 +1,10 @@
+{
+  "asset": "public/email-assets/traffodata-email-logo.png",
+  "created": "2026-09-10",
+  "source": "public/brand/traffodata-logo-wide.png",
+  "transformations": [
+    "Cropped the transparent 706x353 canvas to the centered 706x210 wordmark area",
+    "Resampled to 480x142 for a compact high-density email asset"
+  ],
+  "purpose": "Email-specific wordmark with less empty space and clearer rendering at small sizes"
+}

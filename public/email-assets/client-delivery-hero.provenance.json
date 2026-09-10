@@ -1,0 +1,15 @@
+{
+  "asset": "public/email-assets/client-delivery-hero.jpg",
+  "created": "2026-09-10",
+  "generator": "OpenAI image generation tool",
+  "reference": {
+    "path": "/Users/seafgamel/Desktop/Event Invitation (Agnostic · Professional (default)) Email in Black Indigo Cream Professional Ambient Gradients Style/images/5b57c4e97bb839db434ccdcbb6bd434f.png",
+    "role": "Visual direction only"
+  },
+  "prompt_summary": "An original text-free Traffodata client-delivery email hero with a cream-to-indigo-to-ink atmosphere, restrained technical grid and arcs, quiet space for live email text, and no copied branding or stock imagery.",
+  "transformations": [
+    "Generated at 1024x1536",
+    "Resampled to 1200x900 for the reusable email hero",
+    "Converted to an 82-quality JPEG for an 83KB email payload"
+  ]
+}

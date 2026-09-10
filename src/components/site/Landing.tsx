@@ -304,7 +304,7 @@ const NAV_ITEMS = [
 ];
 
 const BRAND_NAME = "TRAFFODATA";
-const BRAND_EMAIL = "hello@traffodata.com";
+const BRAND_EMAIL = "info@traffodata.com";
 const BRAND_LOGO_SRC = "/brand/traffodata-logo-96.png";
 
 function BrandMark({ size = "sm", framed = true }: { size?: "sm" | "md"; framed?: boolean }) {
