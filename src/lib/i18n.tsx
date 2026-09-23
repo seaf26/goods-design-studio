@@ -138,11 +138,11 @@ export const translations: Record<Locale, Record<string, string>> = {
     "root.goHome": "Go home",
     "seo.defaultTitle": "TRAFFODATA - Operational Software for Serious Operators",
     "seo.defaultDescription":
-      "TRAFFODATA builds custom operational software for businesses that have outgrown spreadsheets, disconnected SaaS, and fragile internal tools.",
+      "TRAFFODATA builds and supports custom operational software for businesses in Egypt, the Gulf, and international markets that have outgrown spreadsheets and disconnected tools.",
     "seo.imageAlt.logo": "TRAFFODATA Software Solutions logo",
     "seo.imageAlt.home": "TRAFFODATA enterprise operations software preview",
     "seo.organization.description":
-      "TRAFFODATA builds custom operational software for businesses that have outgrown spreadsheets, disconnected SaaS, and fragile internal tools.",
+      "TRAFFODATA builds and supports custom operational software for businesses in Egypt, the Gulf, and international markets that have outgrown spreadsheets and disconnected tools.",
     "seo.navigation.name": "TRAFFODATA site navigation",
     "seo.navigation.work": "Case Studies",
     "seo.navigation.blog": "Blog",
@@ -155,7 +155,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Explore TRAFFODATA case studies for businesses with real workflows, real teams, and real money moving through backend platforms, dashboards, mobile apps, commerce engines, and internal tools.",
     "seo.blog.title": "Blog - TRAFFODATA Software",
     "seo.blog.description":
-      "Practical essays on ERP, inventory, warehouse management software, digital storefronts in Egypt, POS, accounting, CRM, and durable business software.",
+      "Practical answers about custom business software, ERP, inventory, warehouse management, ecommerce, Laravel APIs, integrations, project timelines, and post-launch support across Egypt, the Gulf, and international markets.",
     "seo.contact.title": "Contact Us - TRAFFODATA Software",
     "seo.contact.description":
       "Talk to TRAFFODATA about the workflow, system gap, or disconnected toolchain slowing your business down.",
@@ -684,11 +684,13 @@ export const translations: Record<Locale, Record<string, string>> = {
     "blog.article.back": "Back to the journal",
     "blog.article.operatingQuestion": "The operating question",
     "blog.article.signals": "Signals to watch",
+    "blog.article.related": "Keep reading.",
     "blog.article.cta": "Bring the workflow to the table.",
+    "blog.preferredSource": "Follow TRAFFODATA in Google",
     "blog.article.warehouse-management-software-egypt.title":
-      "How to choose warehouse management software in Egypt",
+      "Warehouse software in Egypt: how to choose a system operators will use",
     "blog.article.warehouse-management-software-egypt.deck":
-      "A practical buying guide for teams comparing warehouse software, inventory accuracy, barcode workflows, and delivery operations in Egypt.",
+      "A practical buying guide for teams comparing warehouse software, inventory accuracy, barcode workflows, receiving, picking, and delivery operations in Egypt.",
     "blog.article.warehouse-management-software-egypt.topic": "Warehouse",
     "blog.article.warehouse-management-software-egypt.readTime": "8 min read",
     "blog.article.warehouse-management-software-egypt.publishedAt": "September 2026",
@@ -749,6 +751,229 @@ export const translations: Record<Locale, Record<string, string>> = {
       "The useful test",
     "blog.article.digital-storefront-egypt.section.decision.text":
       "Ask whether one person can answer three questions without opening five tools: what did the customer order, where is it now, and what must happen next? If not, the next investment is probably not another storefront feature. It is the connected operational layer underneath it.",
+    "blog.article.ecommerce-software-egypt.title":
+      "Ecommerce software in Egypt: connect the storefront to the work behind it",
+    "blog.article.ecommerce-software-egypt.deck":
+      "A practical guide to ecommerce software in Egypt: catalog, cash on delivery, payments, inventory, delivery, and the operating data that keeps orders moving.",
+    "blog.article.ecommerce-software-egypt.topic": "ERP",
+    "blog.article.ecommerce-software-egypt.readTime": "7 min read",
+    "blog.article.ecommerce-software-egypt.publishedAt": "September 2026",
+    "blog.article.ecommerce-software-egypt.audience": "Commerce, founders, operations",
+    "blog.article.ecommerce-software-egypt.question":
+      "Does every order create one shared operational record?",
+    "blog.article.ecommerce-software-egypt.signal.0.label": "Demand",
+    "blog.article.ecommerce-software-egypt.signal.0.value": "COD + card",
+    "blog.article.ecommerce-software-egypt.signal.1.label": "Control",
+    "blog.article.ecommerce-software-egypt.signal.1.value": "Live stock",
+    "blog.article.ecommerce-software-egypt.signal.2.label": "Output",
+    "blog.article.ecommerce-software-egypt.signal.2.value": "Fewer handoffs",
+    "blog.article.ecommerce-software-egypt.section.storefront-is-not-system.title":
+      "The storefront is not the operating system",
+    "blog.article.ecommerce-software-egypt.section.storefront-is-not-system.text":
+      "A storefront can collect an order, but the business still needs to reserve stock, confirm payment, assign fulfillment, coordinate delivery, and answer the customer. Ecommerce software becomes useful when those states live in one model instead of being passed between a store, spreadsheet, courier portal, and chat thread.",
+    "blog.article.ecommerce-software-egypt.section.egypt-order-path.title":
+      "Map the order path used in Egypt",
+    "blog.article.ecommerce-software-egypt.section.egypt-order-path.text":
+      "Start with the real mix of cash on delivery, card payments, bank transfers, WhatsApp follow-up, branch stock, and local delivery partners. The goal is not to add every integration on day one. It is to make the owner of each state clear, from confirmation to failed delivery, return, refund, and reconciliation.",
+    "blog.article.ecommerce-software-egypt.section.integration-checklist.title":
+      "The integration checklist",
+    "blog.article.ecommerce-software-egypt.section.integration-checklist.text":
+      "Validate catalog ownership, stock reservations, price rules, payment status, delivery status, customer history, notifications, permissions, and audit events. A good ecommerce platform should make exceptions visible and recoverable, not hide them behind a green order count.",
+    "blog.article.ecommerce-software-egypt.section.decision.title": "Choose the layer that is missing",
+    "blog.article.ecommerce-software-egypt.section.decision.text":
+      "If the storefront is fine but operations are scattered, improve the connected order layer. If stock and finance are already reliable, focus on the customer-facing experience. The right investment follows the broken handoff rather than the loudest feature request.",
+    "blog.article.laravel-rest-api-business-systems.title":
+      "Laravel REST APIs for business systems: what to connect first",
+    "blog.article.laravel-rest-api-business-systems.deck":
+      "A practical guide to designing Laravel REST APIs for inventory, orders, payments, and mobile apps without turning every integration into a fragile handoff.",
+    "blog.article.laravel-rest-api-business-systems.topic": "Automation",
+    "blog.article.laravel-rest-api-business-systems.readTime": "7 min read",
+    "blog.article.laravel-rest-api-business-systems.publishedAt": "September 2026",
+    "blog.article.laravel-rest-api-business-systems.audience": "Product, engineering, operations",
+    "blog.article.laravel-rest-api-business-systems.question":
+      "Can every important business event be replayed, traced, and owned?",
+    "blog.article.laravel-rest-api-business-systems.signal.0.label": "Contract",
+    "blog.article.laravel-rest-api-business-systems.signal.0.value": "Clear resources",
+    "blog.article.laravel-rest-api-business-systems.signal.1.label": "Reliability",
+    "blog.article.laravel-rest-api-business-systems.signal.1.value": "Idempotent events",
+    "blog.article.laravel-rest-api-business-systems.signal.2.label": "Output",
+    "blog.article.laravel-rest-api-business-systems.signal.2.value": "Safer integrations",
+    "blog.article.laravel-rest-api-business-systems.section.start-with-events.title":
+      "Start with business events",
+    "blog.article.laravel-rest-api-business-systems.section.start-with-events.text":
+      "A Laravel REST API should represent work the business understands: an order placed, a stock movement recorded, a payment captured, or a delivery attempt made. Start with those events and their owners before choosing controller names or generating endpoints.",
+    "blog.article.laravel-rest-api-business-systems.section.resource-boundaries.title":
+      "Make resource boundaries explicit",
+    "blog.article.laravel-rest-api-business-systems.section.resource-boundaries.text":
+      "Define which system owns customers, products, inventory, orders, payments, and delivery states. Use stable identifiers, validation, authorization, pagination, and versioned contracts so a mobile app or partner integration is not coupled to a private database shape.",
+    "blog.article.laravel-rest-api-business-systems.section.mobile-and-partners.title":
+      "Design for mobile and partners",
+    "blog.article.laravel-rest-api-business-systems.section.mobile-and-partners.text":
+      "Mobile apps and external services need predictable responses, useful errors, retry-safe writes, and clear webhook behavior. Treat slow networks, duplicate requests, expired tokens, and partial failures as normal operating conditions rather than edge cases.",
+    "blog.article.laravel-rest-api-business-systems.section.production-readiness.title":
+      "Production readiness is part of the API",
+    "blog.article.laravel-rest-api-business-systems.section.production-readiness.text":
+      "Before launch, add request logs, correlation IDs, rate limits, queue visibility, health checks, backups, and a way to replay or reconcile failed work. The API is not finished when the endpoint returns 200; it is finished when the team can explain what happened next.",
+    "blog.article.custom-business-software-egypt.title":
+      "Custom business software in Egypt: when the workflow is the product",
+    "blog.article.custom-business-software-egypt.deck":
+      "How to decide whether custom business software is justified when spreadsheets, SaaS tools, and manual approvals no longer agree.",
+    "blog.article.custom-business-software-egypt.topic": "ERP",
+    "blog.article.custom-business-software-egypt.readTime": "6 min read",
+    "blog.article.custom-business-software-egypt.publishedAt": "September 2026",
+    "blog.article.custom-business-software-egypt.audience": "Founders, COOs, operations",
+    "blog.article.custom-business-software-egypt.question":
+      "Is the bottleneck a missing feature, or a missing operating model?",
+    "blog.article.custom-business-software-egypt.signal.0.label": "Trigger",
+    "blog.article.custom-business-software-egypt.signal.0.value": "Repeated exceptions",
+    "blog.article.custom-business-software-egypt.signal.1.label": "Scope",
+    "blog.article.custom-business-software-egypt.signal.1.value": "First release",
+    "blog.article.custom-business-software-egypt.signal.2.label": "Outcome",
+    "blog.article.custom-business-software-egypt.signal.2.value": "Owned workflow",
+    "blog.article.custom-business-software-egypt.section.signal-to-build.title":
+      "The signal that it is time to build",
+    "blog.article.custom-business-software-egypt.section.signal-to-build.text":
+      "Custom software is worth considering when the same exceptions repeat, the rules are important to the business, and no existing tool can show who owns the next action. The problem is not that the team lacks another dashboard. The problem is that the operating model is being reconstructed by hand.",
+    "blog.article.custom-business-software-egypt.section.map-before-code.title":
+      "Map the work before the code",
+    "blog.article.custom-business-software-egypt.section.map-before-code.text":
+      "Document roles, approvals, records, states, handoffs, and failure paths. Include the real constraints around branches, Arabic and English teams, payment reconciliation, local delivery, and reporting. A short process map is more valuable than a long feature list.",
+    "blog.article.custom-business-software-egypt.section.buy-and-build.title":
+      "Know what to buy and what to build",
+    "blog.article.custom-business-software-egypt.section.buy-and-build.text":
+      "Keep commodity capabilities where a stable product already does the job, and build the workflow that differentiates the operation. Accounting, authentication, messaging, payments, and analytics may integrate well; the rules that join them may be the part you own.",
+    "blog.article.custom-business-software-egypt.section.first-release.title":
+      "Shape a first release people can trust",
+    "blog.article.custom-business-software-egypt.section.first-release.text":
+      "Choose one valuable operating loop and make it observable from request to outcome. Give the team clear permissions, evidence, notifications, and an exception path. The first release should reduce a real handoff, not simply recreate every screen from the old tools.",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.title":
+      "Custom software vs off-the-shelf in Egypt: a practical decision guide",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.deck":
+      "The honest way to compare ready-made software with a system built around your workflow, budget, team, and long-term ownership.",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.topic": "ERP",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.readTime": "7 min read",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.publishedAt": "September 2026",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.audience": "Founders, COOs, operations",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.question":
+      "Where does the generic tool stop helping and start taxing the operation?",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.signal.0.label": "Question",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.signal.0.value": "Buy or build",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.signal.1.label": "Risk",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.signal.1.value": "Workarounds",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.signal.2.label": "Outcome",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.signal.2.value": "Fit over features",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.section.start-with-ceiling.title":
+      "Start with the ceiling, not the excitement",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.section.start-with-ceiling.text":
+      "Ready-made software is often the right first move. It becomes a problem when the team is spending more time working around the product than using it, or when the most important business rules live in spreadsheets, messages, and personal memory. Find the ceiling before you compare technology.",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.section.total-cost.title":
+      "Compare the full cost of the decision",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.section.total-cost.text":
+      "The price is not only a subscription or a development estimate. Count implementation, migration, training, integrations, manual reconciliation, support, change requests, and the cost of errors. A cheaper tool can become expensive when every exception requires a human workaround.",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.section.ownership.title":
+      "Ask who owns the workflow",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.section.ownership.text":
+      "Custom software should come with a clear ownership model: source code, hosting, credentials, documentation, monitoring, support, and a path for future improvements. Buying a product can reduce maintenance, but it may also mean accepting someone else's workflow and release priorities.",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.section.decision.title":
+      "A useful decision rule",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.section.decision.text":
+      "Buy the stable commodity. Build the workflow that is genuinely specific to the business. For a growing Egyptian, Gulf, or international operation, the best answer is often a connected system that keeps reliable products where they work and customizes the handoffs that create the advantage.",
+    "blog.article.software-project-timeline-3-15-weeks.title":
+      "Why custom software projects take 3 to 15 weeks",
+    "blog.article.software-project-timeline-3-15-weeks.deck":
+      "A clear way to think about software delivery timelines: what can ship in three weeks, what needs a longer runway, and what protects the first release.",
+    "blog.article.software-project-timeline-3-15-weeks.topic": "Automation",
+    "blog.article.software-project-timeline-3-15-weeks.readTime": "6 min read",
+    "blog.article.software-project-timeline-3-15-weeks.publishedAt": "September 2026",
+    "blog.article.software-project-timeline-3-15-weeks.audience": "Founders, product, operations",
+    "blog.article.software-project-timeline-3-15-weeks.question":
+      "What is the smallest release that changes the operation for the better?",
+    "blog.article.software-project-timeline-3-15-weeks.signal.0.label": "Range",
+    "blog.article.software-project-timeline-3-15-weeks.signal.0.value": "3–15 weeks",
+    "blog.article.software-project-timeline-3-15-weeks.signal.1.label": "Control",
+    "blog.article.software-project-timeline-3-15-weeks.signal.1.value": "Release boundary",
+    "blog.article.software-project-timeline-3-15-weeks.signal.2.label": "Output",
+    "blog.article.software-project-timeline-3-15-weeks.signal.2.value": "Working software",
+    "blog.article.software-project-timeline-3-15-weeks.section.scope-first.title":
+      "Scope decides the calendar",
+    "blog.article.software-project-timeline-3-15-weeks.section.scope-first.text":
+      "A useful estimate starts with one operating loop, not a wish list. Define the users, decisions, records, integrations, permissions, and proof of success. The clearer the boundary, the more honest the timeline and the easier it is to make a trade-off.",
+    "blog.article.software-project-timeline-3-15-weeks.section.three-week.title":
+      "What a three-week release can do",
+    "blog.article.software-project-timeline-3-15-weeks.section.three-week.text":
+      "Three weeks can be enough for a focused release: one workflow, a small number of roles, a defined data model, and the screens needed to use it. It is a good shape for a pilot, an internal tool, a narrow portal, or the first slice of a larger platform.",
+    "blog.article.software-project-timeline-3-15-weeks.section.fifteen-week.title":
+      "What needs closer to fifteen weeks",
+    "blog.article.software-project-timeline-3-15-weeks.section.fifteen-week.text":
+      "A longer delivery window makes room for multiple roles, mobile or partner applications, deeper integrations, migration, reporting, permissions, testing, training, and a more complete operational surface. The point is not to fill fifteen weeks; it is to protect the quality of a system people will depend on.",
+    "blog.article.software-project-timeline-3-15-weeks.section.protect-the-timeline.title":
+      "Protect the first release",
+    "blog.article.software-project-timeline-3-15-weeks.section.protect-the-timeline.text":
+      "Keep decisions visible, review working software early, prepare access to external systems, and assign one person who can answer scope questions. Delays usually come from unclear ownership, late integration details, and expanding the first release before its core loop works.",
+    "blog.article.post-launch-software-support-ownership.title":
+      "Post-launch software support: who owns the system after release?",
+    "blog.article.post-launch-software-support-ownership.deck":
+      "Why ownership, support, monitoring, and small improvements should be designed before custom software goes live.",
+    "blog.article.post-launch-software-support-ownership.topic": "Automation",
+    "blog.article.post-launch-software-support-ownership.readTime": "6 min read",
+    "blog.article.post-launch-software-support-ownership.publishedAt": "September 2026",
+    "blog.article.post-launch-software-support-ownership.audience": "Founders, operations, technology",
+    "blog.article.post-launch-software-support-ownership.question":
+      "Who can explain the system when the business changes or something breaks?",
+    "blog.article.post-launch-software-support-ownership.signal.0.label": "After launch",
+    "blog.article.post-launch-software-support-ownership.signal.0.value": "Named owner",
+    "blog.article.post-launch-software-support-ownership.signal.1.label": "Response",
+    "blog.article.post-launch-software-support-ownership.signal.1.value": "Clear support",
+    "blog.article.post-launch-software-support-ownership.signal.2.label": "Outcome",
+    "blog.article.post-launch-software-support-ownership.signal.2.value": "Durable system",
+    "blog.article.post-launch-software-support-ownership.section.ownership-after-launch.title":
+      "Ownership does not end at launch",
+    "blog.article.post-launch-software-support-ownership.section.ownership-after-launch.text":
+      "A production system needs someone who understands its decisions, dependencies, credentials, data, and failure modes. Make ownership explicit across the client and delivery team before the first real user depends on it.",
+    "blog.article.post-launch-software-support-ownership.section.support-model.title":
+      "Define the support model",
+    "blog.article.post-launch-software-support-ownership.section.support-model.text":
+      "Agree on how incidents are reported, what counts as urgent, how response works, and where routine improvements are planned. Support is more useful when it includes monitoring, backups, release notes, and a short path from a repeated issue to a product improvement.",
+    "blog.article.post-launch-software-support-ownership.section.handover.title":
+      "Make handover part of delivery",
+    "blog.article.post-launch-software-support-ownership.section.handover.text":
+      "A real handover includes the source code, environments, deployment access, integrations, data model, runbook, user roles, and known limitations. Ownership means the client can keep operating and make informed decisions even when the original project team is not in the room.",
+    "blog.article.post-launch-software-support-ownership.section.measure-improvement.title":
+      "Measure the work after release",
+    "blog.article.post-launch-software-support-ownership.section.measure-improvement.text":
+      "Watch the signals that matter to the operation: failed jobs, unresolved exceptions, response time, adoption, manual work removed, and the time it takes to complete the core workflow. Post-launch support should make the system more dependable, not just keep the lights on.",
+    "blog.article.egypt-gulf-software-integrations.title":
+      "Software integrations for Egypt and the Gulf: design for the real handoffs",
+    "blog.article.egypt-gulf-software-integrations.deck":
+      "Local payment, delivery, language, and operational requirements matter when a business software system needs to work across Egypt, the Gulf, and international teams.",
+    "blog.article.egypt-gulf-software-integrations.topic": "ERP",
+    "blog.article.egypt-gulf-software-integrations.readTime": "7 min read",
+    "blog.article.egypt-gulf-software-integrations.publishedAt": "September 2026",
+    "blog.article.egypt-gulf-software-integrations.audience": "Commerce, logistics, operations",
+    "blog.article.egypt-gulf-software-integrations.question":
+      "Which local rule or partner can change the state of the business?",
+    "blog.article.egypt-gulf-software-integrations.signal.0.label": "Reach",
+    "blog.article.egypt-gulf-software-integrations.signal.0.value": "Egypt + Gulf",
+    "blog.article.egypt-gulf-software-integrations.signal.1.label": "Control",
+    "blog.article.egypt-gulf-software-integrations.signal.1.value": "Owned integrations",
+    "blog.article.egypt-gulf-software-integrations.signal.2.label": "Output",
+    "blog.article.egypt-gulf-software-integrations.signal.2.value": "Fewer surprises",
+    "blog.article.egypt-gulf-software-integrations.section.local-reality.title":
+      "Start with local reality",
+    "blog.article.egypt-gulf-software-integrations.section.local-reality.text":
+      "Regional software has to account for the way teams actually work: Arabic and English interfaces, local payment methods, cash on delivery, delivery partners, branch operations, tax documents, and different approval habits. These details change the workflow, not just the translation file.",
+    "blog.article.egypt-gulf-software-integrations.section.integration-boundaries.title":
+      "Give every integration a boundary",
+    "blog.article.egypt-gulf-software-integrations.section.integration-boundaries.text":
+      "Decide which system owns each state and what happens when a partner is late, unavailable, or returns an unexpected response. Stable contracts, retries, reconciliation, and an audit trail keep a local integration from becoming a hidden manual process.",
+    "blog.article.egypt-gulf-software-integrations.section.regional-readiness.title":
+      "Design for regional change",
+    "blog.article.egypt-gulf-software-integrations.section.regional-readiness.text":
+      "Keep currencies, taxes, languages, branches, permissions, and delivery rules configurable where they genuinely vary. Avoid hard-coding every country into the first release, but do not pretend that one generic workflow fits every market either.",
+    "blog.article.egypt-gulf-software-integrations.section.international-without-generic.title":
+      "Go international without becoming generic",
+    "blog.article.egypt-gulf-software-integrations.section.international-without-generic.text":
+      "A strong platform keeps a clear core model and lets local operations plug into it. That is how a system can support Egyptian and Gulf teams, then grow to international operations without losing the specific handoffs that made it useful in the first place.",
     "blog.article.before-another-dashboard.title": "What operators need before another dashboard",
     "blog.article.before-another-dashboard.deck":
       "A practical look at approvals, stock events, and finance rules that should be mapped before interface design starts.",
@@ -932,11 +1157,11 @@ export const translations: Record<Locale, Record<string, string>> = {
     "root.goHome": "العودة للرئيسية",
     "seo.defaultTitle": "TRAFFODATA - برمجيات تشغيلية لمشغلين جادين",
     "seo.defaultDescription":
-      "تبني TRAFFODATA برمجيات تشغيلية مخصصة للشركات التي تجاوزت الجداول وتطبيقات SaaS المنفصلة والأدوات الداخلية الهشة.",
+      "تبني TRAFFODATA وتدعم برمجيات تشغيلية مخصصة للشركات في مصر والخليج والأسواق الدولية التي تجاوزت الجداول والأدوات المنفصلة.",
     "seo.imageAlt.logo": "شعار حلول برمجيات TRAFFODATA",
     "seo.imageAlt.home": "معاينة برمجيات تشغيل المؤسسات من TRAFFODATA",
     "seo.organization.description":
-      "تبني TRAFFODATA برمجيات تشغيلية مخصصة للشركات التي تجاوزت الجداول وتطبيقات SaaS المنفصلة والأدوات الداخلية الهشة.",
+      "تبني TRAFFODATA وتدعم برمجيات تشغيلية مخصصة للشركات في مصر والخليج والأسواق الدولية التي تجاوزت الجداول والأدوات المنفصلة.",
     "seo.navigation.name": "تنقل موقع TRAFFODATA",
     "seo.navigation.work": "دراسات الحالة",
     "seo.navigation.blog": "المدونة",
@@ -949,7 +1174,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "استكشف دراسات حالة TRAFFODATA لشركات لديها تدفقات عمل حقيقية وفرق حقيقية وأموال حقيقية تتحرك عبر المنصات الخلفية ولوحات البيانات ومنتجات الموبايل ومحركات التجارة والأدوات الداخلية.",
     "seo.blog.title": "المدونة - برمجيات TRAFFODATA",
     "seo.blog.description":
-      "مقالات عملية عن ERP وإدارة المخزون وبرامج المستودعات والمتاجر الرقمية في مصر ونقاط البيع والمحاسبة وCRM والأتمتة وبرمجيات الأعمال المتينة.",
+      "إجابات عملية عن برامج الأعمال المخصصة وERP والمخزون وإدارة المستودعات والتجارة الإلكترونية وواجهات Laravel والتكاملات وجداول التسليم والدعم بعد الإطلاق في مصر والخليج والأسواق الدولية.",
     "seo.contact.title": "تواصل معنا - برمجيات TRAFFODATA",
     "seo.contact.description":
       "تحدث مع TRAFFODATA عن تدفق العمل أو فجوة النظام أو سلسلة الأدوات المنفصلة التي تبطئ شركتك.",
@@ -1855,11 +2080,13 @@ export const translations: Record<Locale, Record<string, string>> = {
     "blog.article.back": "العودة إلى المجلة",
     "blog.article.operatingQuestion": "سؤال التشغيل",
     "blog.article.signals": "إشارات يجب مراقبتها",
+    "blog.article.related": "تابع القراءة.",
     "blog.article.cta": "أحضر تدفق العمل إلى الطاولة.",
+    "blog.preferredSource": "تابع TRAFFODATA على Google",
     "blog.article.warehouse-management-software-egypt.title":
-      "كيف تختار برنامج إدارة المستودعات في مصر",
+      "برامج المستودعات في مصر: كيف تختار نظاما يستخدمه المشغلون",
     "blog.article.warehouse-management-software-egypt.deck":
-      "دليل عملي للفرق التي تقارن بين برامج المستودعات ودقة المخزون ومسارات الباركود وعمليات التوصيل في مصر.",
+      "دليل عملي للفرق التي تقارن بين برامج المستودعات ودقة المخزون ومسارات الباركود والاستلام والتجهيز وعمليات التوصيل في مصر.",
     "blog.article.warehouse-management-software-egypt.topic": "المستودع",
     "blog.article.warehouse-management-software-egypt.readTime": "قراءة 8 دقائق",
     "blog.article.warehouse-management-software-egypt.publishedAt": "سبتمبر 2026",
@@ -1920,6 +2147,229 @@ export const translations: Record<Locale, Record<string, string>> = {
       "الاختبار المفيد",
     "blog.article.digital-storefront-egypt.section.decision.text":
       "اسأل هل يستطيع شخص واحد الإجابة عن ثلاثة أسئلة دون فتح خمس أدوات: ماذا طلب العميل، وأين يوجد الطلب الآن، وما الذي يجب أن يحدث بعد ذلك؟ إذا لم يكن ذلك ممكنا، فغالبا لا يحتاج الاستثمار التالي إلى ميزة أخرى في المتجر، بل إلى طبقة تشغيل مترابطة خلفه.",
+    "blog.article.ecommerce-software-egypt.title":
+      "برامج التجارة الإلكترونية في مصر: اربط المتجر بالعمل خلفه",
+    "blog.article.ecommerce-software-egypt.deck":
+      "دليل عملي لبرامج التجارة الإلكترونية في مصر: الكتالوج والدفع عند الاستلام والمدفوعات والمخزون والتوصيل والبيانات التشغيلية التي تحافظ على حركة الطلبات.",
+    "blog.article.ecommerce-software-egypt.topic": "ERP",
+    "blog.article.ecommerce-software-egypt.readTime": "قراءة 7 دقائق",
+    "blog.article.ecommerce-software-egypt.publishedAt": "سبتمبر 2026",
+    "blog.article.ecommerce-software-egypt.audience": "التجارة، المؤسسون، العمليات",
+    "blog.article.ecommerce-software-egypt.question":
+      "هل ينشئ كل طلب سجلا تشغيليا مشتركا واحدا؟",
+    "blog.article.ecommerce-software-egypt.signal.0.label": "الطلب",
+    "blog.article.ecommerce-software-egypt.signal.0.value": "دفع عند الاستلام + بطاقة",
+    "blog.article.ecommerce-software-egypt.signal.1.label": "التحكم",
+    "blog.article.ecommerce-software-egypt.signal.1.value": "مخزون مباشر",
+    "blog.article.ecommerce-software-egypt.signal.2.label": "المخرج",
+    "blog.article.ecommerce-software-egypt.signal.2.value": "نقاط تسليم أقل",
+    "blog.article.ecommerce-software-egypt.section.storefront-is-not-system.title":
+      "المتجر ليس نظام التشغيل",
+    "blog.article.ecommerce-software-egypt.section.storefront-is-not-system.text":
+      "يمكن للمتجر استقبال الطلب، لكن العمل ما زال يحتاج إلى حجز المخزون وتأكيد الدفع وتحديد المسؤول عن التجهيز وتنسيق التوصيل والرد على العميل. تصبح برامج التجارة الإلكترونية مفيدة عندما تعيش هذه الحالات في نموذج واحد بدلا من انتقالها بين متجر وجدول وبوابة توصيل ومحادثة.",
+    "blog.article.ecommerce-software-egypt.section.egypt-order-path.title":
+      "ارسم مسار الطلب المستخدم في مصر",
+    "blog.article.ecommerce-software-egypt.section.egypt-order-path.text":
+      "ابدأ بالمزيج الحقيقي من الدفع عند الاستلام والبطاقات والتحويلات البنكية والمتابعة عبر واتساب ومخزون الفروع وشركاء التوصيل المحليين. الهدف ليس إضافة كل تكامل في اليوم الأول، بل جعل مالك كل حالة واضحا من التأكيد إلى فشل التوصيل والإرجاع والاسترداد والمطابقة المالية.",
+    "blog.article.ecommerce-software-egypt.section.integration-checklist.title":
+      "قائمة التحقق من التكامل",
+    "blog.article.ecommerce-software-egypt.section.integration-checklist.text":
+      "تحقق من ملكية الكتالوج وحجوزات المخزون وقواعد الأسعار وحالة الدفع وحالة التوصيل وسجل العميل والإشعارات والصلاحيات وأحداث التدقيق. يجب أن تجعل منصة التجارة الاستثناءات واضحة وقابلة للمعالجة، لا أن تخفيها خلف عداد طلبات أخضر.",
+    "blog.article.ecommerce-software-egypt.section.decision.title": "اختر الطبقة الناقصة",
+    "blog.article.ecommerce-software-egypt.section.decision.text":
+      "إذا كان المتجر جيدا لكن العمليات متفرقة، حسّن طبقة الطلب المترابطة. وإذا كان المخزون والمالية موثوقين بالفعل، ركز على تجربة العميل. الاستثمار الصحيح يتبع نقطة التسليم المكسورة لا طلب الميزة الأعلى صوتا.",
+    "blog.article.laravel-rest-api-business-systems.title":
+      "واجهات Laravel REST لأنظمة الأعمال: ما الذي يجب ربطه أولا؟",
+    "blog.article.laravel-rest-api-business-systems.deck":
+      "دليل عملي لتصميم واجهات Laravel REST للمخزون والطلبات والمدفوعات وتطبيقات الموبايل دون تحويل كل تكامل إلى نقطة تسليم هشة.",
+    "blog.article.laravel-rest-api-business-systems.topic": "الأتمتة",
+    "blog.article.laravel-rest-api-business-systems.readTime": "قراءة 7 دقائق",
+    "blog.article.laravel-rest-api-business-systems.publishedAt": "سبتمبر 2026",
+    "blog.article.laravel-rest-api-business-systems.audience": "المنتج، الهندسة، العمليات",
+    "blog.article.laravel-rest-api-business-systems.question":
+      "هل يمكن إعادة تشغيل كل حدث تجاري مهم وتتّبعه ومعرفة مالكه؟",
+    "blog.article.laravel-rest-api-business-systems.signal.0.label": "العقد",
+    "blog.article.laravel-rest-api-business-systems.signal.0.value": "موارد واضحة",
+    "blog.article.laravel-rest-api-business-systems.signal.1.label": "الموثوقية",
+    "blog.article.laravel-rest-api-business-systems.signal.1.value": "أحداث قابلة للتكرار بأمان",
+    "blog.article.laravel-rest-api-business-systems.signal.2.label": "المخرج",
+    "blog.article.laravel-rest-api-business-systems.signal.2.value": "تكاملات أكثر أمانا",
+    "blog.article.laravel-rest-api-business-systems.section.start-with-events.title":
+      "ابدأ بأحداث العمل",
+    "blog.article.laravel-rest-api-business-systems.section.start-with-events.text":
+      "يجب أن تمثل واجهة Laravel REST العمل الذي يفهمه النشاط: إنشاء طلب أو تسجيل حركة مخزون أو تحصيل دفعة أو تنفيذ محاولة توصيل. ابدأ بهذه الأحداث ومالكيها قبل اختيار أسماء المتحكمات أو توليد نقاط النهاية.",
+    "blog.article.laravel-rest-api-business-systems.section.resource-boundaries.title":
+      "اجعل حدود الموارد واضحة",
+    "blog.article.laravel-rest-api-business-systems.section.resource-boundaries.text":
+      "حدد النظام الذي يملك العملاء والمنتجات والمخزون والطلبات والمدفوعات وحالات التوصيل. استخدم معرفات ثابتة والتحقق والصلاحيات والتقسيم إلى صفحات وعقودا ذات إصدارات حتى لا يرتبط تطبيق الموبايل أو تكامل الشريك بشكل قاعدة بيانات خاصة.",
+    "blog.article.laravel-rest-api-business-systems.section.mobile-and-partners.title":
+      "صمم للموبايل والشركاء",
+    "blog.article.laravel-rest-api-business-systems.section.mobile-and-partners.text":
+      "تحتاج تطبيقات الموبايل والخدمات الخارجية إلى ردود متوقعة وأخطاء مفيدة وعمليات كتابة آمنة عند إعادة المحاولة وسلوك واضح للـ webhooks. تعامل مع الشبكات البطيئة والطلبات المكررة وانتهاء الرموز والفشل الجزئي كظروف تشغيل طبيعية لا كحالات نادرة.",
+    "blog.article.laravel-rest-api-business-systems.section.production-readiness.title":
+      "الجاهزية للإنتاج جزء من الواجهة",
+    "blog.article.laravel-rest-api-business-systems.section.production-readiness.text":
+      "قبل الإطلاق أضف سجلات الطلبات ومعرفات التتبع وحدود المعدل ومراقبة الطوابير وفحوص الصحة والنسخ الاحتياطية وطريقة لإعادة تشغيل العمل الفاشل أو مطابقته. لا تنتهي الواجهة عندما تعيد 200، بل عندما يستطيع الفريق شرح ما حدث بعد ذلك.",
+    "blog.article.custom-business-software-egypt.title":
+      "برامج الأعمال المخصصة في مصر: عندما تصبح طريقة العمل هي المنتج",
+    "blog.article.custom-business-software-egypt.deck":
+      "كيف تقرر أن برامج الأعمال المخصصة مبررة عندما لا تعود الجداول وأدوات SaaS والموافقات اليدوية متفقة.",
+    "blog.article.custom-business-software-egypt.topic": "ERP",
+    "blog.article.custom-business-software-egypt.readTime": "قراءة 6 دقائق",
+    "blog.article.custom-business-software-egypt.publishedAt": "سبتمبر 2026",
+    "blog.article.custom-business-software-egypt.audience": "المؤسسون، COO، العمليات",
+    "blog.article.custom-business-software-egypt.question":
+      "هل عنق الزجاجة ميزة مفقودة أم نموذج تشغيل مفقود؟",
+    "blog.article.custom-business-software-egypt.signal.0.label": "المحفز",
+    "blog.article.custom-business-software-egypt.signal.0.value": "استثناءات متكررة",
+    "blog.article.custom-business-software-egypt.signal.1.label": "النطاق",
+    "blog.article.custom-business-software-egypt.signal.1.value": "الإصدار الأول",
+    "blog.article.custom-business-software-egypt.signal.2.label": "النتيجة",
+    "blog.article.custom-business-software-egypt.signal.2.value": "تدفق مملوك",
+    "blog.article.custom-business-software-egypt.section.signal-to-build.title":
+      "إشارة أن وقت البناء قد حان",
+    "blog.article.custom-business-software-egypt.section.signal-to-build.text":
+      "تستحق البرامج المخصصة الدراسة عندما تتكرر الاستثناءات نفسها، وتكون القواعد مهمة للعمل، ولا تستطيع أداة جاهزة إظهار صاحب الخطوة التالية. المشكلة ليست غياب لوحة بيانات أخرى، بل إعادة بناء نموذج التشغيل يدويا.",
+    "blog.article.custom-business-software-egypt.section.map-before-code.title":
+      "ارسم العمل قبل كتابة الكود",
+    "blog.article.custom-business-software-egypt.section.map-before-code.text":
+      "وثّق الأدوار والموافقات والسجلات والحالات ونقاط التسليم ومسارات الفشل. أدرج القيود الفعلية حول الفروع والفرق العربية والإنجليزية ومطابقة المدفوعات والتوصيل المحلي والتقارير. خريطة عملية قصيرة أثمن من قائمة مزايا طويلة.",
+    "blog.article.custom-business-software-egypt.section.buy-and-build.title":
+      "اعرف ما الذي تشتريه وما الذي تبنيه",
+    "blog.article.custom-business-software-egypt.section.buy-and-build.text":
+      "احتفظ بالقدرات العامة حيث تؤدي أداة مستقرة المهمة جيدا، وابنِ تدفق العمل الذي يميز العملية. قد تتكامل المحاسبة والمصادقة والرسائل والمدفوعات والتحليلات بسهولة، بينما تكون القواعد التي تربطها هي الجزء الذي تملكه.",
+    "blog.article.custom-business-software-egypt.section.first-release.title":
+      "صمم إصدارا أوليا يثق به الناس",
+    "blog.article.custom-business-software-egypt.section.first-release.text":
+      "اختر دورة تشغيل واحدة ذات قيمة واجعلها قابلة للمراقبة من الطلب إلى النتيجة. امنح الفريق صلاحيات واضحة وأدلة وإشعارات ومسارا للاستثناءات. يجب أن يقلل الإصدار الأول نقطة تسليم حقيقية، لا أن يعيد إنشاء كل شاشة من الأدوات القديمة.",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.title":
+      "البرامج المخصصة أم الجاهزة في مصر: دليل عملي لاتخاذ القرار",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.deck":
+      "طريقة صادقة لمقارنة البرامج الجاهزة بنظام مبني حول تدفق العمل والميزانية والفريق والملكية طويلة المدى.",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.topic": "ERP",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.readTime": "قراءة 7 دقائق",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.publishedAt": "سبتمبر 2026",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.audience": "المؤسسون، COO، العمليات",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.question":
+      "متى تتوقف الأداة العامة عن المساعدة وتبدأ في تحميل العملية تكلفة إضافية؟",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.signal.0.label": "السؤال",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.signal.0.value": "شراء أم بناء",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.signal.1.label": "المخاطر",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.signal.1.value": "حلول مؤقتة",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.signal.2.label": "النتيجة",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.signal.2.value": "الملاءمة قبل المزايا",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.section.start-with-ceiling.title":
+      "ابدأ من الحد لا من الحماس",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.section.start-with-ceiling.text":
+      "غالبا ما تكون البرامج الجاهزة هي الخطوة الأولى الصحيحة. لكنها تصبح مشكلة عندما يقضي الفريق وقتا أطول في الالتفاف حول المنتج بدلا من استخدامه، أو عندما تعيش قواعد العمل الأهم في الجداول والرسائل والذاكرة الشخصية. اعثر على الحد قبل مقارنة التقنيات.",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.section.total-cost.title":
+      "قارن التكلفة الكاملة للقرار",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.section.total-cost.text":
+      "السعر ليس اشتراكا أو تقديرا للتطوير فقط. احسب التنفيذ ونقل البيانات والتدريب والتكاملات والمطابقة اليدوية والدعم وطلبات التغيير وتكلفة الأخطاء. قد تصبح الأداة الأرخص مكلفة عندما يحتاج كل استثناء إلى حل يدوي.",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.section.ownership.title":
+      "اسأل من يملك تدفق العمل",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.section.ownership.text":
+      "يجب أن تأتي البرامج المخصصة مع نموذج ملكية واضح يشمل الكود المصدري والاستضافة وبيانات الدخول والتوثيق والمراقبة والدعم ومسار التحسينات المستقبلية. شراء منتج قد يقلل الصيانة، لكنه قد يعني قبول طريقة عمل وأولويات إصدار يحددها طرف آخر.",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.section.decision.title":
+      "قاعدة مفيدة لاتخاذ القرار",
+    "blog.article.custom-software-vs-off-the-shelf-egypt.section.decision.text":
+      "اشترِ القدرة العامة المستقرة، وابنِ تدفق العمل الخاص فعلا بالنشاط. بالنسبة لعملية نامية في مصر أو الخليج أو السوق الدولي، غالبا ما تكون الإجابة الأفضل نظاما مترابطا يحتفظ بالمنتجات الموثوقة حيث تعمل ويخصص نقاط التسليم التي تصنع الميزة.",
+    "blog.article.software-project-timeline-3-15-weeks.title":
+      "لماذا تستغرق مشاريع البرامج المخصصة من 3 إلى 15 أسبوعا؟",
+    "blog.article.software-project-timeline-3-15-weeks.deck":
+      "طريقة واضحة لفهم جداول تسليم البرمجيات: ما يمكن إطلاقه خلال ثلاثة أسابيع، وما يحتاج إلى وقت أطول، وما يحمي الإصدار الأول.",
+    "blog.article.software-project-timeline-3-15-weeks.topic": "الأتمتة",
+    "blog.article.software-project-timeline-3-15-weeks.readTime": "قراءة 6 دقائق",
+    "blog.article.software-project-timeline-3-15-weeks.publishedAt": "سبتمبر 2026",
+    "blog.article.software-project-timeline-3-15-weeks.audience": "المؤسسون، المنتج، العمليات",
+    "blog.article.software-project-timeline-3-15-weeks.question":
+      "ما أصغر إصدار يغير العملية إلى الأفضل؟",
+    "blog.article.software-project-timeline-3-15-weeks.signal.0.label": "النطاق",
+    "blog.article.software-project-timeline-3-15-weeks.signal.0.value": "3–15 أسبوعا",
+    "blog.article.software-project-timeline-3-15-weeks.signal.1.label": "التحكم",
+    "blog.article.software-project-timeline-3-15-weeks.signal.1.value": "حدود الإصدار",
+    "blog.article.software-project-timeline-3-15-weeks.signal.2.label": "المخرج",
+    "blog.article.software-project-timeline-3-15-weeks.signal.2.value": "برنامج يعمل",
+    "blog.article.software-project-timeline-3-15-weeks.section.scope-first.title":
+      "النطاق هو الذي يحدد التقويم",
+    "blog.article.software-project-timeline-3-15-weeks.section.scope-first.text":
+      "يبدأ التقدير المفيد بدورة تشغيل واحدة لا بقائمة أمنيات. حدد المستخدمين والقرارات والسجلات والتكاملات والصلاحيات ودليل النجاح. كلما كان الحد أوضح، أصبح الجدول أكثر صدقا وأصبح اتخاذ المفاضلات أسهل.",
+    "blog.article.software-project-timeline-3-15-weeks.section.three-week.title":
+      "ما الذي يمكن أن يفعله إصدار من ثلاثة أسابيع؟",
+    "blog.article.software-project-timeline-3-15-weeks.section.three-week.text":
+      "قد تكفي ثلاثة أسابيع لإصدار مركز: تدفق عمل واحد وعدد صغير من الأدوار ونموذج بيانات محدد والشاشات اللازمة لاستخدامه. يناسب ذلك تجربة أولية أو أداة داخلية أو بوابة ضيقة أو الشريحة الأولى من منصة أكبر.",
+    "blog.article.software-project-timeline-3-15-weeks.section.fifteen-week.title":
+      "ما الذي يحتاج إلى ما يقارب خمسة عشر أسبوعا؟",
+    "blog.article.software-project-timeline-3-15-weeks.section.fifteen-week.text":
+      "يتيح وقت التسليم الأطول مساحة لأدوار متعددة وتطبيقات الموبايل أو الشركاء والتكاملات العميقة ونقل البيانات والتقارير والصلاحيات والاختبار والتدريب وواجهة تشغيل أكثر اكتمالا. الهدف ليس ملء خمسة عشر أسبوعا، بل حماية جودة نظام سيعتمد عليه الناس.",
+    "blog.article.software-project-timeline-3-15-weeks.section.protect-the-timeline.title":
+      "احم الإصدار الأول",
+    "blog.article.software-project-timeline-3-15-weeks.section.protect-the-timeline.text":
+      "اجعل القرارات مرئية وراجع البرنامج العامل مبكرا وجهز الوصول إلى الأنظمة الخارجية وعين شخصا واحدا يستطيع الإجابة عن أسئلة النطاق. غالبا ما تأتي التأخيرات من ملكية غير واضحة وتفاصيل تكامل متأخرة وتوسيع الإصدار الأول قبل أن تعمل دورته الأساسية.",
+    "blog.article.post-launch-software-support-ownership.title":
+      "دعم البرامج بعد الإطلاق: من يملك النظام بعد الإصدار؟",
+    "blog.article.post-launch-software-support-ownership.deck":
+      "لماذا يجب تصميم الملكية والدعم والمراقبة والتحسينات الصغيرة قبل إطلاق البرامج المخصصة.",
+    "blog.article.post-launch-software-support-ownership.topic": "الأتمتة",
+    "blog.article.post-launch-software-support-ownership.readTime": "قراءة 6 دقائق",
+    "blog.article.post-launch-software-support-ownership.publishedAt": "سبتمبر 2026",
+    "blog.article.post-launch-software-support-ownership.audience": "المؤسسون، العمليات، التقنية",
+    "blog.article.post-launch-software-support-ownership.question":
+      "من يستطيع شرح النظام عندما يتغير العمل أو يحدث عطل؟",
+    "blog.article.post-launch-software-support-ownership.signal.0.label": "بعد الإطلاق",
+    "blog.article.post-launch-software-support-ownership.signal.0.value": "مالك محدد",
+    "blog.article.post-launch-software-support-ownership.signal.1.label": "الاستجابة",
+    "blog.article.post-launch-software-support-ownership.signal.1.value": "دعم واضح",
+    "blog.article.post-launch-software-support-ownership.signal.2.label": "النتيجة",
+    "blog.article.post-launch-software-support-ownership.signal.2.value": "نظام متين",
+    "blog.article.post-launch-software-support-ownership.section.ownership-after-launch.title":
+      "الملكية لا تنتهي عند الإطلاق",
+    "blog.article.post-launch-software-support-ownership.section.ownership-after-launch.text":
+      "يحتاج النظام الإنتاجي إلى شخص يفهم قراراته وتبعياته وبيانات الدخول والبيانات وحالات الفشل. اجعل الملكية واضحة بين العميل وفريق التنفيذ قبل اعتماد أول مستخدم حقيقي عليه.",
+    "blog.article.post-launch-software-support-ownership.section.support-model.title":
+      "حدد نموذج الدعم",
+    "blog.article.post-launch-software-support-ownership.section.support-model.text":
+      "اتفقوا على طريقة الإبلاغ عن الحوادث وما الذي يعد عاجلا وكيف تتم الاستجابة وأين تخطط التحسينات المعتادة. يصبح الدعم أكثر فائدة عندما يشمل المراقبة والنسخ الاحتياطية وملاحظات الإصدارات ومسارا قصيرا من المشكلة المتكررة إلى تحسين المنتج.",
+    "blog.article.post-launch-software-support-ownership.section.handover.title":
+      "اجعل التسليم جزءا من العمل",
+    "blog.article.post-launch-software-support-ownership.section.handover.text":
+      "يشمل التسليم الحقيقي الكود المصدري والبيئات والوصول إلى النشر والتكاملات ونموذج البيانات ودليل التشغيل وأدوار المستخدمين والقيود المعروفة. تعني الملكية أن يستطيع العميل مواصلة التشغيل واتخاذ قرارات واعية حتى عندما لا يكون فريق المشروع الأصلي موجودا.",
+    "blog.article.post-launch-software-support-ownership.section.measure-improvement.title":
+      "قِس العمل بعد الإطلاق",
+    "blog.article.post-launch-software-support-ownership.section.measure-improvement.text":
+      "راقب الإشارات التي تهم العملية: الوظائف الفاشلة والاستثناءات غير المحلولة وزمن الاستجابة والتبني والعمل اليدوي الذي تمت إزالته والوقت اللازم لإتمام دورة العمل الأساسية. يجب أن يجعل الدعم بعد الإطلاق النظام أكثر اعتمادية، لا أن يبقيه مضاء فقط.",
+    "blog.article.egypt-gulf-software-integrations.title":
+      "تكاملات البرامج لمصر والخليج: صمم لنقاط التسليم الفعلية",
+    "blog.article.egypt-gulf-software-integrations.deck":
+      "متطلبات الدفع والتوصيل واللغة والتشغيل المحلية مهمة عندما يحتاج نظام الأعمال إلى العمل عبر مصر والخليج والفرق الدولية.",
+    "blog.article.egypt-gulf-software-integrations.topic": "ERP",
+    "blog.article.egypt-gulf-software-integrations.readTime": "قراءة 7 دقائق",
+    "blog.article.egypt-gulf-software-integrations.publishedAt": "سبتمبر 2026",
+    "blog.article.egypt-gulf-software-integrations.audience": "التجارة، اللوجستيات، العمليات",
+    "blog.article.egypt-gulf-software-integrations.question":
+      "أي قاعدة محلية أو شريك يمكنه تغيير حالة العمل؟",
+    "blog.article.egypt-gulf-software-integrations.signal.0.label": "الانتشار",
+    "blog.article.egypt-gulf-software-integrations.signal.0.value": "مصر + الخليج",
+    "blog.article.egypt-gulf-software-integrations.signal.1.label": "التحكم",
+    "blog.article.egypt-gulf-software-integrations.signal.1.value": "تكاملات مملوكة",
+    "blog.article.egypt-gulf-software-integrations.signal.2.label": "المخرج",
+    "blog.article.egypt-gulf-software-integrations.signal.2.value": "مفاجآت أقل",
+    "blog.article.egypt-gulf-software-integrations.section.local-reality.title":
+      "ابدأ من الواقع المحلي",
+    "blog.article.egypt-gulf-software-integrations.section.local-reality.text":
+      "يجب أن تراعي البرامج الإقليمية طريقة عمل الفرق فعليا: واجهات عربية وإنجليزية وطرق دفع محلية والدفع عند الاستلام وشركاء التوصيل وعمليات الفروع ومستندات الضرائب وعادات الموافقة المختلفة. هذه التفاصيل تغير تدفق العمل لا ملف الترجمة فقط.",
+    "blog.article.egypt-gulf-software-integrations.section.integration-boundaries.title":
+      "امنح كل تكامل حدا واضحا",
+    "blog.article.egypt-gulf-software-integrations.section.integration-boundaries.text":
+      "حدد النظام الذي يملك كل حالة وما يحدث عندما يتأخر الشريك أو يتوقف أو يعيد استجابة غير متوقعة. تحافظ العقود المستقرة وإعادة المحاولة والمطابقة وسجل التدقيق على التكامل المحلي من التحول إلى عملية يدوية مخفية.",
+    "blog.article.egypt-gulf-software-integrations.section.regional-readiness.title":
+      "صمم للتغير الإقليمي",
+    "blog.article.egypt-gulf-software-integrations.section.regional-readiness.text":
+      "اجعل العملات والضرائب واللغات والفروع والصلاحيات وقواعد التوصيل قابلة للتهيئة حيث تختلف فعلا. لا تضع كل دولة في الإصدار الأول، لكن لا تتظاهر أيضا بأن تدفق عمل عاما واحدا يناسب كل سوق.",
+    "blog.article.egypt-gulf-software-integrations.section.international-without-generic.title":
+      "توسع دوليا دون أن تصبح عاما",
+    "blog.article.egypt-gulf-software-integrations.section.international-without-generic.text":
+      "تحافظ المنصة القوية على نموذج أساسي واضح وتسمح للعمليات المحلية بالاتصال به. هكذا يمكن للنظام دعم فرق مصر والخليج ثم النمو إلى عمليات دولية دون فقدان نقاط التسليم الخاصة التي جعلته مفيدا منذ البداية.",
     "blog.article.before-another-dashboard.title": "ما يحتاجه المشغلون قبل لوحة بيانات أخرى",
     "blog.article.before-another-dashboard.deck":
       "نظرة عملية على الموافقات وأحداث المخزون وقواعد المالية التي يجب رسمها قبل بدء تصميم الواجهة.",

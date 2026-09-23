@@ -4,6 +4,7 @@ import { ArrowRight, BookOpen, type LucideIcon } from "lucide-react";
 import { BlurText } from "./BlurText";
 import { Footer, Nav, Reveal } from "./Landing";
 import { blogArticles, blogTopics, type BlogArticle } from "./blogData";
+import { PreferredSourceLink } from "./PreferredSourceLink";
 import { useI18n } from "@/lib/i18n";
 
 type DisplayBlogArticle = Omit<BlogArticle, "topic"> & { topic: string };
@@ -276,6 +277,9 @@ export function BlogPage() {
                   {t("nav.startProject")}
                   <ArrowRight className="h-4 w-4" />
                 </a>
+                <div className="mt-5">
+                  <PreferredSourceLink dark />
+                </div>
               </div>
             </Reveal>
           </div>

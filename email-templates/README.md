@@ -98,6 +98,26 @@ temporary password, and resources. Attach
 `Forsa Logistics Software Development Agreement Arabic Final.docx` separately
 in Zoho Mail. Do not save the client document inside the reusable template.
 
+The finished HTML for this send is
+`ready-to-send/forsa-logistics-contract.html`. It has no placeholders and can
+be inserted directly into the Zoho composer. Keep `client-delivery.html` as
+the reusable master for future clients.
+
+## Payment received email
+
+`payment-received.html` is the reusable payment-confirmation master, with
+`payment-received.txt` as its plain-text companion. Replace these fields:
+
+- `{{client_name}}`, `{{project_name}}`, and `{{email_title}}`
+- `{{milestone_name}}`, `{{payment_amount}}`, and `{{payment_date}}`
+- `{{payment_reference}}`, `{{intro_message}}`, and
+  `{{next_step_message}}`
+- `{{preheader}}` and `{{support_note}}`
+
+The finished first-milestone confirmation for Forsa Logistics is
+`ready-to-send/forsa-logistics-milestone-1-payment-received.html`. It confirms
+receipt of EGP 33,000 on 9 September 2026 and contains no placeholders.
+
 ## Credential safety
 
 Use a single-use secure setup link whenever possible. The temporary password

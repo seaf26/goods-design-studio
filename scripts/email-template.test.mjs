@@ -4,12 +4,22 @@ import { resolve } from "node:path";
 
 const htmlPath = resolve("email-templates/client-delivery.html");
 const textPath = resolve("email-templates/client-delivery.txt");
+const forsaHtmlPath = resolve("email-templates/ready-to-send/forsa-logistics-contract.html");
+const paymentHtmlPath = resolve("email-templates/payment-received.html");
+const paymentTextPath = resolve("email-templates/payment-received.txt");
+const forsaPaymentHtmlPath = resolve(
+  "email-templates/ready-to-send/forsa-logistics-milestone-1-payment-received.html",
+);
 const heroPath = resolve("public/email-assets/client-delivery-hero.jpg");
 const logoPath = resolve("public/email-assets/traffodata-email-logo.png");
 const markPath = resolve("public/email-assets/traffodata-email-mark.png");
 
 assert.ok(existsSync(htmlPath), "Client delivery HTML email template must exist");
 assert.ok(existsSync(textPath), "Client delivery plain-text email template must exist");
+assert.ok(existsSync(forsaHtmlPath), "Ready-to-send Forsa contract email must exist");
+assert.ok(existsSync(paymentHtmlPath), "Payment-received HTML email template must exist");
+assert.ok(existsSync(paymentTextPath), "Payment-received plain-text email template must exist");
+assert.ok(existsSync(forsaPaymentHtmlPath), "Ready-to-send Forsa payment email must exist");
 assert.ok(existsSync(heroPath), "Client delivery hero asset must exist");
 assert.ok(existsSync(logoPath), "Cropped email wordmark must exist");
 assert.ok(existsSync(markPath), "Cropped email mark must exist");
@@ -24,6 +34,10 @@ assert.ok(
 
 const html = readFileSync(htmlPath, "utf8");
 const text = readFileSync(textPath, "utf8");
+const forsaHtml = readFileSync(forsaHtmlPath, "utf8");
+const paymentHtml = readFileSync(paymentHtmlPath, "utf8");
+const paymentText = readFileSync(paymentTextPath, "utf8");
+const forsaPaymentHtml = readFileSync(forsaPaymentHtmlPath, "utf8");
 const hero = readFileSync(heroPath);
 const logo = existsSync(logoPath) ? readFileSync(logoPath) : Buffer.alloc(0);
 const mark = existsSync(markPath) ? readFileSync(markPath) : Buffer.alloc(0);
@@ -228,5 +242,88 @@ for (const image of imageTags) {
   assert.match(image, /\balt="[^"]+"/i, "Every email image must have descriptive alt text");
   assert.match(image, /\bsrc="https:\/\//i, "Every email image must use an absolute HTTPS URL");
 }
+
+assert.doesNotMatch(forsaHtml, /\{\{[^}]+\}\}/, "Forsa email must not contain placeholders");
+assert.match(forsaHtml, /Hello Ahmed,/i, "Forsa email must address the client");
+assert.match(forsaHtml, /Forsa Logistics/i, "Forsa email must identify the project");
+assert.match(forsaHtml, /Ready for signature/i, "Forsa email must show the contract status");
+assert.match(
+  forsaHtml,
+  /https:\/\/traffodata\.com\/email-assets\/client-delivery-hero\.jpg/i,
+  "Forsa email must use the production hero asset",
+);
+assert.doesNotMatch(
+  forsaHtml,
+  /127\.0\.0\.1|localhost/i,
+  "Forsa email must not reference local preview assets",
+);
+for (const removedModule of [
+  "PRIMARY_ACTION",
+  "CONTRACT_LINK",
+  "SOFTWARE_ACCESS",
+  "SECURE_SETUP",
+  "TEMPORARY_PASSWORD",
+  "RESOURCES",
+]) {
+  assert.ok(
+    !forsaHtml.includes(`OPTIONAL ${removedModule} START`),
+    `Forsa email must not include the ${removedModule} module`,
+  );
+}
+
+for (const field of [
+  "{{preheader}}",
+  "{{client_name}}",
+  "{{project_name}}",
+  "{{email_title}}",
+  "{{milestone_name}}",
+  "{{payment_amount}}",
+  "{{payment_date}}",
+  "{{payment_reference}}",
+  "{{intro_message}}",
+  "{{next_step_message}}",
+  "{{support_note}}",
+]) {
+  assert.ok(paymentHtml.includes(field), `Payment HTML template is missing ${field}`);
+  assert.ok(paymentText.includes(field), `Payment text template is missing ${field}`);
+}
+assert.match(
+  paymentHtml,
+  /https:\/\/traffodata\.com\/email-assets\/client-delivery-hero\.jpg/i,
+  "Payment email must use the production hero asset",
+);
+assert.match(
+  paymentHtml,
+  /mailto:info@traffodata\.com/i,
+  "Payment email must use the Traffodata contact address",
+);
+assert.doesNotMatch(
+  paymentHtml,
+  /password|software access|open secure document/i,
+  "Payment email must not include delivery or credential modules",
+);
+
+assert.doesNotMatch(
+  forsaPaymentHtml,
+  /\{\{[^}]+\}\}/,
+  "Forsa payment email must not contain placeholders",
+);
+assert.match(forsaPaymentHtml, /Hello Ahmed,/i, "Forsa payment email must address the client");
+assert.match(forsaPaymentHtml, /EGP 33,000/i, "Forsa payment email must show the confirmed amount");
+assert.match(
+  forsaPaymentHtml,
+  /9 September 2026/i,
+  "Forsa payment email must show the received date",
+);
+assert.match(
+  forsaPaymentHtml,
+  /First milestone/i,
+  "Forsa payment email must identify the milestone",
+);
+assert.doesNotMatch(
+  forsaPaymentHtml,
+  /127\.0\.0\.1|localhost/i,
+  "Forsa payment email must not reference local preview assets",
+);
 
 console.log("Client delivery email template verified");

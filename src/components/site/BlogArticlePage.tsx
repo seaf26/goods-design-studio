@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, BookOpen } from "lucide-react";
 import { BlurText } from "./BlurText";
 import { Footer, Nav, Reveal } from "./Landing";
 import { blogArticles, type BlogArticle } from "./blogData";
+import { PreferredSourceLink } from "./PreferredSourceLink";
 import { useI18n } from "@/lib/i18n";
 
 function localizeArticle(article: BlogArticle, t: (key: string) => string) {
@@ -35,6 +36,10 @@ export function BlogArticlePage({ slug }: { slug: string }) {
   }
 
   const localized = localizeArticle(article, t);
+  const relatedArticles = blogArticles
+    .filter((entry) => entry.slug !== article.slug && entry.detailSections?.length)
+    .filter((entry) => entry.topic === article.topic)
+    .slice(0, 3);
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--ink)]">
@@ -125,6 +130,52 @@ export function BlogArticlePage({ slug }: { slug: string }) {
           </section>
         </article>
 
+        {relatedArticles.length > 0 && (
+          <section className="border-t border-[var(--hairline)] py-16 md:py-20">
+            <div className="mx-auto max-w-[92rem] px-5 sm:px-6">
+              <Reveal>
+                <div className="mb-7 flex items-end justify-between gap-5">
+                  <BlurText
+                    as="h2"
+                    text={t("blog.article.related")}
+                    className="font-display text-[clamp(2rem,3.8vw,3.8rem)] font-semibold leading-[0.98] tracking-[-0.045em]"
+                  />
+                  <a
+                    href="/blog"
+                    className="hidden items-center gap-2 text-[13px] font-semibold text-[var(--muted-foreground)] transition-colors hover:text-[var(--ink)] sm:inline-flex"
+                  >
+                    {t("blog.readingList")}
+                    <ArrowRight className="h-4 w-4" />
+                  </a>
+                </div>
+              </Reveal>
+              <div className="grid gap-4 md:grid-cols-3">
+                {relatedArticles.map((entry, index) => (
+                  <Reveal key={entry.slug} delay={index * 0.05}>
+                    <a
+                      href={`/blog/${entry.slug}`}
+                      className="group flex h-full flex-col justify-between rounded-[1.25rem] bg-[var(--surface)] p-5 ring-1 ring-[var(--hairline)] transition-colors hover:bg-[var(--card)]"
+                    >
+                      <div>
+                        <div className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+                          {t(`blog.article.${entry.slug}.topic`)}
+                        </div>
+                        <h3 className="mt-5 font-display text-[clamp(1.45rem,2.2vw,2.2rem)] font-semibold leading-[1] tracking-[-0.04em]">
+                          {t(`blog.article.${entry.slug}.title`)}
+                        </h3>
+                      </div>
+                      <span className="mt-8 inline-flex items-center gap-2 text-[13px] font-semibold">
+                        {t("blog.discuss")}
+                        <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+                      </span>
+                    </a>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         <section className="bg-black py-20 text-white md:py-24">
           <div className="mx-auto flex max-w-[92rem] flex-col gap-7 px-5 sm:px-6 md:flex-row md:items-end md:justify-between">
             <Reveal>
@@ -142,6 +193,7 @@ export function BlogArticlePage({ slug }: { slug: string }) {
                 {t("nav.startProject")}
                 <ArrowRight className="h-4 w-4" />
               </a>
+              <PreferredSourceLink dark />
             </Reveal>
           </div>
         </section>

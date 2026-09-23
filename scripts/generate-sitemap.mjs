@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 
 const SITE_URL = "https://traffodata.com";
 const LASTMOD = "2026-06-29";
-const CONTENT_LASTMOD = "2026-09-23";
+const CONTENT_LASTMOD = "2026-09-24";
 const WORK_SOURCE_FILES = [
   "src/components/site/workData.ts",
   "src/components/site/behanceWorkData.generated.ts",
@@ -39,7 +39,17 @@ const paths = [
     .map((slug) => `/work/${slug}`),
   ...Array.from(blogSlugs)
     .filter((slug) =>
-      ["warehouse-management-software-egypt", "digital-storefront-egypt"].includes(slug),
+      [
+        "warehouse-management-software-egypt",
+        "digital-storefront-egypt",
+        "ecommerce-software-egypt",
+        "laravel-rest-api-business-systems",
+        "custom-business-software-egypt",
+        "custom-software-vs-off-the-shelf-egypt",
+        "software-project-timeline-3-15-weeks",
+        "post-launch-software-support-ownership",
+        "egypt-gulf-software-integrations",
+      ].includes(slug),
     )
     .sort()
     .map((slug) => `/blog/${slug}`),

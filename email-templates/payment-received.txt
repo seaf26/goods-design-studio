@@ -1,0 +1,30 @@
+{{preheader}}
+
+{{milestone_name}} / {{project_name}}
+{{email_title}}
+
+Hello {{client_name}},
+
+{{intro_message}}
+
+PAYMENT CONFIRMATION
+
+Status: Confirmed
+Amount received: {{payment_amount}}
+Received on: {{payment_date}}
+Payment reference: {{payment_reference}}
+Milestone: {{milestone_name}}
+
+WHAT HAPPENS NEXT
+
+1. The payment has been recorded against {{milestone_name}}.
+2. {{next_step_message}}
+3. We will share the next project update according to the agreed schedule.
+
+{{support_note}}
+
+info@traffodata.com
+https://traffodata.com
+
+Traffodata Software
+Software built for serious operations.
