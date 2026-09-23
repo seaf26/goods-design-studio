@@ -14,6 +14,7 @@ try {
     entry,
     `export {
       breadcrumbJsonLd,
+      blogArticleSeo,
       contactSeo,
       homeSeo,
       navigationJsonLd,
@@ -33,8 +34,15 @@ try {
     logLevel: "silent",
   });
 
-  const { breadcrumbJsonLd, contactSeo, homeSeo, navigationJsonLd, webPageJsonLd, workSeo } =
-    await import(pathToFileURL(outfile).href);
+  const {
+    blogArticleSeo,
+    breadcrumbJsonLd,
+    contactSeo,
+    homeSeo,
+    navigationJsonLd,
+    webPageJsonLd,
+    workSeo,
+  } = await import(pathToFileURL(outfile).href);
 
   const navigation = navigationJsonLd();
   assert.equal(navigation["@type"], "ItemList");
@@ -78,6 +86,31 @@ try {
     contact.scripts.some((script) => script.children.includes('"@type":"ContactPage"')),
     true,
     "contactSeo should emit ContactPage structured data",
+  );
+
+  const article = blogArticleSeo({
+    slug: "warehouse-management-software-egypt",
+    title: "How to choose warehouse management software in Egypt",
+    deck: "A practical guide.",
+    topic: "Warehouse",
+    readTime: "8 min read",
+    publishedAt: "September 2026",
+    audience: "Warehouse, logistics, commerce",
+    operatingQuestion: "What matters?",
+    signals: [{ label: "Priority", value: "Traceability" }],
+    visual: "warehouse-flow",
+    icon: () => null,
+    detailSections: ["operating-question"],
+    datePublished: "2026-09-23",
+  });
+  assert.equal(
+    article.scripts.some((script) => script.children.includes('"@type":"BlogPosting"')),
+    true,
+    "blogArticleSeo should emit BlogPosting structured data",
+  );
+  assert.equal(
+    article.links[0].href,
+    "https://traffodata.com/blog/warehouse-management-software-egypt",
   );
 
   assert.deepEqual(webPageJsonLd({ name: "Blog", description: "Notes", path: "/blog" }), {

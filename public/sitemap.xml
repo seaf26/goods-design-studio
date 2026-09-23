@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://traffodata.com/blog</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-09-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -279,6 +279,18 @@
   <url>
     <loc>https://traffodata.com/work/wikifood-commerce-delivery-backend</loc>
     <lastmod>2026-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://traffodata.com/blog/digital-storefront-egypt</loc>
+    <lastmod>2026-09-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://traffodata.com/blog/warehouse-management-software-egypt</loc>
+    <lastmod>2026-09-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

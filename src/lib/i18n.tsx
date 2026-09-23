@@ -155,7 +155,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Explore TRAFFODATA case studies for businesses with real workflows, real teams, and real money moving through backend platforms, dashboards, mobile apps, commerce engines, and internal tools.",
     "seo.blog.title": "Blog - TRAFFODATA Software",
     "seo.blog.description":
-      "Operational essays on ERP, inventory, warehouse, POS, accounting, CRM, automation, and durable business software.",
+      "Practical essays on ERP, inventory, warehouse management software, digital storefronts in Egypt, POS, accounting, CRM, and durable business software.",
     "seo.contact.title": "Contact Us - TRAFFODATA Software",
     "seo.contact.description":
       "Talk to TRAFFODATA about the workflow, system gap, or disconnected toolchain slowing your business down.",
@@ -681,6 +681,74 @@ export const translations: Record<Locale, Record<string, string>> = {
     "blog.article.topic.accounting": "Accounting",
     "blog.article.topic.pos": "POS",
     "blog.article.topic.automation": "Automation",
+    "blog.article.back": "Back to the journal",
+    "blog.article.operatingQuestion": "The operating question",
+    "blog.article.signals": "Signals to watch",
+    "blog.article.cta": "Bring the workflow to the table.",
+    "blog.article.warehouse-management-software-egypt.title":
+      "How to choose warehouse management software in Egypt",
+    "blog.article.warehouse-management-software-egypt.deck":
+      "A practical buying guide for teams comparing warehouse software, inventory accuracy, barcode workflows, and delivery operations in Egypt.",
+    "blog.article.warehouse-management-software-egypt.topic": "Warehouse",
+    "blog.article.warehouse-management-software-egypt.readTime": "8 min read",
+    "blog.article.warehouse-management-software-egypt.publishedAt": "September 2026",
+    "blog.article.warehouse-management-software-egypt.audience": "Warehouse, logistics, commerce",
+    "blog.article.warehouse-management-software-egypt.question":
+      "Can the system show the next action before the order reaches the floor?",
+    "blog.article.warehouse-management-software-egypt.signal.0.label": "Priority",
+    "blog.article.warehouse-management-software-egypt.signal.0.value": "Traceability",
+    "blog.article.warehouse-management-software-egypt.signal.1.label": "Control",
+    "blog.article.warehouse-management-software-egypt.signal.1.value": "Stock truth",
+    "blog.article.warehouse-management-software-egypt.signal.2.label": "Output",
+    "blog.article.warehouse-management-software-egypt.signal.2.value": "Faster dispatch",
+    "blog.article.warehouse-management-software-egypt.section.operating-question.title":
+      "Start with the floor, not the feature list",
+    "blog.article.warehouse-management-software-egypt.section.operating-question.text":
+      "Warehouse management software should make the next operational decision visible: what was received, where it is stored, what is reserved, what can be picked, and what is ready to leave. Begin by mapping the moments where a supervisor currently checks a spreadsheet, calls another team, or corrects a status by hand.",
+    "blog.article.warehouse-management-software-egypt.section.buying-criteria.title":
+      "The buying criteria that matter",
+    "blog.article.warehouse-management-software-egypt.section.buying-criteria.text":
+      "Look for one traceable record from receiving through putaway, picking, packing, dispatch, returns, and adjustment. Test barcode workflows, multi-location stock, reservations, role permissions, audit history, and integrations with ecommerce, POS, accounting, and delivery before you compare dashboards or screenshots.",
+    "blog.article.warehouse-management-software-egypt.section.egypt-context.title":
+      "What to validate for an Egyptian operation",
+    "blog.article.warehouse-management-software-egypt.section.egypt-context.text":
+      "A system used in Egypt needs to fit the actual handoffs around the warehouse: Arabic and English teams, local delivery partners, cash and electronic payment reconciliation, branch transfers, tax documentation, and the realities of intermittent connectivity. These are workflow requirements, not optional polish to add after launch.",
+    "blog.article.warehouse-management-software-egypt.section.decision.title":
+      "A practical decision rule",
+    "blog.article.warehouse-management-software-egypt.section.decision.text":
+      "Choose the platform that can explain every stock movement to the person responsible for the next action. If the answer depends on exporting data, reconciling multiple systems, or trusting an unowned exception queue, the operation has outgrown the tool even if the interface looks modern.",
+    "blog.article.digital-storefront-egypt.title":
+      "Digital storefronts in Egypt need an operating system behind them",
+    "blog.article.digital-storefront-egypt.deck":
+      "A digital storefront is only the front door. The useful work happens when catalog, inventory, payments, delivery, and customer data stay connected.",
+    "blog.article.digital-storefront-egypt.topic": "ERP",
+    "blog.article.digital-storefront-egypt.readTime": "6 min read",
+    "blog.article.digital-storefront-egypt.publishedAt": "September 2026",
+    "blog.article.digital-storefront-egypt.audience": "Commerce, founders, operations",
+    "blog.article.digital-storefront-egypt.question":
+      "What should update automatically when a customer places an order?",
+    "blog.article.digital-storefront-egypt.signal.0.label": "Front door",
+    "blog.article.digital-storefront-egypt.signal.0.value": "Storefront",
+    "blog.article.digital-storefront-egypt.signal.1.label": "Source",
+    "blog.article.digital-storefront-egypt.signal.1.value": "Live inventory",
+    "blog.article.digital-storefront-egypt.signal.2.label": "Outcome",
+    "blog.article.digital-storefront-egypt.signal.2.value": "Joined-up orders",
+    "blog.article.digital-storefront-egypt.section.front-door.title":
+      "The storefront is the front door",
+    "blog.article.digital-storefront-egypt.section.front-door.text":
+      "A digital storefront helps a customer browse and buy, but it does not decide whether the item is truly available, who should fulfill it, how the payment is reconciled, or what the customer hears next. Those decisions belong to the operating system behind the storefront.",
+    "blog.article.digital-storefront-egypt.section.source-of-truth.title":
+      "Connect the source of truth",
+    "blog.article.digital-storefront-egypt.section.source-of-truth.text":
+      "Catalog, prices, stock, customer records, payment state, and delivery status should share an explicit model. When every channel writes its own version of the order, teams spend their time explaining mismatches instead of serving customers. A connected platform makes the state and its owner visible.",
+    "blog.article.digital-storefront-egypt.section.operating-loop.title":
+      "Design the complete order loop",
+    "blog.article.digital-storefront-egypt.section.operating-loop.text":
+      "Map what happens after checkout: reservation, picking, substitution, payment confirmation, dispatch, delivery attempt, return, refund, and support. For Egyptian commerce teams, include the handoffs between online orders, branches, local delivery operations, and the finance team from the beginning.",
+    "blog.article.digital-storefront-egypt.section.decision.title":
+      "The useful test",
+    "blog.article.digital-storefront-egypt.section.decision.text":
+      "Ask whether one person can answer three questions without opening five tools: what did the customer order, where is it now, and what must happen next? If not, the next investment is probably not another storefront feature. It is the connected operational layer underneath it.",
     "blog.article.before-another-dashboard.title": "What operators need before another dashboard",
     "blog.article.before-another-dashboard.deck":
       "A practical look at approvals, stock events, and finance rules that should be mapped before interface design starts.",
@@ -881,7 +949,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "استكشف دراسات حالة TRAFFODATA لشركات لديها تدفقات عمل حقيقية وفرق حقيقية وأموال حقيقية تتحرك عبر المنصات الخلفية ولوحات البيانات ومنتجات الموبايل ومحركات التجارة والأدوات الداخلية.",
     "seo.blog.title": "المدونة - برمجيات TRAFFODATA",
     "seo.blog.description":
-      "مقالات تشغيلية عن ERP والمخزون والمستودعات ونقاط البيع والمحاسبة وCRM والأتمتة وبرمجيات الأعمال المتينة.",
+      "مقالات عملية عن ERP وإدارة المخزون وبرامج المستودعات والمتاجر الرقمية في مصر ونقاط البيع والمحاسبة وCRM والأتمتة وبرمجيات الأعمال المتينة.",
     "seo.contact.title": "تواصل معنا - برمجيات TRAFFODATA",
     "seo.contact.description":
       "تحدث مع TRAFFODATA عن تدفق العمل أو فجوة النظام أو سلسلة الأدوات المنفصلة التي تبطئ شركتك.",
@@ -1784,6 +1852,74 @@ export const translations: Record<Locale, Record<string, string>> = {
     "blog.article.topic.accounting": "المحاسبة",
     "blog.article.topic.pos": "نقاط البيع",
     "blog.article.topic.automation": "الأتمتة",
+    "blog.article.back": "العودة إلى المجلة",
+    "blog.article.operatingQuestion": "سؤال التشغيل",
+    "blog.article.signals": "إشارات يجب مراقبتها",
+    "blog.article.cta": "أحضر تدفق العمل إلى الطاولة.",
+    "blog.article.warehouse-management-software-egypt.title":
+      "كيف تختار برنامج إدارة المستودعات في مصر",
+    "blog.article.warehouse-management-software-egypt.deck":
+      "دليل عملي للفرق التي تقارن بين برامج المستودعات ودقة المخزون ومسارات الباركود وعمليات التوصيل في مصر.",
+    "blog.article.warehouse-management-software-egypt.topic": "المستودع",
+    "blog.article.warehouse-management-software-egypt.readTime": "قراءة 8 دقائق",
+    "blog.article.warehouse-management-software-egypt.publishedAt": "سبتمبر 2026",
+    "blog.article.warehouse-management-software-egypt.audience": "المستودع، اللوجستيات، التجارة",
+    "blog.article.warehouse-management-software-egypt.question":
+      "هل يستطيع النظام إظهار الخطوة التالية قبل وصول الطلب إلى أرضية العمل؟",
+    "blog.article.warehouse-management-software-egypt.signal.0.label": "الأولوية",
+    "blog.article.warehouse-management-software-egypt.signal.0.value": "قابلية التتبع",
+    "blog.article.warehouse-management-software-egypt.signal.1.label": "التحكم",
+    "blog.article.warehouse-management-software-egypt.signal.1.value": "حقيقة المخزون",
+    "blog.article.warehouse-management-software-egypt.signal.2.label": "المخرج",
+    "blog.article.warehouse-management-software-egypt.signal.2.value": "توصيل أسرع",
+    "blog.article.warehouse-management-software-egypt.section.operating-question.title":
+      "ابدأ من أرضية العمل لا من قائمة المزايا",
+    "blog.article.warehouse-management-software-egypt.section.operating-question.text":
+      "يجب أن يجعل برنامج إدارة المستودعات القرار التشغيلي التالي واضحا: ما الذي تم استلامه، وأين تم تخزينه، وما الذي تم حجزه، وما الذي يمكن تجهيزه، وما الذي أصبح جاهزا للمغادرة. ابدأ برسم اللحظات التي يراجع فيها المشرف حاليا جدولا أو يتصل بفريق آخر أو يصحح حالة الطلب يدويا.",
+    "blog.article.warehouse-management-software-egypt.section.buying-criteria.title":
+      "معايير الشراء التي تستحق الاهتمام",
+    "blog.article.warehouse-management-software-egypt.section.buying-criteria.text":
+      "ابحث عن سجل واحد يمكن تتبعه من الاستلام والتخزين إلى التجهيز والتعبئة والشحن والمرتجعات والتعديلات. اختبر مسارات الباركود والمخزون متعدد المواقع والحجوزات وصلاحيات الأدوار وسجل التدقيق والتكامل مع التجارة الإلكترونية ونقاط البيع والمحاسبة والتوصيل قبل مقارنة لوحات البيانات أو لقطات الشاشة.",
+    "blog.article.warehouse-management-software-egypt.section.egypt-context.title":
+      "ما الذي يجب التحقق منه في عملية داخل مصر",
+    "blog.article.warehouse-management-software-egypt.section.egypt-context.text":
+      "يحتاج النظام المستخدم في مصر إلى ملاءمة نقاط التسليم الفعلية حول المستودع: فرق تعمل بالعربية والإنجليزية، وشركاء توصيل محليين، ومطابقة المدفوعات النقدية والإلكترونية، وتحويلات الفروع، ومستندات الضرائب، وواقع الاتصال المتقطع. هذه متطلبات تدفق عمل وليست تحسينات اختيارية تؤجل إلى ما بعد الإطلاق.",
+    "blog.article.warehouse-management-software-egypt.section.decision.title":
+      "قاعدة عملية لاتخاذ القرار",
+    "blog.article.warehouse-management-software-egypt.section.decision.text":
+      "اختر المنصة التي تستطيع شرح كل حركة مخزون للشخص المسؤول عن الخطوة التالية. إذا كانت الإجابة تتطلب تصدير البيانات أو مطابقة عدة أنظمة أو الثقة في قائمة استثناءات بلا مالك، فقد تجاوزت العملية حدود الأداة حتى لو بدت الواجهة حديثة.",
+    "blog.article.digital-storefront-egypt.title":
+      "المتاجر الرقمية في مصر تحتاج إلى نظام تشغيل خلفها",
+    "blog.article.digital-storefront-egypt.deck":
+      "المتجر الرقمي هو الباب الأمامي فقط. القيمة الحقيقية تظهر عندما يظل الكتالوج والمخزون والمدفوعات والتوصيل وبيانات العملاء متصلة.",
+    "blog.article.digital-storefront-egypt.topic": "ERP",
+    "blog.article.digital-storefront-egypt.readTime": "قراءة 6 دقائق",
+    "blog.article.digital-storefront-egypt.publishedAt": "سبتمبر 2026",
+    "blog.article.digital-storefront-egypt.audience": "التجارة، المؤسسون، العمليات",
+    "blog.article.digital-storefront-egypt.question":
+      "ما الذي يجب أن يتحدث تلقائيا عندما يضع العميل طلبا؟",
+    "blog.article.digital-storefront-egypt.signal.0.label": "الباب الأمامي",
+    "blog.article.digital-storefront-egypt.signal.0.value": "المتجر الرقمي",
+    "blog.article.digital-storefront-egypt.signal.1.label": "المصدر",
+    "blog.article.digital-storefront-egypt.signal.1.value": "مخزون مباشر",
+    "blog.article.digital-storefront-egypt.signal.2.label": "النتيجة",
+    "blog.article.digital-storefront-egypt.signal.2.value": "طلبات مترابطة",
+    "blog.article.digital-storefront-egypt.section.front-door.title":
+      "المتجر هو الباب الأمامي",
+    "blog.article.digital-storefront-egypt.section.front-door.text":
+      "يساعد المتجر الرقمي العميل على التصفح والشراء، لكنه لا يقرر وحده ما إذا كان المنتج متاحا فعلا، ومن سيجهزه، وكيف ستتم مطابقة الدفع، وما الذي سيسمعه العميل بعد ذلك. هذه القرارات تنتمي إلى نظام التشغيل خلف المتجر.",
+    "blog.article.digital-storefront-egypt.section.source-of-truth.title":
+      "اربط مصدر الحقيقة",
+    "blog.article.digital-storefront-egypt.section.source-of-truth.text":
+      "يجب أن يشترك الكتالوج والأسعار والمخزون وسجلات العملاء وحالة الدفع وحالة التوصيل في نموذج واضح. عندما تكتب كل قناة نسختها الخاصة من الطلب، تقضي الفرق وقتها في تفسير الفروقات بدلا من خدمة العملاء. المنصة المترابطة تجعل الحالة ومالكها واضحين.",
+    "blog.article.digital-storefront-egypt.section.operating-loop.title":
+      "صمم دورة الطلب كاملة",
+    "blog.article.digital-storefront-egypt.section.operating-loop.text":
+      "ارسم ما يحدث بعد إتمام الشراء: الحجز والتجهيز والاستبدال وتأكيد الدفع والشحن ومحاولة التوصيل والإرجاع والاسترداد والدعم. وبالنسبة لفرق التجارة في مصر، أدرج منذ البداية نقاط التسليم بين الطلبات الإلكترونية والفروع وعمليات التوصيل المحلية والفريق المالي.",
+    "blog.article.digital-storefront-egypt.section.decision.title":
+      "الاختبار المفيد",
+    "blog.article.digital-storefront-egypt.section.decision.text":
+      "اسأل هل يستطيع شخص واحد الإجابة عن ثلاثة أسئلة دون فتح خمس أدوات: ماذا طلب العميل، وأين يوجد الطلب الآن، وما الذي يجب أن يحدث بعد ذلك؟ إذا لم يكن ذلك ممكنا، فغالبا لا يحتاج الاستثمار التالي إلى ميزة أخرى في المتجر، بل إلى طبقة تشغيل مترابطة خلفه.",
     "blog.article.before-another-dashboard.title": "ما يحتاجه المشغلون قبل لوحة بيانات أخرى",
     "blog.article.before-another-dashboard.deck":
       "نظرة عملية على الموافقات وأحداث المخزون وقواعد المالية التي يجب رسمها قبل بدء تصميم الواجهة.",

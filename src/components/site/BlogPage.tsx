@@ -63,11 +63,12 @@ function OperationsVisual({ article }: { article: DisplayBlogArticle }) {
 function ArticleRow({ article, index }: { article: DisplayBlogArticle; index: number }) {
   const { t } = useI18n();
   const Icon = article.icon;
+  const href = article.detailSections?.length ? `/blog/${article.slug}` : "/contact";
 
   return (
     <Reveal delay={index * 0.035}>
       <a
-        href="/contact"
+        href={href}
         className="group grid gap-5 border-t border-[var(--hairline)] py-7 transition-colors hover:bg-[var(--surface)]/48 active:bg-[var(--surface)] md:grid-cols-[0.22fr_0.5fr_0.28fr] md:px-4"
       >
         <div>

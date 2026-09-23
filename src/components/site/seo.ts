@@ -1,6 +1,7 @@
 import { DEFAULT_LOCALE, translations, type Locale } from "@/lib/i18n";
 
 import type { WorkItem } from "./workData";
+import type { BlogArticle } from "./blogData";
 import type {
   DetailedHTMLProps,
   LinkHTMLAttributes,
@@ -317,6 +318,55 @@ export function blogSeo(locale: Locale = DEFAULT_LOCALE) {
         description,
         path: "/blog",
       }),
+    ],
+  });
+}
+
+export function blogArticleSeo(article?: BlogArticle | null, locale: Locale = DEFAULT_LOCALE) {
+  if (!article) {
+    return blogSeo(locale);
+  }
+
+  const path = `/blog/${article.slug}`;
+  const title = `${article.title} - TRAFFODATA Software`;
+
+  return seoHead({
+    title,
+    description: article.deck,
+    path,
+    type: "article",
+    imageAlt: `${article.title} ${seoCopy("seo.project.imageAltSuffix", locale)}`,
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: article.title,
+        description: article.deck,
+        url: absoluteUrl(path),
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `${absoluteUrl(path)}#webpage`,
+        },
+        author: {
+          "@type": "Organization",
+          name: "TRAFFODATA",
+          url: SITE_URL,
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "TRAFFODATA",
+          logo: { "@type": "ImageObject", url: assetUrl(BRAND_ASSETS.mark) },
+        },
+        ...(article.datePublished ? { datePublished: article.datePublished } : {}),
+        ...(article.dateModified ? { dateModified: article.dateModified } : {}),
+        articleSection: article.topic,
+        keywords: [article.topic, ...article.signals.map((signal) => signal.value)].join(", "),
+      },
+      breadcrumbJsonLd([
+        { name: seoCopy("brand.name", locale), path: "/" },
+        { name: seoCopy("seo.navigation.blog", locale), path: "/blog" },
+        { name: article.title, path },
+      ]),
     ],
   });
 }

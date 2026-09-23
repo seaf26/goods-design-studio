@@ -1,10 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 
 import { ProjectDetailPage } from "@/components/site/ProjectDetailPage";
 import { projectSeo } from "@/components/site/seo";
 import { getWorkItem } from "@/components/site/workData";
 
 export const Route = createFileRoute("/work_/$slug")({
+  beforeLoad: ({ params }) => {
+    if (!getWorkItem(params.slug)) {
+      throw notFound();
+    }
+  },
   head: ({ params }) => projectSeo(getWorkItem(params.slug)),
   component: RouteComponent,
 });

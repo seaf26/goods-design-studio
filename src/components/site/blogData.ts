@@ -15,9 +15,52 @@ export type BlogArticle = {
   signals: { label: string; value: string }[];
   visual: "operations-board" | "warehouse-flow" | "finance-close" | "inventory-exceptions";
   icon: LucideIcon;
+  detailSections?: string[];
+  datePublished?: string;
+  dateModified?: string;
 };
 
 export const blogArticles: BlogArticle[] = [
+  {
+    slug: "warehouse-management-software-egypt",
+    title: "How to choose warehouse management software in Egypt",
+    deck: "A practical buying guide for teams comparing warehouse software, inventory accuracy, barcode workflows, and delivery operations in Egypt.",
+    topic: "Warehouse",
+    readTime: "8 min read",
+    publishedAt: "September 2026",
+    audience: "Warehouse, logistics, commerce",
+    operatingQuestion: "Can the system show the next action before the order reaches the floor?",
+    visual: "warehouse-flow",
+    icon: Truck,
+    detailSections: ["operating-question", "buying-criteria", "egypt-context", "decision"],
+    datePublished: "2026-09-23",
+    dateModified: "2026-09-23",
+    signals: [
+      { label: "Priority", value: "Traceability" },
+      { label: "Control", value: "Stock truth" },
+      { label: "Output", value: "Faster dispatch" },
+    ],
+  },
+  {
+    slug: "digital-storefront-egypt",
+    title: "Digital storefronts in Egypt need an operating system behind them",
+    deck: "A digital storefront is only the front door. The useful work happens when catalog, inventory, payments, delivery, and customer data stay connected.",
+    topic: "ERP",
+    readTime: "6 min read",
+    publishedAt: "September 2026",
+    audience: "Commerce, founders, operations",
+    operatingQuestion: "What should update automatically when a customer places an order?",
+    visual: "operations-board",
+    icon: ScanBarcode,
+    detailSections: ["front-door", "source-of-truth", "operating-loop", "decision"],
+    datePublished: "2026-09-23",
+    dateModified: "2026-09-23",
+    signals: [
+      { label: "Front door", value: "Storefront" },
+      { label: "Source", value: "Live inventory" },
+      { label: "Outcome", value: "Joined-up orders" },
+    ],
+  },
   {
     slug: "before-another-dashboard",
     title: "What operators need before another dashboard",
@@ -130,3 +173,7 @@ export const blogTopics: BlogTopic[] = [
   "POS",
   "Automation",
 ];
+
+export function getBlogArticle(slug: string) {
+  return blogArticles.find((article) => article.slug === slug);
+}
