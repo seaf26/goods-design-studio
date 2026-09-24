@@ -49,6 +49,7 @@ export type WorkItem = {
   banner?: string;
   bannerFamily?: WorkBannerFamily;
   images: string[];
+  imageLabels?: string[];
   stack: string[];
   sections?: WorkSection[];
   detailSections: WorkSection[];
@@ -309,6 +310,7 @@ const portfolioProjects = [
       "/work-images/forsa-logistics-light.png",
       "/work-images/forsa-logistics-full.jpg",
     ],
+    imageLabels: ["Dark mode", "Light mode", "Full page"],
     stack: ["Next.js", "TypeScript", "Responsive UI", "English / Arabic"],
     sections: [
       {
@@ -400,6 +402,7 @@ const portfolioProjects = [
       "A full-stack AI event photography platform with a Laravel API backend and a Next.js admin dashboard for events, media workflows, payments, analytics, moderation, and permissions.",
     thumbnail: "/work-images/taggz.webp",
     images: ["/work-images/taggz.webp"],
+    imageLabels: ["Mobile app"],
     stack: [
       "Laravel 13",
       "PHP 8.3",
@@ -534,6 +537,7 @@ const portfolioProjects = [
       "A product website for Taggz that explains the event photo workflow for guests, hosts, and photographers in one connected experience.",
     thumbnail: "/work-images/taggz-website.png",
     images: ["/work-images/taggz-website.png"],
+    imageLabels: ["Safari capture"],
     stack: ["Next.js", "React", "TypeScript", "Responsive UI"],
     sections: [
       {

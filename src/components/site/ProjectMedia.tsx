@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 import { useI18n } from "@/lib/i18n";
 
@@ -9,29 +9,35 @@ function ProjectShot({
   src,
   alt,
   eager = false,
+  fit = "cover",
 }: {
   src: string;
   alt: string;
   eager?: boolean;
+  fit?: "cover" | "contain";
 }) {
-  const [portrait, setPortrait] = useState(false);
-
   return (
     <div className="absolute inset-0 bg-[#030409]">
-      <div className="absolute inset-0 flex items-center justify-center p-3 md:p-4">
+      {fit === "contain" ? (
+        <img
+          src={src}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full scale-105 object-cover opacity-35 blur-2xl"
+          loading="lazy"
+        />
+      ) : null}
+      <div className="absolute inset-0 bg-black/20" />
+      <div className="relative flex h-full items-center justify-center p-3 md:p-5">
         <img
           src={src}
           alt={alt}
           className={
-            portrait
-              ? "h-auto w-auto max-h-[86%] max-w-[min(72vw,18rem)] rounded-[1.25rem] object-contain md:max-w-[min(28vw,18rem)]"
+            fit === "contain"
+              ? "max-h-full max-w-full rounded-[1rem] object-contain shadow-[0_24px_70px_-36px_rgba(0,0,0,0.9)]"
               : "h-full w-full object-cover"
           }
           loading={eager ? "eager" : "lazy"}
-          onLoad={(event) => {
-            const target = event.currentTarget;
-            setPortrait(target.naturalHeight > target.naturalWidth);
-          }}
         />
       </div>
     </div>
@@ -70,10 +76,7 @@ export function ProjectMediaFrame({
 
 export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: ReactNode }) {
   const { t } = useI18n();
-  const heroImages = useMemo(
-    () => Array.from(new Set(item.images.filter(Boolean).slice(0, 3))),
-    [item.images],
-  );
+  const heroImage = item.thumbnail || item.images[0];
 
   return (
     <ProjectMediaFrame
@@ -81,28 +84,14 @@ export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: Re
       caption={item.title}
       className="shadow-[0_30px_110px_-72px_rgba(0,0,0,0.75)]"
     >
-      {heroImages.length ? (
-        <div
-          className={`absolute inset-0 grid gap-3 p-3 md:p-4 ${
-            heroImages.length === 1
-              ? "grid-cols-1"
-              : heroImages.length === 2
-                ? "grid-cols-1 md:grid-cols-2"
-                : "grid-cols-1 md:grid-cols-3"
-          }`}
-        >
-          {heroImages.map((image, index) => (
-            <div
-              key={image}
-              className="relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-black/20"
-            >
-              <ProjectShot
-                src={image}
-                alt={`${item.title} ${t("project.media.alt")} ${index + 1}`}
-                eager={index === 0}
-              />
-            </div>
-          ))}
+      {heroImage ? (
+        <div className="absolute inset-0">
+          <ProjectShot
+            src={heroImage}
+            alt={`${item.title} ${t("project.media.alt")}`}
+            eager
+            fit="contain"
+          />
         </div>
       ) : (
         <div className="absolute inset-0">{visual}</div>
@@ -135,23 +124,64 @@ export function ProjectHeroBanner({ item, visual }: { item: WorkItem; visual: Re
 export function ProjectGallery({ item }: { item: WorkItem }) {
   const { t } = useI18n();
   const imageItems = item.images.filter(Boolean).slice(0, 3);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   if (!imageItems.length) {
     return null;
   }
 
+  const selectedImage = imageItems[selectedIndex] ?? imageItems[0];
+  const getImageLabel = (index: number) =>
+    item.imageLabels?.[index] ?? `${t("project.media.image")} ${index + 1}`;
+
   return (
-    <div className="grid gap-4">
-      {imageItems.map((image, index) => (
-        <ProjectMediaFrame
-          key={`${image}-${index}`}
-          label={`${t("project.media.image")} ${index + 1}`}
-          caption={item.title}
-          className="shadow-none"
-        >
-          <ProjectShot src={image} alt={`${item.title} ${t("project.media.alt")} ${index + 1}`} />
-        </ProjectMediaFrame>
-      ))}
+    <div className="grid gap-3">
+      <ProjectMediaFrame
+        label={`${getImageLabel(selectedIndex)} · ${selectedIndex + 1}/${imageItems.length}`}
+        caption={item.title}
+        className="shadow-none"
+      >
+        <ProjectShot
+          src={selectedImage}
+          alt={`${item.title} ${t("project.media.alt")} ${selectedIndex + 1}`}
+          eager={selectedIndex === 0}
+          fit="contain"
+        />
+      </ProjectMediaFrame>
+      {imageItems.length > 1 ? (
+        <div className="flex gap-3 overflow-x-auto pb-1">
+          {imageItems.map((image, index) => {
+            const active = index === selectedIndex;
+            const label = getImageLabel(index);
+
+            return (
+              <button
+                key={`${image}-${index}`}
+                type="button"
+                aria-label={`${t("project.media.image")} ${label}`}
+                aria-pressed={active}
+                onClick={() => setSelectedIndex(index)}
+                className={`group min-w-28 overflow-hidden rounded-xl text-left ring-1 transition-[transform,background-color,box-shadow] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] sm:min-w-36 ${
+                  active
+                    ? "bg-[var(--card)] text-[var(--ink)] ring-[var(--primary)] shadow-[0_10px_30px_-20px_rgba(115,136,223,0.9)]"
+                    : "bg-[var(--surface)] text-[var(--muted-foreground)] ring-[var(--hairline)] hover:-translate-y-0.5 hover:text-[var(--ink)]"
+                }`}
+              >
+                <span className="block aspect-[4/3] overflow-hidden bg-[#030409]">
+                  <img
+                    src={image}
+                    alt=""
+                    aria-hidden="true"
+                    className="h-full w-full object-cover transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.03]"
+                    loading="lazy"
+                  />
+                </span>
+                <span className="block truncate px-3 py-2 text-[11px] font-medium">{label}</span>
+              </button>
+            );
+          })}
+        </div>
+      ) : null}
     </div>
   );
 }
