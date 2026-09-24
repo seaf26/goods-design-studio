@@ -102,7 +102,7 @@ const portfolioProjects = [
       },
     ],
     client: "WikiFood Multi-Vendor Commerce Backend",
-    type: "Mobile product",
+    type: "Backend platform",
     category: "mobile-app",
     summary:
       "A full-stack Laravel 10 backend and API platform powering a multi-vendor ecommerce web app plus three mobile apps for vendors, customers, and delivery operations.",
@@ -298,6 +298,101 @@ const portfolioProjects = [
     iconName: "ShoppingCart",
   },
   {
+    title: "Forsa Logistics Website",
+    slug: "forsa-logistics-website",
+    href: "https://forsalogistics.com/en",
+    description:
+      "A bilingual Saudi logistics website connecting businesses with drivers and transport companies from the first request to delivery coordination.",
+    thumbnail: "/work-images/forsa-logistics-dark.jpg",
+    images: [
+      "/work-images/forsa-logistics-dark.jpg",
+      "/work-images/forsa-logistics-light.png",
+      "/work-images/forsa-logistics-full.jpg",
+    ],
+    stack: ["Next.js", "TypeScript", "Responsive UI", "English / Arabic"],
+    sections: [
+      {
+        title: "Market Positioning",
+        text: "Positioned Forsa as a clear transport partner for Saudi businesses that need reliable road freight, with a direct message that moves visitors from request to action.",
+      },
+      {
+        title: "Request-to-Transport Flow",
+        text: "Organized the journey around a simple sequence: describe the move, connect with the right driver or transport company, and coordinate delivery with less friction.",
+      },
+      {
+        title: "Bilingual Delivery",
+        text: "Designed the experience for English and Arabic audiences, with a theme system that supports both light and dark presentation without losing the Forsa orange and navy identity.",
+      },
+      {
+        title: "Industry Coverage",
+        text: "Created a flexible content system for construction, manufacturing, retail, distribution, industrial operations, commercial teams, and suppliers.",
+      },
+    ],
+    client: "Forsa Logistics",
+    type: "Logistics website",
+    category: "website",
+    summary:
+      "A bilingual Saudi logistics website connecting businesses with drivers and transport companies from the first request to delivery coordination.",
+    scope: "Next.js, TypeScript",
+    outcome: "Live project",
+    visual: "portfolio",
+    span: "wide",
+    tone: "dark",
+    stats: ["Logistics website", "Bilingual experience"],
+    year: "Portfolio",
+    duration: "Live",
+    team: "Product, design, engineering",
+    headline: "Forsa Logistics Website",
+    detailIntro:
+      "A bilingual Saudi logistics website connecting businesses with drivers and transport companies from the first request to delivery coordination.",
+    challenge:
+      "Forsa needed a focused digital entry point for businesses moving goods across Saudi Arabia, with enough clarity to serve both transport requesters and logistics partners.",
+    build:
+      "Built a responsive bilingual experience with a strong hero, logistics-focused content architecture, service and topic routes, partner calls to action, and a visual theme that works in both light and dark modes.",
+    impact:
+      "The live site gives Forsa a clear market-facing surface for road freight, partner acquisition, and future platform growth while keeping the request journey easy to understand.",
+    modules: ["Next.js", "TypeScript", "English / Arabic", "Light / dark theme"],
+    outcomes: [
+      "Logistics website",
+      "Bilingual experience",
+      "Live project",
+      "External project link",
+    ],
+    timeline: [
+      {
+        label: "Positioning",
+        text: "Positioned Forsa as a direct transport partner for Saudi businesses that need to move goods, with a clear path from request to delivery coordination.",
+      },
+      {
+        label: "Experience",
+        text: "Organized the website around services, topics, contact, and partner actions so visitors can understand the operating model before they start a conversation.",
+      },
+      {
+        label: "Localization",
+        text: "Designed the system for English and Arabic audiences and carried the same Forsa identity across light and dark themes.",
+      },
+    ],
+    detailSections: [
+      {
+        title: "Market Positioning",
+        text: "Positioned Forsa as a clear transport partner for Saudi businesses that need reliable road freight, with a direct message that moves visitors from request to action.",
+      },
+      {
+        title: "Request-to-Transport Flow",
+        text: "Organized the journey around a simple sequence: describe the move, connect with the right driver or transport company, and coordinate delivery with less friction.",
+      },
+      {
+        title: "Bilingual Delivery",
+        text: "Designed the experience for English and Arabic audiences, with a theme system that supports both light and dark presentation without losing the Forsa orange and navy identity.",
+      },
+      {
+        title: "Industry Coverage",
+        text: "Created a flexible content system for construction, manufacturing, retail, distribution, industrial operations, commercial teams, and suppliers.",
+      },
+    ],
+    iconName: "Building2",
+  },
+  {
     title: "Taggz AI Event Photography Platform",
     slug: "taggz-ai-event-photography-platform",
     href: "https://apps.apple.com/eg/app/taggz/id6504503293",
@@ -356,8 +451,8 @@ const portfolioProjects = [
       },
     ],
     client: "Taggz AI Event Photography Platform",
-    type: "Backend platform",
-    category: "website",
+    type: "Mobile product",
+    category: "mobile-app",
     summary:
       "A full-stack AI event photography platform with a Laravel API backend and a Next.js admin dashboard for events, media workflows, payments, analytics, moderation, and permissions.",
     scope: "Laravel 13, PHP 8.3",
@@ -365,7 +460,7 @@ const portfolioProjects = [
     visual: "portfolio",
     span: "half",
     tone: "dim",
-    stats: ["Backend platform", "Laravel 13"],
+    stats: ["Mobile product", "Laravel 13"],
     year: "Portfolio",
     duration: "Live",
     team: "Product, engineering, delivery",
@@ -388,7 +483,7 @@ const portfolioProjects = [
       "Firebase FCM",
       "S3/B2 Storage",
     ],
-    outcomes: ["Backend platform", "Laravel 13", "PHP 8.3", "External project link"],
+    outcomes: ["Mobile product", "Laravel 13", "PHP 8.3", "External project link"],
     timeline: [
       {
         label: "Project Overview",
@@ -430,6 +525,92 @@ const portfolioProjects = [
       },
     ],
     iconName: "ServerCog",
+  },
+  {
+    title: "Taggz Event Photography Website",
+    slug: "taggz-event-photography-website",
+    href: "https://taggz2-website.vercel.app/",
+    description:
+      "A product website for Taggz that explains the event photo workflow for guests, hosts, and photographers in one connected experience.",
+    thumbnail: "/work-images/taggz-website.png",
+    images: ["/work-images/taggz-website.png"],
+    stack: ["Next.js", "React", "TypeScript", "Responsive UI"],
+    sections: [
+      {
+        title: "One Connected Workflow",
+        text: "Explains how event entry, face enrollment, photographer uploads, and matched galleries work together instead of presenting Taggz as a disconnected set of features.",
+      },
+      {
+        title: "Audience-Specific Paths",
+        text: "Gives guests, hosts, and photographers their own clear entry points while keeping the core product story consistent across the site.",
+      },
+      {
+        title: "Privacy and Access",
+        text: "Makes private event access, face matching, downloads, and host-controlled permissions part of the product explanation rather than hidden implementation details.",
+      },
+      {
+        title: "Product Education",
+        text: "Uses the full guest journey, host capabilities, photographer workflow, and pricing surfaces to help visitors understand the product before they sign in.",
+      },
+    ],
+    client: "Taggz",
+    type: "Product website",
+    category: "website",
+    summary:
+      "A product website for Taggz that explains the event photo workflow for guests, hosts, and photographers in one connected experience.",
+    scope: "Next.js, React, TypeScript",
+    outcome: "Live project",
+    visual: "portfolio",
+    span: "half",
+    tone: "light",
+    stats: ["Product website", "Event photography"],
+    year: "Portfolio",
+    duration: "Live",
+    team: "Product, design, engineering",
+    headline: "Taggz Event Photography Website",
+    detailIntro:
+      "A product website for Taggz that explains the event photo workflow for guests, hosts, and photographers in one connected experience.",
+    challenge:
+      "Taggz needed a public product surface that could explain a multi-sided event photography workflow without making guests, hosts, or photographers decode the same dense interface.",
+    build:
+      "Built an editorial product narrative around event entry, face enrollment, matching, gallery delivery, host configuration, photographer uploads, pricing, and privacy.",
+    impact:
+      "The website gives the Taggz mobile product a clear front door and makes the value of its connected photo workflow legible to every audience it serves.",
+    modules: ["Next.js", "React", "TypeScript", "Responsive UI"],
+    outcomes: ["Product website", "Event photography", "Live project", "External project link"],
+    timeline: [
+      {
+        label: "Product Story",
+        text: "Connected event entry, face enrollment, photographer uploads, and matched galleries into one understandable product journey.",
+      },
+      {
+        label: "Audience Paths",
+        text: "Separated the guest, host, and photographer stories so each audience can find the next relevant action without losing the shared product context.",
+      },
+      {
+        label: "Trust",
+        text: "Brought privacy, permissions, and event-specific access into the main narrative so the product story feels as considered as the feature set.",
+      },
+    ],
+    detailSections: [
+      {
+        title: "One Connected Workflow",
+        text: "Explains how event entry, face enrollment, photographer uploads, and matched galleries work together instead of presenting Taggz as a disconnected set of features.",
+      },
+      {
+        title: "Audience-Specific Paths",
+        text: "Gives guests, hosts, and photographers their own clear entry points while keeping the core product story consistent across the site.",
+      },
+      {
+        title: "Privacy and Access",
+        text: "Makes private event access, face matching, downloads, and host-controlled permissions part of the product explanation rather than hidden implementation details.",
+      },
+      {
+        title: "Product Education",
+        text: "Uses the full guest journey, host capabilities, photographer workflow, and pricing surfaces to help visitors understand the product before they sign in.",
+      },
+    ],
+    iconName: "Code2",
   },
   {
     title: "JAWAD Horse Riding Booking Platform",
@@ -1329,21 +1510,29 @@ const portfolioProjects = [
     slug: "nourtha-tech",
     href: "https://nourtha-tech.inomhub.com",
     description:
-      "Nourtha-Tech is a cutting-edge landing page designed for a leading tech company in Saudi Arabia. Built entirely from scratch, it showcases the company's innovative solutions, services, and vision. The website features a modern, responsive design with full localization support, ensuring accessibility for both Arabic and English-speaking audiences. Developed using React-Vite and Tailwind CSS, it delivers a seamless user experience and highlights the company's commitment to technological excellence.",
+      "A bilingual one-page corporate website for a Saudi technology company, designed to introduce its services, explain its value, and create a direct path to contact. Built with React, AOS, and Tailwind CSS.",
     thumbnail: "/work-images/noutha-tech.png",
     images: ["/work-images/noutha-tech.png", "/work-images/noutha-tech2.png"],
     stack: ["React", "AOS", "Tailwindcss"],
     sections: [
       {
-        title: "Details",
-        text: "Key Features: - Fully responsive design optimized for all devices. - Multilingual support for Arabic and English. - Integrated email system for seamless communication. - Built with React-Vite and Tailwind CSS for performance and scalability. - Represents the company's innovative approach to technology in Saudi Arabia.",
+        title: "Corporate Landing Direction",
+        text: "Structured the page around a focused corporate narrative: what the company does, where it creates value, and how prospective clients can start a conversation.",
+      },
+      {
+        title: "Arabic & English Delivery",
+        text: "Implemented a bilingual experience for Saudi audiences, including localized navigation, content, and contact paths that remain usable across desktop and mobile layouts.",
+      },
+      {
+        title: "Motion With Purpose",
+        text: "Used AOS transitions to give the long-form landing page a measured sense of movement while keeping the service story readable and the page responsive.",
       },
     ],
     client: "Nourtha-Tech",
     type: "Web experience",
     category: "website",
     summary:
-      "Nourtha-Tech is a cutting-edge landing page designed for a leading tech company in Saudi Arabia. Built entirely from scratch, it showcases the company's innovative solutions, services, and vision. The website features a modern, responsive design with full localization support, ensuring accessibility for both Arabic and English-speaking audiences. Developed using React-Vite and Tailwind CSS, it delivers a seamless user experience and highlights the company's commitment to technological excellence.",
+      "A bilingual one-page corporate website for a Saudi technology company, designed to introduce its services, explain its value, and create a direct path to contact. Built with React, AOS, and Tailwind CSS.",
     scope: "React, AOS",
     outcome: "Live project",
     visual: "portfolio",
@@ -1355,25 +1544,41 @@ const portfolioProjects = [
     team: "Product, engineering, delivery",
     headline: "Nourtha-Tech",
     detailIntro:
-      "Nourtha-Tech is a cutting-edge landing page designed for a leading tech company in Saudi Arabia. Built entirely from scratch, it showcases the company's innovative solutions, services, and vision. The website features a modern, responsive design with full localization support, ensuring accessibility for both Arabic and English-speaking audiences. Developed using React-Vite and Tailwind CSS, it delivers a seamless user experience and highlights the company's commitment to technological excellence.",
+      "A bilingual one-page corporate website for a Saudi technology company, designed to introduce its services, explain its value, and create a direct path to contact.",
     challenge:
-      "Key Features: - Fully responsive design optimized for all devices. - Multilingual support for Arabic and English. - Integrated email system for seamless communication. - Built with React-Vite and Tailwind CSS for performance and scalability. - Represents the company's innovative approach to technology in Saudi Arabia.",
+      "The main challenge was turning a broad technology-company story into a clear, scannable landing page for both Arabic and English readers.",
     build:
-      "Key Features: - Fully responsive design optimized for all devices. - Multilingual support for Arabic and English. - Integrated email system for seamless communication. - Built with React-Vite and Tailwind CSS for performance and scalability. - Represents the company's innovative approach to technology in Saudi Arabia.",
+      "Built the page from scratch with React, Tailwind CSS, localized content, responsive sections, and AOS transitions that support the narrative without overwhelming it.",
     impact:
-      "Key Features: - Fully responsive design optimized for all devices. - Multilingual support for Arabic and English. - Integrated email system for seamless communication. - Built with React-Vite and Tailwind CSS for performance and scalability. - Represents the company's innovative approach to technology in Saudi Arabia.",
+      "Delivered a clearer bilingual corporate presence that gives Saudi prospects a direct way to understand the offer and contact the team.",
     modules: ["React", "AOS", "Tailwindcss"],
     outcomes: ["Web experience", "React", "AOS", "External project link"],
     timeline: [
       {
-        label: "Details",
-        text: "Key Features: - Fully responsive design optimized for all devices. - Multilingual support for Arabic and English. - Integrated email system for seamless communication. - Built with React-Vite and Tailwind CSS for performance and scalability. - Represents the company's innovative approach to technology in Saudi Arabia.",
+        label: "Positioning",
+        text: "Turned a broad technology-company story into a clear one-page service narrative with a visible contact path.",
+      },
+      {
+        label: "Localization",
+        text: "Built the Arabic and English content structure so the same responsive layout could serve both audiences cleanly.",
+      },
+      {
+        label: "Delivery",
+        text: "Implemented the responsive React interface with Tailwind CSS and restrained AOS transitions for a polished corporate presentation.",
       },
     ],
     detailSections: [
       {
-        title: "Details",
-        text: "Key Features: - Fully responsive design optimized for all devices. - Multilingual support for Arabic and English. - Integrated email system for seamless communication. - Built with React-Vite and Tailwind CSS for performance and scalability. - Represents the company's innovative approach to technology in Saudi Arabia.",
+        title: "Corporate Landing Direction",
+        text: "Structured the page around a focused corporate narrative: what the company does, where it creates value, and how prospective clients can start a conversation.",
+      },
+      {
+        title: "Arabic & English Delivery",
+        text: "Implemented a bilingual experience for Saudi audiences, including localized navigation, content, and contact paths that remain usable across desktop and mobile layouts.",
+      },
+      {
+        title: "Motion With Purpose",
+        text: "Used AOS transitions to give the long-form landing page a measured sense of movement while keeping the service story readable and the page responsive.",
       },
     ],
     iconName: "Building2",
@@ -1813,33 +2018,33 @@ const portfolioProjects = [
     slug: "out-seller-landing-page",
     href: "http://outseller.rkmait.com/",
     description:
-      "Out Seller is a modern, responsive landing page designed to showcase the Outsellers brand. It features a clean layout with sections for hero, services, about, and contact, all optimized for a professional online presence.",
+      "A responsive brand website for Outsellers, organized around the company story, services, proof points, and contact path. Built with Next.js, TypeScript, and Tailwind CSS.",
     thumbnail: "/work-images/landseller.png",
     images: ["/work-images/aboutseller.png", "/work-images/seller-22.png"],
     stack: ["Next", "Type Script", "Tailwindcss"],
     sections: [
       {
-        title: "Details",
-        text: "Key Features: A modern, visually engaging landing page designed to present Outsellers with clarity and impact. The layout includes clean sections for hero, services, about, and contact, all crafted to guide the visitor smoothly through the content. Fully responsive and optimized for all screen sizes.",
+        title: "Brand Narrative",
+        text: "Organized the landing page around the information a new prospect needs first: the offer, the services, the company story, and a clear contact route.",
       },
       {
-        title: "Details",
-        text: "My Role: I designed and built the entire landing page from scratch, focusing on clean UI, responsive structure, and subtle scroll-based animations to keep the user engaged.",
+        title: "Responsive System",
+        text: "Built a flexible layout that preserves the same hierarchy across desktop, tablet, and mobile breakpoints instead of shrinking a desktop composition down.",
       },
       {
-        title: "Details",
-        text: "Target Audience: Businesses and clients looking to understand the Outsellers brand and get in touch through a professional online presence.",
+        title: "Interaction & Handoff",
+        text: "Added restrained scroll-based motion and delivered the page as a maintainable Next.js and Tailwind implementation for future content updates.",
       },
       {
-        title: "Details",
-        text: "Challenges & Solutions: One challenge was achieving a consistent design across different browsers and screen sizes. I utilized flexible grid layouts and tested responsiveness thoroughly to ensure pixel-perfect design everywhere.",
+        title: "Cross-Browser Polish",
+        text: "Tested the flexible grid and spacing system across browsers and screen sizes so the brand presentation stays consistent without relying on fixed desktop dimensions.",
       },
     ],
     client: "Out Seller landing page",
     type: "Commerce system",
     category: "website",
     summary:
-      "Out Seller is a modern, responsive landing page designed to showcase the Outsellers brand. It features a clean layout with sections for hero, services, about, and contact, all optimized for a professional online presence.",
+      "A responsive brand website for Outsellers, organized around the company story, services, proof points, and contact path. Built with Next.js, TypeScript, and Tailwind CSS.",
     scope: "Next, Type Script",
     outcome: "Live project",
     visual: "portfolio",
@@ -1851,45 +2056,45 @@ const portfolioProjects = [
     team: "Product, engineering, delivery",
     headline: "Out Seller landing page",
     detailIntro:
-      "Out Seller is a modern, responsive landing page designed to showcase the Outsellers brand. It features a clean layout with sections for hero, services, about, and contact, all optimized for a professional online presence.",
+      "A responsive brand website for Outsellers, organized around the company story, services, proof points, and contact path.",
     challenge:
-      "My Role: I designed and built the entire landing page from scratch, focusing on clean UI, responsive structure, and subtle scroll-based animations to keep the user engaged.",
+      "The challenge was making a relatively compact company story feel complete without burying the services or contact path under decorative content.",
     build:
-      "Target Audience: Businesses and clients looking to understand the Outsellers brand and get in touch through a professional online presence.",
+      "Designed and built the responsive Next.js interface from scratch with clear service sections, a flexible grid, and subtle scroll-based motion.",
     impact:
-      "Challenges & Solutions: One challenge was achieving a consistent design across different browsers and screen sizes. I utilized flexible grid layouts and tested responsiveness thoroughly to ensure pixel-perfect design everywhere.",
+      "Delivered a more credible first touchpoint for Outsellers, with a clear route from brand introduction to enquiry.",
     modules: ["Next", "Type Script", "Tailwindcss"],
     outcomes: ["Commerce system", "Next", "Type Script", "External project link"],
     timeline: [
       {
-        label: "Details",
-        text: "Key Features: A modern, visually engaging landing page designed to present Outsellers with clarity and impact. The layout includes clean sections for hero, services, about, and contact, all crafted to guide the visitor smoothly through the content. Fully responsive and optimized for all screen sizes.",
+        label: "Narrative",
+        text: "Organized the offer, services, company story, and contact path into one readable brand journey.",
       },
       {
-        label: "Details",
-        text: "My Role: I designed and built the entire landing page from scratch, focusing on clean UI, responsive structure, and subtle scroll-based animations to keep the user engaged.",
+        label: "Interface",
+        text: "Built the responsive Next.js and Tailwind interface with a flexible grid and restrained scroll motion.",
       },
       {
-        label: "Details",
-        text: "Target Audience: Businesses and clients looking to understand the Outsellers brand and get in touch through a professional online presence.",
+        label: "Handoff",
+        text: "Tested the layout across screen sizes and left the page structured for future content changes.",
       },
     ],
     detailSections: [
       {
-        title: "Details",
-        text: "Key Features: A modern, visually engaging landing page designed to present Outsellers with clarity and impact. The layout includes clean sections for hero, services, about, and contact, all crafted to guide the visitor smoothly through the content. Fully responsive and optimized for all screen sizes.",
+        title: "Brand Narrative",
+        text: "Organized the landing page around the information a new prospect needs first: the offer, the services, the company story, and a clear contact route.",
       },
       {
-        title: "Details",
-        text: "My Role: I designed and built the entire landing page from scratch, focusing on clean UI, responsive structure, and subtle scroll-based animations to keep the user engaged.",
+        title: "Responsive System",
+        text: "Built a flexible layout that preserves the same hierarchy across desktop, tablet, and mobile breakpoints instead of shrinking a desktop composition down.",
       },
       {
-        title: "Details",
-        text: "Target Audience: Businesses and clients looking to understand the Outsellers brand and get in touch through a professional online presence.",
+        title: "Interaction & Handoff",
+        text: "Added restrained scroll-based motion and delivered the page as a maintainable Next.js and Tailwind implementation for future content updates.",
       },
       {
-        title: "Details",
-        text: "Challenges & Solutions: One challenge was achieving a consistent design across different browsers and screen sizes. I utilized flexible grid layouts and tested responsiveness thoroughly to ensure pixel-perfect design everywhere.",
+        title: "Cross-Browser Polish",
+        text: "Tested the flexible grid and spacing system across browsers and screen sizes so the brand presentation stays consistent without relying on fixed desktop dimensions.",
       },
     ],
     iconName: "ShoppingCart",
@@ -2235,29 +2440,29 @@ const portfolioProjects = [
     slug: "hunter",
     href: "https://sweet-home-sigma.vercel.app",
     description:
-      "Hunter is a sleek and modern landing page designed to facilitate the buying and selling of houses.",
+      "A real-estate landing page concept for buyers and sellers, with responsive property discovery, listing-focused sections, and an interface designed around a direct home-search journey.",
     thumbnail: "/work-images/hunter.png",
     images: ["/work-images/hunter.png", "/work-images/hunter3.png"],
     stack: ["ReactJs", "Tailwindcss"],
     sections: [
       {
-        title: "Details",
-        text: "Key Features: A responsive and user-friendly design built for seamless navigation. Integrated Swiper.js sliders to showcase property listings dynamically. Tailored for both buyers and sellers to enhance their online real estate experience.",
+        title: "Property Discovery",
+        text: "Built the page around the first questions a property visitor has: what is available, where to look, and how to move from browsing into an enquiry.",
       },
       {
-        title: "Details",
-        text: "My Role: I built this project entirely from scratch, handling everything from design to development.",
+        title: "Listing Interaction",
+        text: "Used Swiper.js to present property content in a compact, touch-friendly way that works for both buyers comparing homes and sellers presenting inventory.",
       },
       {
-        title: "Details",
-        text: "Target Audience: The platform is designed for consumers looking to buy or sell homes effortlessly.",
+        title: "Responsive Delivery",
+        text: "Designed and implemented the landing page from scratch with a responsive layout that keeps the search and listing story clear on smaller screens.",
       },
     ],
     client: "Hunter",
     type: "Web experience",
     category: "website",
     summary:
-      "Hunter is a sleek and modern landing page designed to facilitate the buying and selling of houses.",
+      "A real-estate landing page concept for buyers and sellers, with responsive property discovery, listing-focused sections, and an interface designed around a direct home-search journey.",
     scope: "ReactJs, Tailwindcss",
     outcome: "Live project",
     visual: "portfolio",
@@ -2269,41 +2474,41 @@ const portfolioProjects = [
     team: "Product, engineering, delivery",
     headline: "Hunter",
     detailIntro:
-      "Hunter is a sleek and modern landing page designed to facilitate the buying and selling of houses.",
+      "A real-estate landing page concept for buyers and sellers, with responsive property discovery and listing-focused sections.",
     challenge:
-      "My Role: I built this project entirely from scratch, handling everything from design to development.",
+      "The challenge was making property discovery feel immediate while still giving the page enough context for both buyers and sellers.",
     build:
-      "Target Audience: The platform is designed for consumers looking to buy or sell homes effortlessly.",
+      "Built the responsive interface from scratch with Swiper.js listing interactions and a layout that supports a direct browse-to-enquiry journey.",
     impact:
-      "Target Audience: The platform is designed for consumers looking to buy or sell homes effortlessly.",
+      "Created a clearer real-estate entry point that helps visitors move from a broad property search toward a specific next action.",
     modules: ["ReactJs", "Tailwindcss"],
     outcomes: ["Web experience", "ReactJs", "Tailwindcss", "External project link"],
     timeline: [
       {
-        label: "Details",
-        text: "Key Features: A responsive and user-friendly design built for seamless navigation. Integrated Swiper.js sliders to showcase property listings dynamically. Tailored for both buyers and sellers to enhance their online real estate experience.",
+        label: "Discovery",
+        text: "Structured the landing page around a direct property-browsing and enquiry journey for buyers and sellers.",
       },
       {
-        label: "Details",
-        text: "My Role: I built this project entirely from scratch, handling everything from design to development.",
+        label: "Listings",
+        text: "Added Swiper.js interactions to make property content easier to scan and compare on touch devices.",
       },
       {
-        label: "Details",
-        text: "Target Audience: The platform is designed for consumers looking to buy or sell homes effortlessly.",
+        label: "Delivery",
+        text: "Implemented the responsive React and Tailwind interface from scratch and tested the core layout across screen sizes.",
       },
     ],
     detailSections: [
       {
-        title: "Details",
-        text: "Key Features: A responsive and user-friendly design built for seamless navigation. Integrated Swiper.js sliders to showcase property listings dynamically. Tailored for both buyers and sellers to enhance their online real estate experience.",
+        title: "Property Discovery",
+        text: "Built the page around the first questions a property visitor has: what is available, where to look, and how to move from browsing into an enquiry.",
       },
       {
-        title: "Details",
-        text: "My Role: I built this project entirely from scratch, handling everything from design to development.",
+        title: "Listing Interaction",
+        text: "Used Swiper.js to present property content in a compact, touch-friendly way that works for both buyers comparing homes and sellers presenting inventory.",
       },
       {
-        title: "Details",
-        text: "Target Audience: The platform is designed for consumers looking to buy or sell homes effortlessly.",
+        title: "Responsive Delivery",
+        text: "Designed and implemented the landing page from scratch with a responsive layout that keeps the search and listing story clear on smaller screens.",
       },
     ],
     iconName: "Code2",
@@ -2313,30 +2518,30 @@ const portfolioProjects = [
     slug: "gameing",
     href: "https://3assem0.github.io/Online-Games-webpage/",
     description:
-      "The Online Games Site is a centralized platform where gamers can explore and download thousands of games from over 100 websites, all in one place. It streamlines the process of finding games by fetching data dynamically via APIs.",
+      "A JavaScript game-discovery site that aggregates catalog data from more than 100 sources through REST APIs, giving gamers one responsive place to browse and open game listings.",
     thumbnail: "/work-images/game1.png",
     images: ["/work-images/game1.png", "/work-images/game2.png"],
     stack: ["Java Script", "Restful API"],
     sections: [
       {
-        title: "Details",
-        text: "Key Features: Access to thousands of games aggregated from more than 100 sources. API integration for real-time data fetching and updates. User-friendly and responsive design tailored for gamers.",
+        title: "API Aggregation",
+        text: "Connected multiple game sources through REST APIs and normalized the incoming data into one catalog experience.",
       },
       {
-        title: "Details",
-        text: "My Role: I built this project from scratch, handling everything from API integration to the website's design and development.",
+        title: "Discovery Flow",
+        text: "Designed the interface around quick browsing, readable game information, and a direct path to open a selected title.",
       },
       {
-        title: "Details",
-        text: "Target Audience: Gamers seeking a convenient and centralized hub for exploring and downloading games.",
+        title: "Responsive Frontend",
+        text: "Built the JavaScript frontend from scratch with a responsive layout that keeps a large, changing catalog usable across screen sizes.",
       },
     ],
     client: "Online Games site",
     type: "Backend platform",
     category: "website",
     summary:
-      "The Online Games Site is a centralized platform where gamers can explore and download thousands of games from over 100 websites, all in one place. It streamlines the process of finding games by fetching data dynamically via APIs.",
-    scope: "Java Script, Restful API",
+      "A JavaScript game-discovery site that aggregates catalog data from more than 100 sources through REST APIs, giving gamers one responsive place to browse and open game listings.",
+    scope: "JavaScript, REST APIs",
     outcome: "Live project",
     visual: "portfolio",
     span: "half",
@@ -2347,41 +2552,41 @@ const portfolioProjects = [
     team: "Product, engineering, delivery",
     headline: "Online Games site",
     detailIntro:
-      "The Online Games Site is a centralized platform where gamers can explore and download thousands of games from over 100 websites, all in one place. It streamlines the process of finding games by fetching data dynamically via APIs.",
+      "A JavaScript game-discovery site that aggregates catalog data from more than 100 sources through REST APIs.",
     challenge:
-      "My Role: I built this project from scratch, handling everything from API integration to the website's design and development.",
+      "The challenge was making a changing, multi-source catalog feel coherent and easy to browse without owning the upstream data model.",
     build:
-      "Target Audience: Gamers seeking a convenient and centralized hub for exploring and downloading games.",
+      "Built the API-connected JavaScript frontend from scratch with a responsive catalog and direct outbound game links.",
     impact:
-      "Target Audience: Gamers seeking a convenient and centralized hub for exploring and downloading games.",
+      "Created a simpler discovery path for gamers who would otherwise need to search across many separate sites.",
     modules: ["Java Script", "Restful API"],
     outcomes: ["Backend platform", "Java Script", "Restful API", "External project link"],
     timeline: [
       {
-        label: "Details",
-        text: "Key Features: Access to thousands of games aggregated from more than 100 sources. API integration for real-time data fetching and updates. User-friendly and responsive design tailored for gamers.",
+        label: "Aggregation",
+        text: "Connected multiple game sources through REST APIs and normalized the incoming catalog data.",
       },
       {
-        label: "Details",
-        text: "My Role: I built this project from scratch, handling everything from API integration to the website's design and development.",
+        label: "Discovery",
+        text: "Designed the browsing experience around readable listings and a direct path to open a selected game.",
       },
       {
-        label: "Details",
-        text: "Target Audience: Gamers seeking a convenient and centralized hub for exploring and downloading games.",
+        label: "Frontend",
+        text: "Implemented the responsive JavaScript interface and kept the catalog usable as source data changes.",
       },
     ],
     detailSections: [
       {
-        title: "Details",
-        text: "Key Features: Access to thousands of games aggregated from more than 100 sources. API integration for real-time data fetching and updates. User-friendly and responsive design tailored for gamers.",
+        title: "API Aggregation",
+        text: "Connected multiple game sources through REST APIs and normalized the incoming data into one catalog experience.",
       },
       {
-        title: "Details",
-        text: "My Role: I built this project from scratch, handling everything from API integration to the website's design and development.",
+        title: "Discovery Flow",
+        text: "Designed the interface around quick browsing, readable game information, and a direct path to open a selected title.",
       },
       {
-        title: "Details",
-        text: "Target Audience: Gamers seeking a convenient and centralized hub for exploring and downloading games.",
+        title: "Responsive Frontend",
+        text: "Built the JavaScript frontend from scratch with a responsive layout that keeps a large, changing catalog usable across screen sizes.",
       },
     ],
     iconName: "ServerCog",

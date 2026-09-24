@@ -164,8 +164,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Project details for selected operational software work by TRAFFODATA.",
     "seo.project.imageAltSuffix": "project preview",
     "home.hero.eyebrow": "TRAFFODATA Enterprise OS",
-    "home.hero.title":
-      "Operational software for businesses that have outgrown disconnected tools.",
+    "home.hero.title": "Operational software for businesses that have outgrown disconnected tools.",
     "home.hero.titleLine1": "Operational software",
     "home.hero.titleLine2": "for serious operators.",
     "home.hero.lead":
@@ -179,8 +178,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "home.trust.proof.commerce.title": "Backend depth",
     "home.trust.proof.commerce.text": "Vendor, checkout, wallet, payment, and delivery operations",
     "home.trust.proof.platforms.title": "Workflow complexity",
-    "home.trust.proof.platforms.text":
-      "Inventory, warehouse, logistics, finance, and approvals",
+    "home.trust.proof.platforms.text": "Inventory, warehouse, logistics, finance, and approvals",
     "home.trust.proof.ai.title": "Product surfaces",
     "home.trust.proof.ai.text": "Dashboards, mobile apps, AI tools, and team-facing controls",
     "home.about.eyebrow": "Who we are",
@@ -200,15 +198,19 @@ export const translations: Record<Locale, Record<string, string>> = {
     "home.services.operational.text":
       "Custom backbones for inventory, finance, teams, approvals and source-of-truth data.",
     "home.services.inventory.title": "Inventory Management",
-    "home.services.inventory.text": "Real-time stock, multi-location, batch & serial, accurate to the SKU.",
+    "home.services.inventory.text":
+      "Real-time stock, multi-location, batch & serial, accurate to the SKU.",
     "home.services.warehouse.title": "Warehouse Management",
-    "home.services.warehouse.text": "Pick, pack, putaway and wave planning for high-velocity fulfillment.",
+    "home.services.warehouse.text":
+      "Pick, pack, putaway and wave planning for high-velocity fulfillment.",
     "home.services.pos.title": "Point of Sale",
     "home.services.pos.text": "Offline-first retail POS with omnichannel inventory sync.",
     "home.services.accounting.title": "Accounting Systems",
-    "home.services.accounting.text": "Multi-entity ledgers, tax engines, statutory compliance built in.",
+    "home.services.accounting.text":
+      "Multi-entity ledgers, tax engines, statutory compliance built in.",
     "home.services.crm.title": "CRM",
-    "home.services.crm.text": "Pipeline, service and account intelligence connected to live operations.",
+    "home.services.crm.text":
+      "Pipeline, service and account intelligence connected to live operations.",
     "home.services.ai.title": "AI Automation",
     "home.services.ai.text":
       "Operational copilots, workflow intelligence and automation across your business systems.",
@@ -469,14 +471,12 @@ export const translations: Record<Locale, Record<string, string>> = {
       "WikiFood Multi-Vendor Commerce Backend",
     "home.projects.item.wikifood-commerce-delivery-backend.c": "WikiFood",
     "home.projects.item.wikifood-commerce-delivery-backend.tag": "Mobile product",
-    "home.projects.item.wikifood-commerce-delivery-backend.headline":
-      "Multi-vendor order engine",
+    "home.projects.item.wikifood-commerce-delivery-backend.headline": "Multi-vendor order engine",
     "home.projects.item.wikifood-commerce-delivery-backend.modules.0": "Vendor POS",
     "home.projects.item.wikifood-commerce-delivery-backend.modules.1": "Customer app",
     "home.projects.item.wikifood-commerce-delivery-backend.modules.2": "Delivery app",
     "home.projects.item.wikifood-commerce-delivery-backend.states.0": "Orders split by store",
-    "home.projects.item.wikifood-commerce-delivery-backend.states.1":
-      "Wallets and disbursements",
+    "home.projects.item.wikifood-commerce-delivery-backend.states.1": "Wallets and disbursements",
     "home.projects.item.wikifood-commerce-delivery-backend.states.2": "Stock-safe checkout",
     "home.projects.item.wikifood-commerce-delivery-backend.action": "Laravel API platform",
     "home.projects.item.printout-laravel-rest-api.t": "Printout Backend",
@@ -494,8 +494,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Taggz AI Event Photography Platform",
     "home.projects.item.taggz-ai-event-photography-platform.c": "Taggz",
     "home.projects.item.taggz-ai-event-photography-platform.tag": "AI platform",
-    "home.projects.item.taggz-ai-event-photography-platform.headline":
-      "Event photo matching",
+    "home.projects.item.taggz-ai-event-photography-platform.headline": "Event photo matching",
     "home.projects.item.taggz-ai-event-photography-platform.modules.0": "Upload queue",
     "home.projects.item.taggz-ai-event-photography-platform.modules.1": "Face match",
     "home.projects.item.taggz-ai-event-photography-platform.modules.2": "Gallery delivery",
@@ -507,8 +506,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "JAWAD Horse Riding Booking Platform",
     "home.projects.item.jawad-horse-riding-booking-platform.c": "JAWAD",
     "home.projects.item.jawad-horse-riding-booking-platform.tag": "Mobile product",
-    "home.projects.item.jawad-horse-riding-booking-platform.headline":
-      "Stable booking system",
+    "home.projects.item.jawad-horse-riding-booking-platform.headline": "Stable booking system",
     "home.projects.item.jawad-horse-riding-booking-platform.modules.0": "Rider app",
     "home.projects.item.jawad-horse-riding-booking-platform.modules.1": "Trainer slots",
     "home.projects.item.jawad-horse-riding-booking-platform.modules.2": "Payments",
@@ -615,8 +613,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Proof from businesses with real workflows, real teams, and real money moving through the system. Explore backend platforms, dashboards, mobile products, commerce engines, inventory systems, and internal tools built around operational pressure.",
     "work.hero.backdrop": "Projects",
     "work.project.view": "View project",
-    "work.empty":
-      "No case studies match this filter yet. View all work to scan the full archive.",
+    "work.empty": "No case studies match this filter yet. View all work to scan the full archive.",
     "work.cta.eyebrow": "Have a workflow like this?",
     "work.cta.title": "Bring us the operating problem. We will map the system hiding inside it.",
     "work.process.title": "Built around operating pressure.",
@@ -747,8 +744,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Design the complete order loop",
     "blog.article.digital-storefront-egypt.section.operating-loop.text":
       "Map what happens after checkout: reservation, picking, substitution, payment confirmation, dispatch, delivery attempt, return, refund, and support. For Egyptian commerce teams, include the handoffs between online orders, branches, local delivery operations, and the finance team from the beginning.",
-    "blog.article.digital-storefront-egypt.section.decision.title":
-      "The useful test",
+    "blog.article.digital-storefront-egypt.section.decision.title": "The useful test",
     "blog.article.digital-storefront-egypt.section.decision.text":
       "Ask whether one person can answer three questions without opening five tools: what did the customer order, where is it now, and what must happen next? If not, the next investment is probably not another storefront feature. It is the connected operational layer underneath it.",
     "blog.article.ecommerce-software-egypt.title":
@@ -779,7 +775,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "The integration checklist",
     "blog.article.ecommerce-software-egypt.section.integration-checklist.text":
       "Validate catalog ownership, stock reservations, price rules, payment status, delivery status, customer history, notifications, permissions, and audit events. A good ecommerce platform should make exceptions visible and recoverable, not hide them behind a green order count.",
-    "blog.article.ecommerce-software-egypt.section.decision.title": "Choose the layer that is missing",
+    "blog.article.ecommerce-software-egypt.section.decision.title":
+      "Choose the layer that is missing",
     "blog.article.ecommerce-software-egypt.section.decision.text":
       "If the storefront is fine but operations are scattered, improve the connected order layer. If stock and finance are already reliable, focus on the customer-facing experience. The right investment follows the broken handoff rather than the loudest feature request.",
     "blog.article.laravel-rest-api-business-systems.title":
@@ -917,7 +914,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "blog.article.post-launch-software-support-ownership.topic": "Automation",
     "blog.article.post-launch-software-support-ownership.readTime": "6 min read",
     "blog.article.post-launch-software-support-ownership.publishedAt": "September 2026",
-    "blog.article.post-launch-software-support-ownership.audience": "Founders, operations, technology",
+    "blog.article.post-launch-software-support-ownership.audience":
+      "Founders, operations, technology",
     "blog.article.post-launch-software-support-ownership.question":
       "Who can explain the system when the business changes or something breaks?",
     "blog.article.post-launch-software-support-ownership.signal.0.label": "After launch",
@@ -996,8 +994,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "blog.article.inventory-exceptions-are-requirements.topic": "Inventory",
     "blog.article.inventory-exceptions-are-requirements.readTime": "5 min read",
     "blog.article.inventory-exceptions-are-requirements.publishedAt": "June 2026",
-    "blog.article.inventory-exceptions-are-requirements.audience":
-      "Inventory, warehouse, finance",
+    "blog.article.inventory-exceptions-are-requirements.audience": "Inventory, warehouse, finance",
     "blog.article.inventory-exceptions-are-requirements.question":
       "What should happen when the count, receipt, and invoice disagree?",
     "blog.article.inventory-exceptions-are-requirements.signal.0.label": "Trigger",
@@ -1006,8 +1003,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "blog.article.inventory-exceptions-are-requirements.signal.1.value": "Ops lead",
     "blog.article.inventory-exceptions-are-requirements.signal.2.label": "Output",
     "blog.article.inventory-exceptions-are-requirements.signal.2.value": "Audit trail",
-    "blog.article.finance-close-handoffs.title":
-      "Designing finance closes around real handoffs",
+    "blog.article.finance-close-handoffs.title": "Designing finance closes around real handoffs",
     "blog.article.finance-close-handoffs.deck":
       "Month-end software works best when reconciliation, approvals, and audit trails are treated as one operating system.",
     "blog.article.finance-close-handoffs.topic": "Accounting",
@@ -1122,8 +1118,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "contact.service.custom": "Custom software",
     "contact.service.unsure": "Not sure yet",
     "contact.next.title": "What happens next.",
-    "contact.next.one":
-      "We review the operational context and reply with the right next step.",
+    "contact.next.one": "We review the operational context and reply with the right next step.",
     "contact.next.two":
       "If there is fit, we map systems, users, risks, and the first release boundary.",
     "contact.next.three":
@@ -1228,8 +1223,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "home.services.ai.title": "أتمتة بالذكاء الاصطناعي",
     "home.services.ai.text": "مساعدون تشغيليون وذكاء تدفقات عمل وأتمتة عبر أنظمة الأعمال.",
     "home.services.integration.title": "تكامل الأنظمة",
-    "home.services.integration.text":
-      "وحدات وتكاملات مخصصة للشركات التي تجاوزت الأدوات المنفصلة.",
+    "home.services.integration.text": "وحدات وتكاملات مخصصة للشركات التي تجاوزت الأدوات المنفصلة.",
     "home.platform.eyebrow": "أنظمة تشغيل TRAFFODATA",
     "home.platform.title1": "منصة واحدة.",
     "home.platform.title2": "كل تدفق عمل.",
@@ -1484,16 +1478,13 @@ export const translations: Record<Locale, Record<string, string>> = {
       "خلفية تجارة متعددة الموردين لـ WikiFood",
     "home.projects.item.wikifood-commerce-delivery-backend.c": "WikiFood",
     "home.projects.item.wikifood-commerce-delivery-backend.tag": "منتج موبايل",
-    "home.projects.item.wikifood-commerce-delivery-backend.headline":
-      "محرك طلبات متعدد الموردين",
+    "home.projects.item.wikifood-commerce-delivery-backend.headline": "محرك طلبات متعدد الموردين",
     "home.projects.item.wikifood-commerce-delivery-backend.modules.0": "نقاط بيع الموردين",
     "home.projects.item.wikifood-commerce-delivery-backend.modules.1": "تطبيق العميل",
     "home.projects.item.wikifood-commerce-delivery-backend.modules.2": "تطبيق التوصيل",
-    "home.projects.item.wikifood-commerce-delivery-backend.states.0":
-      "طلبات مقسمة حسب المتجر",
+    "home.projects.item.wikifood-commerce-delivery-backend.states.0": "طلبات مقسمة حسب المتجر",
     "home.projects.item.wikifood-commerce-delivery-backend.states.1": "محافظ وصرف",
-    "home.projects.item.wikifood-commerce-delivery-backend.states.2":
-      "دفع آمن على المخزون",
+    "home.projects.item.wikifood-commerce-delivery-backend.states.2": "دفع آمن على المخزون",
     "home.projects.item.wikifood-commerce-delivery-backend.action": "منصة Laravel API",
     "home.projects.item.printout-laravel-rest-api.t": "خلفية Printout",
     "home.projects.item.printout-laravel-rest-api.c": "Printout",
@@ -1510,8 +1501,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "منصة تصوير فعاليات بالذكاء الاصطناعي لـ Taggz",
     "home.projects.item.taggz-ai-event-photography-platform.c": "Taggz",
     "home.projects.item.taggz-ai-event-photography-platform.tag": "منصة ذكاء اصطناعي",
-    "home.projects.item.taggz-ai-event-photography-platform.headline":
-      "مطابقة صور الفعاليات",
+    "home.projects.item.taggz-ai-event-photography-platform.headline": "مطابقة صور الفعاليات",
     "home.projects.item.taggz-ai-event-photography-platform.modules.0": "قائمة الرفع",
     "home.projects.item.taggz-ai-event-photography-platform.modules.1": "مطابقة الوجه",
     "home.projects.item.taggz-ai-event-photography-platform.modules.2": "تسليم المعرض",
@@ -1519,8 +1509,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "home.projects.item.taggz-ai-event-photography-platform.states.1": "تمت فهرسة الضيوف",
     "home.projects.item.taggz-ai-event-photography-platform.states.2": "الألبومات جاهزة",
     "home.projects.item.taggz-ai-event-photography-platform.action": "تدفق تسليم بالذكاء الاصطناعي",
-    "home.projects.item.jawad-horse-riding-booking-platform.t":
-      "منصة حجز ركوب الخيل JAWAD",
+    "home.projects.item.jawad-horse-riding-booking-platform.t": "منصة حجز ركوب الخيل JAWAD",
     "home.projects.item.jawad-horse-riding-booking-platform.c": "JAWAD",
     "home.projects.item.jawad-horse-riding-booking-platform.tag": "منتج موبايل",
     "home.projects.item.jawad-horse-riding-booking-platform.headline": "نظام حجز الإسطبل",
@@ -1566,8 +1555,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "home.process.strategy.text":
       "نحدد الوحدات ونموذج البيانات ومسار الإطلاق بتسلسل يحقق مكاسب سريعة وقابلة للقياس.",
     "home.process.design.title": "التصميم",
-    "home.process.design.text":
-      "واجهات مصممة حول طريقة عمل فريقك فعلا: هادئة وسريعة وسهلة التعلم.",
+    "home.process.design.text": "واجهات مصممة حول طريقة عمل فريقك فعلا: هادئة وسريعة وسهلة التعلم.",
     "home.process.development.title": "التطوير",
     "home.process.development.text":
       "هندسة بدورات مرنة مع عروض أسبوعية وشفافية كاملة حول الجودة والتقدم.",
@@ -1592,8 +1580,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "home.cta.eyebrow": "ابدأ المحادثة",
     "home.cta.title1": "جاهز لتحويل",
     "home.cta.title2": "عملك؟",
-    "home.cta.copy":
-      "مكالمة 30 دقيقة مع فريقنا. سنريك المنصة بعد ربطها بعملياتك.",
+    "home.cta.copy": "مكالمة 30 دقيقة مع فريقنا. سنريك المنصة بعد ربطها بعملياتك.",
     "home.cta.emailPrefix": "أو راسل",
     "home.cta.badge.domain": "نطاق بريد موثق",
     "home.cta.badge.scope": "ERP، نقاط بيع، مخزون، مستودعات",
@@ -1659,7 +1646,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "project.backToWork": "العودة إلى الأعمال",
     "project.work": "الأعمال",
     "project.notFound.title": "المشروع غير موجود.",
-    "project.notFound.copy": "دراسة الحالة هذه غير متاحة. فهرس الأعمال يحتوي قائمة المشاريع الحالية.",
+    "project.notFound.copy":
+      "دراسة الحالة هذه غير متاحة. فهرس الأعمال يحتوي قائمة المشاريع الحالية.",
     "project.open": "فتح المشروع",
     "project.stat.system": "النظام",
     "project.stat.timeline": "الجدول الزمني",
@@ -1678,6 +1666,14 @@ export const translations: Record<Locale, Record<string, string>> = {
     "project.media.liveModel": "نموذج حي",
     "project.media.signal": "إشارة",
     "project.media.alt": "وسائط المشروع",
+    "work.item.forsa-logistics-website.type": "موقع لوجستي",
+    "work.item.forsa-logistics-website.summary":
+      "موقع لوجستي ثنائي اللغة في السعودية يربط الشركات بالسائقين وشركات النقل من أول طلب حتى تنسيق التسليم.",
+    "work.item.forsa-logistics-website.scope": "Next.js وTypeScript",
+    "work.item.forsa-logistics-website.outcome": "مشروع مباشر",
+    "work.item.forsa-logistics-website.year": "أعمال مختارة",
+    "work.item.forsa-logistics-website.duration": "مباشر",
+    "work.item.forsa-logistics-website.team": "المنتج والتصميم والهندسة",
     "work.item.wikifood-commerce-delivery-backend.type": "منتج موبايل",
     "work.item.wikifood-commerce-delivery-backend.summary":
       "منصة Laravel 10 خلفية وواجهات API كاملة لتطبيق تجارة متعدد البائعين على الويب وثلاثة تطبيقات موبايل للبائعين والعملاء وعمليات التوصيل.",
@@ -1701,13 +1697,15 @@ export const translations: Record<Locale, Record<string, string>> = {
     "work.item.wikifood-commerce-delivery-backend.detailSections.0.title": "نظرة عامة على المشروع",
     "work.item.wikifood-commerce-delivery-backend.detailSections.0.text":
       "WikiFood منصة تجارة وإدارة توصيل متعددة البائعين على نطاق واسع، مبنية لعمليات الطعام والبقالة والصيدليات والتجارة والطرود. طورت وخصصت خلفية Laravel التي تشغل تطبيق الويب التجاري وثلاثة تطبيقات موبايل متصلة: تطبيق البائع، وتطبيق العميل للتجارة، وتطبيق التوصيل.",
-    "work.item.wikifood-commerce-delivery-backend.detailSections.1.title": "نطاق الخلفية وواجهات API",
+    "work.item.wikifood-commerce-delivery-backend.detailSections.1.title":
+      "نطاق الخلفية وواجهات API",
     "work.item.wikifood-commerce-delivery-backend.detailSections.1.text":
       "بنيت وصنت وحدات للطلبات والطلبات الفرعية وتدفقات نقاط البيع والمنتجات والبائعين والعملاء ومندوبي التوصيل والمستودعات والمخزون والقسائم والحملات واللافتات والإعلانات والاشتراكات والمحافظ والصرف والتقارير والضرائب وضريبة القيمة المضافة. تدعم طبقة API المصادقة والسلة والدفع وتتبع الطلبات والمحافظ ونقاط الولاء والإشعارات والدردشة والمراجعات وتتبع الموقع وتحديثات حالة التوصيل عبر المنظومة.",
     "work.item.wikifood-commerce-delivery-backend.detailSections.2.title": "عمليات التجارة",
     "work.item.wikifood-commerce-delivery-backend.detailSections.2.text":
       "نفذت تدفقات نقاط بيع للإدارة والبائعين مع خصومات نسبية على مستوى الصنف، والتحقق من سعر الشراء، وإعادة حساب الضرائب، وتعديل الطلبات، ووضع الطلبات بأمان على المخزون. حسنت إدارة الطلبات بتتبع الطلب الرئيسي والفرعي، وواجهات إلغاء، واسترجاع المخزون، وفلاتر مباشرة، وترقيم صفحات، وحفظ موضع التمرير، وتحديث تجزئة الإيصال، وإجماليات دقيقة للطلب الرئيسي.",
-    "work.item.wikifood-commerce-delivery-backend.detailSections.3.title": "الاستيراد والمدفوعات والعروض",
+    "work.item.wikifood-commerce-delivery-backend.detailSections.3.title":
+      "الاستيراد والمدفوعات والعروض",
     "work.item.wikifood-commerce-delivery-backend.detailSections.3.text":
       "بنيت أدوات استيراد متقدمة من Excel وFodex وWiki مع ربط أعمدة ديناميكي، ومعاينات قابلة للتعديل، واكتشاف إنشاء أو تحديث، ومنطق تحويل مخزون، والتحقق حسب المستودع، واستيراد جماعي أكثر أمانا للمنتجات والطلبات. دمجت وصنت بوابات دفع مثل Stripe وPayPal وRazorpay وPaystack وFlutterwave وPaymob وPaytabs وMercadoPago وSSLCommerz وBkash وLiqPay وSenangPay وPaytm وPhonePe وXendit.",
     "work.item.wikifood-commerce-delivery-backend.detailSections.4.title": "أدوات التشغيل",
@@ -1736,7 +1734,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "work.item.printout-laravel-rest-api.year": "أعمال مختارة",
     "work.item.printout-laravel-rest-api.duration": "مباشر",
     "work.item.printout-laravel-rest-api.team": "المنتج والهندسة والتوصيل",
-    "work.item.taggz-ai-event-photography-platform.type": "منصة خلفية",
+    "work.item.taggz-ai-event-photography-platform.type": "منتج موبايل",
     "work.item.taggz-ai-event-photography-platform.summary":
       "منصة تصوير فعاليات بالذكاء الاصطناعي مع خلفية Laravel API ولوحة إدارة Next.js للفعاليات وتدفقات الوسائط والمدفوعات والتحليلات والمراجعة والصلاحيات.",
     "work.item.taggz-ai-event-photography-platform.scope": "Laravel 13 وPHP 8.3",
@@ -1744,6 +1742,14 @@ export const translations: Record<Locale, Record<string, string>> = {
     "work.item.taggz-ai-event-photography-platform.year": "أعمال مختارة",
     "work.item.taggz-ai-event-photography-platform.duration": "مباشر",
     "work.item.taggz-ai-event-photography-platform.team": "المنتج والهندسة والتوصيل",
+    "work.item.taggz-event-photography-website.type": "موقع منتج",
+    "work.item.taggz-event-photography-website.summary":
+      "موقع منتج يشرح تجربة صور الفعاليات في Taggz للضيوف والمضيفين والمصورين ضمن تجربة واحدة متصلة.",
+    "work.item.taggz-event-photography-website.scope": "Next.js وReact وTypeScript",
+    "work.item.taggz-event-photography-website.outcome": "مشروع مباشر",
+    "work.item.taggz-event-photography-website.year": "أعمال مختارة",
+    "work.item.taggz-event-photography-website.duration": "مباشر",
+    "work.item.taggz-event-photography-website.team": "المنتج والتصميم والهندسة",
     "work.item.jawad-horse-riding-booking-platform.type": "منتج موبايل",
     "work.item.jawad-horse-riding-booking-platform.summary":
       "سوق حجوزات React Native متعدد المنصات لتجارب ركوب الخيل في مصر، يربط الفرسان بالإسطبلات والخيول والفعاليات والمدارس والمصورين.",
@@ -2131,20 +2137,16 @@ export const translations: Record<Locale, Record<string, string>> = {
     "blog.article.digital-storefront-egypt.signal.1.value": "مخزون مباشر",
     "blog.article.digital-storefront-egypt.signal.2.label": "النتيجة",
     "blog.article.digital-storefront-egypt.signal.2.value": "طلبات مترابطة",
-    "blog.article.digital-storefront-egypt.section.front-door.title":
-      "المتجر هو الباب الأمامي",
+    "blog.article.digital-storefront-egypt.section.front-door.title": "المتجر هو الباب الأمامي",
     "blog.article.digital-storefront-egypt.section.front-door.text":
       "يساعد المتجر الرقمي العميل على التصفح والشراء، لكنه لا يقرر وحده ما إذا كان المنتج متاحا فعلا، ومن سيجهزه، وكيف ستتم مطابقة الدفع، وما الذي سيسمعه العميل بعد ذلك. هذه القرارات تنتمي إلى نظام التشغيل خلف المتجر.",
-    "blog.article.digital-storefront-egypt.section.source-of-truth.title":
-      "اربط مصدر الحقيقة",
+    "blog.article.digital-storefront-egypt.section.source-of-truth.title": "اربط مصدر الحقيقة",
     "blog.article.digital-storefront-egypt.section.source-of-truth.text":
       "يجب أن يشترك الكتالوج والأسعار والمخزون وسجلات العملاء وحالة الدفع وحالة التوصيل في نموذج واضح. عندما تكتب كل قناة نسختها الخاصة من الطلب، تقضي الفرق وقتها في تفسير الفروقات بدلا من خدمة العملاء. المنصة المترابطة تجعل الحالة ومالكها واضحين.",
-    "blog.article.digital-storefront-egypt.section.operating-loop.title":
-      "صمم دورة الطلب كاملة",
+    "blog.article.digital-storefront-egypt.section.operating-loop.title": "صمم دورة الطلب كاملة",
     "blog.article.digital-storefront-egypt.section.operating-loop.text":
       "ارسم ما يحدث بعد إتمام الشراء: الحجز والتجهيز والاستبدال وتأكيد الدفع والشحن ومحاولة التوصيل والإرجاع والاسترداد والدعم. وبالنسبة لفرق التجارة في مصر، أدرج منذ البداية نقاط التسليم بين الطلبات الإلكترونية والفروع وعمليات التوصيل المحلية والفريق المالي.",
-    "blog.article.digital-storefront-egypt.section.decision.title":
-      "الاختبار المفيد",
+    "blog.article.digital-storefront-egypt.section.decision.title": "الاختبار المفيد",
     "blog.article.digital-storefront-egypt.section.decision.text":
       "اسأل هل يستطيع شخص واحد الإجابة عن ثلاثة أسئلة دون فتح خمس أدوات: ماذا طلب العميل، وأين يوجد الطلب الآن، وما الذي يجب أن يحدث بعد ذلك؟ إذا لم يكن ذلك ممكنا، فغالبا لا يحتاج الاستثمار التالي إلى ميزة أخرى في المتجر، بل إلى طبقة تشغيل مترابطة خلفه.",
     "blog.article.ecommerce-software-egypt.title":
@@ -2155,8 +2157,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "blog.article.ecommerce-software-egypt.readTime": "قراءة 7 دقائق",
     "blog.article.ecommerce-software-egypt.publishedAt": "سبتمبر 2026",
     "blog.article.ecommerce-software-egypt.audience": "التجارة، المؤسسون، العمليات",
-    "blog.article.ecommerce-software-egypt.question":
-      "هل ينشئ كل طلب سجلا تشغيليا مشتركا واحدا؟",
+    "blog.article.ecommerce-software-egypt.question": "هل ينشئ كل طلب سجلا تشغيليا مشتركا واحدا؟",
     "blog.article.ecommerce-software-egypt.signal.0.label": "الطلب",
     "blog.article.ecommerce-software-egypt.signal.0.value": "دفع عند الاستلام + بطاقة",
     "blog.article.ecommerce-software-egypt.signal.1.label": "التحكم",
@@ -2385,8 +2386,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "blog.article.before-another-dashboard.signal.1.value": "الاستثناءات",
     "blog.article.before-another-dashboard.signal.2.label": "المخرج",
     "blog.article.before-another-dashboard.signal.2.value": "خريطة الإصدار",
-    "blog.article.inventory-exceptions-are-requirements.title":
-      "استثناءات المخزون هي متطلبات منتج",
+    "blog.article.inventory-exceptions-are-requirements.title": "استثناءات المخزون هي متطلبات منتج",
     "blog.article.inventory-exceptions-are-requirements.deck":
       "الفروقات والمخزون التالف والاستلامات الجزئية تكشف تدفقات العمل التي تخفيها أدوات المخزون العامة.",
     "blog.article.inventory-exceptions-are-requirements.topic": "المخزون",
@@ -2453,8 +2453,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "blog.article.automation-needs-operators.readTime": "قراءة 6 دقائق",
     "blog.article.automation-needs-operators.publishedAt": "أبريل 2026",
     "blog.article.automation-needs-operators.audience": "العمليات، المنتج، التقنية",
-    "blog.article.automation-needs-operators.question":
-      "أين يجب أن تتوقف الأتمتة بدلا من التخمين؟",
+    "blog.article.automation-needs-operators.question": "أين يجب أن تتوقف الأتمتة بدلا من التخمين؟",
     "blog.article.automation-needs-operators.signal.0.label": "المحفز",
     "blog.article.automation-needs-operators.signal.0.value": "كسر قاعدة",
     "blog.article.automation-needs-operators.signal.1.label": "المالك",
@@ -2464,7 +2463,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "blog.cta.title": "أحضر تدفق العمل إلى الطاولة.",
     "blog.cta.copy": "إذا بدت مقالة قريبة من مشكلتك التشغيلية، أرسل لنا التدفق والأنظمة حوله.",
     "contact.hero.eyebrow": "تواصل معنا",
-    "contact.hero.title": "أحضر لنا تدفق العمل أو فجوة النظام أو سلسلة الأدوات المنفصلة التي تبطئ الشركة.",
+    "contact.hero.title":
+      "أحضر لنا تدفق العمل أو فجوة النظام أو سلسلة الأدوات المنفصلة التي تبطئ الشركة.",
     "contact.hero.copy":
       "أخبرنا ما الذي يتعطل، وما الذي ينمو، وما الذي يجب أن يتصل. سنرسم أول محادثة مفيدة حول نظام التشغيل الحقيقي الذي يحتاجه فريقك.",
     "contact.method.email": "البريد",

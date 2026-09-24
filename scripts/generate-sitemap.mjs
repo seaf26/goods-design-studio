@@ -3,6 +3,16 @@ import { readFileSync, writeFileSync } from "node:fs";
 const SITE_URL = "https://traffodata.com";
 const LASTMOD = "2026-06-29";
 const CONTENT_LASTMOD = "2026-09-24";
+const UPDATED_WORK_LASTMOD = "2026-09-24";
+const UPDATED_WORK_SLUGS = new Set([
+  "forsa-logistics-website",
+  "gameing",
+  "hunter",
+  "nourtha-tech",
+  "out-seller-landing-page",
+  "taggz-ai-event-photography-platform",
+  "taggz-event-photography-website",
+]);
 const WORK_SOURCE_FILES = [
   "src/components/site/workData.ts",
   "src/components/site/behanceWorkData.generated.ts",
@@ -61,7 +71,13 @@ ${paths
   .map(
     (path) => `  <url>
     <loc>${SITE_URL}${path}</loc>
-    <lastmod>${path === "/blog" || path.startsWith("/blog/") ? CONTENT_LASTMOD : LASTMOD}</lastmod>
+    <lastmod>${
+      path === "/blog" || path.startsWith("/blog/")
+        ? CONTENT_LASTMOD
+        : path.startsWith("/work/") && UPDATED_WORK_SLUGS.has(path.slice("/work/".length))
+          ? UPDATED_WORK_LASTMOD
+          : LASTMOD
+    }</lastmod>
     <changefreq>${path === "/" ? "weekly" : "monthly"}</changefreq>
     <priority>${path === "/" ? "1.0" : path === "/work" ? "0.8" : "0.6"}</priority>
   </url>`,
