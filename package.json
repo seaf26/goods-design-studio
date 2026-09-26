@@ -9,6 +9,7 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "test": "node scripts/i18n-theme.test.mjs",
+    "test:geo": "node scripts/geo-aeo.test.mjs && node scripts/ai-attribution.test.mjs",
     "test:email": "node scripts/email-template.test.mjs",
     "test:seo": "node scripts/seo-structured-data.test.mjs",
     "sitemap": "node scripts/generate-sitemap.mjs",

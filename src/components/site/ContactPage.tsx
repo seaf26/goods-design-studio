@@ -12,7 +12,7 @@ import {
 import { BlurText } from "./BlurText";
 import { Footer, Nav, Reveal } from "./Landing";
 import { sendContactInquiry } from "@/lib/api/contact.functions";
-import { trackSiteEvent } from "@/lib/siteAnalytics";
+import { getAiReferralSource, trackSiteEvent } from "@/lib/siteAnalytics";
 import { useI18n } from "@/lib/i18n";
 
 type ContactErrors = Partial<Record<"name" | "email" | "services" | "message", string>>;
@@ -112,8 +112,7 @@ export function ContactPage() {
     if (!name.trim()) nextErrors.name = t("contact.validation.name");
     if (!validateEmail(email)) nextErrors.email = t("contact.validation.email");
     if (selectedServices.length === 0) nextErrors.services = t("contact.validation.services");
-    if (message.trim().length < 20)
-      nextErrors.message = t("contact.validation.message");
+    if (message.trim().length < 20) nextErrors.message = t("contact.validation.message");
 
     setErrors(nextErrors);
     setSubmissionState("idle");
@@ -143,6 +142,7 @@ export function ContactPage() {
         trackSiteEvent("contact_submit_success", {
           services_count: selectedServices.length,
           has_company: Boolean(company.trim()),
+          ai_source: getAiReferralSource() ?? "none",
         });
         clearForm();
         setSubmissionState("sent");
@@ -232,9 +232,7 @@ export function ContactPage() {
                     <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-primary text-white">
                       <Check className="h-3.5 w-3.5" />
                     </span>
-                    <span>
-                      {t("contact.form.sent")}
-                    </span>
+                    <span>{t("contact.form.sent")}</span>
                   </div>
                 ) : null}
 
@@ -446,7 +444,9 @@ export function ContactPage() {
                   aria-disabled={submissionState === "sending"}
                   className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-full bg-[var(--ink)] px-6 py-3 text-[14px] font-semibold text-[var(--background)] transition-[transform,background-color,opacity] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-[#333da7] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  {submissionState === "sending" ? t("contact.form.sending") : t("contact.form.send")}
+                  {submissionState === "sending"
+                    ? t("contact.form.sending")
+                    : t("contact.form.send")}
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </form>

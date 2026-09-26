@@ -6,6 +6,7 @@ import { localizeWorkItem, localizeWorkItems } from "./localizedWorkData";
 import { ProjectGallery, ProjectHeroBanner } from "./ProjectMedia";
 import { WorkVisual } from "./WorkPage";
 import { useI18n } from "@/lib/i18n";
+import { localizedPath } from "@/components/site/seo";
 import { getWorkItem, workItems, type WorkItem } from "./workData";
 
 function StatPill({ label, value }: { label: string; value: string }) {
@@ -70,11 +71,12 @@ function ModuleCard({ module, index }: { module: string; index: number }) {
 }
 
 function RelatedProject({ item }: { item: WorkItem }) {
+  const { locale } = useI18n();
   const eyebrow = item.client === item.title ? item.type : item.client;
 
   return (
     <a
-      href={`/work/${item.slug}`}
+      href={localizedPath(`/work/${item.slug}`, locale)}
       className="group flex items-center justify-between gap-5 border-t border-white/12 py-5 text-white transition-colors hover:text-primary"
     >
       <span>
@@ -89,7 +91,7 @@ function RelatedProject({ item }: { item: WorkItem }) {
 }
 
 export function ProjectDetailPage({ slug }: { slug: string }) {
-  const { t, tWithFallback } = useI18n();
+  const { locale, t, tWithFallback } = useI18n();
   const rawProject = getWorkItem(slug);
   const project = rawProject ? localizeWorkItem(rawProject, tWithFallback) : undefined;
 
@@ -99,7 +101,7 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
         <Nav surface="light" />
         <main className="mx-auto flex min-h-[70vh] max-w-3xl flex-col justify-center px-6 py-28">
           <a
-            href="/work"
+            href={localizedPath("/work", locale)}
             className="inline-flex w-fit items-center gap-2 text-[13px] font-medium text-[var(--muted-foreground)] transition-colors hover:text-[var(--ink)]"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -137,7 +139,7 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
           <div className="mx-auto max-w-[92rem] px-5 sm:px-6">
             <Reveal>
               <a
-                href="/work"
+                href={localizedPath("/work", locale)}
                 className="inline-flex items-center gap-2 rounded-full bg-[var(--surface)] px-3 py-1.5 text-[12px] font-medium text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)] transition-colors hover:text-[var(--ink)]"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
@@ -326,7 +328,7 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
                   className="max-w-lg font-display text-[clamp(2.25rem,4.8vw,4.9rem)] font-bold leading-[0.94] tracking-[-0.04em] text-balance"
                 />
                 <a
-                  href="/work"
+                  href={localizedPath("/work", locale)}
                   className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[14px] font-semibold text-black transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]"
                 >
                   {t("project.allWork")}

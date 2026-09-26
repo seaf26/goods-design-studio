@@ -1,7 +1,10 @@
-import { DEFAULT_LOCALE, translations, type Locale } from "@/lib/i18n";
+import { DEFAULT_LOCALE, localizedPath, translations, type Locale } from "@/lib/i18n";
+
+export { localizedPath } from "@/lib/i18n";
 
 import type { WorkItem } from "./workData";
 import type { BlogArticle } from "./blogData";
+import { solutionPages, type SolutionMarket } from "./solutionData";
 import type {
   DetailedHTMLProps,
   LinkHTMLAttributes,
@@ -52,6 +55,7 @@ type WebPageJsonLdOptions = {
   description: string;
   path: string;
   pageType?: "WebPage" | "ContactPage";
+  locale?: Locale;
 };
 
 type BreadcrumbItem = {
@@ -63,12 +67,25 @@ function seoCopy(key: string, locale: Locale = DEFAULT_LOCALE) {
   return translations[locale][key] ?? translations[DEFAULT_LOCALE][key] ?? key;
 }
 
+function seoCopyWithFallback(key: string, fallback: string, locale: Locale = DEFAULT_LOCALE) {
+  return translations[locale][key] ?? fallback;
+}
+
 export function absoluteUrl(path = "/") {
   if (/^https?:\/\//.test(path)) {
     return path;
   }
 
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+}
+
+function alternateLinks(path: string) {
+  const englishPath = localizedPath(path, "en");
+  return [
+    { rel: "alternate", hrefLang: "en", href: absoluteUrl(englishPath) },
+    { rel: "alternate", hrefLang: "ar", href: absoluteUrl(localizedPath(englishPath, "ar")) },
+    { rel: "alternate", hrefLang: "x-default", href: absoluteUrl(englishPath) },
+  ];
 }
 
 export function assetUrl(path: string) {
@@ -104,11 +121,15 @@ export function seoHead({
   path = "/",
   type = "website",
   image = getCairoOgImage(),
-  imageAlt = seoCopy("seo.imageAlt.logo"),
+  imageAlt,
   jsonLd = [],
+  locale = DEFAULT_LOCALE,
 }: SeoOptions): SeoHead {
-  const canonical = absoluteUrl(path);
+  const canonical = absoluteUrl(localizedPath(path, locale));
   const socialImage = assetUrl(image);
+  const socialImageAlt = imageAlt ?? seoCopy("seo.imageAlt.logo", locale);
+  const localeCode = locale === "ar" ? "ar_EG" : "en_US";
+  const alternateLocaleCode = locale === "ar" ? "en_US" : "ar_EG";
 
   return {
     meta: [
@@ -120,9 +141,11 @@ export function seoHead({
       { property: "og:description", content: description },
       { property: "og:type", content: type },
       { property: "og:url", content: canonical },
+      { property: "og:locale", content: localeCode },
+      { property: "og:locale:alternate", content: alternateLocaleCode },
       { property: "og:site_name", content: SITE_NAME },
       { property: "og:image", content: socialImage },
-      { property: "og:image:alt", content: imageAlt },
+      { property: "og:image:alt", content: socialImageAlt },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { property: "og:image:type", content: "image/png" },
@@ -130,9 +153,9 @@ export function seoHead({
       { name: "twitter:title", content: title },
       { name: "twitter:description", content: description },
       { name: "twitter:image", content: socialImage },
-      { name: "twitter:image:alt", content: imageAlt },
+      { name: "twitter:image:alt", content: socialImageAlt },
     ],
-    links: [{ rel: "canonical", href: canonical }],
+    links: [{ rel: "canonical", href: canonical }, ...alternateLinks(path)],
     scripts: jsonLd.map((data) => ({
       type: "application/ld+json",
       children: JSON.stringify(data),
@@ -140,7 +163,7 @@ export function seoHead({
   };
 }
 
-export function organizationJsonLd(): JsonLd {
+export function organizationJsonLd(locale: Locale = DEFAULT_LOCALE): JsonLd {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -148,7 +171,7 @@ export function organizationJsonLd(): JsonLd {
     name: "TRAFFODATA",
     url: SITE_URL,
     logo: assetUrl(BRAND_ASSETS.mark),
-    description: seoCopy("seo.organization.description"),
+    description: seoCopy("seo.organization.description", locale),
     sameAs: [SITE_URL],
   };
 }
@@ -200,7 +223,7 @@ export function navigationJsonLd(locale: Locale = DEFAULT_LOCALE): JsonLd {
       position: index + 1,
       name: item.name,
       description: item.description,
-      url: absoluteUrl(item.path),
+      url: absoluteUrl(localizedPath(item.path, locale)),
     })),
   };
 }
@@ -210,8 +233,9 @@ export function webPageJsonLd({
   description,
   path,
   pageType = "WebPage",
+  locale = DEFAULT_LOCALE,
 }: WebPageJsonLdOptions): JsonLd {
-  const url = absoluteUrl(path);
+  const url = absoluteUrl(localizedPath(path, locale));
 
   return {
     "@context": "https://schema.org",
@@ -229,7 +253,7 @@ export function webPageJsonLd({
   };
 }
 
-export function breadcrumbJsonLd(items: BreadcrumbItem[]): JsonLd {
+export function breadcrumbJsonLd(items: BreadcrumbItem[], locale: Locale = DEFAULT_LOCALE): JsonLd {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -237,25 +261,27 @@ export function breadcrumbJsonLd(items: BreadcrumbItem[]): JsonLd {
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: absoluteUrl(item.path),
+      item: absoluteUrl(localizedPath(item.path, locale)),
     })),
   };
 }
 
-export function homeSeo() {
-  const title = seoCopy("seo.defaultTitle");
-  const description = seoCopy("seo.defaultDescription");
+export function homeSeo(locale: Locale = DEFAULT_LOCALE) {
+  const title = seoCopy("seo.defaultTitle", locale);
+  const description = seoCopy("seo.defaultDescription", locale);
 
   return seoHead({
     title,
     description,
     path: "/",
-    imageAlt: seoCopy("seo.imageAlt.home"),
+    imageAlt: seoCopy("seo.imageAlt.home", locale),
+    locale,
     jsonLd: [
       webPageJsonLd({
-        name: seoCopy("brand.name"),
+        name: seoCopy("brand.name", locale),
         description,
         path: "/",
+        locale,
       }),
     ],
   });
@@ -267,15 +293,19 @@ function workCollectionJsonLd(items: WorkItem[], locale: Locale = DEFAULT_LOCALE
     "@type": "CollectionPage",
     name: seoCopy("seo.work.collectionName", locale),
     description: seoCopy("seo.work.collectionDescription", locale),
-    url: absoluteUrl("/work"),
+    url: absoluteUrl(localizedPath("/work", locale)),
     mainEntity: {
       "@type": "ItemList",
       itemListElement: items.map((item, index) => ({
         "@type": "ListItem",
         position: index + 1,
-        url: absoluteUrl(`/work/${item.slug}`),
-        name: item.title,
-        description: item.summary || item.description,
+        url: absoluteUrl(localizedPath(`/work/${item.slug}`, locale)),
+        name: seoCopyWithFallback(`work.item.${item.slug}.title`, item.title, locale),
+        description: seoCopyWithFallback(
+          `work.item.${item.slug}.summary`,
+          item.summary || item.description,
+          locale,
+        ),
       })),
     },
   };
@@ -289,6 +319,7 @@ export function workSeo(items: WorkItem[] = [], locale: Locale = DEFAULT_LOCALE)
       name: seoCopy("seo.navigation.work", locale),
       description,
       path: "/work",
+      locale,
     }),
   ];
 
@@ -300,6 +331,7 @@ export function workSeo(items: WorkItem[] = [], locale: Locale = DEFAULT_LOCALE)
     title,
     description,
     path: "/work",
+    locale,
     jsonLd,
   });
 }
@@ -312,11 +344,13 @@ export function blogSeo(locale: Locale = DEFAULT_LOCALE) {
     title,
     description,
     path: "/blog",
+    locale,
     jsonLd: [
       webPageJsonLd({
         name: seoCopy("seo.navigation.blog", locale),
         description,
         path: "/blog",
+        locale,
       }),
     ],
   });
@@ -328,24 +362,40 @@ export function blogArticleSeo(article?: BlogArticle | null, locale: Locale = DE
   }
 
   const path = `/blog/${article.slug}`;
-  const title = `${article.title} - TRAFFODATA Software`;
+  const articleTitle = seoCopyWithFallback(
+    `blog.article.${article.slug}.title`,
+    article.title,
+    locale,
+  );
+  const articleDescription = seoCopyWithFallback(
+    `blog.article.${article.slug}.deck`,
+    article.deck,
+    locale,
+  );
+  const articleTopic = seoCopyWithFallback(
+    `blog.article.${article.slug}.topic`,
+    article.topic,
+    locale,
+  );
+  const title = `${articleTitle} - TRAFFODATA Software`;
 
   return seoHead({
     title,
-    description: article.deck,
+    description: articleDescription,
     path,
     type: "article",
-    imageAlt: `${article.title} ${seoCopy("seo.project.imageAltSuffix", locale)}`,
+    imageAlt: `${articleTitle} ${seoCopy("seo.project.imageAltSuffix", locale)}`,
+    locale,
     jsonLd: [
       {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        headline: article.title,
-        description: article.deck,
-        url: absoluteUrl(path),
+        headline: articleTitle,
+        description: articleDescription,
+        url: absoluteUrl(localizedPath(path, locale)),
         mainEntityOfPage: {
           "@type": "WebPage",
-          "@id": `${absoluteUrl(path)}#webpage`,
+          "@id": `${absoluteUrl(localizedPath(path, locale))}#webpage`,
         },
         author: {
           "@type": "Organization",
@@ -359,14 +409,27 @@ export function blogArticleSeo(article?: BlogArticle | null, locale: Locale = DE
         },
         ...(article.datePublished ? { datePublished: article.datePublished } : {}),
         ...(article.dateModified ? { dateModified: article.dateModified } : {}),
-        articleSection: article.topic,
-        keywords: [article.topic, ...article.signals.map((signal) => signal.value)].join(", "),
+        ...(article.directAnswer ? { abstract: article.directAnswer[locale] } : {}),
+        ...(article.evidence?.length
+          ? {
+              citation: article.evidence.map((source) =>
+                source.href.startsWith("/")
+                  ? absoluteUrl(localizedPath(source.href, locale))
+                  : source.href,
+              ),
+            }
+          : {}),
+        articleSection: articleTopic,
+        keywords: [articleTopic, ...article.signals.map((signal) => signal.value)].join(", "),
       },
-      breadcrumbJsonLd([
-        { name: seoCopy("brand.name", locale), path: "/" },
-        { name: seoCopy("seo.navigation.blog", locale), path: "/blog" },
-        { name: article.title, path },
-      ]),
+      breadcrumbJsonLd(
+        [
+          { name: seoCopy("brand.name", locale), path: "/" },
+          { name: seoCopy("seo.navigation.blog", locale), path: "/blog" },
+          { name: articleTitle, path },
+        ],
+        locale,
+      ),
     ],
   });
 }
@@ -379,13 +442,42 @@ export function contactSeo(locale: Locale = DEFAULT_LOCALE) {
     title,
     description,
     path: "/contact",
+    locale,
     jsonLd: [
       webPageJsonLd({
         name: seoCopy("seo.navigation.contact", locale),
         description,
         path: "/contact",
         pageType: "ContactPage",
+        locale,
       }),
+    ],
+  });
+}
+
+export function solutionSeo(market: SolutionMarket, locale: Locale = DEFAULT_LOCALE) {
+  const page = solutionPages[market];
+  const copy = page.copy[locale];
+
+  return seoHead({
+    title: copy.title,
+    description: copy.description,
+    path: page.path,
+    locale,
+    jsonLd: [
+      webPageJsonLd({
+        name: copy.title,
+        description: copy.description,
+        path: page.path,
+        locale,
+      }),
+      breadcrumbJsonLd(
+        [
+          { name: seoCopy("brand.name", locale), path: "/" },
+          { name: copy.eyebrow, path: page.path },
+        ],
+        locale,
+      ),
     ],
   });
 }
@@ -397,11 +489,21 @@ export function projectSeo(project?: WorkItem | null, locale: Locale = DEFAULT_L
       description: seoCopy("seo.project.description", locale),
       path: "/work",
       type: "article",
+      locale,
     });
   }
 
-  const title = `${project.title} - TRAFFODATA Software`;
-  const description = project.summary || project.description;
+  const projectTitle = seoCopyWithFallback(
+    `work.item.${project.slug}.title`,
+    project.title,
+    locale,
+  );
+  const description = seoCopyWithFallback(
+    `work.item.${project.slug}.summary`,
+    project.summary || project.description,
+    locale,
+  );
+  const title = `${projectTitle} - TRAFFODATA Software`;
   const image = project.thumbnail || project.images[0] || BRAND_ASSETS.og;
   const path = `/work/${project.slug}`;
 
@@ -411,27 +513,52 @@ export function projectSeo(project?: WorkItem | null, locale: Locale = DEFAULT_L
     path,
     type: "article",
     image,
-    imageAlt: `${project.title} ${seoCopy("seo.project.imageAltSuffix", locale)}`,
+    imageAlt: `${projectTitle} ${seoCopy("seo.project.imageAltSuffix", locale)}`,
+    locale,
     jsonLd: [
-      creativeWorkJsonLd(project, path, image),
-      breadcrumbJsonLd([
-        { name: seoCopy("brand.name", locale), path: "/" },
-        { name: seoCopy("seo.navigation.work", locale), path: "/work" },
-        { name: project.title, path },
-      ]),
+      creativeWorkJsonLd(project, path, image, locale),
+      breadcrumbJsonLd(
+        [
+          { name: seoCopy("brand.name", locale), path: "/" },
+          { name: seoCopy("seo.navigation.work", locale), path: "/work" },
+          { name: projectTitle, path },
+        ],
+        locale,
+      ),
     ],
   });
 }
 
-function creativeWorkJsonLd(project: WorkItem, path: string, image: string): JsonLd {
+function creativeWorkJsonLd(
+  project: WorkItem,
+  path: string,
+  image: string,
+  locale: Locale = DEFAULT_LOCALE,
+): JsonLd {
+  const projectTitle = seoCopyWithFallback(
+    `work.item.${project.slug}.title`,
+    project.title,
+    locale,
+  );
+  const projectHeadline = seoCopyWithFallback(
+    `work.item.${project.slug}.headline`,
+    project.headline,
+    locale,
+  );
+  const projectDescription = seoCopyWithFallback(
+    `work.item.${project.slug}.summary`,
+    project.summary || project.description,
+    locale,
+  );
+
   return {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
-    name: project.title,
-    headline: project.headline,
-    description: project.summary || project.description,
+    name: projectTitle,
+    headline: projectHeadline,
+    description: projectDescription,
     image: assetUrl(image),
-    url: absoluteUrl(path),
+    url: absoluteUrl(localizedPath(path, locale)),
     keywords: [...project.modules, ...project.stack].join(", "),
     creator: {
       "@type": "Organization",

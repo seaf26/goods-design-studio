@@ -6,6 +6,7 @@ import { Footer, Nav, Reveal } from "./Landing";
 import { blogArticles, blogTopics, type BlogArticle } from "./blogData";
 import { PreferredSourceLink } from "./PreferredSourceLink";
 import { useI18n } from "@/lib/i18n";
+import { localizedPath } from "@/components/site/seo";
 
 type DisplayBlogArticle = Omit<BlogArticle, "topic"> & { topic: string };
 
@@ -62,9 +63,12 @@ function OperationsVisual({ article }: { article: DisplayBlogArticle }) {
 }
 
 function ArticleRow({ article, index }: { article: DisplayBlogArticle; index: number }) {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
   const Icon = article.icon;
-  const href = article.detailSections?.length ? `/blog/${article.slug}` : "/contact";
+  const href = localizedPath(
+    article.detailSections?.length ? `/blog/${article.slug}` : "/contact",
+    locale,
+  );
 
   return (
     <Reveal delay={index * 0.035}>
@@ -141,7 +145,7 @@ function BriefingMetric({
 }
 
 export function BlogPage() {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
   const localizedArticles = useMemo(
     () => blogArticles.map((article) => localizeBlogArticle(article, t)),
     [t],
@@ -271,7 +275,7 @@ export function BlogPage() {
                   className="max-w-xl text-[15px] leading-[1.65] text-white/62"
                 />
                 <a
-                  href="/contact"
+                  href={localizedPath("/contact", locale)}
                   className="mt-7 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[14px] font-semibold text-black transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]"
                 >
                   {t("nav.startProject")}

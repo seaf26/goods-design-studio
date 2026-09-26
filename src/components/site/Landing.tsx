@@ -58,6 +58,7 @@ import { BlurText } from "./BlurText";
 import { getHeroLiquidSettings, resolveHeroQuality, type HeroQuality } from "./heroPerformance";
 import { trackSiteEvent } from "@/lib/siteAnalytics";
 import { localeLabels, useI18n } from "@/lib/i18n";
+import { localizedPath } from "@/components/site/seo";
 import { useTheme, type ThemeMode } from "@/lib/theme";
 
 /* ------------------------------------------------------------------ */
@@ -222,6 +223,8 @@ function MagneticButton({
   className?: string;
   onIntent?: () => void;
 }) {
+  const { locale } = useI18n();
+  const localizedHref = href.startsWith("/") ? localizedPath(href, locale) : href;
   const ref = useRef<HTMLAnchorElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -237,11 +240,11 @@ function MagneticButton({
   return (
     <motion.a
       ref={ref}
-      href={href}
+      href={localizedHref}
       style={{ x: sx, y: sy }}
       onClick={(event) => {
         onIntent?.();
-        handleSectionLinkClick(event, href);
+        handleSectionLinkClick(event, localizedHref);
       }}
       onMouseMove={(e) => {
         const r = ref.current!.getBoundingClientRect();
@@ -339,10 +342,14 @@ function GoodsNavLogo({
   inverted?: boolean;
   forceDarkText?: boolean;
 }) {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
 
   return (
-    <a href="/" className="flex items-center gap-2" aria-label={t("brand.home")}>
+    <a
+      href={localizedPath("/", locale)}
+      className="flex items-center gap-2"
+      aria-label={t("brand.home")}
+    >
       <BrandMark framed={false} />
       <span
         className={`text-[15px] font-semibold tracking-[-0.01em] ${
@@ -437,7 +444,8 @@ function PreferenceControls({
 }
 
 export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
+  const navItems = NAV_ITEMS.map((item) => ({ ...item, href: localizedPath(item.href, locale) }));
   const { resolvedTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -469,7 +477,7 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
       handleSectionLinkClick(event, href);
     }
 
-    if (href === "/work") {
+    if (href.endsWith("/work")) {
       trackHomeWorkClick(location);
     }
 
@@ -498,7 +506,7 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
           aria-label={t("nav.primary")}
           className="hidden items-center rounded-full px-2 py-2 lg:flex"
         >
-          {NAV_ITEMS.map((item) => (
+          {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
@@ -518,8 +526,8 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
 
         <div className="flex items-center gap-2 rounded-full p-2">
           <a
-            href="/contact"
-            onClick={(event) => handleNavClick(event, "/contact")}
+            href={localizedPath("/contact", locale)}
+            onClick={(event) => handleNavClick(event, localizedPath("/contact", locale))}
             className="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-white px-4 py-2 text-sm font-medium text-[#03040a] transition duration-200 hover:bg-primary hover:text-white active:scale-[0.97]"
           >
             <span className="sm:hidden">{t("nav.start")}</span>
@@ -561,7 +569,7 @@ export function Nav({ surface = "dark" }: { surface?: "dark" | "light" }) {
             className="mx-auto mt-3 max-w-7xl px-4 sm:px-6 lg:hidden"
           >
             <div className="rounded-2xl bg-[var(--background)] p-2 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.18)]">
-              {NAV_ITEMS.map((item) => (
+              {navItems.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
@@ -1620,6 +1628,7 @@ function ComparisonAction({
   variant: "goods" | "traditional";
   children: ReactNode;
 }) {
+  const { locale } = useI18n();
   const isGoods = variant === "goods";
   const className = `inline-flex w-fit items-center gap-3 rounded-xl bg-[#03040a] py-2 pl-2 pr-4 text-[14px] font-medium text-white shadow-[0_18px_50px_-28px_rgba(0,0,0,0.8)] transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] md:text-base ${
     isGoods ? "hover:-translate-y-0.5 active:scale-[0.98]" : "pointer-events-none opacity-55"
@@ -1646,7 +1655,7 @@ function ComparisonAction({
   }
 
   return (
-    <a href="/contact" className={className}>
+    <a href={localizedPath("/contact", locale)} className={className}>
       {content}
     </a>
   );
@@ -1956,7 +1965,7 @@ function ProjectSnapshot({ project }: { project: (typeof projects)[number] }) {
 }
 
 function Projects() {
-  const { t, tWithFallback } = useI18n();
+  const { locale, t, tWithFallback } = useI18n();
   const featuredProjects = localizeFeaturedProjects(projects, tWithFallback);
 
   return (
@@ -1972,7 +1981,7 @@ function Projects() {
             />
           </div>
           <a
-            href="/work"
+            href={localizedPath("/work", locale)}
             onClick={() =>
               trackSiteEvent("home_view_work_click", { location: "featured_projects" })
             }
@@ -1988,7 +1997,7 @@ function Projects() {
           {featuredProjects.map((p, i) => (
             <Reveal key={p.t} delay={i * 0.06} className="snap-start">
               <a
-                href={`/work/${p.slug}`}
+                href={localizedPath(`/work/${p.slug}`, locale)}
                 onClick={() =>
                   trackSiteEvent("home_project_click", {
                     location: "featured_projects",
@@ -2346,6 +2355,8 @@ const footerColumns = [
       { labelKey: "home.footer.productsLink", href: "/#platform" },
       { labelKey: "nav.contact", href: "/contact" },
       { labelKey: "nav.blog", href: "/blog" },
+      { labelKey: "home.footer.egyptSolutions", href: "/solutions/egypt" },
+      { labelKey: "home.footer.gccSolutions", href: "/solutions/gcc" },
     ],
   },
   {
@@ -2375,10 +2386,14 @@ const footerColumns = [
 ];
 
 function GoodsLogo() {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
 
   return (
-    <a href="/" className="flex items-center gap-2" aria-label={t("brand.home")}>
+    <a
+      href={localizedPath("/", locale)}
+      className="flex items-center gap-2"
+      aria-label={t("brand.home")}
+    >
       <BrandMark />
       <span className="text-[15px] font-semibold">
         {t("brand.name")} <span className="font-normal text-white/55">{t("brand.segment")}</span>
@@ -2401,7 +2416,7 @@ function handleFooterLinkClick(event: MouseEvent<HTMLAnchorElement>, href: strin
 }
 
 export function Footer() {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
 
   return (
     <footer
@@ -2449,8 +2464,19 @@ export function Footer() {
                     {col.items.map((item) => (
                       <li key={item.labelKey}>
                         <a
-                          href={item.href}
-                          onClick={(event) => handleFooterLinkClick(event, item.href)}
+                          href={
+                            item.href.startsWith("mailto:")
+                              ? item.href
+                              : localizedPath(item.href, locale)
+                          }
+                          onClick={(event) =>
+                            handleFooterLinkClick(
+                              event,
+                              item.href.startsWith("mailto:")
+                                ? item.href
+                                : localizedPath(item.href, locale),
+                            )
+                          }
                           className="text-[15px] text-white/60 transition-colors hover:text-primary sm:text-sm"
                         >
                           {t(item.labelKey)}
@@ -2469,10 +2495,16 @@ export function Footer() {
             {BRAND_EMAIL}
           </a>
           <div className="flex flex-wrap gap-x-5 gap-y-2">
-            <a href="/#hero" className="transition-colors hover:text-primary">
+            <a
+              href={localizedPath("/#hero", locale)}
+              className="transition-colors hover:text-primary"
+            >
               {t("home.footer.backToTop")}
             </a>
-            <a href="/contact" className="transition-colors hover:text-primary">
+            <a
+              href={localizedPath("/contact", locale)}
+              className="transition-colors hover:text-primary"
+            >
               {t("nav.startProject")}
             </a>
           </div>

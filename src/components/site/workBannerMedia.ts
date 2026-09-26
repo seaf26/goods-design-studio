@@ -9,19 +9,19 @@ export function getWorkProofImage(item: WorkItem) {
 }
 
 export function getWorkBannerFamilyLabel(item: WorkItem) {
-    const family = item.bannerFamily || "specialty";
+  const family = item.bannerFamily || "specialty";
 
-    const labels = {
-        commerce: "Commerce system",
-        logistics: "Logistics operation",
-        backend: "Backend platform",
-        mobile: "Mobile product",
-        corporate: "Corporate system",
-        dashboard: "Dashboard system",
-        specialty: "Digital product",
-    } satisfies Record<NonNullable<WorkItem["bannerFamily"]>, string>;
+  const labels = {
+    commerce: "Commerce system",
+    logistics: "Logistics operation",
+    backend: "Backend platform",
+    mobile: "Mobile product",
+    corporate: "Corporate system",
+    dashboard: "Dashboard system",
+    specialty: "Digital product",
+  } satisfies Record<NonNullable<WorkItem["bannerFamily"]>, string>;
 
-    return labels[family];
+  return labels[family];
 }
 
 export function getWorkBannerAlt(item: WorkItem) {

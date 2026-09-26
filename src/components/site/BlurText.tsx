@@ -1,4 +1,11 @@
-import { useEffect, useRef, useState, type ElementType, type HTMLAttributes, type Ref } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ElementType,
+  type HTMLAttributes,
+  type Ref,
+} from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 
 type BlurTextElement = "h1" | "h2" | "h3" | "h4" | "p" | "div" | "span" | "blockquote";

@@ -14,6 +14,18 @@ export type Locale = (typeof SUPPORTED_LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = "en";
 const localeStorageKey = "traffodata:locale";
 
+export function localeFromPathname(pathname: string): Locale {
+  return /^\/ar(?:\/|$)/.test(pathname) ? "ar" : "en";
+}
+
+export function localizedPath(path = "/", locale: Locale = DEFAULT_LOCALE) {
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  const englishPath = normalized === "/ar" ? "/" : normalized.replace(/^\/ar(?=\/|$)/, "");
+
+  if (locale === "en") return englishPath || "/";
+  return englishPath === "/" ? "/ar/" : `/ar${englishPath}`;
+}
+
 export const localeLabels: Record<Locale, string> = {
   en: "English",
   ar: "العربية",
@@ -86,6 +98,10 @@ function translateWorkItemFallback(locale: Locale, key: string, fallback: string
 
   const direct = workItemFallbackTranslations[fallback];
   if (direct) return direct;
+
+  if (key.endsWith(".title") && !key.includes(".detailSections.") && !key.includes(".timeline.")) {
+    return fallback;
+  }
 
   if (key.endsWith(".title") || key.endsWith(".label")) {
     return workItemGeneratedTitle(key);
@@ -587,6 +603,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "home.footer.company": "Company",
     "home.footer.start": "Start",
     "home.footer.productsLink": "Products",
+    "home.footer.egyptSolutions": "Egypt software solutions",
+    "home.footer.gccSolutions": "GCC software solutions",
     "home.footer.erp": "ERP Systems",
     "home.footer.inventory": "Inventory",
     "home.footer.warehouse": "Warehouse",
@@ -684,6 +702,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "blog.article.related": "Keep reading.",
     "blog.article.cta": "Bring the workflow to the table.",
     "blog.preferredSource": "Follow TRAFFODATA in Google",
+    "blog.article.quickAnswer": "Short answer",
+    "blog.article.evidence": "Sources and relevant work",
     "blog.article.warehouse-management-software-egypt.title":
       "Warehouse software in Egypt: how to choose a system operators will use",
     "blog.article.warehouse-management-software-egypt.deck":
@@ -1591,6 +1611,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "home.footer.company": "الشركة",
     "home.footer.start": "ابدأ",
     "home.footer.productsLink": "المنتجات",
+    "home.footer.egyptSolutions": "حلول برمجية في مصر",
+    "home.footer.gccSolutions": "حلول برمجية للخليج",
     "home.footer.erp": "أنظمة ERP",
     "home.footer.inventory": "المخزون",
     "home.footer.warehouse": "المستودعات",
@@ -2089,6 +2111,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "blog.article.related": "تابع القراءة.",
     "blog.article.cta": "أحضر تدفق العمل إلى الطاولة.",
     "blog.preferredSource": "تابع TRAFFODATA على Google",
+    "blog.article.quickAnswer": "الإجابة المختصرة",
+    "blog.article.evidence": "مصادر وأعمال ذات صلة",
     "blog.article.warehouse-management-software-egypt.title":
       "برامج المستودعات في مصر: كيف تختار نظاما يستخدمه المشغلون",
     "blog.article.warehouse-management-software-egypt.deck":
@@ -2530,23 +2554,19 @@ type I18nContextValue = {
 
 const I18nContext = createContext<I18nContextValue | null>(null);
 
-function isLocale(value: string | null): value is Locale {
-  return SUPPORTED_LOCALES.includes(value as Locale);
-}
-
-function getInitialLocale() {
-  if (typeof window === "undefined") return DEFAULT_LOCALE;
-
-  const stored = window.localStorage.getItem(localeStorageKey);
-  if (isLocale(stored)) return stored;
-
-  const browserLanguage = window.navigator.language.split("-")[0];
-  return isLocale(browserLanguage) ? browserLanguage : DEFAULT_LOCALE;
-}
-
-export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(getInitialLocale);
+export function I18nProvider({
+  children,
+  initialLocale,
+}: {
+  children: ReactNode;
+  initialLocale: Locale;
+}) {
+  const [locale, setLocaleState] = useState<Locale>(initialLocale);
   const direction = localeDirections[locale];
+
+  useEffect(() => {
+    setLocaleState(initialLocale);
+  }, [initialLocale]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -2557,12 +2577,13 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }, [direction, locale]);
 
   const setLocale = useCallback((nextLocale: Locale) => {
-    setLocaleState(nextLocale);
+    const path = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    window.location.assign(localizedPath(path, nextLocale));
   }, []);
 
   const toggleLocale = useCallback(() => {
-    setLocaleState((current) => (current === "en" ? "ar" : "en"));
-  }, []);
+    setLocale(locale === "en" ? "ar" : "en");
+  }, [locale, setLocale]);
 
   const t = useCallback(
     (key: string) => translations[locale][key] ?? translations[DEFAULT_LOCALE][key] ?? key,

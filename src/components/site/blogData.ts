@@ -12,6 +12,8 @@ export type BlogArticle = {
   publishedAt: string;
   audience: string;
   operatingQuestion: string;
+  directAnswer?: { en: string; ar: string };
+  evidence?: { label: { en: string; ar: string }; href: string }[];
   signals: { label: string; value: string }[];
   visual: "operations-board" | "warehouse-flow" | "finance-close" | "inventory-exceptions";
   icon: LucideIcon;
@@ -30,11 +32,24 @@ export const blogArticles: BlogArticle[] = [
     publishedAt: "September 2026",
     audience: "Warehouse, logistics, commerce",
     operatingQuestion: "Can the system show the next action before the order reaches the floor?",
+    directAnswer: {
+      en: "Choose warehouse software by testing the real receiving, picking, returns, and stock-adjustment flows with your operators. Require one traceable stock record across sales and dispatch, then validate barcode and integration needs before buying or building.",
+      ar: "اختر برنامج المستودعات بعد تجربة الاستلام والالتقاط والمرتجعات وتسويات المخزون مع فريق التشغيل نفسه. اطلب سجلا واضحا لحركة المخزون بين البيع والشحن، ثم تحقق من احتياج الباركود والتكاملات قبل قرار الشراء أو البناء.",
+    },
+    evidence: [
+      {
+        label: {
+          en: "Elnasser backend and logistics case study",
+          ar: "دراسة حالة نظام الناصر الخلفي واللوجستي",
+        },
+        href: "/work/elnasser-backend-dashboard",
+      },
+    ],
     visual: "warehouse-flow",
     icon: Truck,
     detailSections: ["operating-question", "buying-criteria", "egypt-context", "decision"],
     datePublished: "2026-09-23",
-    dateModified: "2026-09-23",
+    dateModified: "2026-09-26",
     signals: [
       { label: "Priority", value: "Traceability" },
       { label: "Control", value: "Stock truth" },
@@ -50,11 +65,24 @@ export const blogArticles: BlogArticle[] = [
     publishedAt: "September 2026",
     audience: "Commerce, founders, operations",
     operatingQuestion: "What should update automatically when a customer places an order?",
+    directAnswer: {
+      en: "A storefront should create an order in the system that owns stock, payment state, fulfillment, and customer history. When these records are separate, the website can accept an order that the operation cannot reliably fulfill.",
+      ar: "يجب أن ينشئ المتجر طلبا في النظام الذي يدير المخزون وحالة الدفع والتنفيذ وسجل العميل. عندما تبقى هذه البيانات منفصلة، قد يقبل الموقع طلبا لا تستطيع العملية تشغيله بثقة.",
+    },
+    evidence: [
+      {
+        label: {
+          en: "WikiFood commerce backend case study",
+          ar: "دراسة حالة النظام التجاري الخلفي لـ WikiFood",
+        },
+        href: "/work/wikifood-commerce-delivery-backend",
+      },
+    ],
     visual: "operations-board",
     icon: ScanBarcode,
     detailSections: ["front-door", "source-of-truth", "operating-loop", "decision"],
     datePublished: "2026-09-23",
-    dateModified: "2026-09-23",
+    dateModified: "2026-09-26",
     signals: [
       { label: "Front door", value: "Storefront" },
       { label: "Source", value: "Live inventory" },
@@ -70,6 +98,19 @@ export const blogArticles: BlogArticle[] = [
     publishedAt: "September 2026",
     audience: "Commerce, founders, operations",
     operatingQuestion: "Does every order create one shared operational record?",
+    directAnswer: {
+      en: "For an Egypt ecommerce operation, evaluate software as one order flow: catalog, payment or cash on delivery, stock reservation, fulfillment, delivery, returns, and reconciliation. Connect those states before optimizing the storefront alone.",
+      ar: "قيّم برمجيات التجارة الإلكترونية في مصر كتدفق طلب واحد يشمل الكتالوج والدفع أو الدفع عند الاستلام وحجز المخزون والتجهيز والتوصيل والمرتجعات والتسوية. اربط هذه الحالات قبل تحسين واجهة المتجر وحدها.",
+    },
+    evidence: [
+      {
+        label: {
+          en: "WikiFood commerce and delivery implementation",
+          ar: "تنفيذ WikiFood للتجارة والتوصيل",
+        },
+        href: "/work/wikifood-commerce-delivery-backend",
+      },
+    ],
     visual: "operations-board",
     icon: ScanBarcode,
     detailSections: [
@@ -79,7 +120,7 @@ export const blogArticles: BlogArticle[] = [
       "decision",
     ],
     datePublished: "2026-09-24",
-    dateModified: "2026-09-24",
+    dateModified: "2026-09-26",
     signals: [
       { label: "Demand", value: "COD + card" },
       { label: "Control", value: "Live stock" },
@@ -95,6 +136,19 @@ export const blogArticles: BlogArticle[] = [
     publishedAt: "September 2026",
     audience: "Product, engineering, operations",
     operatingQuestion: "Can every important business event be replayed, traced, and owned?",
+    directAnswer: {
+      en: "Start a Laravel business API with the records and events that other systems must trust: orders, stock changes, payments, and user permissions. Give each integration a clear owner, validation rules, and a safe way to retry failed events.",
+      ar: "ابدأ واجهة Laravel للأعمال بالسجلات والأحداث التي تعتمد عليها الأنظمة الأخرى: الطلبات وتغيرات المخزون والمدفوعات والصلاحيات. حدد مالك كل تكامل وقواعد التحقق وطريقة آمنة لإعادة محاولة الأحداث الفاشلة.",
+    },
+    evidence: [
+      {
+        label: {
+          en: "Printout Laravel REST API case study",
+          ar: "دراسة حالة واجهة Laravel REST لمشروع Printout",
+        },
+        href: "/work/printout-laravel-rest-api",
+      },
+    ],
     visual: "operations-board",
     icon: PackageCheck,
     detailSections: [
@@ -104,7 +158,7 @@ export const blogArticles: BlogArticle[] = [
       "production-readiness",
     ],
     datePublished: "2026-09-24",
-    dateModified: "2026-09-24",
+    dateModified: "2026-09-26",
     signals: [
       { label: "Contract", value: "Clear resources" },
       { label: "Reliability", value: "Idempotent events" },
@@ -120,11 +174,15 @@ export const blogArticles: BlogArticle[] = [
     publishedAt: "September 2026",
     audience: "Founders, COOs, operations",
     operatingQuestion: "Is the bottleneck a missing feature, or a missing operating model?",
+    directAnswer: {
+      en: "Custom software is justified when a repeated business workflow cannot be handled reliably by existing tools and the cost of workarounds is clear. Map users, decisions, exceptions, integrations, and ownership before defining the first release.",
+      ar: "يصبح بناء برنامج مخصص مبررا عندما تعجز الأدوات الحالية عن تشغيل تدفق عمل متكرر بثبات وتكون تكلفة الحلول الالتفافية واضحة. ارسم المستخدمين والقرارات والاستثناءات والتكاملات والمسؤولية قبل تحديد الإصدار الأول.",
+    },
     visual: "operations-board",
     icon: LineChart,
     detailSections: ["signal-to-build", "map-before-code", "buy-and-build", "first-release"],
     datePublished: "2026-09-24",
-    dateModified: "2026-09-24",
+    dateModified: "2026-09-26",
     signals: [
       { label: "Trigger", value: "Repeated exceptions" },
       { label: "Scope", value: "First release" },
@@ -140,11 +198,15 @@ export const blogArticles: BlogArticle[] = [
     publishedAt: "September 2026",
     audience: "Founders, COOs, operations",
     operatingQuestion: "Where does the generic tool stop helping and start taxing the operation?",
+    directAnswer: {
+      en: "Buy an existing product when its standard workflow fits and ongoing configuration is manageable. Build when the business depends on a distinctive process, integrations, or ownership requirements that create persistent workarounds in off-the-shelf tools.",
+      ar: "اشتر منتجا جاهزا عندما يناسب تدفقه المعتاد عملك ويمكن إدارة تهيئته مع الوقت. وابن نظاما مخصصا عندما تعتمد الشركة على عملية مميزة أو تكاملات أو متطلبات ملكية تفرض حلولا التفافية دائمة في الأدوات الجاهزة.",
+    },
     visual: "operations-board",
     icon: LineChart,
     detailSections: ["start-with-ceiling", "total-cost", "ownership", "decision"],
     datePublished: "2026-09-24",
-    dateModified: "2026-09-24",
+    dateModified: "2026-09-26",
     signals: [
       { label: "Question", value: "Buy or build" },
       { label: "Risk", value: "Workarounds" },
@@ -160,11 +222,15 @@ export const blogArticles: BlogArticle[] = [
     publishedAt: "September 2026",
     audience: "Founders, product, operations",
     operatingQuestion: "What is the smallest release that changes the operation for the better?",
+    directAnswer: {
+      en: "A small, bounded workflow can reach a usable first release in a few weeks, while multi-role systems and external integrations need more time. Estimate after mapping decisions, data migration, approvals, testing, and launch responsibilities; do not treat 3–15 weeks as a guarantee.",
+      ar: "قد يصل تدفق عمل صغير ومحدد إلى إصدار أول قابل للاستخدام خلال أسابيع قليلة، بينما تحتاج الأنظمة متعددة الأدوار والتكاملات الخارجية وقتا أطول. ضع التقدير بعد فهم القرارات وترحيل البيانات والموافقات والاختبار ومسؤوليات الإطلاق؛ ولا تتعامل مع نطاق 3 إلى 15 أسبوعا كضمان.",
+    },
     visual: "operations-board",
     icon: PackageCheck,
     detailSections: ["scope-first", "three-week", "fifteen-week", "protect-the-timeline"],
     datePublished: "2026-09-24",
-    dateModified: "2026-09-24",
+    dateModified: "2026-09-26",
     signals: [
       { label: "Range", value: "3–15 weeks" },
       { label: "Control", value: "Release boundary" },
@@ -180,11 +246,15 @@ export const blogArticles: BlogArticle[] = [
     publishedAt: "September 2026",
     audience: "Founders, operations, technology",
     operatingQuestion: "Who can explain the system when the business changes or something breaks?",
+    directAnswer: {
+      en: "Before launch, name who owns the code, hosting, credentials, monitoring, incident response, and next changes. A useful handover includes documentation, access, known limitations, and a support path the operating team can actually use.",
+      ar: "قبل الإطلاق، حدد من يملك الشيفرة والاستضافة والصلاحيات والمراقبة والاستجابة للأعطال والتغييرات التالية. يشمل التسليم المفيد التوثيق والوصول والقيود المعروفة ومسار دعم يستطيع فريق التشغيل استخدامه فعلا.",
+    },
     visual: "operations-board",
     icon: PackageCheck,
     detailSections: ["ownership-after-launch", "support-model", "handover", "measure-improvement"],
     datePublished: "2026-09-24",
-    dateModified: "2026-09-24",
+    dateModified: "2026-09-26",
     signals: [
       { label: "After launch", value: "Named owner" },
       { label: "Response", value: "Clear support" },
@@ -200,6 +270,33 @@ export const blogArticles: BlogArticle[] = [
     publishedAt: "September 2026",
     audience: "Commerce, logistics, operations",
     operatingQuestion: "Which local rule or partner can change the state of the business?",
+    directAnswer: {
+      en: "Design Egypt and GCC integrations country by country. Map payment, delivery, language, and tax-document handoffs first; then verify the applicable e-invoicing interfaces against each authority's current guidance before committing to an implementation.",
+      ar: "صمم تكاملات مصر والخليج لكل دولة على حدة. ارسم انتقالات الدفع والتوصيل واللغة والمستندات الضريبية أولا، ثم تحقق من واجهات الفوترة الإلكترونية المطلوبة عبر الإرشادات الحالية لكل جهة رسمية قبل الالتزام بالتنفيذ.",
+    },
+    evidence: [
+      {
+        label: {
+          en: "Egyptian Tax Authority integration APIs",
+          ar: "واجهات التكامل لدى مصلحة الضرائب المصرية",
+        },
+        href: "https://sdk.invoicing.eta.gov.eg/api/",
+      },
+      {
+        label: {
+          en: "Saudi ZATCA e-invoicing guidance",
+          ar: "إرشادات الفوترة الإلكترونية لدى هيئة الزكاة والضريبة والجمارك",
+        },
+        href: "https://zatca.gov.sa/en/E-Invoicing/Introduction/Guidelines/Pages/default.aspx",
+      },
+      {
+        label: {
+          en: "UAE Ministry of Finance e-invoicing guidance",
+          ar: "إرشادات الفوترة الإلكترونية لدى وزارة المالية الإماراتية",
+        },
+        href: "https://mof.gov.ae/en/about-us/initiatives/einvoicing/",
+      },
+    ],
     visual: "warehouse-flow",
     icon: Truck,
     detailSections: [
@@ -209,7 +306,7 @@ export const blogArticles: BlogArticle[] = [
       "international-without-generic",
     ],
     datePublished: "2026-09-24",
-    dateModified: "2026-09-24",
+    dateModified: "2026-09-26",
     signals: [
       { label: "Reach", value: "Egypt + Gulf" },
       { label: "Control", value: "Owned integrations" },
