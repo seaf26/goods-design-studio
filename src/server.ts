@@ -34,10 +34,13 @@ async function normalizeCatastrophicSsrResponse(
   }
 
   console.error(consumeLastCapturedError() ?? new Error(`h3 swallowed SSR error: ${body}`));
-  return new Response(renderErrorPage(localeFromAcceptLanguage(request.headers.get("accept-language"))), {
-    status: 500,
-    headers: { "content-type": "text/html; charset=utf-8" },
-  });
+  return new Response(
+    renderErrorPage(localeFromAcceptLanguage(request.headers.get("accept-language"))),
+    {
+      status: 500,
+      headers: { "content-type": "text/html; charset=utf-8" },
+    },
+  );
 }
 
 export default {
@@ -48,10 +51,13 @@ export default {
       return await normalizeCatastrophicSsrResponse(request, response);
     } catch (error) {
       console.error(error);
-      return new Response(renderErrorPage(localeFromAcceptLanguage(request.headers.get("accept-language"))), {
-        status: 500,
-        headers: { "content-type": "text/html; charset=utf-8" },
-      });
+      return new Response(
+        renderErrorPage(localeFromAcceptLanguage(request.headers.get("accept-language"))),
+        {
+          status: 500,
+          headers: { "content-type": "text/html; charset=utf-8" },
+        },
+      );
     }
   },
 };

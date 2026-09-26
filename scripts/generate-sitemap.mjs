@@ -2,8 +2,9 @@ import { readFileSync, writeFileSync } from "node:fs";
 
 const SITE_URL = "https://traffodata.com";
 const LASTMOD = "2026-06-29";
-const CONTENT_LASTMOD = "2026-09-24";
+const CONTENT_LASTMOD = "2026-09-26";
 const UPDATED_WORK_LASTMOD = "2026-09-24";
+const SOLUTION_LASTMOD = "2026-09-26";
 const UPDATED_WORK_SLUGS = new Set([
   "forsa-logistics-website",
   "gameing",
@@ -44,6 +45,8 @@ const paths = [
   "/work",
   "/blog",
   "/contact",
+  "/solutions/egypt",
+  "/solutions/gcc",
   ...Array.from(workSlugs)
     .sort()
     .map((slug) => `/work/${slug}`),
@@ -65,26 +68,34 @@ const paths = [
     .map((slug) => `/blog/${slug}`),
 ];
 
+const localizedPaths = paths.map((path) => (path === "/" ? "/ar/" : `/ar${path}`));
+const sitemapPaths = [...paths, ...localizedPaths];
+
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${paths
-  .map(
-    (path) => `  <url>
+${sitemapPaths
+  .map((path) => {
+    const englishPath = path === "/ar/" ? "/" : path.replace(/^\/ar(?=\/|$)/, "");
+
+    return `  <url>
     <loc>${SITE_URL}${path}</loc>
     <lastmod>${
-      path === "/blog" || path.startsWith("/blog/")
-        ? CONTENT_LASTMOD
-        : path.startsWith("/work/") && UPDATED_WORK_SLUGS.has(path.slice("/work/".length))
-          ? UPDATED_WORK_LASTMOD
-          : LASTMOD
+      englishPath.startsWith("/solutions/")
+        ? SOLUTION_LASTMOD
+        : englishPath === "/blog" || englishPath.startsWith("/blog/")
+          ? CONTENT_LASTMOD
+          : englishPath.startsWith("/work/") &&
+              UPDATED_WORK_SLUGS.has(englishPath.slice("/work/".length))
+            ? UPDATED_WORK_LASTMOD
+            : LASTMOD
     }</lastmod>
-    <changefreq>${path === "/" ? "weekly" : "monthly"}</changefreq>
-    <priority>${path === "/" ? "1.0" : path === "/work" ? "0.8" : "0.6"}</priority>
-  </url>`,
-  )
+    <changefreq>${englishPath === "/" ? "weekly" : "monthly"}</changefreq>
+    <priority>${englishPath === "/" ? "1.0" : englishPath === "/work" ? "0.8" : "0.6"}</priority>
+  </url>`;
+  })
   .join("\n")}
 </urlset>
 `;
 
 writeFileSync("public/sitemap.xml", xml);
-console.log(`Wrote public/sitemap.xml with ${paths.length} URLs.`);
+console.log(`Wrote public/sitemap.xml with ${sitemapPaths.length} URLs.`);

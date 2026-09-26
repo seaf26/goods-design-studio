@@ -5,6 +5,7 @@ import { Footer, Nav, Reveal } from "./Landing";
 import { blogArticles, type BlogArticle } from "./blogData";
 import { PreferredSourceLink } from "./PreferredSourceLink";
 import { useI18n } from "@/lib/i18n";
+import { localizedPath } from "@/components/site/seo";
 
 function localizeArticle(article: BlogArticle, t: (key: string) => string) {
   return {
@@ -28,7 +29,7 @@ function localizeArticle(article: BlogArticle, t: (key: string) => string) {
 }
 
 export function BlogArticlePage({ slug }: { slug: string }) {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
   const article = blogArticles.find((entry) => entry.slug === slug);
 
   if (!article) {
@@ -51,7 +52,7 @@ export function BlogArticlePage({ slug }: { slug: string }) {
             <div className="relative mx-auto max-w-[92rem] px-5 sm:px-6">
               <Reveal>
                 <a
-                  href="/blog"
+                  href={localizedPath("/blog", locale)}
                   className="inline-flex items-center gap-2 rounded-full bg-[var(--surface)] px-3 py-1.5 text-[12px] font-medium text-[var(--muted-foreground)] ring-1 ring-[var(--hairline)] transition-colors hover:text-[var(--ink)]"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
@@ -82,6 +83,42 @@ export function BlogArticlePage({ slug }: { slug: string }) {
               </Reveal>
             </div>
           </section>
+
+          {article.directAnswer && (
+            <section className="mx-auto max-w-[92rem] px-5 pt-10 sm:px-6">
+              <div className="rounded-[1.5rem] border border-[var(--hairline)] bg-[var(--surface)] p-6 sm:p-8">
+                <h2 className="font-display text-[clamp(1.5rem,2.7vw,2.5rem)] font-semibold leading-tight">
+                  {t("blog.article.quickAnswer")}
+                </h2>
+                <p className="mt-4 max-w-4xl text-[16px] leading-[1.8] md:text-[18px]">
+                  {article.directAnswer[locale]}
+                </p>
+                {article.evidence && article.evidence.length > 0 && (
+                  <div className="mt-6 border-t border-[var(--hairline)] pt-5">
+                    <h3 className="text-[13px] font-semibold">{t("blog.article.evidence")}</h3>
+                    <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
+                      {article.evidence.map((source) => (
+                        <li key={source.href}>
+                          <a
+                            href={
+                              source.href.startsWith("/")
+                                ? localizedPath(source.href, locale)
+                                : source.href
+                            }
+                            rel={source.href.startsWith("/") ? undefined : "noopener noreferrer"}
+                            target={source.href.startsWith("/") ? undefined : "_blank"}
+                            className="text-[13px] font-medium text-primary underline underline-offset-4"
+                          >
+                            {source.label[locale]}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
 
           <section className="mx-auto grid max-w-[92rem] gap-6 px-5 pb-16 pt-12 sm:px-6 md:pb-24 lg:grid-cols-[0.72fr_1.28fr] lg:pt-16">
             <Reveal>
@@ -141,7 +178,7 @@ export function BlogArticlePage({ slug }: { slug: string }) {
                     className="font-display text-[clamp(2rem,3.8vw,3.8rem)] font-semibold leading-[0.98] tracking-[-0.045em]"
                   />
                   <a
-                    href="/blog"
+                    href={localizedPath("/blog", locale)}
                     className="hidden items-center gap-2 text-[13px] font-semibold text-[var(--muted-foreground)] transition-colors hover:text-[var(--ink)] sm:inline-flex"
                   >
                     {t("blog.readingList")}
@@ -153,7 +190,7 @@ export function BlogArticlePage({ slug }: { slug: string }) {
                 {relatedArticles.map((entry, index) => (
                   <Reveal key={entry.slug} delay={index * 0.05}>
                     <a
-                      href={`/blog/${entry.slug}`}
+                      href={localizedPath(`/blog/${entry.slug}`, locale)}
                       className="group flex h-full flex-col justify-between rounded-[1.25rem] bg-[var(--surface)] p-5 ring-1 ring-[var(--hairline)] transition-colors hover:bg-[var(--card)]"
                     >
                       <div>
@@ -187,7 +224,7 @@ export function BlogArticlePage({ slug }: { slug: string }) {
             </Reveal>
             <Reveal delay={0.08}>
               <a
-                href="/contact"
+                href={localizedPath("/contact", locale)}
                 className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[14px] font-semibold text-black transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 active:scale-[0.97]"
               >
                 {t("nav.startProject")}

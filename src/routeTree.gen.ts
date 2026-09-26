@@ -13,8 +13,18 @@ import { Route as WorkRouteImport } from './routes/work'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ArIndexRouteImport } from './routes/ar/index'
 import { Route as WorkSlugRouteImport } from './routes/work_.$slug'
+import { Route as SolutionsGccRouteImport } from './routes/solutions/gcc'
+import { Route as SolutionsEgyptRouteImport } from './routes/solutions/egypt'
 import { Route as BlogSlugRouteImport } from './routes/blog_.$slug'
+import { Route as ArWorkRouteImport } from './routes/ar/work'
+import { Route as ArContactRouteImport } from './routes/ar/contact'
+import { Route as ArBlogRouteImport } from './routes/ar/blog'
+import { Route as ArWorkSlugRouteImport } from './routes/ar/work_.$slug'
+import { Route as ArSolutionsGccRouteImport } from './routes/ar/solutions/gcc'
+import { Route as ArSolutionsEgyptRouteImport } from './routes/ar/solutions/egypt'
+import { Route as ArBlogSlugRouteImport } from './routes/ar/blog_.$slug'
 
 const WorkRoute = WorkRouteImport.update({
   id: '/work',
@@ -36,14 +46,64 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArIndexRoute = ArIndexRouteImport.update({
+  id: '/ar/',
+  path: '/ar/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WorkSlugRoute = WorkSlugRouteImport.update({
   id: '/work_/$slug',
   path: '/work/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SolutionsGccRoute = SolutionsGccRouteImport.update({
+  id: '/solutions/gcc',
+  path: '/solutions/gcc',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsEgyptRoute = SolutionsEgyptRouteImport.update({
+  id: '/solutions/egypt',
+  path: '/solutions/egypt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog_/$slug',
   path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArWorkRoute = ArWorkRouteImport.update({
+  id: '/ar/work',
+  path: '/ar/work',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArContactRoute = ArContactRouteImport.update({
+  id: '/ar/contact',
+  path: '/ar/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArBlogRoute = ArBlogRouteImport.update({
+  id: '/ar/blog',
+  path: '/ar/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArWorkSlugRoute = ArWorkSlugRouteImport.update({
+  id: '/ar/work_/$slug',
+  path: '/ar/work/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArSolutionsGccRoute = ArSolutionsGccRouteImport.update({
+  id: '/ar/solutions/gcc',
+  path: '/ar/solutions/gcc',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArSolutionsEgyptRoute = ArSolutionsEgyptRouteImport.update({
+  id: '/ar/solutions/egypt',
+  path: '/ar/solutions/egypt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArBlogSlugRoute = ArBlogSlugRouteImport.update({
+  id: '/ar/blog_/$slug',
+  path: '/ar/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -52,16 +112,36 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogRoute
   '/contact': typeof ContactRoute
   '/work': typeof WorkRoute
+  '/ar/blog': typeof ArBlogRoute
+  '/ar/contact': typeof ArContactRoute
+  '/ar/work': typeof ArWorkRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/solutions/egypt': typeof SolutionsEgyptRoute
+  '/solutions/gcc': typeof SolutionsGccRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/ar/': typeof ArIndexRoute
+  '/ar/blog/$slug': typeof ArBlogSlugRoute
+  '/ar/solutions/egypt': typeof ArSolutionsEgyptRoute
+  '/ar/solutions/gcc': typeof ArSolutionsGccRoute
+  '/ar/work/$slug': typeof ArWorkSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blog': typeof BlogRoute
   '/contact': typeof ContactRoute
   '/work': typeof WorkRoute
+  '/ar/blog': typeof ArBlogRoute
+  '/ar/contact': typeof ArContactRoute
+  '/ar/work': typeof ArWorkRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/solutions/egypt': typeof SolutionsEgyptRoute
+  '/solutions/gcc': typeof SolutionsGccRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/ar': typeof ArIndexRoute
+  '/ar/blog/$slug': typeof ArBlogSlugRoute
+  '/ar/solutions/egypt': typeof ArSolutionsEgyptRoute
+  '/ar/solutions/gcc': typeof ArSolutionsGccRoute
+  '/ar/work/$slug': typeof ArWorkSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -69,8 +149,18 @@ export interface FileRoutesById {
   '/blog': typeof BlogRoute
   '/contact': typeof ContactRoute
   '/work': typeof WorkRoute
+  '/ar/blog': typeof ArBlogRoute
+  '/ar/contact': typeof ArContactRoute
+  '/ar/work': typeof ArWorkRoute
   '/blog_/$slug': typeof BlogSlugRoute
+  '/solutions/egypt': typeof SolutionsEgyptRoute
+  '/solutions/gcc': typeof SolutionsGccRoute
   '/work_/$slug': typeof WorkSlugRoute
+  '/ar/': typeof ArIndexRoute
+  '/ar/blog_/$slug': typeof ArBlogSlugRoute
+  '/ar/solutions/egypt': typeof ArSolutionsEgyptRoute
+  '/ar/solutions/gcc': typeof ArSolutionsGccRoute
+  '/ar/work_/$slug': typeof ArWorkSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -79,18 +169,54 @@ export interface FileRouteTypes {
     | '/blog'
     | '/contact'
     | '/work'
+    | '/ar/blog'
+    | '/ar/contact'
+    | '/ar/work'
     | '/blog/$slug'
+    | '/solutions/egypt'
+    | '/solutions/gcc'
     | '/work/$slug'
+    | '/ar/'
+    | '/ar/blog/$slug'
+    | '/ar/solutions/egypt'
+    | '/ar/solutions/gcc'
+    | '/ar/work/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/blog' | '/contact' | '/work' | '/blog/$slug' | '/work/$slug'
+  to:
+    | '/'
+    | '/blog'
+    | '/contact'
+    | '/work'
+    | '/ar/blog'
+    | '/ar/contact'
+    | '/ar/work'
+    | '/blog/$slug'
+    | '/solutions/egypt'
+    | '/solutions/gcc'
+    | '/work/$slug'
+    | '/ar'
+    | '/ar/blog/$slug'
+    | '/ar/solutions/egypt'
+    | '/ar/solutions/gcc'
+    | '/ar/work/$slug'
   id:
     | '__root__'
     | '/'
     | '/blog'
     | '/contact'
     | '/work'
+    | '/ar/blog'
+    | '/ar/contact'
+    | '/ar/work'
     | '/blog_/$slug'
+    | '/solutions/egypt'
+    | '/solutions/gcc'
     | '/work_/$slug'
+    | '/ar/'
+    | '/ar/blog_/$slug'
+    | '/ar/solutions/egypt'
+    | '/ar/solutions/gcc'
+    | '/ar/work_/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -98,8 +224,18 @@ export interface RootRouteChildren {
   BlogRoute: typeof BlogRoute
   ContactRoute: typeof ContactRoute
   WorkRoute: typeof WorkRoute
+  ArBlogRoute: typeof ArBlogRoute
+  ArContactRoute: typeof ArContactRoute
+  ArWorkRoute: typeof ArWorkRoute
   BlogSlugRoute: typeof BlogSlugRoute
+  SolutionsEgyptRoute: typeof SolutionsEgyptRoute
+  SolutionsGccRoute: typeof SolutionsGccRoute
   WorkSlugRoute: typeof WorkSlugRoute
+  ArIndexRoute: typeof ArIndexRoute
+  ArBlogSlugRoute: typeof ArBlogSlugRoute
+  ArSolutionsEgyptRoute: typeof ArSolutionsEgyptRoute
+  ArSolutionsGccRoute: typeof ArSolutionsGccRoute
+  ArWorkSlugRoute: typeof ArWorkSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -132,6 +268,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ar/': {
+      id: '/ar/'
+      path: '/ar'
+      fullPath: '/ar/'
+      preLoaderRoute: typeof ArIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/work_/$slug': {
       id: '/work_/$slug'
       path: '/work/$slug'
@@ -139,11 +282,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/solutions/gcc': {
+      id: '/solutions/gcc'
+      path: '/solutions/gcc'
+      fullPath: '/solutions/gcc'
+      preLoaderRoute: typeof SolutionsGccRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions/egypt': {
+      id: '/solutions/egypt'
+      path: '/solutions/egypt'
+      fullPath: '/solutions/egypt'
+      preLoaderRoute: typeof SolutionsEgyptRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog_/$slug': {
       id: '/blog_/$slug'
       path: '/blog/$slug'
       fullPath: '/blog/$slug'
       preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ar/work': {
+      id: '/ar/work'
+      path: '/ar/work'
+      fullPath: '/ar/work'
+      preLoaderRoute: typeof ArWorkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ar/contact': {
+      id: '/ar/contact'
+      path: '/ar/contact'
+      fullPath: '/ar/contact'
+      preLoaderRoute: typeof ArContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ar/blog': {
+      id: '/ar/blog'
+      path: '/ar/blog'
+      fullPath: '/ar/blog'
+      preLoaderRoute: typeof ArBlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ar/work_/$slug': {
+      id: '/ar/work_/$slug'
+      path: '/ar/work/$slug'
+      fullPath: '/ar/work/$slug'
+      preLoaderRoute: typeof ArWorkSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ar/solutions/gcc': {
+      id: '/ar/solutions/gcc'
+      path: '/ar/solutions/gcc'
+      fullPath: '/ar/solutions/gcc'
+      preLoaderRoute: typeof ArSolutionsGccRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ar/solutions/egypt': {
+      id: '/ar/solutions/egypt'
+      path: '/ar/solutions/egypt'
+      fullPath: '/ar/solutions/egypt'
+      preLoaderRoute: typeof ArSolutionsEgyptRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ar/blog_/$slug': {
+      id: '/ar/blog_/$slug'
+      path: '/ar/blog/$slug'
+      fullPath: '/ar/blog/$slug'
+      preLoaderRoute: typeof ArBlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -154,8 +360,18 @@ const rootRouteChildren: RootRouteChildren = {
   BlogRoute: BlogRoute,
   ContactRoute: ContactRoute,
   WorkRoute: WorkRoute,
+  ArBlogRoute: ArBlogRoute,
+  ArContactRoute: ArContactRoute,
+  ArWorkRoute: ArWorkRoute,
   BlogSlugRoute: BlogSlugRoute,
+  SolutionsEgyptRoute: SolutionsEgyptRoute,
+  SolutionsGccRoute: SolutionsGccRoute,
   WorkSlugRoute: WorkSlugRoute,
+  ArIndexRoute: ArIndexRoute,
+  ArBlogSlugRoute: ArBlogSlugRoute,
+  ArSolutionsEgyptRoute: ArSolutionsEgyptRoute,
+  ArSolutionsGccRoute: ArSolutionsGccRoute,
+  ArWorkSlugRoute: ArWorkSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

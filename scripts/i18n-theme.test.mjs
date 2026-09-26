@@ -56,7 +56,13 @@ function literalValue(node, sourceFile) {
 function extractArrayLiteral(relativePath, variableName) {
   const source = read(relativePath);
   const scriptKind = relativePath.endsWith(".tsx") ? ts.ScriptKind.TSX : ts.ScriptKind.TS;
-  const sourceFile = ts.createSourceFile(relativePath, source, ts.ScriptTarget.Latest, true, scriptKind);
+  const sourceFile = ts.createSourceFile(
+    relativePath,
+    source,
+    ts.ScriptTarget.Latest,
+    true,
+    scriptKind,
+  );
   let arrayExpression;
 
   function visit(node) {
@@ -347,7 +353,11 @@ for (const required of ["localizeBlogArticle", "useMemo", "blog.article.${articl
   );
 }
 
-for (const disallowed of ["rounded-2xl bg-white p-4", "rounded-[1.5rem] bg-white p-5", "focus:bg-white"]) {
+for (const disallowed of [
+  "rounded-2xl bg-white p-4",
+  "rounded-[1.5rem] bg-white p-5",
+  "focus:bg-white",
+]) {
   assert(
     !contactPage.includes(disallowed),
     `Contact page surfaces and focus states should use theme tokens instead of ${disallowed}.`,
@@ -367,10 +377,7 @@ for (const token of ["localizeWorkItem", "localizeWorkItems", "work.item.${item.
   );
 }
 
-assert(
-  workPage.includes("localizeWorkItems"),
-  "Work page should render localized work item data.",
-);
+assert(workPage.includes("localizeWorkItems"), "Work page should render localized work item data.");
 
 assert(
   workData.includes("sections?: WorkSection[]"),
@@ -413,14 +420,7 @@ const primaryDetailProject = workItemSources.find(
 
 assert(primaryDetailProject, "Primary verified project should exist in work data.");
 
-for (const field of [
-  "description",
-  "headline",
-  "detailIntro",
-  "challenge",
-  "build",
-  "impact",
-]) {
+for (const field of ["description", "headline", "detailIntro", "challenge", "build", "impact"]) {
   assert(
     i18n.includes(`"work.item.${primaryDetailProject.slug}.${field}"`),
     `Primary project detail should include translation key work.item.${primaryDetailProject.slug}.${field}.`,
@@ -488,7 +488,12 @@ for (const hardcoded of [
   assert(!seo.includes(hardcoded), `SEO metadata should translate hardcoded copy: ${hardcoded}`);
 }
 
-for (const token of ["locale", "translations", "contact.inquiry.title", "contact.inquiry.message"]) {
+for (const token of [
+  "locale",
+  "translations",
+  "contact.inquiry.title",
+  "contact.inquiry.message",
+]) {
   assert(
     contactApi.includes(token),
     `Contact inquiry email should use locale-aware translated copy through ${token}.`,

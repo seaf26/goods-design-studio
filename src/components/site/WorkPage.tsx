@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { ArrowRight, Boxes, ImageIcon, MessageCircle } from "lucide-react";
 
 import { useI18n } from "@/lib/i18n";
+import { localizedPath } from "@/components/site/seo";
 import { trackSiteEvent } from "@/lib/siteAnalytics";
 
 import { BlurText } from "./BlurText";
@@ -51,42 +52,43 @@ const searchableWorkText = (item: WorkItem) =>
     .join(" ")
     .toLowerCase();
 
-const workFilters: { value: WorkFilter; labelKey: string; matches: (item: WorkItem) => boolean }[] = [
-  { value: "all", labelKey: "work.filter.all", matches: () => true },
-  {
-    value: "operations",
-    labelKey: "work.filter.operations",
-    matches: (item) =>
-      /erp|inventory|warehouse|pos|accounting|crm|backend|api|delivery|operations/.test(
-        searchableWorkText(item),
-      ),
-  },
-  {
-    value: "commerce",
-    labelKey: "work.filter.commerce",
-    matches: (item) =>
-      /commerce|ecommerce|checkout|vendor|cart|payment|delivery|store/.test(
-        searchableWorkText(item),
-      ),
-  },
-  {
-    value: "dashboards",
-    labelKey: "work.filter.dashboards",
-    matches: (item) =>
-      /dashboard|admin|report|analytics|finance|accounting/.test(searchableWorkText(item)),
-  },
-  {
-    value: "mobile",
-    labelKey: "work.filter.mobile",
-    matches: (item) =>
-      item.category === "mobile-app" || /mobile|ios|android|app/.test(searchableWorkText(item)),
-  },
-  {
-    value: "web",
-    labelKey: "work.filter.web",
-    matches: (item) => item.category === "website" || item.category === "figma-design",
-  },
-];
+const workFilters: { value: WorkFilter; labelKey: string; matches: (item: WorkItem) => boolean }[] =
+  [
+    { value: "all", labelKey: "work.filter.all", matches: () => true },
+    {
+      value: "operations",
+      labelKey: "work.filter.operations",
+      matches: (item) =>
+        /erp|inventory|warehouse|pos|accounting|crm|backend|api|delivery|operations/.test(
+          searchableWorkText(item),
+        ),
+    },
+    {
+      value: "commerce",
+      labelKey: "work.filter.commerce",
+      matches: (item) =>
+        /commerce|ecommerce|checkout|vendor|cart|payment|delivery|store/.test(
+          searchableWorkText(item),
+        ),
+    },
+    {
+      value: "dashboards",
+      labelKey: "work.filter.dashboards",
+      matches: (item) =>
+        /dashboard|admin|report|analytics|finance|accounting/.test(searchableWorkText(item)),
+    },
+    {
+      value: "mobile",
+      labelKey: "work.filter.mobile",
+      matches: (item) =>
+        item.category === "mobile-app" || /mobile|ios|android|app/.test(searchableWorkText(item)),
+    },
+    {
+      value: "web",
+      labelKey: "work.filter.web",
+      matches: (item) => item.category === "website" || item.category === "figma-design",
+    },
+  ];
 
 function RetailVisual({ item }: { item: WorkItem }) {
   const { t } = useI18n();
@@ -98,9 +100,7 @@ function RetailVisual({ item }: { item: WorkItem }) {
       <div className="absolute -bottom-10 left-[19%] h-[66%] w-[56%] rotate-[-3deg] rounded-[1.1rem] bg-black p-3 shadow-[0_28px_80px_-32px_rgba(0,0,0,0.7)]">
         <div className="h-full rounded-[0.8rem] bg-white p-4">
           <div className="flex items-center justify-between text-[10px] font-medium text-black/45">
-            <span>
-              TRAFFODATA / {t("work.visual.retail")}
-            </span>
+            <span>TRAFFODATA / {t("work.visual.retail")}</span>
             <span>{t("work.visual.live")}</span>
           </div>
           <div className="mt-8 grid grid-cols-[1.1fr_0.9fr] gap-4">
@@ -201,9 +201,7 @@ function FinanceVisual({ item }: { item: WorkItem }) {
         <div className="mt-7 grid grid-cols-[1fr_0.7fr] gap-4">
           <div>
             <div className="font-display text-5xl font-bold tracking-tight">5</div>
-            <div className="text-[11px] text-black/45">
-              {t("work.visual.entitiesReconciled")}
-            </div>
+            <div className="text-[11px] text-black/45">{t("work.visual.entitiesReconciled")}</div>
             <div className="mt-6 space-y-2">
               {[92, 74, 61].map((width) => (
                 <div key={width} className="h-2 rounded-full bg-black/10">
@@ -356,7 +354,7 @@ function ProjectTile({
   index: number;
   filter: WorkFilter;
 }) {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
   const Icon = item.icon;
   const isDark = item.tone === "dark" || item.tone === "dim";
   const [isActive, setIsActive] = useState(false);
@@ -365,7 +363,7 @@ function ProjectTile({
   return (
     <Reveal delay={index * 0.06} className={tileSpans[item.span]}>
       <a
-        href={`/work/${item.slug}`}
+        href={localizedPath(`/work/${item.slug}`, locale)}
         data-project-card
         data-active={isActive ? "true" : undefined}
         onClick={() =>
@@ -447,7 +445,7 @@ function ProjectTile({
 }
 
 export function WorkPage() {
-  const { t, tWithFallback } = useI18n();
+  const { locale, t, tWithFallback } = useI18n();
   const [activeFilter, setActiveFilter] = useState<WorkFilter>("all");
   const localizedWorkItems = useMemo(
     () => localizeWorkItems(workItems, tWithFallback),
@@ -549,7 +547,7 @@ export function WorkPage() {
                   />
                 </div>
                 <a
-                  href="/contact"
+                  href={localizedPath("/contact", locale)}
                   onClick={() => trackSiteEvent("work_contact_click", { location: "work_cta" })}
                   className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-[#03040a] transition hover:bg-primary hover:text-white active:scale-[0.98]"
                 >
